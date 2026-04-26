@@ -1,0 +1,3363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Computer Networks Notes - Part 1</title>
+
+<style>
+
+body{
+font-family: Arial;
+background-color:#f9fbff;
+line-height:1.6;
+}
+
+h1{
+color:#0b5394;
+background-color:#cfe2ff;
+padding:6px;
+}
+
+h2{
+color:#134f5c;
+background-color:#d9ead3;
+padding:5px;
+}
+
+.key{
+color:#b45f06;
+font-weight:bold;
+}
+
+.def{
+color:#073763;
+background-color:#fff2cc;
+padding:3px;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+.highlight{
+background-color:yellow;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Computer Network Basics</h1>
+
+<h2>Computer Network</h2>
+
+<p class="def">
+A computer network is a set of devices connected through links.
+</p>
+
+<p>
+<u>Simply:</u> Computers connected together.
+</p>
+
+<h2>Network</h2>
+
+<p class="def">
+A network is a set of devices that are connected with a physical media or link.
+</p>
+
+<p>
+Two or more nodes are connected through physical or wireless links, and two or more networks are connected by nodes like routers.
+</p>
+
+<ul>
+
+<li>
+<span class="key">Nodes →</span> Connected via physical links
+</li>
+
+<li>
+<span class="key">Networks →</span> Connected via nodes
+</li>
+
+</ul>
+
+<h2>Node</h2>
+
+<p class="def">
+Node = any device connected to a network that can communicate data 
+</p>
+
+<br><p>
+A node in networking is any device that can send, receive, or forward data on a network. 
+Computer 💻 Router 📡
+</p>
+<h2>Network (Definition 2)</h2>
+
+<p class="def">
+Collection of devices which allows sharing of data.
+</p>
+
+<h1>Types of Computer Networks</h1>
+
+<table>
+
+<tr>
+
+<th>Type</th>
+<th>Technology</th>
+<th>Area</th>
+<th>Distance</th>
+<th>Ownership</th>
+<th>Speed</th>
+<th>Cost</th>
+
+</tr>
+
+<tr>
+
+<td><b>PAN</b></td>
+<td>Bluetooth, Infrared</td>
+<td>In room</td>
+<td>~10 meters</td>
+<td>Private</td>
+<td>Very High</td>
+<td>Very Low</td>
+
+</tr>
+
+<tr>
+
+<td><b>LAN</b></td>
+<td>Ethernet / WiFi</td>
+<td>Building</td>
+<td>&lt; 2 km</td>
+<td>Private</td>
+<td>Very High</td>
+<td>Low</td>
+
+</tr>
+
+<tr>
+
+<td><b>CAN</b></td>
+<td>Ethernet</td>
+<td>Campus Area</td>
+<td>&lt; 5 km</td>
+<td>Private</td>
+<td>High</td>
+<td>Moderate</td>
+
+</tr>
+
+<tr>
+
+<td><b>MAN</b></td>
+<td>ATM</td>
+<td>City</td>
+<td>5–50 km</td>
+<td>P2P</td>
+<td>Average</td>
+<td>High</td>
+
+</tr>
+
+<tr>
+
+<td><b>WAN</b></td>
+<td>Dial-up / Leased line</td>
+<td>Country</td>
+<td>&gt; 50 km</td>
+<td>P2P</td>
+<td>Low</td>
+<td>Very High</td>
+
+</tr>
+
+</table>
+
+<h1>Basic Terms</h1>
+
+<h2>Client</h2>
+
+<p class="def">
+A client is a program that initiates communication by sending requests.
+</p>
+
+<p>
+A client is a software or device that requests services or resources.
+</p>
+
+<p>
+<span class="key">Runs on:</span> User device (PC, Phone)
+</p>
+
+<h2>Server</h2>
+
+<p class="def">
+A server can handle multiple clients simultaneously depending on the service.
+</p>
+
+<p>
+Examples:
+</p>
+
+<ul>
+
+<li>File Server</li>
+<li>Database Server</li>
+<li>Media Server</li>
+<li>Print Server</li>
+<li>Web Server</li>
+
+</ul>
+
+<p>
+<span class="key">Runs on:</span> Dedicated machine or cloud.
+</p>
+
+<h2>Client-Server Model</h2>
+<h3>
+<p class="highlight">
+Client → Request
+</p>
+
+<p class="highlight">
+Server → Response
+
+</p>
+
+<u>
+Client request Server responds
+</u>
+</h3>
+
+
+<h2>Real Life Analogy</h2>
+
+<p>
+
+<b>Restaurant:</b>
+
+</p>
+
+<ul>
+
+<li>
+Client → Place order
+</li>
+
+<li>
+Server → Kitchen staff prepares and delivers order
+</li>
+
+</ul>
+
+<h2>Host</h2>
+
+<p class="def">
+
+Host is a computer connected to other computers that provides data or services over the network.
+
+</p>
+
+<h2>Peer</h2>
+
+<p class="def">
+
+A peer is a node that provides the same functionality as another.
+
+</p>
+
+<p class="correct">
+
+Correction:
+Client and Server are NOT peers because their functions are different.
+
+</p>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 2</title>
+
+<style>
+
+body{
+font-family: Arial;
+background-color:#fffdf7;
+line-height:1.6;
+}
+
+h1{
+color:#7f6000;
+background:#ffe599;
+padding:6px;
+}
+
+h2{
+color:#274e13;
+background:#d9ead3;
+padding:5px;
+}
+
+.def{
+background:#e7f3ff;
+padding:4px;
+color:#073763;
+}
+
+.key{
+font-weight:bold;
+color:#990000;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+ul{
+margin-left:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Various Devices in Computer Network</h1>
+
+<ul>
+
+<li>Hub</li>
+<li>Repeater</li>
+<li>Bridge</li>
+<li>Switch</li>
+<li>Router</li>
+<li>Gateway</li>
+<li>IDS</li>
+<li>Firewall</li>
+<li>Modem</li>
+<li>NIC (Network Interface Card)</li>
+
+</ul>
+
+<hr>
+
+<h2>Hub</h2>
+
+<p class="def">
+
+A hub is a basic networking device that connects multiple computers in a LAN and broadcasts data to all connected devices.
+
+</p>
+
+<p>
+
+<span class="key">Operates at:</span> Physical Layer (Layer 1)
+
+</p>
+
+<h3>Types of Hub</h3>
+
+<ul>
+
+<li>
+<b>Passive Hub</b>  
+→ Only connects devices  
+→ Does NOT amplify signal
+</li>
+
+<li>
+<b>Active Hub</b>  
+→ Amplifies and regenerates signal before forwarding
+</li>
+
+<li>
+<b>Intelligent Hub</b>  
+→ Monitors traffic  
+→ Used for network management
+</li>
+
+</ul>
+
+<h3>Ethernet Hub</h3>
+
+<ul>
+
+<li>Hub specially designed for Ethernet networks</li>
+
+<li>Uses Ethernet cables (RJ-45)</li>
+
+<li>Works at 10 / 100 Mbps</li>
+
+<li>Operates at <span class="highlight">Half-Duplex</span></li>
+
+</ul>
+
+<p class="correct">
+
+Correction:  
+Hubs are now mostly obsolete and replaced by switches.
+
+</p>
+
+<hr>
+
+<h2>Repeater</h2>
+
+<p class="def">
+
+A repeater is a device that regenerates and strengthens signals to extend network distance.
+
+</p>
+
+<p>
+
+<span class="key">Purpose:</span> Increase network range
+
+</p>
+
+<h3>Types of Repeaters</h3>
+
+<ul>
+
+<li>Wired Repeater</li>
+<li>Wireless Repeater</li>
+<li>Digital Repeater</li>
+<li>Analog Repeater</li>
+<li>Optical Repeater</li>
+
+</ul>
+
+<hr>
+
+<h2>Bridge</h2>
+
+<p class="def">
+
+A bridge connects two LANs to form an extended LAN and forwards frames based on MAC addresses. It helps reduce network traffic by sending data only to the required segment
+
+A bridge is basically an older version of a switch. Modern networks mostly use switches instead of bridges
+
+</p>
+
+
+<table border="1" cellpadding="10" cellspacing="0">
+  <tr>
+    <th>Feature</th>
+    <th>Bridge</th>
+    <th>Switch</th>
+  </tr>
+  <tr>
+    <td>Role</td>
+    <td>Connects a few LAN segments</td>
+    <td>Modern replacement of bridge</td>
+  </tr>
+  <tr>
+    <td>Ports</td>
+    <td>Usually 2–4 ports</td>
+    <td>Many ports available</td>
+  </tr>
+  <tr>
+    <td>Technology</td>
+    <td>Software-based</td>
+    <td>Hardware-based (ASICs) Application specific IC</td>
+  </tr>
+  <tr>
+    <td>Speed</td>
+    <td>Slower</td>
+    <td>Faster</td>
+  </tr>
+  <tr>
+    <td>Performance</td>
+    <td>Limited</td>
+    <td>High efficiency traffic handling</td>
+  </tr>
+</table>
+
+<p>
+
+<span class="key">Operates at:</span> Data Link Layer (Layer 2)
+
+</p>
+
+<h3>Types of Bridge</h3>
+
+<ul>
+
+<li>Transparent Bridge</li>
+<li>Source Routing Bridge</li>
+
+</ul>
+
+<hr>
+
+<h2>Switch</h2>
+
+<p class="def">
+
+A switch forwards data to the correct destination using MAC address.
+
+</p>
+
+<ul>
+
+<li>Operates at Layer 2 (Data Link Layer)</li>
+
+<li>Operates in <span class="highlight">Full Duplex</span></li>
+
+</ul>
+
+<h3>Types of Switch</h3>
+
+<ul>
+
+<li>
+<b>Unmanaged Switch</b>  
+→ Plug and play
+</li>
+
+<li>
+<b>Managed Switch</b>  
+→ VLAN support  
+→ Monitoring features
+</li>
+
+<li>
+<b>Layer 3 Switch</b>  
+→ Can perform routing
+</li>
+
+</ul>
+
+<hr>
+
+<h2>Modem</h2>
+
+<p class="def">
+
+Modem (Modulator + Demodulator) is a device that converts digital signals to analog and analog signals to digital.
+
+</p>
+
+<ul>
+
+<li>
+Digital → Analog → <b>Modulator</b>
+</li>
+
+<li>
+Analog → Digital → <b>Demodulator</b>
+</li>
+
+</ul>
+
+<p>
+
+<span class="key">Purpose:</span> Connect computer to internet using telephone lines.
+
+</p>
+
+<hr>
+
+<h2>Gateway</h2>
+
+<p class="def">
+
+Gateway is a device that connects different networks using different protocols.
+
+</p>
+
+<h3>Functions</h3>
+
+<ul>
+
+<li>Protocol Conversion</li>
+
+<li>Data Translation</li>
+
+<li>Connecting LAN to WAN</li>
+
+</ul>
+
+<p class="highlight">
+
+Default Gateway = First usable IP address of network.
+
+</p>
+
+<p class="correct">
+
+Correction:  
+Common default gateway addresses:
+</p>
+
+<ul>
+
+<li>192.168.0.1</li>
+<li>192.168.1.1</li>
+
+</ul>
+
+<hr>
+
+<h2>Router</h2>
+
+<p class="def">
+
+A router is a device that forwards data packets from one network to another, ensuring it reaches the correct destination.
+A router forwards packets based on IP address.
+
+</p>
+
+<h3>Router Key Functionalities</h3>
+
+<ol>
+    <li>Data packet forwarding</li>
+    <li>Path selection (routing)</li>
+    <li>Network Address Translation (NAT)</li>
+    <li>IP address assignment (DHCP)</li>
+    <li>Traffic management</li>
+    <li>Firewall / security control</li>
+    <li>Wireless connectivity (Wi-Fi)</li>
+    <li>Inter-network communication</li>
+</ol>
+
+<p>
+
+<span class="key">Operates at:</span> Network Layer (Layer 3)
+
+</p>
+
+<h3>Routing Table</h3>
+
+<p>
+
+Stores routing information used to forward packets.
+
+</p>
+
+<h3>Types of Routing</h3>
+
+<ul>
+
+<li>
+
+<b>Static Routing</b>  
+→ Routing information entered manually  
+→ Used in small networks
+
+</li>
+
+<li>
+
+<b>Dynamic Routing</b>  
+→ Routing information updated automatically  
+→ Uses routing protocols
+
+</li>
+
+</ul>
+
+<h3>Routing Protocols</h3>
+
+<ul>
+
+<li>RIP</li>
+<li>OSPF</li>
+<li>BGP</li>
+
+</ul>
+
+<hr>
+
+<h2>Wi-Fi Router</h2>
+
+<p class="def">
+
+A router that provides wireless internet access.
+
+</p>
+
+<ul>
+
+<li>Router + Wireless Access Point</li>
+
+<li>Uses IEEE 802.11 standard</li>
+
+<li>Supports encryption (WEP, WPA)</li>
+
+</ul>
+
+<p class="correct">
+
+Correction:  
+Modern networks use WPA2 or WPA3 encryption.
+
+</p>
+
+<hr>
+
+<h2>IDS — Intrusion Detection System</h2>
+
+<p class="def">
+
+IDS is a software or hardware system that monitors network traffic for malicious activity or policy violations.
+
+</p>
+
+<p>
+
+Used for <span class="highlight">Network Security</span>.
+
+</p>
+
+<hr>
+
+<h2>NIC — Network Interface Card</h2>
+
+<p class="def">
+
+NIC is hardware that connects a computer to a network.
+
+</p>
+
+<ul>
+
+<li>Installed on motherboard</li>
+
+<li>Provides network connectivity</li>
+
+</ul>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NIC (Network Interface Card)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        h2 {
+            color: #34495e;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .box {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>NIC (Network Interface Card)</h1>
+
+    <div class="box">
+  <p style="text-align: justify;">
+            A <b>Network Interface Card (NIC)</b> is a hardware component that connects a computer to a network.
+            It acts as a bridge between the device and the network by converting data into signals for transmission.
+        </p>
+
+       <p style="text-align: justify;">
+            It works mainly at the <b>Data Link Layer (Layer 2)</b> of the OSI model and also interacts with
+            the <b>Physical Layer (Layer 1)</b>.
+
+<p style="text-align: justify;">
+A Network Interface Card (NIC) is a hardware component that enables a computer or device to connect to a network (LAN or Internet). It acts as the communication bridge between the device and the network by converting data into signals (and vice versa) for transmission.
+
+Modern NICs are usually built into the motherboard, but they can also exist as PCIe expansion cards or USB adapters. They support both wired (Ethernet) and wireless (Wi-Fi) connections.
+
+A NIC primarily works at the Data Link Layer (Layer 2) of the OSI model, using MAC addresses to identify devices and organizing data into frames. It also interacts with the Physical Layer (Layer 1) by sending and receiving electrical or radio signals.</p>
+        </p>
+    </div>
+
+    <h2>Key Information</h2>
+    <table>
+        <tr>
+            <th>Feature</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>Full Form</td>
+            <td>Network Interface Card</td>
+        </tr>
+        <tr>
+            <td>Purpose</td>
+            <td>Connects device to a network (LAN/Wi-Fi/Internet)</td>
+        </tr>
+        <tr>
+            <td>Types</td>
+            <td>Wired (Ethernet), Wireless (Wi-Fi)</td>
+        </tr>
+        <tr>
+            <td>OSI Layer</td>
+            <td>Layer 2 (Data Link), Layer 1 (Physical)</td>
+        </tr>
+        <tr>
+            <td>Address Used</td>
+            <td>MAC Address</td>
+        </tr>
+        <tr>
+            <td>Main Functions</td>
+            <td>Data framing, transmission, error detection, signal conversion</td>
+        </tr>
+    </table>
+
+    <h2>Simple Understanding</h2>
+    <ul>
+        <li>Layer 1 → Sends/receives signals</li>
+        <li>Layer 2 → Uses MAC address and frames data</li>
+        <li>NIC = Layer 2 device with Layer 1 Responsibilities</li>
+    </ul>
+
+</body>
+</html>
+
+<hr>
+
+<h2>Firewall</h2>
+
+<p class="def">
+
+Firewall protects networks by filtering incoming and outgoing traffic.
+
+</p>
+
+<p>
+
+Used for <span class="highlight">Network Security</span>.
+
+</p>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 3</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f8fbff;
+line-height:1.6;
+}
+
+h1{
+color:#073763;
+background:#cfe2ff;
+padding:6px;
+}
+
+h2{
+color:#274e13;
+background:#d9ead3;
+padding:5px;
+}
+
+.def{
+background:#fff2cc;
+padding:4px;
+color:#000;
+}
+
+.key{
+color:#990000;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+ul{
+margin-left:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Network Protocols</h1>
+
+<p class="def">
+
+Network Protocols:  
+Set of rules governing communication between devices.
+
+</p>
+
+<p>
+
+<span class="key">Meaning:</span>  
+Protocols define how data is transmitted, received, and interpreted.
+
+</p>
+
+<hr>
+
+<h2>ISDN — Integrated Services Digital Network</h2>
+
+<p class="def">
+
+ISDN is a digital communication standard used for transmitting audio, video, and data over traditional telephone lines.
+
+</p>
+
+<p>
+
+Used mainly in <span class="highlight">WAN communication</span>.
+
+</p>
+
+<p class="correct">
+
+Correction:  
+ISDN is mostly replaced by broadband technologies today.
+
+</p>
+
+<hr>
+
+<h1>Routing Concepts</h1>
+
+<h2>Router Functions</h2>
+
+<ul>
+
+<li>Packet Forwarding based on IP Address</li>
+
+<li>Path Selection</li>
+
+<li>Connect Multiple Networks</li>
+
+<li>NAT (Network Address Translation)</li>
+
+<li>Firewall Support</li>
+
+</ul>
+
+<hr>
+
+<h2>Routing Table</h2>
+
+<p class="def">
+
+Routing table stores routing paths used to forward packets.
+
+</p>
+
+<hr>
+
+<h2>Static Routing</h2>
+
+<ul>
+
+<li>Routing information entered manually</li>
+
+<li>Suitable for small networks</li>
+
+<li>Requires manual configuration</li>
+
+</ul>
+
+<hr>
+
+<h2>Dynamic Routing</h2>
+
+<ul>
+
+<li>Routing information updated automatically</li>
+
+<li>Uses routing protocols</li>
+
+<li>More scalable</li>
+
+</ul>
+
+<h3>Routing Protocols</h3>
+
+<ul>
+
+<li>RIP — Routing Information Protocol</li>
+
+<li>OSPF — Open Shortest Path First</li>
+
+<li>BGP — Border Gateway Protocol</li>
+
+</ul>
+
+<hr>
+
+<h1>Wi-Fi Router</h1>
+
+<p class="def">
+
+Wi-Fi Router is a router that provides wireless internet access.
+
+</p>
+
+<ul>
+
+<li>Combination of Router + Wireless</li>
+
+<li>Uses IEEE 802.11 Standard</li>
+
+<li>Supports Encryption</li>
+
+</ul>
+
+<h3>Encryption Types</h3>
+
+<ul>
+
+<li>WEP</li>
+
+<li>WPA</li>
+
+<li>WPA2</li>
+
+<li>WPA3</li>
+
+</ul>
+
+<p class="correct">
+
+Correction:  
+Modern secure networks use WPA2 or WPA3.
+
+</p>
+
+<hr>
+
+<h1>Intrusion Detection System (IDS)</h1>
+
+<p class="def">
+
+IDS monitors network traffic and detects malicious activity or policy violations.
+
+</p>
+
+<ul>
+
+<li>Monitors network traffic</li>
+
+<li>Detects unauthorized access</li>
+
+<li>Provides alerts</li>
+
+</ul>
+
+<p>
+
+Used for <span class="highlight">Security Monitoring</span>
+
+</p>
+
+<hr>
+
+<h1>Network Interface Card (NIC)</h1>
+
+<p class="def">
+
+NIC (Network Interface Card) is hardware that connects computer to network.
+
+</p>
+
+<ul>
+
+<li>Installed on motherboard</li>
+
+<li>Provides network connectivity</li>
+
+<li>Has unique MAC Address</li>
+
+</ul>
+
+<p class="correct">
+
+Correction:  
+NIC provides physical and data link layer functionality.
+
+</p>
+
+<hr>
+
+<h1>Router vs Bridge vs Switch</h1>
+
+<ul>
+
+<li>
+
+<b>Router</b>  
+→ Forward packets based on IP Address  
+→ Layer 3
+
+</li>
+
+<li>
+
+<b>Bridge</b>  
+→ Connect two LANs  
+→ Forward frames based on MAC Address  
+→ Layer 2
+
+</li>
+
+<li>
+
+<b>Switch</b>  
+→ Forward data to destination using MAC Address  
+→ Layer 2
+
+</li>
+
+</ul>
+
+<hr>
+
+<h1>Protocol Examples</h1>
+
+<ul>
+
+<li>TCP/IP</li>
+
+<li>HTTP</li>
+
+<li>FTP</li>
+
+<li>SMTP</li>
+
+<li>DNS</li>
+
+</ul>
+
+</body>
+
+</html>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 4 (OSI & TCP/IP)</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4fbff;
+line-height:1.6;
+}
+
+h1{
+color:#073763;
+background:#cfe2ff;
+padding:6px;
+}
+
+h2{
+color:#274e13;
+background:#d9ead3;
+padding:5px;
+}
+
+h3{
+color:#7f6000;
+}
+
+.def{
+background:#fff2cc;
+padding:4px;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>OSI Model — Open System Interconnection Model</h1>
+
+<p class="def">
+
+OSI Model is a reference model that describes how communication happens between network devices using 7 layers.
+
+</p>
+
+<hr>
+
+<h2>OSI 7 Layers</h2>
+
+<table>
+
+<tr>
+<th>Layer No</th>
+<th>Layer Name</th>
+<th>Type</th>
+</tr>
+
+<tr>
+<td>7</td>
+<td><b>Application</b></td>
+<td rowspan="3">Software Layers</td>
+</tr>
+
+<tr>
+<td>6</td>
+<td><b>Presentation</b></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td><b>Session</b></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td><b>Transport</b></td>
+<td rowspan="4">Hardware Layers</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td><b>Network</b></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td><b>Data Link</b></td>
+</tr>
+
+<tr>
+<td>1</td>
+<td><b>Physical</b></td>
+</tr>
+
+</table>
+
+<p class="correct">
+
+Correction:  
+Transport layer is sometimes grouped with software layers logically,  
+but physically interacts with hardware layers.
+
+</p>
+
+<hr>
+
+<h1>TCP/IP Model</h1>
+
+<p class="def">
+
+TCP/IP is a practical implementation of networking used in real-world networks.
+
+</p>
+
+<h2>TCP/IP Layers</h2>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Name</th>
+</tr>
+
+<tr>
+<td>4</td>
+<td>Application</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>Transport</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>Internet</td>
+</tr>
+
+<tr>
+<td>1</td>
+<td>Network Access</td>
+</tr>
+
+</table>
+
+<p class="highlight">
+
+TCP/IP uses 4 layers.
+
+</p>
+
+<hr>
+
+<h1>OSI vs TCP/IP Mapping</h1>
+
+<table>
+
+<tr>
+
+<th>OSI Model</th>
+<th>TCP/IP Model</th>
+
+</tr>
+
+<tr>
+
+<td>
+
+Application  
+Presentation  
+Session
+
+</td>
+
+<td>
+
+Application
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Transport
+
+</td>
+
+<td>
+
+Transport
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Network
+
+</td>
+
+<td>
+
+Internet Layer
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+Data Link  
+Physical
+
+</td>
+
+<td>
+
+Network Access Layer
+
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Layer Functions</h1>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Function</th>
+</tr>
+
+<tr>
+<td>Application</td>
+<td>Process to Process Communication</td>
+</tr>
+
+<tr>
+<td>Transport</td>
+<td>Host to Host Communication</td>
+</tr>
+
+<tr>
+<td>Network</td>
+<td>Source to Destination Routing</td>
+</tr>
+
+<tr>
+<td>Data Link</td>
+<td>Node to Node Communication</td>
+</tr>
+
+<tr>
+<td>Physical</td>
+<td>Media to Node Transmission</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Protocols Used in Layers</h1>
+
+<table>
+
+<tr>
+<th>Layer</th>
+<th>Protocols</th>
+</tr>
+
+<tr>
+<td>Application</td>
+<td>DNS, HTTP, SMTP, POP3, FTP</td>
+</tr>
+
+<tr>
+<td>Transport</td>
+<td>TCP, UDP</td>
+</tr>
+
+<tr>
+<td>Network</td>
+<td>IP, IPv4, IPv6</td>
+</tr>
+
+<tr>
+<td>Data Link</td>
+<td>Ethernet, MAC Protocol</td>
+</tr>
+
+<tr>
+<td>Physical</td>
+<td>Cables, Signals</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Layer Details (From Your Notes)</h1>
+
+<h2>Physical Layer</h2>
+
+<ul>
+
+<li>Cables</li>
+<li>Topology</li>
+<li>Transmission Modes</li>
+<li>Encoding</li>
+<li>LAN Devices</li>
+<li>Modulation</li>
+
+</ul>
+
+<h2>Data Link Layer</h2>
+
+<ul>
+
+<li>MAC Protocols</li>
+<li>Switching</li>
+<li>Error Control</li>
+<li>Ethernet Frame Format</li>
+
+</ul>
+
+<h2>Network Layer</h2>
+
+<ul>
+
+<li>IP Addressing</li>
+<li>Routing Protocols</li>
+<li>IPv4 Header</li>
+<li>IPv6 Header</li>
+
+</ul>
+
+<h2>Transport Layer</h2>
+
+<ul>
+
+<li>TCP</li>
+<li>UDP</li>
+<li>Reliability</li>
+
+</ul>
+
+<h2>Session Layer</h2>
+
+<ul>
+
+<li>Session Management</li>
+
+</ul>
+
+<h2>Presentation Layer</h2>
+
+<ul>
+
+<li>Data Format</li>
+<li>Encryption</li>
+<li>Compression</li>
+
+</ul>
+
+<h2>Application Layer</h2>
+
+<ul>
+
+<li>DNS</li>
+<li>HTTP</li>
+<li>SMTP</li>
+<li>POP3</li>
+<li>FTP</li>
+
+</ul>
+
+<hr>
+
+<h1>Important Concept</h1>
+
+<p>
+
+<span class="highlight">
+
+TCP/IP is used practically in real-world networks,  
+while OSI is mainly a reference model.
+
+</span>
+
+</p>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 5 (Physical Layer)</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#fffdf5;
+line-height:1.6;
+}
+
+h1{
+color:#7f6000;
+background:#ffe599;
+padding:6px;
+}
+
+h2{
+color:#073763;
+background:#cfe2ff;
+padding:5px;
+}
+
+.def{
+background:#e7f3ff;
+padding:5px;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.key{
+color:#990000;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Bandwidth</h1>
+
+<p class="def">
+
+Bandwidth: Maximum capacity of a communication link to transmit data over a network in a given amount of time.
+
+</p>
+
+<h2>Typical Data Units</h2>
+
+<table>
+
+<tr>
+<th>Unit</th>
+<th>Value</th>
+<th>Bandwidth</th>
+</tr>
+
+<tr>
+<td>K (Kilo)</td>
+<td>2¹⁰</td>
+<td>10³</td>
+</tr>
+
+<tr>
+<td>M (Mega)</td>
+<td>2²⁰</td>
+<td>10⁶</td>
+</tr>
+
+<tr>
+<td>G (Giga)</td>
+<td>2³⁰</td>
+<td>10⁹</td>
+</tr>
+
+</table>
+
+<p class="correct">
+
+Correction:  
+Data storage uses powers of 2,  
+while bandwidth uses powers of 10.
+
+</p>
+
+<hr>
+
+<h1>Speed</h1>
+
+<p class="def">
+
+Speed: Rate at which data can be transmitted.
+
+</p>
+
+<p>
+
+<span class="highlight">
+
+Bandwidth = Capacity  
+Speed = Actual transmission rate
+
+</span>
+
+</p>
+
+<hr>
+
+<h1>Jitter</h1>
+
+<p class="def">
+
+Jitter: Inconsistency or delay variation in data transmission.
+
+</p>
+
+<p>
+
+Can affect quality of:
+
+</p>
+
+<ul>
+
+<li>Audio</li>
+
+<li>Video</li>
+
+<li>Communication calls</li>
+
+</ul>
+
+<p>
+
+<span class="key">Meaning:</span>  
+Time delay variation while sending packets.
+
+</p>
+
+<hr>
+
+<h1>Bit Rate</h1>
+
+<p class="def">
+
+Bit Rate: Number of bits transmitted per second.
+
+</p>
+
+<p>
+
+Measured in:
+
+</p>
+
+<ul>
+
+<li>bps — bits per second</li>
+
+<li>Kbps</li>
+
+<li>Mbps</li>
+
+<li>Gbps</li>
+
+</ul>
+
+<hr>
+
+<h1>Line Encoding</h1>
+
+<p class="def">
+
+Line Encoding is the process of converting binary data into time-based signals.
+
+</p>
+
+<p>
+
+Binary Data → Digital Signals
+
+</p>
+
+<p>
+
+<span class="highlight">
+
+Bits are represented using voltage levels.
+
+</span>
+
+</p>
+
+<hr>
+
+<h2>Types of Line Encoding</h2>
+
+<ul>
+
+<li>Manchester Encoding</li>
+
+<li>Differential Manchester Encoding</li>
+
+</ul>
+
+<hr>
+
+<h2>Manchester Encoding</h2>
+
+<p>
+
+Representation:
+
+</p>
+
+<ul>
+
+<li>0 → Low to High transition</li>
+
+<li>1 → High to Low transition</li>
+
+</ul>
+
+<hr>
+
+<h2>Differential Manchester Encoding</h2>
+
+<p>
+
+Representation:
+
+</p>
+
+<ul>
+
+<li>0 → Transition at beginning</li>
+
+<li>1 → No transition at beginning</li>
+
+</ul>
+
+<hr>
+
+<h1>Noise in Communication</h1>
+
+<p class="def">
+
+Noise: Any unwanted signal in communication.
+
+</p>
+
+<h2>Types of Noise</h2>
+
+<ul>
+
+<li>Thermal Noise</li>
+
+<li>Intermodulation Noise</li>
+
+<li>Crosstalk</li>
+
+<li>Impulse Noise</li>
+
+</ul>
+
+<hr>
+
+<h1>Attenuation</h1>
+
+<p class="def">
+
+Attenuation: Loss of signal strength while transmitting through cables.
+
+</p>
+
+<p>
+
+Cause:
+
+</p>
+
+<ul>
+
+<li>Resistance in cable</li>
+
+<li>Distance increase</li>
+
+</ul>
+
+<p class="highlight">
+
+Signal gets weaker as distance increases.
+
+</p>
+
+<hr>
+
+<h1>Distortion</h1>
+
+<p class="def">
+
+Distortion occurs when signal shape changes during transmission.
+
+</p>
+
+<p>
+
+Cause:
+
+</p>
+
+<ul>
+
+<li>Different frequencies travel at different speeds.</li>
+
+</ul>
+
+<hr>
+
+<h1>Types of Encoding</h1>
+
+<ul>
+
+<li>Line Encoding</li>
+
+<li>Block Encoding</li>
+
+<li>Scrambling</li>
+
+</ul>
+
+<hr>
+
+<h2>Block Encoding</h2>
+
+<p>
+
+Adds redundancy to improve synchronization and error detection.
+
+</p>
+
+<hr>
+
+<h2>Scrambling</h2>
+
+<p>
+
+Used to avoid long sequences of zeros.
+
+</p>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 6 (Transmission & Topology)</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f5fff7;
+line-height:1.6;
+}
+
+h1{
+color:#274e13;
+background:#d9ead3;
+padding:6px;
+}
+
+h2{
+color:#073763;
+background:#cfe2ff;
+padding:5px;
+}
+
+.def{
+background:#fff2cc;
+padding:5px;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.key{
+color:#990000;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+.diagram{
+background:#eef7ff;
+border:1px solid black;
+padding:8px;
+font-family: monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Transmission Modes</h1>
+
+<p class="def">
+
+Transmission mode refers to the direction of data flow between connected devices.
+
+</p>
+
+<hr>
+
+<h2>Types of Transmission</h2>
+
+<ul>
+
+<li><b>Unicast</b></li>
+
+<li><b>Multicast</b></li>
+
+<li><b>Broadcast</b></li>
+
+</ul>
+
+<hr>
+
+<h2>Unicast</h2>
+
+<p class="def">
+
+One sender to one receiver communication.
+
+</p>
+
+<div class="diagram">
+
+Sender → Receiver
+
+</div>
+
+<p>
+
+Example:
+
+</p>
+
+<ul>
+
+<li>Sending email to one person</li>
+
+</ul>
+
+<hr>
+
+<h2>Multicast</h2>
+
+<p class="def">
+
+One sender to multiple selected receivers.
+
+</p>
+
+<div class="diagram">
+
+Sender → Receiver1  
+   → Receiver2  
+   → Receiver3  
+
+</div>
+
+<p>
+
+Example:
+
+</p>
+
+<ul>
+
+<li>Online streaming to selected users</li>
+
+</ul>
+
+<hr>
+
+<h2>Broadcast</h2>
+
+<p class="def">
+
+One sender to all receivers in the network.
+
+</p>
+
+<div class="diagram">
+
+Sender → All Devices
+
+</div>
+
+<p>
+
+Example:
+
+</p>
+
+<ul>
+
+<li>ARP Broadcast</li>
+
+</ul>
+
+<hr>
+
+<h1>Broadcast Types</h1>
+
+<h2>Limited Broadcasting</h2>
+
+<p class="def">
+
+Limited broadcast sends packets to all devices in the local network.
+
+</p>
+
+<p>
+
+<span class="highlight">
+
+IP Address: 255.255.255.255
+
+</span>
+
+</p>
+
+<hr>
+
+<h2>Direct Broadcasting</h2>
+
+<p class="def">
+
+Direct broadcast sends packets to all hosts in a specific network.
+
+</p>
+
+<p>
+
+Example:
+
+</p>
+
+<ul>
+
+<li>Network Address + Broadcast Host ID</li>
+
+</ul>
+
+<hr>
+
+<h1>Network Topology</h1>
+
+<p class="def">
+
+Network topology refers to the physical or logical arrangement of devices in a network.
+
+</p>
+
+<hr>
+
+<h2>Types of Network Topology</h2>
+
+<ul>
+
+<li>Bus Topology</li>
+
+<li>Star Topology</li>
+
+<li>Ring Topology</li>
+
+<li>Mesh Topology</li>
+
+<li>Hybrid Topology</li>
+
+</ul>
+
+<hr>
+
+<h2>Bus Topology</h2>
+
+<p class="def">
+
+All devices connected to a single cable called backbone.
+
+</p>
+
+<div class="diagram">
+
+PC1 — PC2 — PC3 — PC4
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+
+<li>Easy to install</li>
+
+<li>Low cost</li>
+
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+
+<li>Backbone failure stops entire network</li>
+
+<li>Difficult troubleshooting</li>
+
+</ul>
+
+<hr>
+
+<h2>Star Topology</h2>
+
+<p class="def">
+
+All devices connected to central hub or switch.
+
+</p>
+
+<div class="diagram">
+
+  PC1  
+   |  
+PC2—Switch—PC3  
+   |  
+  PC4  
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+
+<li>Easy to manage</li>
+
+<li>Failure of one cable does not affect others</li>
+
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+
+<li>Central device failure stops network</li>
+
+</ul>
+
+<hr>
+
+<h2>Ring Topology</h2>
+
+<p class="def">
+
+Devices connected in circular structure.
+
+</p>
+
+<div class="diagram">
+
+PC1 — PC2 — PC3  
+ |       |  
+PC6 — PC5 — PC4  
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+
+<li>Equal access</li>
+
+<li>No collision</li>
+
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+
+<li>Single failure breaks network</li>
+
+</ul>
+
+<hr>
+
+<h2>Mesh Topology</h2>
+
+<p class="def">
+
+Every device connected to every other device.
+
+</p>
+
+<div class="diagram">
+
+PC1 ↔ PC2  
+ ↕  ↕  
+PC3 ↔ PC4  
+
+</div>
+
+<h3>Advantages</h3>
+
+<ul>
+
+<li>High reliability</li>
+
+<li>Fault tolerance</li>
+
+</ul>
+
+<h3>Disadvantages</h3>
+
+<ul>
+
+<li>Very costly</li>
+
+<li>Complex wiring</li>
+
+</ul>
+
+<hr>
+
+<h2>Hybrid Topology</h2>
+
+<p class="def">
+
+Combination of two or more topologies.
+
+</p>
+
+<p>
+
+Example:
+
+</p>
+
+<ul>
+
+<li>Star + Bus</li>
+
+<li>Star + Ring</li>
+
+</ul>
+
+<hr>
+
+<h1>Important Note</h1>
+
+<p class="highlight">
+
+Star topology is most commonly used in modern LAN networks.
+
+</p>
+
+<p class="correct">
+
+Correction:  
+Modern Ethernet networks mostly use Star topology with switches.
+
+</p>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 7 (Internet, Intranet, Extranet)</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f7f5ff;
+line-height:1.6;
+}
+
+h1{
+color:#351c75;
+background:#d9d2e9;
+padding:6px;
+}
+
+h2{
+color:#073763;
+background:#cfe2ff;
+padding:5px;
+}
+
+.def{
+background:#fff2cc;
+padding:5px;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.key{
+color:#990000;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Internet</h1>
+
+<p class="def">
+
+Internet is a global network of interconnected computers that communicate using standard protocols like TCP/IP.
+
+</p>
+
+<ul>
+
+<li>
+<span class="key">Type:</span> Public Network
+</li>
+
+<li>
+<span class="key">Access:</span> Available to everyone
+</li>
+
+<li>
+<span class="key">Ownership:</span> No single owner
+</li>
+
+<li>
+<span class="key">Size:</span> Worldwide
+</li>
+
+</ul>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Web browsing</li>
+
+<li>Email communication</li>
+
+<li>Online services</li>
+
+</ul>
+
+<hr>
+
+<h1>Intranet</h1>
+
+<p class="def">
+
+Intranet is a private network used within an organization.
+
+</p>
+
+<ul>
+
+<li>
+<span class="key">Type:</span> Private Network
+</li>
+
+<li>
+<span class="key">Access:</span> Only authorized users
+</li>
+
+<li>
+<span class="key">Ownership:</span> Single organization
+</li>
+
+<li>
+<span class="key">Size:</span> Limited to organization
+</li>
+
+</ul>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Company internal websites</li>
+
+<li>Employee portals</li>
+
+<li>Office communication systems</li>
+
+</ul>
+
+<hr>
+
+<h1>Extranet</h1>
+
+<p class="def">
+
+Extranet is a private network that allows external users limited access to internal resources.
+
+</p>
+
+<ul>
+
+<li>
+<span class="key">Type:</span> Private + External Access
+</li>
+
+<li>
+<span class="key">Access:</span> Authorized internal and external users
+</li>
+
+<li>
+<span class="key">Ownership:</span> Single organization
+</li>
+
+<li>
+<span class="key">Size:</span> Extended private network
+</li>
+
+</ul>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Supplier portals</li>
+
+<li>Customer login systems</li>
+
+<li>Business partner networks</li>
+
+</ul>
+
+<hr>
+
+<h1>Difference Between Internet, Intranet, and Extranet</h1>
+
+<table>
+
+<tr>
+
+<th>Feature</th>
+<th>Internet</th>
+<th>Intranet</th>
+<th>Extranet</th>
+
+</tr>
+
+<tr>
+
+<td>Access</td>
+<td>Public</td>
+<td>Private</td>
+<td>Private + Limited External</td>
+
+</tr>
+
+<tr>
+
+<td>Users</td>
+<td>Anyone</td>
+<td>Organization Members</td>
+<td>Internal + External Users</td>
+
+</tr>
+
+<tr>
+
+<td>Ownership</td>
+<td>No Single Owner</td>
+<td>Single Organization</td>
+<td>Single Organization</td>
+
+</tr>
+
+<tr>
+
+<td>Security</td>
+<td>Low</td>
+<td>High</td>
+<td>Moderate</td>
+
+</tr>
+
+<tr>
+
+<td>Example</td>
+<td>Google, Websites</td>
+<td>Company Portal</td>
+<td>Supplier Portal</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Important Notes</h1>
+
+<p class="highlight">
+
+Internet is the largest network in the world.
+
+</p>
+
+<p>
+
+<span class="highlight">
+
+Intranet is secure and private.
+
+</span>
+
+</p>
+
+<p>
+
+<span class="highlight">
+
+Extranet extends intranet access to external users.
+
+</span>
+
+</p>
+
+<p class="correct">
+
+Correction:  
+Security depends on configuration — Internet itself is not "low security,"  
+but public exposure increases risks.
+
+</p>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Computer Networks Notes - Part 8 (Final Topics)</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#fef7f7;
+line-height:1.6;
+}
+
+h1{
+color:#990000;
+background:#f4cccc;
+padding:6px;
+}
+
+h2{
+color:#073763;
+background:#cfe2ff;
+padding:5px;
+}
+
+.def{
+background:#fff2cc;
+padding:5px;
+}
+
+.highlight{
+background:yellow;
+font-weight:bold;
+}
+
+.correct{
+color:green;
+font-weight:bold;
+}
+
+.key{
+color:#990000;
+font-weight:bold;
+}
+
+table{
+border-collapse: collapse;
+width:100%;
+}
+
+td,th{
+border:1px solid black;
+padding:6px;
+}
+
+.diagram{
+background:#eef7ff;
+border:1px solid black;
+padding:8px;
+font-family: monospace;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Transducer</h1>
+
+<p class="def">
+
+Transducer is a device that converts one form of energy into another form.
+
+</p>
+
+<h2>Types of Transducer</h2>
+
+<ul>
+
+<li>
+<b>Input Transducer</b>  
+→ Converts physical energy into electrical signal.
+</li>
+
+<li>
+<b>Output Transducer</b>  
+→ Converts electrical signal into physical energy.
+</li>
+
+</ul>
+
+<hr>
+
+<h2>Examples of Transducers</h2>
+
+<table>
+
+<tr>
+<th>Device</th>
+<th>Type</th>
+<th>Function</th>
+</tr>
+
+<tr>
+<td>Microphone</td>
+<td>Input Transducer</td>
+<td>Sound → Electrical Signal</td>
+</tr>
+
+<tr>
+<td>Speaker</td>
+<td>Output Transducer</td>
+<td>Electrical Signal → Sound</td>
+</tr>
+
+<tr>
+<td>Camera Sensor</td>
+<td>Input Transducer</td>
+<td>Light → Electrical Signal</td>
+</tr>
+
+<tr>
+<td>Display Screen</td>
+<td>Output Transducer</td>
+<td>Electrical Signal → Light</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Sensor</h1>
+
+<p class="def">
+
+Sensor is a device that detects changes in environment and converts them into signals.
+
+</p>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Temperature Sensor</li>
+
+<li>Light Sensor</li>
+
+<li>Motion Sensor</li>
+
+<li>Pressure Sensor</li>
+
+</ul>
+
+<hr>
+
+<h1>Signal Types</h1>
+
+<h2>Analog Signal</h2>
+
+<p class="def">
+
+Analog signal is continuous in nature.
+
+</p>
+
+<div class="diagram">
+
+Smooth Waveform  
+Continuous Values
+
+</div>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Voice signal</li>
+
+<li>Radio signal</li>
+
+</ul>
+
+<hr>
+
+<h2>Digital Signal</h2>
+
+<p class="def">
+
+Digital signal consists of discrete values (0 and 1).
+
+</p>
+
+<div class="diagram">
+
+Square Wave  
+Binary Values
+
+</div>
+
+<p>
+
+Examples:
+
+</p>
+
+<ul>
+
+<li>Computer data</li>
+
+<li>Digital communication</li>
+
+</ul>
+
+<hr>
+
+<h1>Signal Conversion</h1>
+
+<table>
+
+<tr>
+<th>Conversion</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>Analog → Digital</td>
+<td>Sampling and Quantization</td>
+</tr>
+
+<tr>
+<td>Digital → Analog</td>
+<td>Modulation</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h1>Communication Process</h1>
+
+<p class="def">
+
+Communication process involves transmission of data from sender to receiver through a medium.
+
+</p>
+
+<div class="diagram">
+
+Sender → Medium → Receiver
+
+</div>
+
+<p>
+
+Steps:
+
+</p>
+
+<ul>
+
+<li>Sender creates data</li>
+
+<li>Data transmitted through medium</li>
+
+<li>Receiver receives data</li>
+
+</ul>
+
+<hr>
+
+<h1>Transmission Media</h1>
+
+<h2>Guided Media (Wired)</h2>
+
+<ul>
+
+<li>Twisted Pair Cable</li>
+
+<li>Coaxial Cable</li>
+
+<li>Optical Fiber</li>
+
+</ul>
+
+<hr>
+
+<h2>Unguided Media (Wireless)</h2>
+
+<ul>
+
+<li>Radio Waves</li>
+
+<li>Microwaves</li>
+
+<li>Infrared</li>
+
+</ul>
+
+<hr>
+
+<h1>Final Important Notes</h1>
+
+<p class="highlight">
+
+Computer Network allows communication and sharing of resources between devices.
+
+</p>
+
+<p class="highlight">
+
+Protocols define rules of communication.
+
+</p>
+
+<p class="highlight">
+
+OSI Model provides theoretical understanding.
+
+</p>
+
+<p class="highlight">
+
+TCP/IP Model is used in real-world networking.
+
+</p>
+
+<p class="highlight">
+
+Star topology is widely used in modern LAN networks.
+
+</p>
+
+<hr>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Networking Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>P2P vs Multipoint</h1>
+
+    <div class="section">
+        <h2>Point-to-Point</h2>
+        <ul>
+            <li>Direct connection between two devices</li>
+            <li>Dedicated communication link</li>
+            <li>High speed and reliability</li>
+            <li>Example: Connection between two computers using a cable</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Multipoint</h2>
+        <ul>
+            <li>Multiple devices share a single communication link</li>
+            <li>Bandwidth is shared among devices</li>
+            <li>Cost-effective but slower than point-to-point</li>
+            <li>Example: Bus network, shared Wi-Fi channel</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Comparison Table</h2>
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Point-to-Point</th>
+                <th>Multipoint</th>
+            </tr>
+            <tr>
+                <td>Devices</td>
+                <td>2</td>
+                <td>More than 2</td>
+            </tr>
+            <tr>
+                <td>Connection</td>
+                <td>Dedicated</td>
+                <td>Shared</td>
+            </tr>
+            <tr>
+                <td>Speed</td>
+                <td>High</td>
+                <td>Moderate</td>
+            </tr>
+            <tr>
+                <td>Cost</td>
+                <td>High</td>
+                <td>Low</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Networking Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .image-box {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .image-box img {
+            width: 70%;
+            max-width: 500px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Point-to-Point Section -->
+    <div class="section">
+        <h2>Point-to-Point Topology and Multipoint (Point-to-Multipoint) Topology</h2>
+        <p>Connects exactly two devices with a dedicated link. All bandwidth is reserved between them.</p>
+
+        <div class="image-box">
+            <img src="https://www.omnisecu.com/images/basic-networking/point-to-point-and-point-to-multipoint-topology-computer.jpg" alt="Point to Point Topology">
+            <p><small>Point-to-Point Diagram</small></p>
+        </div>
+    </div>
+
+
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Networking Notes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="section">
+        <h2>Difference: Point-to-Point vs Multipoint Communication</h2>
+        <table>
+            <tr>
+                <th>S.NO</th>
+                <th>Point-to-Point Communication</th>
+                <th>Multipoint Communication</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Point to point communication means the channel is shared between two devices.</td>
+                <td>Multipoint communication means the channel is shared among multiple devices or nodes.</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>There is a dedicated link between two nodes.</td>
+                <td>Link is shared among multiple nodes.</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>The entire capacity is reserved between two devices, which may lead to waste of bandwidth.</td>
+                <td>The capacity is not reserved for any two nodes and bandwidth is efficiently utilized.</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>There is one transmitter and one receiver.</td>
+                <td>There is one transmitter and multiple receivers.</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>The shortest distance is important to reach the receiver.</td>
+                <td>The shortest distance is not important.</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>Provides better security and privacy since the channel is not shared.</td>
+                <td>Less secure and private because the channel is shared.</td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
+
