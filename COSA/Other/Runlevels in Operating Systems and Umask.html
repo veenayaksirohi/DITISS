@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Runlevels and Umask Notes</title>
+</head>
+<body style="font-family: Arial; background-color:#0f172a; color:white; line-height:1.6;">
+
+<h1 style="color:#38bdf8;">Runlevels in Operating Systems</h1>
+
+<p><b style="color:#facc15;">Runlevels</b> are a concept (mainly from traditional UNIX and early Linux systems) that define the <b style="color:#22c55e;">state of a machine after boot</b>, i.e., what services and processes are running.</p>
+
+<p>Think of a runlevel as a <b style="color:#f472b6;">mode of operation</b> for the OS.</p>
+
+<hr>
+
+<h2 style="color:#38bdf8;">Traditional Linux Runlevels (SysV init)</h2>
+
+<table border="1" cellpadding="8" style="border-collapse:collapse; color:white;">
+<tr style="background-color:#1e293b;"><th>Runlevel</th><th>Meaning</th></tr>
+<tr><td><b style="color:#ef4444;">0</b></td><td>Shutdown / Halt system</td></tr>
+<tr><td><b style="color:#facc15;">1</b></td><td>Single-user mode (recovery mode, no networking)</td></tr>
+<tr><td>2</td><td>Multi-user mode (without networking in some distros)</td></tr>
+<tr><td><b style="color:#22c55e;">3</b></td><td>Full multi-user mode (CLI, networking enabled)</td></tr>
+<tr><td>4</td><td>Unused / user-defined</td></tr>
+<tr><td><b style="color:#a78bfa;">5</b></td><td>Multi-user mode with GUI (desktop environment)</td></tr>
+<tr><td><b style="color:#fb7185;">6</b></td><td>Reboot system</td></tr>
+</table>
+
+<h2 style="color:#38bdf8;">Easy Memory Trick</h2>
+<ul>
+<li><b style="color:#ef4444;">0 = Off</b></li>
+<li><b style="color:#facc15;">1 = Rescue</b></li>
+<li><b style="color:#22c55e;">3 = Server mode (CLI)</b></li>
+<li><b style="color:#a78bfa;">5 = Desktop mode (GUI)</b></li>
+<li><b style="color:#fb7185;">6 = Restart</b></li>
+</ul>
+
+<h2 style="color:#38bdf8;">How runlevels work</h2>
+<ol>
+<li>Kernel starts</li>
+<li><b style="color:#f472b6;">init (or systemd)</b> decides the runlevel</li>
+<li>System starts services assigned to that runlevel</li>
+</ol>
+
+<h2 style="color:#38bdf8;">Modern Systems: systemd Targets</h2>
+
+<table border="1" cellpadding="8" style="border-collapse:collapse;">
+<tr style="background-color:#1e293b;"><th>Runlevel</th><th>systemd Target</th></tr>
+<tr><td>0</td><td style="color:#ef4444;">poweroff.target</td></tr>
+<tr><td>1</td><td style="color:#facc15;">rescue.target</td></tr>
+<tr><td>3</td><td style="color:#22c55e;">multi-user.target</td></tr>
+<tr><td>5</td><td style="color:#a78bfa;">graphical.target</td></tr>
+<tr><td>6</td><td style="color:#fb7185;">reboot.target</td></tr>
+</table>
+
+<h2 style="color:#38bdf8;">Runlevel vs Target</h2>
+
+<table border="1" cellpadding="8" style="border-collapse:collapse;">
+<tr style="background-color:#1e293b;"><th>Feature</th><th>Runlevel</th><th>systemd Target</th></tr>
+<tr><td>Old/New</td><td>Old</td><td style="color:#22c55e;">Modern</td></tr>
+<tr><td>Flexibility</td><td>Limited</td><td style="color:#22c55e;">Highly flexible</td></tr>
+<tr><td>Dependency handling</td><td>Weak</td><td style="color:#22c55e;">Strong</td></tr>
+<tr><td>Usage today</td><td>Rare</td><td style="color:#22c55e;">Standard</td></tr>
+</table>
+
+<hr>
+
+<h1 style="color:#38bdf8;">What is umask in Operating Systems</h1>
+
+<p><b style="color:#facc15;">umask (User Mask)</b> defines the <b style="color:#22c55e;">default permission settings</b> for newly created files and directories.</p>
+
+<p>It does not give permissions it <b style="color:#ef4444;">removes (masks)</b> permissions from the system’s default.</p>
+
+<h2 style="color:#38bdf8;">Default Permissions</h2>
+<ul>
+<li><b>Files → <span style="color:#22c55e;">666</span> → rw-rw-rw-</b></li>
+<li><b>Directories → <span style="color:#22c55e;">777</span> → rwxrwxrwx</b></li>
+</ul>
+
+<h2 style="color:#38bdf8;">Formula</h2>
+<p style="background-color:#1e293b; padding:10px;">
+<b style="color:#f472b6;">Final Permission = Default Permission - umask</b>
+</p>
+
+<h2 style="color:#38bdf8;">Examples</h2>
+
+<p><b>umask = 022</b></p>
+<ul>
+<li>Files → <span style="color:#22c55e;">644</span> → rw-r--r--</li>
+<li>Directories → <span style="color:#22c55e;">755</span> → rwxr-xr-x</li>
+</ul>
+
+<p><b>umask = 077</b></p>
+<ul>
+<li>Files → <span style="color:#22c55e;">600</span> → rw-------</li>
+<li>Directories → <span style="color:#22c55e;">700</span> → rwx------</li>
+</ul>
+
+<h2 style="color:#38bdf8;">Key Concept</h2>
+<p><b style="color:#ef4444;">umask removes permissions</b></p>
+
+<table border="1" cellpadding="8" style="border-collapse:collapse;">
+<tr><th>umask bit</th><th>Meaning</th></tr>
+<tr><td>0</td><td style="color:#22c55e;">allow permission</td></tr>
+<tr><td>1</td><td style="color:#ef4444;">remove permission</td></tr>
+</table>
+
+<h2 style="color:#38bdf8;">Important Notes</h2>
+<ul>
+<li><b style="color:#ef4444;">umask cannot add permissions only remove</b></li>
+<li>Affects <b style="color:#facc15;">new files only</b></li>
+<li>Execute bit for files is not given by default</li>
+</ul>
+
+<hr>
+
+<h1 style="color:#38bdf8;">Shortcut Tricks</h1>
+
+<h2 style="color:#22c55e;">Golden Shortcut</h2>
+<p><b>Directory = 7 - umask</b></p>
+<p><b>File = 6 - umask</b></p>
+
+<h2 style="color:#22c55e;">Ultra Fast Trick</h2>
+<p><b style="color:#f472b6;">Permission = MAX - umask</b></p>
+
+<table border="1" cellpadding="8">
+<tr><th>Type</th><th>MAX</th></tr>
+<tr><td>File</td><td>6</td></tr>
+<tr><td>Directory</td><td>7</td></tr>
+</table>
+
+<h2 style="color:#22c55e;">Common Values</h2>
+
+<table border="1" cellpadding="8">
+<tr><th>umask</th><th>File</th><th>Directory</th></tr>
+<tr><td>000</td><td>666</td><td>777</td></tr>
+<tr><td>022</td><td>644</td><td>755</td></tr>
+<tr><td>027</td><td>640</td><td>750</td></tr>
+<tr><td>077</td><td>600</td><td>700</td></tr>
+<tr><td>002</td><td>664</td><td>775</td></tr>
+</table>
+
+<h2 style="color:#22c55e;">Instant Pattern Trick</h2>
+<ul>
+<li>0 → no change</li>
+<li>2 → remove write</li>
+<li>7 → remove all</li>
+</ul>
+
+<h2 style="color:#ef4444;">Exam Trap</h2>
+<p><b>Files do not get execute permission by default</b></p>
+
+<h2 style="color:#facc15;">Final One Line</h2>
+<p style="background-color:#1e293b; padding:10px;">
+<b>File = 6 - umask, Directory = 7 - umask (digit wise)</b>
+</p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

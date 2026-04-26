@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Hard Link vs Soft Link Cheat Sheet</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        padding: 20px;
+        line-height: 1.6;
+    }
+    h1 {
+        text-align: center;
+        color: #222;
+    }
+    h2 {
+        color: #333;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+    .hard {
+        color: #0b5ed7;
+        font-weight: bold;
+    }
+    .soft {
+        color: #198754;
+        font-weight: bold;
+    }
+    .box {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #333;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    pre {
+        background: #272822;
+        color: #f8f8f2;
+        padding: 10px;
+        border-radius: 6px;
+        margin-top: 10px;
+        overflow-x: auto;
+    }
+    .highlight {
+        background: yellow;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+
+<h1>📄 🔗 Hard Link vs Soft (Symbolic) Link — Cheat Sheet</h1>
+
+<div class="box">
+<h2>🧠 Core Idea</h2>
+<p><span class="hard">🔵 Hard Link</span> = <span class="highlight">Same file, multiple names (same inode)</span></p>
+<p><span class="soft">🟢 Soft Link</span> = <span class="highlight">Shortcut → points to file path</span></p>
+</div>
+
+<div class="box">
+<h2>📌 Definitions</h2>
+
+<h3 class="hard">🔵 Hard Link</h3>
+<ul>
+<li>Another name for the <span class="highlight">same inode (file data)</span></li>
+<li>Directly points to <span class="highlight">actual data on disk</span></li>
+</ul>
+
+<h3 class="soft">🟢 Soft (Symbolic) Link</h3>
+<ul>
+<li>A file that stores <span class="highlight">path of another file</span></li>
+<li>Acts like a <span class="highlight">shortcut</span></li>
+</ul>
+</div>
+
+<div class="box">
+<h2>⚖️ Key Differences (Exam Table)</h2>
+<table>
+<tr>
+<th>Feature</th>
+<th>🔵 Hard Link</th>
+<th>🟢 Soft Link</th>
+</tr>
+<tr><td>Command</td><td><code>ln file link</code></td><td><code>ln -s file link</code></td></tr>
+<tr><td>Inode</td><td>✅ Same</td><td>❌ Different</td></tr>
+<tr><td>Data Access</td><td>Direct</td><td>Via path</td></tr>
+<tr><td>Dependency</td><td>❌ Independent</td><td>✅ Dependent</td></tr>
+<tr><td>Delete Original</td><td>✅ Still works</td><td>❌ Breaks</td></tr>
+<tr><td>Filesystem</td><td>Same only</td><td>Cross-filesystem</td></tr>
+<tr><td>Directories</td><td>❌ Not allowed</td><td>✅ Allowed</td></tr>
+<tr><td>Storage</td><td>No extra</td><td>Stores path</td></tr>
+<tr><td>Speed</td><td>Faster</td><td>Slightly slower</td></tr>
+</table>
+</div>
+
+<div class="box">
+<h2>🔑 Must-Remember Points</h2>
+
+<p>📌 <span class="highlight">Inode</span></p>
+<ul>
+<li>Stores metadata (NOT filename)</li>
+<li>Hard links share same inode</li>
+</ul>
+
+<p>📌 <span class="highlight">Link Count</span></p>
+<ul>
+<li>File deleted only when:</li>
+</ul>
+
+<pre>
+link count = 0
+</pre>
+
+<p>📌 <span class="highlight">Dangling Link</span></p>
+<ul>
+<li>Soft link breaks if original file is removed</li>
+</ul>
+
+</div>
+
+<div class="box">
+<h2>🛠️ Commands</h2>
+
+<pre>
+# Hard Link
+ln file.txt hard.txt
+
+# Soft Link
+ln -s file.txt soft.txt
+
+# Check inode
+ls -li
+
+# Detailed info
+stat file.txt
+</pre>
+
+</div>
+
+<div class="box">
+<h2>🧪 Quick Example</h2>
+
+<pre>
+echo "Hello" > file.txt
+ln file.txt hard.txt
+ln -s file.txt soft.txt
+rm file.txt
+</pre>
+
+<p><strong>👉 Result:</strong></p>
+<ul>
+<li><span class="hard">hard.txt</span> ✅ works</li>
+<li><span class="soft">soft.txt</span> ❌ broken</li>
+</ul>
+
+</div>
+
+<div class="box">
+<h2>🎯 Use Cases</h2>
+
+<h3 class="hard">🔵 Hard Link</h3>
+<ul>
+<li>Backup without duplicating data</li>
+<li>Save disk space</li>
+</ul>
+
+<h3 class="soft">🟢 Soft Link</h3>
+<ul>
+<li>Shortcuts (like Windows)</li>
+<li>Link configs across directories</li>
+<li>Cross-filesystem linking</li>
+</ul>
+
+</div>
+
+<div class="box">
+<h2>📌 Analogy</h2>
+<ul>
+<li><span class="hard">🔵 Hard Link</span> → Same book, different names</li>
+<li><span class="soft">🟢 Soft Link</span> → Bookmark to a book</li>
+</ul>
+</div>
+
+<div class="box">
+<h2>🔥 Final Takeaway</h2>
+<p>✅ Hard Link → <span class="highlight">Same data (inode)</span></p>
+<p>✅ Soft Link → <span class="highlight">Pointer (path)</span></p>
+</div>
+
+</body>
+</html>

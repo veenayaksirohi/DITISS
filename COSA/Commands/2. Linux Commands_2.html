@@ -1,0 +1,4102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 2</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.warning {
+  background:#ffe6e6;
+  border:1px solid red;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — File Operations & Directory Commands</h1>
+
+<h2>8. <span class="cmd">cat</span> — Create and Display File</h2>
+
+<p><strong>Definition:</strong><br>
+<code>cat</code> (concatenate) is used to <b>create, display, and combine files</b>.
+</p>
+
+<p style="text-align: justify; color: #2c3e50;">
+<ol>
+  <li style="color: #1f77b4;">📄 <code>cat</code> is a Linux command used to display or read files.</li>
+  <li style="color: #2ca02c;">⌨️ When used without a file, it takes input from the keyboard.</li>
+  <li style="color: #ff7f0e;">⏳ It keeps running until it receives <b>EOF (End Of File)</b>.</li>
+  <li style="color: #d62728;">🔚 EOF is sent using <b>Ctrl + D</b> in the terminal.</li>
+  <li style="color: #9467bd;">🛑 After receiving EOF, <code>cat</code> stops and exits.</li>
+  <li style="color: #8c564b;">⚙️ <code>cat</code> does not generate EOF; it only responds to it.</li>
+</ol>
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>cat filename</pre>
+Display file content
+
+<pre>cat file.txt</pre>
+
+<pre>cat > filename</pre>
+Create new file and write content
+
+<pre>cat > file.txt</pre>
+
+<pre>cat >> filename</pre>
+Append text to existing file
+
+<pre>cat >> file.txt</pre>
+
+<pre>cat -n filename</pre>
+Show line numbers
+
+<h3>Extra Inputs 🧠</h3>
+
+<ul>
+<li><b>&gt;</b> overwrites file</li>
+<li><b>&gt;&gt;</b> adds content without deleting old data</li>
+</ul>
+
+<hr>
+
+<h2>9. <span class="cmd">cat >></span> — Append Text to File</h2>
+
+<p><strong>Definition:</strong><br>
+Used to <b>add text at the end of an existing file</b>.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+cat >> file.txt
+Hello World
+</pre>
+
+Adds:
+
+<pre>
+Hello World
+</pre>
+
+at end of file.
+
+<h3>Extra Tip ⭐</h3>
+
+<ul>
+<li>Does <b>not delete existing content</b></li>
+<li>Very commonly asked in exams</li>
+</ul>
+
+<hr>
+
+<h2>10. <span class="cmd">cp</span> — Copy Files and Directories</h2>
+
+<p><strong>Definition:</strong><br>
+<code>cp</code> copies <b>files or directories</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>cp file1 file2</pre>
+Copy file
+
+<pre>cp -r dir1 dir2</pre>
+Copy directory recursively
+
+<pre>cp -i</pre>
+Ask before overwrite
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux cp -i Command Notes</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #eef2f3;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 20px auto;
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    code {
+        background: #f4f4f4;
+        padding: 3px 6px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .box {
+        background: #f9f9f9;
+        padding: 10px;
+        border-left: 4px solid #3498db;
+        margin: 10px 0;
+    }
+
+    ul {
+        line-height: 1.8;
+    }
+
+    .warn {
+        border-left: 4px solid #e74c3c;
+    }
+
+    .good {
+        border-left: 4px solid #2ecc71;
+    }
+</style>
+</head>
+
+<body>
+
+
+<div class="container">
+
+    <h2>1. Introduction</h2>
+    <p>
+        The <code>cp</code> command in Linux is used to copy files and directories.
+        The <code>-i</code> option enables <b>interactive mode</b>, which asks for confirmation
+        before overwriting existing files.
+    </p>
+
+    <h2>2. Syntax</h2>
+    <div class="box">
+        <code>cp -i source_file destination_file</code>
+    </div>
+
+    <h2>3. Working of cp -i</h2>
+    <p>
+        When you use <code>cp -i</code>, the system checks if the destination file already exists.
+        If it does, it prompts the user before overwriting.
+    </p>
+
+    <div class="box warn">
+        <b>Example prompt:</b><br>
+        cp: overwrite 'file.txt'?
+    </div>
+
+    <h2>4. User Response Options</h2>
+    <ul>
+        <li><b>y</b> → overwrite the file</li>
+        <li><b>n</b> → do not overwrite</li>
+    </ul>
+
+    <h2>5. Example Usage</h2>
+    <div class="box">
+        <p>Copying a file:</p>
+        <code>cp -i notes.txt backup.txt</code>
+    </div>
+
+    <p>
+        If <code>backup.txt</code> already exists, the system will ask for confirmation before replacing it.
+    </p>
+
+    <h2>6. Advantages</h2>
+    <div class="box good">
+        <ul>
+            <li>Prevents accidental file overwriting</li>
+            <li>Gives user control during copying</li>
+            <li>Useful in system administration</li>
+        </ul>
+    </div>
+
+    <h2>7. Disadvantages</h2>
+    <div class="box warn">
+        <ul>
+            <li>Can slow down bulk file copying due to prompts</li>
+            <li>Not suitable for automated scripts</li>
+        </ul>
+    </div>
+
+    <h2>8. Comparison with Other cp Options</h2>
+
+    <ul>
+        <li><code>cp -i</code> → asks before overwrite (safe)</li>
+        <li><code>cp -f</code> → forces overwrite without asking</li>
+        <li><code>cp -n</code> → never overwrite existing files</li>
+    </ul>
+
+    <h2>9. Summary</h2>
+    <p>
+        <code>cp -i</code> is a safety feature in Linux that ensures you do not accidentally overwrite important files
+        by asking for confirmation before replacing them.
+    </p>
+
+</div>
+
+</body>
+</html>
+
+<pre>cp -v</pre>
+Show copying process
+
+<h3>Extra Inputs 🧠</h3>
+
+<pre>cp -r directory</pre>
+
+Required for copying directories.
+
+<hr>
+
+<h2>11. <span class="cmd">mv</span> — Move Files</h2>
+
+<p><strong>Definition:</strong><br>
+Moves files between locations.
+</p>
+
+<pre>mv file1 /path</pre>
+
+<pre>mv -i</pre>
+
+<pre>mv -v</pre>
+
+Used for moving files.
+
+<hr>
+
+<h2>12. <span class="cmd">mv</span> — Rename Files</h2>
+
+<pre>mv old.txt new.txt</pre>
+
+Renames:
+
+<pre>
+old.txt → new.txt
+</pre>
+
+<p><b>Rename = Move with new name</b></p>
+
+<hr>
+
+<h2>13. <span class="cmd">tac</span> and <span class="cmd">rev</span></h2>
+
+<h3>tac</h3>
+
+Displays file lines in reverse order.
+
+<pre>tac file.txt</pre>
+
+Example:
+
+<pre>
+Line3
+Line2
+Line1
+</pre>
+
+<h3>rev</h3>
+
+Reverses characters in each line.
+
+<pre>rev file.txt</pre>
+
+Example:
+
+<pre>
+olleH
+dlroW
+</pre>
+
+<h3>Key Difference ⭐</h3>
+
+<table>
+<tr>
+<th>Command</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>tac</td>
+<td>Reverse lines</td>
+</tr>
+
+<tr>
+<td>rev</td>
+<td>Reverse characters</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>14. <span class="cmd">wc</span> — Count Words</h2>
+
+<p><strong>Definition:</strong><br>
+Counts lines, words, characters.
+</p>
+
+<pre>wc file.txt</pre>
+
+Output:
+
+<pre>
+10 50 300 file.txt
+</pre>
+
+<h3>Important Options ⭐</h3>
+
+<pre>wc -l</pre>
+
+Count lines
+
+<pre>wc -w</pre>
+
+Count words
+
+<pre>wc -c</pre>
+
+Count characters
+
+<hr>
+
+<h2>15. <span class="cmd">mkdir</span> — Create Directory</h2>
+
+<pre>mkdir dirname</pre>
+
+<pre>mkdir -v</pre>
+
+<pre>mkdir -p dir1/dir2</pre>
+
+Creates parent directories.
+
+<hr>
+
+<h2>16. <span class="cmd">cd</span> — Change Directory</h2>
+
+<pre>cd dirname</pre>
+
+Move into directory
+
+<pre>cd ..</pre>
+
+Move to parent
+
+<pre>cd ~</pre>
+
+Go to home
+
+<pre>cd -</pre>
+
+Go to previous directory
+
+<hr>
+
+<h2>What happens if you type <span class="cmd">cd</span> and press Enter?</h2>
+
+<pre>cd</pre>
+
+<b>Result:</b>
+
+Moves to <b>home directory</b>.
+
+Same as:
+
+<pre>cd ~</pre>
+
+<hr>
+
+<h2>17. <span class="cmd">rm</span> — Remove Files</h2>
+
+<pre>rm file.txt</pre>
+
+Delete file
+
+<pre>rm -r dir</pre>
+
+Delete directory
+
+<pre>rm -f</pre>
+
+Force delete
+
+<pre>rm -i</pre>
+
+Ask before delete
+
+<div class="warning">
+
+<b>⚠️ Very Dangerous Command</b>
+
+<pre>
+rm -rf *
+sudo rm -rf /
+</pre>
+
+Can delete entire system.
+
+</div>
+
+<hr>
+
+<h2>Understanding rm Commands</h2>
+
+<h3>rm *</h3>
+
+Deletes all files in current directory.
+
+<h3>cd ~ then rm *</h3>
+
+Deletes files in home directory.
+
+<h3>sudo rm *</h3>
+
+Deletes using admin privileges.
+
+<h3>sudo rm * cd ~ ❌</h3>
+
+Invalid command.
+
+Correct:
+
+<pre>
+cd ~
+sudo rm *
+</pre>
+
+<hr>
+
+<h2>18. <span class="cmd">rmdir</span></h2>
+
+Removes empty directories only.
+
+<pre>rmdir dirname</pre>
+
+If not empty:
+
+<pre>rm -r dirname</pre>
+
+<hr>
+
+<h2>19. <span class="cmd">touch</span></h2>
+
+Creates empty files or updates timestamp.
+
+<pre>touch file.txt</pre>
+
+<pre>touch file1 file2 file3</pre>
+
+Creates multiple files.
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Most Important Commands</h3>
+
+<ul>
+
+<li>cat</li>
+<li>cp</li>
+<li>mv</li>
+<li>rm</li>
+<li>mkdir</li>
+<li>cd</li>
+<li>wc</li>
+<li>touch</li>
+<li>tac vs rev</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 2 (help Command)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+  font-weight: 600;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.note {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>help Command & help vs man — Linux Notes</h1>
+
+<!-- help Command -->
+
+<h2><span class="cmd">help</span> — Show Help for Shell Built-in Commands</h2>
+
+<h3>help Command</h3>
+
+<p><strong>Definition:</strong><br>
+<code>help</code> displays <b>help information for shell built-in commands</b>
+(commands built inside the shell like <b>cd, echo, pwd</b>).
+</p>
+
+<hr>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>help</b><br>
+Shows list of all <b>shell built-in commands</b>.
+</p>
+
+<pre>
+help
+</pre>
+
+<p><b>help command</b><br>
+Shows help for specific built-in command.
+</p>
+
+<pre>
+help cd
+</pre>
+
+<p><b>help -d command</b><br>
+Shows short description.
+</p>
+
+<pre>
+help -d echo
+</pre>
+
+<p><b>help -m command</b><br>
+Displays help in <b>man page format</b>.
+</p>
+
+<p><b>help -s command</b><br>
+Shows brief syntax summary.
+</p>
+
+<hr>
+
+<h3>Extra Inputs 🧠</h3>
+
+<ul>
+
+<li>Works only for <b>built-in shell commands</b></li>
+
+<li>Faster than <span class="cmd">man</span></li>
+
+<li>Useful for commands like:
+<ul>
+<li>cd</li>
+<li>echo</li>
+<li>exit</li>
+<li>pwd</li>
+</ul>
+</li>
+
+</ul>
+
+<hr>
+
+<h2>Difference Between <span class="cmd">help</span> and <span class="cmd">man</span></h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>help</th>
+<th>man</th>
+</tr>
+
+<tr>
+<td>Purpose</td>
+<td>Help for <b>built-in commands</b></td>
+<td>Help for <b>all commands</b></td>
+</tr>
+
+<tr>
+<td>Works For</td>
+<td>Shell built-in commands</td>
+<td>External + built-in commands</td>
+</tr>
+
+<tr>
+<td>Output</td>
+<td>Short and simple</td>
+<td>Detailed manual</td>
+</tr>
+
+<tr>
+<td>Speed</td>
+<td>Faster</td>
+<td>Slightly slower</td>
+</tr>
+
+<tr>
+<td>Example</td>
+<td><pre>help cd</pre></td>
+<td><pre>man ls</pre></td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Key Difference (Exam Answer ⭐)</h2>
+
+<div class="note">
+
+<p>
+<b>help</b> → Used for <b>shell built-in commands</b>
+</p>
+
+<p>
+<b>man</b> → Used for <b>all Linux commands</b> (detailed manual)
+</p>
+
+</div>
+
+<hr>
+
+<h2>Examples</h2>
+
+<p>Shows help for built-in <b>cd</b> command.</p>
+
+<pre>
+help cd
+</pre>
+
+<p>Shows full manual for <b>ls</b> command.</p>
+
+<pre>
+man ls
+</pre>
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Exam Tip (Very Important)</h3>
+
+<p>If asked:</p>
+
+<p>
+<b>Which command gives help for built-in shell commands?</b><br>
+✔ <b>help</b>
+</p>
+
+<p>
+<b>Which command gives detailed documentation?</b><br>
+✔ <b>man</b>
+</p>
+
+</div>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 3 (cat, cp, mv, tac, rev)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+  font-weight: 600;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.note {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — cat, cp, mv, tac, rev</h1>
+
+<!-- cat -->
+
+<h2>8. <span class="cmd">cat</span> — Create and Display File</h2>
+
+<p><strong>Definition:</strong><br>
+<code>cat</code> (concatenate) is used to <b>create, display, and combine files</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>cat filename</b><br>
+Display file content</p>
+
+<pre>
+cat file.txt
+</pre>
+
+<p><b>cat > filename</b><br>
+Create new file and write content</p>
+
+<pre>
+cat > file.txt
+</pre>
+
+<p><b>cat >> filename</b><br>
+Append text to existing file</p>
+
+<pre>
+cat >> file.txt
+</pre>
+
+<p><b>cat -n filename</b><br>
+Show line numbers</p>
+
+<h3>Extra Inputs 🧠</h3>
+
+<ul>
+<li><b>&gt;</b> overwrites file</li>
+<li><b>&gt;&gt;</b> adds content without deleting old data</li>
+</ul>
+
+<hr>
+
+<!-- cat >> -->
+
+<h2>9. <span class="cmd">cat >></span> — Append Text to File</h2>
+
+<p><strong>Definition:</strong><br>
+Used to <b>add text at the end of an existing file</b>.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+cat >> file.txt
+Hello World
+</pre>
+
+Adds:
+
+<pre>
+Hello World
+</pre>
+
+at end of file.
+
+<h3>Extra Tip ⭐</h3>
+
+<ul>
+<li>Does <b>not delete existing content</b></li>
+<li>Very commonly asked in exams</li>
+</ul>
+
+<hr>
+
+<!-- cp -->
+
+<h2>10. <span class="cmd">cp</span> — Copy Files and Directories</h2>
+
+<p><strong>Definition:</strong><br>
+<code>cp</code> copies <b>files or directories</b> from one location to another.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>cp file1 file2</b><br>
+Copy file</p>
+
+<p><b>cp -r dir1 dir2</b><br>
+Copy directory recursively</p>
+
+<p><b>cp -i</b><br>
+Ask before overwrite</p>
+
+<p><b>cp -v</b><br>
+Show copying process</p>
+
+<h3>Extra Inputs 🧠</h3>
+
+<p>Must use:</p>
+
+<pre>
+cp -r directory
+</pre>
+
+for copying directories.
+
+<hr>
+
+<!-- mv move -->
+
+<h2>11. <span class="cmd">mv</span> — Move Files</h2>
+
+<p><strong>Definition:</strong><br>
+<code>mv</code> moves files from one location to another.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>mv file1 /path</b><br>
+Move file</p>
+
+<p><b>mv -i</b><br>
+Ask before overwrite</p>
+
+<p><b>mv -v</b><br>
+Show moving process</p>
+
+<h3>Extra Inputs 🧠</h3>
+
+Used for <b>moving files between directories</b>.
+
+<hr>
+
+<!-- mv rename -->
+
+<h2>12. <span class="cmd">mv</span> — Rename Files</h2>
+
+<p><strong>Definition:</strong><br>
+<code>mv</code> is also used to <b>rename files</b>.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+mv old.txt new.txt
+</pre>
+
+Renames:
+
+<pre>
+old.txt → new.txt
+</pre>
+
+<h3>Extra Tip ⭐</h3>
+
+<p><b>Rename = Move with new name</b></p>
+
+<hr>
+
+<!-- tac -->
+
+<h2>13. <span class="cmd">tac</span> and <span class="cmd">rev</span> — Reverse Content</h2>
+
+<h3><span class="cmd">tac</span></h3>
+
+<p><strong>Definition:</strong><br>
+Displays file <b>line-by-line in reverse order</b>.
+</p>
+
+<pre>
+tac file.txt
+</pre>
+
+Example:
+
+<pre>
+Line3
+Line2
+Line1
+</pre>
+
+<hr>
+
+<h3><span class="cmd">rev</span></h3>
+
+<p><strong>Definition:</strong><br>
+Reverses <b>characters in each line</b>.
+</p>
+
+<pre>
+rev file.txt
+</pre>
+
+Example:
+
+<pre>
+olleH
+dlroW
+</pre>
+
+<hr>
+
+<h3>Key Difference ⭐</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Action</th>
+</tr>
+
+<tr>
+<td>tac</td>
+<td>Reverse <b>lines</b></td>
+</tr>
+
+<tr>
+<td>rev</td>
+<td>Reverse <b>characters</b></td>
+</tr>
+
+</table>
+
+<div class="exam">
+
+<h3>⭐ Most Important Commands From This Set</h3>
+
+<ul>
+
+<li>cat</li>
+<li>cp</li>
+<li>mv</li>
+<li>tac vs rev (difference question common)</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 4 (wc, mkdir, cd)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+  font-weight: 600;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.note {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — wc, mkdir, cd</h1>
+
+<!-- wc -->
+
+<h2>14. <span class="cmd">wc</span> — Count Words, Lines, Characters</h2>
+
+<p><strong>Definition:</strong><br>
+<code>wc</code> counts <b>lines, words, and characters</b> in a file.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>wc file.txt</b><br>
+Shows lines, words, characters</p>
+
+<pre>
+wc file.txt
+</pre>
+
+Output:
+
+<pre>
+10 50 300 file.txt
+</pre>
+
+<p>(10 lines, 50 words, 300 characters)</p>
+
+<p><b>wc -l</b><br>
+Count lines</p>
+
+<p><b>wc -w</b><br>
+Count words</p>
+
+<p><b>wc -c</b><br>
+Count characters</p>
+
+<hr>
+
+<!-- mkdir -->
+
+<h2>15. <span class="cmd">mkdir</span> — Create Directory</h2>
+
+<p><strong>Definition:</strong><br>
+Creates new directories.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>mkdir dirname</b><br>
+Create directory</p>
+
+<p><b>mkdir -v</b><br>
+Show message after creation</p>
+
+<p><b>mkdir -p</b><br>
+Create parent directories</p>
+
+Example:
+
+<pre>
+mkdir -p dir1/dir2
+</pre>
+
+<hr>
+
+<!-- cd -->
+
+<h2>16. <span class="cmd">cd</span> — Change Directory</h2>
+
+<p><strong>Definition:</strong><br>
+Changes the current working directory.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>cd dirname</b><br>
+Move into directory</p>
+
+<p><b>cd ..</b><br>
+Move to parent directory</p>
+
+<p><b>cd ~</b><br>
+Go to home directory</p>
+
+<p><b>cd -</b><br>
+Go to previous directory</p>
+
+<hr>
+
+<!-- cd behavior -->
+
+<h2>What happens if you type <span class="cmd">cd</span> and press Enter?</h2>
+
+<pre>
+cd
+</pre>
+
+<p><b>Result:</b><br>
+It takes you to your <b>home directory</b>.
+</p>
+
+<hr>
+
+<h2>Explanation</h2>
+
+<ul>
+
+<li>
+<b>cd without any argument</b> behaves the same as:
+</li>
+
+</ul>
+
+<pre>
+cd ~
+</pre>
+
+<p>
+<b>~</b> represents the <b>home directory</b> of the current user.
+</p>
+
+<p>
+So:
+</p>
+
+<pre>
+cd
+</pre>
+
+<p>
+➡ Moves to <b>home directory</b>
+</p>
+
+<hr>
+
+<h2>Example</h2>
+
+<p>If you are currently in:</p>
+
+<pre>
+/home/user/Documents
+</pre>
+
+<p>Run:</p>
+
+<pre>
+cd
+</pre>
+
+<p>You will move to:</p>
+
+<pre>
+/home/user
+</pre>
+
+<hr>
+
+<h2>Quick Summary of Common <span class="cmd">cd</span> Uses ⭐</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td><b>cd</b></td>
+<td>Go to <b>home directory</b></td>
+</tr>
+
+<tr>
+<td><b>cd dirname</b></td>
+<td>Move into directory</td>
+</tr>
+
+<tr>
+<td><b>cd ..</b></td>
+<td>Move to parent directory</td>
+</tr>
+
+<tr>
+<td><b>cd ~</b></td>
+<td>Go to home directory</td>
+</tr>
+
+<tr>
+<td><b>cd -</b></td>
+<td>Go to previous directory</td>
+</tr>
+
+<tr>
+<td><b>cd /</b></td>
+<td>Go to root directory</td>
+</tr>
+
+</table>
+
+<div class="exam">
+
+<h3>⭐ Exam Tip</h3>
+
+<p>
+<b>cd (without argument)</b> → Moves to <b>home directory</b> ✅
+</p>
+
+<p>
+This is a <b>very commonly asked question</b> in Linux exams.
+</p>
+
+</div>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 5 (rm, rmdir, touch)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+  font-weight: 600;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.warning {
+  background:#ffe6e6;
+  border:2px solid red;
+  padding:12px;
+  border-radius:6px;
+  font-weight:600;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — rm, rmdir, touch</h1>
+
+<!-- rm -->
+
+<h2>17. <span class="cmd">rm</span> — Remove Files/Directories</h2>
+
+<p><strong>Definition:</strong><br>
+Deletes files or directories.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>rm file.txt</b><br>
+Delete file</p>
+
+<p><b>rm -r dir</b><br>
+Remove directory recursively</p>
+
+<p><b>rm -f</b><br>
+Force delete</p>
+
+<p><b>rm -i</b><br>
+Ask before delete</p>
+
+<hr>
+
+<h3>Extra Warning ⚠️</h3>
+
+<div class="warning">
+
+<pre>
+rm -rf
+</pre>
+
+Very dangerous command.
+
+</div>
+
+<hr>
+
+<!-- rmdir -->
+
+<h2>18. <span class="cmd">rmdir</span> — Remove Empty Directory</h2>
+
+<p><strong>Definition:</strong><br>
+Removes <b>empty directories only</b>.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+rmdir dirname
+</pre>
+
+<h3>Extra Tip ⭐</h3>
+
+<p>If directory is <b>not empty</b>, use:</p>
+
+<pre>
+rm -r dirname
+</pre>
+
+<hr>
+
+<!-- touch -->
+
+<h2>19. <span class="cmd">touch</span> — Create Empty File / Change Time</h2>
+
+<p><strong>Definition:</strong><br>
+<code>touch</code> creates empty files or updates modification time.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<p><b>touch file.txt</b><br>
+Create empty file</p>
+
+<p><b>touch file1 file2 file3</b><br>
+Create multiple files</p>
+
+<p><b>touch -t</b><br>
+Change timestamp</p>
+
+<h3>Example</h3>
+
+<pre>
+touch file1 file2 file3
+</pre>
+
+Creates multiple files at once.
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Most Important Commands From This Set</h3>
+
+<p>Focus extra on:</p>
+
+<ul>
+
+<li>cat</li>
+<li>cp</li>
+<li>mv</li>
+<li>rm</li>
+<li>mkdir</li>
+<li>cd</li>
+<li>wc</li>
+<li>touch</li>
+<li>tac vs rev (difference question common)</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part 6 (rm Safety & Dangerous Commands)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  text-align: left;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+  font-weight: 600;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+  margin: 10px 0;
+  overflow-x: auto;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 20px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.warning {
+  background:#ffe6e6;
+  border:2px solid red;
+  padding:15px;
+  border-radius:6px;
+  font-weight:600;
+}
+
+.note {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — rm Safety & Dangerous Commands</h1>
+
+<h2>Understanding These <span class="cmd">rm</span> Commands</h2>
+
+<p>You wrote several variations — here’s <b>what each one actually does</b> and whether it is <b>valid or dangerous</b> ⚠️.</p>
+
+<hr>
+
+<h2>1️⃣ <span class="cmd">rm *</span> in <span class="cmd">pwd</span></h2>
+
+<p><strong>Meaning:</strong><br>
+Deletes <b>all files</b> in the <b>current working directory</b>.
+</p>
+
+<pre>
+rm *
+</pre>
+
+<ul>
+
+<li><b>*</b> → matches <b>all files</b></li>
+
+<li>Works in the <b>directory shown by pwd</b></li>
+
+<li>Deletes <b>files only</b>, not directories (unless <b>-r</b> used)</li>
+
+</ul>
+
+<p><b>⚠️ Danger Level:</b> High<br>
+All files in current directory will be deleted.</p>
+
+<hr>
+
+<h2>2️⃣ <span class="cmd">rm *</span> in <span class="cmd">cd ~</span></h2>
+
+<p>This means:</p>
+
+<pre>
+cd ~
+rm *
+</pre>
+
+<p><strong>Meaning:</strong><br>
+Deletes <b>all files in your home directory</b>.
+</p>
+
+<p><b>⚠️ Danger Level:</b> Very High<br>
+You may delete personal files.</p>
+
+<hr>
+
+<h2>3️⃣ <span class="cmd">sudo rm *</span> in <span class="cmd">pwd</span></h2>
+
+<pre>
+sudo rm *
+</pre>
+
+<p><strong>Meaning:</strong><br>
+Deletes <b>all files in current directory</b> using <b>administrator (root) privileges</b>.
+</p>
+
+<ul>
+
+<li><b>sudo</b> → runs command as <b>root</b></li>
+
+<li>Can delete <b>protected files</b></li>
+
+</ul>
+
+<p><b>⚠️ Danger Level:</b> Very High<br>
+Can delete system-important files.</p>
+
+<hr>
+
+<h2>4️⃣ <span class="cmd">sudo rm * cd ~</span> ❌ (Invalid Command)</h2>
+
+<p>This command is <b>not correct syntax</b>.</p>
+
+<pre>
+sudo rm * cd ~
+</pre>
+
+<p>❌ This will produce an <b>error</b>.</p>
+
+<p>Correct way would be:</p>
+
+<pre>
+cd ~
+sudo rm *
+</pre>
+
+<hr>
+
+<h2>Important Related Options ⭐</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="cmd">rm *</td>
+<td>Delete all files</td>
+</tr>
+
+<tr>
+<td class="cmd">rm -r *</td>
+<td>Delete files + directories</td>
+</tr>
+
+<tr>
+<td class="cmd">rm -rf *</td>
+<td>Force delete everything ⚠️ Very dangerous</td>
+</tr>
+
+<tr>
+<td class="cmd">rm -i *</td>
+<td>Ask before deleting</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Very Important Safety Warning ⚠️</h2>
+
+<div class="warning">
+
+These are <b>extremely dangerous commands</b>:
+
+<pre>
+rm -rf *
+sudo rm -rf /
+</pre>
+
+They can:
+
+<ul>
+
+<li>Delete entire system</li>
+
+<li>Make Linux unusable</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h2>⭐ Exam Tip</h2>
+
+<ul>
+
+<li><b>*</b> → Means <b>all files</b></li>
+
+<li><b>sudo</b> → Means <b>admin/root privileges</b></li>
+
+<li><b>rm -r</b> → Required to delete <b>directories</b></li>
+
+<li><b>cd ~</b> → Moves to <b>home directory</b></li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part A (touch to tail)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — touch to tail</h1>
+
+<!-- touch -->
+
+<h2>19. <span class="cmd">touch</span> — Create File / Change Modification Time</h2>
+
+<p><strong>Definition:</strong><br>
+<code>touch</code> is used to <b>create empty files</b> or 
+<b>change modification time</b> of files.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>touch file.txt</pre>
+Create empty file
+
+<pre>touch file1 file2 file3</pre>
+Create multiple files
+
+<pre>touch -t YYYYMMDDhhmm</pre>
+Change modification time
+
+Example:
+
+<pre>
+touch file1.txt file2.txt file3.txt
+</pre>
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+<li>If file exists → updates time</li>
+<li>If file doesn't exist → creates file</li>
+
+<li><b>Very Useful In:</b>
+<ul>
+<li>Testing file timestamps</li>
+<li>Creating many files quickly</li>
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- sort -->
+
+<h2>20. <span class="cmd">sort</span> — Sort File Content</h2>
+
+<p><strong>Definition:</strong><br>
+<code>sort</code> arranges lines in a file 
+<b>alphabetically or numerically</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>sort file.txt</pre>
+Sort alphabetically
+
+<pre>sort -r</pre>
+Reverse order
+
+<pre>sort -n</pre>
+Numeric sorting
+
+<pre>sort -u</pre>
+Remove duplicate lines
+
+Example:
+
+<pre>
+sort -n numbers.txt
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Commonly used before <b>uniq</b></li>
+
+<li>Example pipeline:</li>
+
+<pre>
+sort file.txt | uniq
+</pre>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- uniq -->
+
+<h2>21. <span class="cmd">uniq</span> — Remove Repeated Lines</h2>
+
+<p><strong>Definition:</strong><br>
+<code>uniq</code> removes <b>duplicate adjacent lines</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>uniq file.txt</pre>
+Remove duplicates
+
+<pre>uniq -c</pre>
+Count repeated lines
+
+<pre>uniq -d</pre>
+Show only duplicate lines
+
+Example:
+
+<pre>
+sort file.txt | uniq
+</pre>
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+
+<li>Works best with <b>sorted files</b></li>
+
+<li>Without sorting → may miss duplicates</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- head -->
+
+<h2>22. <span class="cmd">head</span> — Show Top Lines</h2>
+
+<p><strong>Definition:</strong><br>
+<code>head</code> prints <b>first few lines</b> of a file.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>head file.txt</pre>
+Shows first 10 lines
+
+<pre>head -n 5 file.txt</pre>
+Shows first 5 lines
+
+Example:
+
+<pre>
+head -n 3 file.txt
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Very useful when checking large files</li>
+
+<li>Common in log analysis</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- tail -->
+
+<h2>23. <span class="cmd">tail</span> — Show Last Lines</h2>
+
+<p><strong>Definition:</strong><br>
+<code>tail</code> prints <b>last few lines</b> of a file.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>tail file.txt</pre>
+Shows last 10 lines
+
+<pre>tail -n 5 file.txt</pre>
+Shows last 5 lines
+
+<pre>tail -f file.txt</pre>
+Shows live updates (used in logs)
+
+Example:
+
+<pre>
+tail -n 4 file.txt
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li><b>tail -f</b> is used to monitor logs live</li>
+
+<li>Very common in server troubleshooting</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Important Difference</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Shows</th>
+</tr>
+
+<tr>
+<td>head</td>
+<td>Top lines</td>
+</tr>
+
+<tr>
+<td>tail</td>
+<td>Bottom lines</td>
+</tr>
+
+</table>
+
+</div>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part B (factor, alias, unalias)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — factor, alias, unalias</h1>
+
+<!-- factor -->
+
+<h2>24. <span class="cmd">factor</span> — Find Factors of Number</h2>
+
+<p><strong>Definition:</strong><br>
+<code>factor</code> displays <b>prime factors</b> of a number.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+factor 12
+</pre>
+
+Output:
+
+<pre>
+12: 2 2 3
+</pre>
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+
+<li>Useful for <b>math calculations</b></li>
+
+<li>Helps understand <b>prime factorization</b></li>
+
+<li>Common in:
+<ul>
+<li>Math learning</li>
+<li>Cryptography basics</li>
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- alias -->
+
+<h2>25. <span class="cmd">alias</span> — Create Command Shortcut</h2>
+
+<p><strong>Definition:</strong><br>
+<code>alias</code> creates <b>short names</b> for long commands.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+alias name='command'
+</pre>
+
+Create shortcut.
+
+<h3>Example</h3>
+
+<pre>
+alias ll='ls -l'
+</pre>
+
+Now:
+
+<pre>
+ll
+</pre>
+
+acts as:
+
+<pre>
+ls -l
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Aliases are temporary (lost after logout)</li>
+
+<li>To make permanent → add to:
+<pre>
+~/.bashrc
+</pre>
+
+</li>
+
+<li>Very useful for:
+<ul>
+<li>Long commands</li>
+<li>Frequent commands</li>
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- unalias -->
+
+<h2>26. <span class="cmd">unalias</span> — Remove Command Shortcut</h2>
+
+<p><strong>Definition:</strong><br>
+<code>unalias</code> removes an <b>alias</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+unalias name
+</pre>
+
+<h3>Example</h3>
+
+<pre>
+unalias ll
+</pre>
+
+Removes shortcut.
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+
+<li>If alias exists → it will be removed</li>
+
+<li>If alias does not exist → error shown</li>
+
+<li>Useful when:
+<ul>
+<li>Wrong alias created</li>
+<li>Alias conflicts occur</li>
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Most Important Commands From This Set</h3>
+
+<ul>
+
+<li>alias</li>
+<li>unalias</li>
+
+</ul>
+
+<p>
+These commands are commonly asked in <b>shortcut-related questions</b>.
+</p>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part C (echo, ps, kill, env)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 1px solid #ffc107;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+
+.warning {
+  background:#ffe6e6;
+  border:2px solid red;
+  padding:12px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands Notes — echo, ps, kill, env</h1>
+
+<!-- echo -->
+
+<h2>27. <span class="cmd">echo</span> — Print Text / Variables</h2>
+
+<p><strong>Definition:</strong><br>
+<code>echo</code> prints <b>text or environment variables</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+echo Hello
+</pre>
+
+Prints text.
+
+<pre>
+echo $HOME
+</pre>
+
+Prints environment variable.
+
+<pre>
+echo -n
+</pre>
+
+Prints without newline.
+
+<h3>Example</h3>
+
+<pre>
+echo $USER
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Commonly used in <b>shell scripts</b></li>
+
+<li>Useful for debugging scripts</li>
+
+<li>Can print multiple values:</li>
+
+<pre>
+echo $USER $HOME
+</pre>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- ps -->
+
+<h2>28. <span class="cmd">ps</span> — Show Running Processes</h2>
+
+<p><strong>Definition:</strong><br>
+<code>ps</code> displays <b>currently running processes</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+ps
+</pre>
+
+Show current user processes.
+
+<pre>
+ps -e
+</pre>
+
+Show all processes.
+
+<pre>
+ps -f
+</pre>
+
+Full format.
+
+<pre>
+ps aux
+</pre>
+
+Detailed process list (very common).
+
+<h3>Example</h3>
+
+<pre>
+ps aux
+</pre>
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+
+<li>Shows <b>PID (Process ID)</b></li>
+
+<li>PID is needed for:
+<ul>
+<li>kill command</li>
+<li>Process management</li>
+</ul>
+
+</li>
+
+<li>Common real use:</li>
+
+<pre>
+ps aux | grep firefox
+</pre>
+
+Find specific process.
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- kill -->
+
+<h2>29. <span class="cmd">kill</span> — Terminate Process</h2>
+
+<p><strong>Definition:</strong><br>
+<code>kill</code> stops a running process.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+kill PID
+</pre>
+
+Kill process by PID.
+
+<pre>
+kill -9 PID
+</pre>
+
+Force kill process.
+
+<h3>Example</h3>
+
+<pre>
+kill 1234
+</pre>
+
+<div class="extra">
+
+<b>Extra Inputs 🧠</b>
+
+<ul>
+
+<li>Use <b>ps</b> to find PID</li>
+
+<li><b>-9</b> → Force kill (very common)</li>
+
+<li>If normal kill fails → use:</li>
+
+<pre>
+kill -9 PID
+</pre>
+
+</ul>
+
+</div>
+
+<div class="warning">
+
+<b>⚠️ Important Note:</b>
+
+Force killing may cause:
+
+<ul>
+
+<li>Data loss</li>
+
+<li>System instability</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- env -->
+
+<h2>30. <span class="cmd">env</span> — Show Environment Variables</h2>
+
+<p><strong>Definition:</strong><br>
+<code>env</code> displays <b>environment variables</b>.
+</p>
+
+<h3>Important Options ⭐</h3>
+
+<pre>
+env
+</pre>
+
+Show all environment variables.
+
+<h3>Example Output</h3>
+
+<pre>
+HOME=/home/user
+USER=user
+PATH=/usr/bin
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Environment variables control system behavior</li>
+
+<li>Most important variables:</li>
+
+<ul>
+<li>HOME</li>
+<li>USER</li>
+<li>PATH</li>
+<li>SHELL</li>
+</ul>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Most Important Commands From This Set</h3>
+
+<ul>
+
+<li>echo</li>
+<li>ps</li>
+<li>kill</li>
+<li>env</li>
+
+</ul>
+
+<p>
+These commands are <b>very commonly used in process management</b>.
+</p>
+
+</div>
+
+</body>
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part D (Important Differences)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Linux Commands — Important Differences</h1>
+
+<!-- head vs tail -->
+
+<h2><span class="cmd">head</span> vs <span class="cmd">tail</span></h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Shows</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><b>head</b></td>
+<td>Top lines</td>
+<td>Displays first few lines of file</td>
+</tr>
+
+<tr>
+<td><b>tail</b></td>
+<td>Bottom lines</td>
+<td>Displays last few lines of file</td>
+</tr>
+
+</table>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Default output for both = <b>10 lines</b></li>
+
+<li><b>head</b> used to preview beginning of file</li>
+
+<li><b>tail</b> used for:
+<ul>
+<li>Checking logs</li>
+<li>Monitoring live output</li>
+</ul>
+
+</li>
+
+<li>Most important option:</li>
+
+<pre>
+tail -f logfile.txt
+</pre>
+
+Used in real-time monitoring.
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- sort vs uniq -->
+
+<h2><span class="cmd">sort</span> vs <span class="cmd">uniq</span></h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><b>sort</b></td>
+<td>Arrange lines</td>
+<td>Sorts lines alphabetically or numerically</td>
+</tr>
+
+<tr>
+<td><b>uniq</b></td>
+<td>Remove duplicates</td>
+<td>Removes repeated adjacent lines</td>
+</tr>
+
+</table>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li><b>uniq works only on adjacent duplicates</b></li>
+
+<li>Best practice:</li>
+
+<pre>
+sort file.txt | uniq
+</pre>
+
+<li>Without sorting → duplicates may remain</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h3>⭐ Most Important Comparison Questions</h3>
+
+<ul>
+
+<li>head vs tail</li>
+
+<li>sort vs uniq</li>
+
+<li>Very common in exams</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part E (Environment Variables)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Important Environment Variables Using echo</h1>
+
+<h2>Print Environment Variables Using <span class="cmd">echo</span></h2>
+
+<p>
+Environment variables store important system information.
+They can be displayed using:
+</p>
+
+<pre>
+echo $VARIABLE_NAME
+</pre>
+
+---
+
+<h2>List of Important Environment Variables ⭐</h2>
+
+<table>
+
+<tr>
+<th>Variable</th>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td><b>HOME</b></td>
+<td><pre>echo $HOME</pre></td>
+<td>Shows user's home directory</td>
+</tr>
+
+<tr>
+<td><b>USER</b></td>
+<td><pre>echo $USER</pre></td>
+<td>Shows current username</td>
+</tr>
+
+<tr>
+<td><b>PATH</b></td>
+<td><pre>echo $PATH</pre></td>
+<td>Shows directories used to search commands</td>
+</tr>
+
+<tr>
+<td><b>SHELL</b></td>
+<td><pre>echo $SHELL</pre></td>
+<td>Shows current shell</td>
+</tr>
+
+<tr>
+<td><b>PWD</b></td>
+<td><pre>echo $PWD</pre></td>
+<td>Shows present working directory</td>
+</tr>
+
+<tr>
+<td><b>LOGNAME</b></td>
+<td><pre>echo $LOGNAME</pre></td>
+<td>Shows login name</td>
+</tr>
+
+<tr>
+<td><b>HOSTNAME</b></td>
+<td><pre>echo $HOSTNAME</pre></td>
+<td>Shows system hostname</td>
+</tr>
+
+<tr>
+<td><b>TERM</b></td>
+<td><pre>echo $TERM</pre></td>
+<td>Shows terminal type</td>
+</tr>
+
+</table>
+
+<hr>
+
+<div class="extra">
+
+<h3>Extra Notes 🧠</h3>
+
+<ul>
+
+<li><b>$PATH</b> is one of the most important variables.</li>
+
+<li>It controls where Linux searches commands.</li>
+
+Example:
+
+<pre>
+echo $PATH
+</pre>
+
+Output example:
+
+<pre>
+/usr/local/bin:/usr/bin:/bin
+</pre>
+
+<li>If command is not found → check PATH.</li>
+
+<li><b>$HOME</b> is used by:</li>
+
+<ul>
+
+<li>cd command</li>
+
+<li>login process</li>
+
+<li>user configuration files</li>
+
+</ul>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h2>⭐ Most Important Variables to Remember</h2>
+
+<ul>
+
+<li>$HOME</li>
+
+<li>$PATH</li>
+
+<li>$USER</li>
+
+<li>$PWD</li>
+
+<li>$SHELL</li>
+
+</ul>
+
+<p>
+These are <b>very frequently asked in exams</b>.
+</p>
+
+</div>
+
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part F (kill System Call & Signals)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+
+.warning {
+  background:#ffe6e6;
+  border:2px solid red;
+  padding:12px;
+  border-radius:6px;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>kill System Call — IPC Mechanism to Send Signals</h1>
+
+<!-- kill syscall -->
+
+<h2>Definition of <span class="cmd">kill()</span> System Call</h2>
+
+<p>
+The <b>kill()</b> system call is an 
+<b>Inter-Process Communication (IPC) mechanism</b>
+used to send signals from one process to another process.
+</p>
+
+<p>
+It is commonly used to:
+</p>
+
+<ul>
+
+<li>Stop a running process</li>
+
+<li>Control process behavior</li>
+
+<li>Send signals between processes</li>
+
+</ul>
+
+<hr>
+
+<h2>Basic Syntax of kill System Call</h2>
+
+<pre>
+kill(pid_t pid, int signal);
+</pre>
+
+Where:
+
+<ul>
+
+<li><b>pid</b> → Process ID</li>
+
+<li><b>signal</b> → Signal number sent to process</li>
+
+</ul>
+
+<hr>
+
+<h2>kill Command vs kill System Call</h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>kill Command</th>
+<th>kill() System Call</th>
+</tr>
+
+<tr>
+<td>Type</td>
+<td>User command</td>
+<td>System call</td>
+</tr>
+
+<tr>
+<td>Usage</td>
+<td>Terminal command</td>
+<td>Used in programs</td>
+</tr>
+
+<tr>
+<td>Purpose</td>
+<td>Send signals</td>
+<td>Send signals</td>
+</tr>
+
+<tr>
+<td>Example</td>
+<td><pre>kill 1234</pre></td>
+<td><pre>kill(pid, SIGKILL);</pre></td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Important Signals ⭐</h2>
+
+<table>
+
+<tr>
+<th>Signal Name</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><b>SIGTERM</b></td>
+<td>15</td>
+<td>Terminate process (default signal)</td>
+</tr>
+
+<tr>
+<td><b>SIGKILL</b></td>
+<td>9</td>
+<td>Forcefully kill process</td>
+</tr>
+
+<tr>
+<td><b>SIGSTOP</b></td>
+<td>19</td>
+<td>Stop (pause) process</td>
+</tr>
+
+<tr>
+<td><b>SIGCONT</b></td>
+<td>18</td>
+<td>Continue stopped process</td>
+</tr>
+
+<tr>
+<td><b>SIGINT</b></td>
+<td>2</td>
+<td>Interrupt process (Ctrl + C)</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Examples of kill Command</h2>
+
+Terminate normally:
+
+<pre>
+kill 1234
+</pre>
+
+Force terminate:
+
+<pre>
+kill -9 1234
+</pre>
+
+Stop process:
+
+<pre>
+kill -19 1234
+</pre>
+
+Continue stopped process:
+
+<pre>
+kill -18 1234
+</pre>
+
+<hr>
+
+<div class="extra">
+
+<h3>Extra Notes 🧠</h3>
+
+<ul>
+
+<li>Use <b>ps</b> command to find PID.</li>
+
+<pre>
+ps aux
+</pre>
+
+<li>Default signal of kill = <b>SIGTERM</b></li>
+
+<li>Best practice:
+<ul>
+
+<li>Use SIGTERM first</li>
+
+<li>Use SIGKILL only if needed</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="warning">
+
+<b>⚠️ Important Safety Note</b>
+
+Using <b>SIGKILL (-9)</b> may:
+
+<ul>
+
+<li>Cause data loss</li>
+
+<li>Corrupt files</li>
+
+<li>Stop critical services</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h2>⭐ Exam Important Points</h2>
+
+<ul>
+
+<li>kill() is an <b>IPC mechanism</b></li>
+
+<li>Used to <b>send signals</b></li>
+
+<li>Most important signals:
+<ul>
+
+<li>SIGTERM (15)</li>
+
+<li>SIGKILL (9)</li>
+
+<li>SIGSTOP (19)</li>
+
+<li>SIGCONT (18)</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part G (Internal vs External Commands)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Internal vs External Commands</h1>
+
+<!-- Internal Commands -->
+
+<h2>Internal Commands</h2>
+
+<p><strong>Definition:</strong><br>
+Internal commands are commands that are 
+<b>built into the shell</b>.
+They are executed directly by the shell 
+without creating a new process.
+</p>
+
+<h3>Examples of Internal Commands</h3>
+
+<pre>
+cd
+echo
+pwd
+alias
+unalias
+exit
+help
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>Internal commands are <b>faster</b></li>
+
+<li>They do not require separate executable files</li>
+
+<li>Stored inside shell memory</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- External Commands -->
+
+<h2>External Commands</h2>
+
+<p><strong>Definition:</strong><br>
+External commands are commands that exist as 
+<b>separate executable files</b> 
+in the file system.
+</p>
+
+<h3>Examples of External Commands</h3>
+
+<pre>
+ls
+cp
+mv
+rm
+cat
+ps
+kill
+sort
+uniq
+</pre>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>External commands require executable files</li>
+
+<li>Usually stored in:</li>
+
+<pre>
+/bin
+/usr/bin
+</pre>
+
+<li>They create a new process when executed</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- Internal vs External Table -->
+
+<h2>Internal vs External Commands ⭐</h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>Internal Commands</th>
+<th>External Commands</th>
+</tr>
+
+<tr>
+<td>Location</td>
+<td>Inside shell</td>
+<td>Stored as files</td>
+</tr>
+
+<tr>
+<td>Execution</td>
+<td>Executed directly</td>
+<td>Requires new process</td>
+</tr>
+
+<tr>
+<td>Speed</td>
+<td>Faster</td>
+<td>Slower</td>
+</tr>
+
+<tr>
+<td>Memory</td>
+<td>Less overhead</td>
+<td>More overhead</td>
+</tr>
+
+<tr>
+<td>Examples</td>
+<td>cd, echo</td>
+<td>ls, cp</td>
+</tr>
+
+</table>
+
+<hr>
+
+<!-- help vs man -->
+
+<h2><span class="cmd">help</span> vs <span class="cmd">man</span></h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>help</th>
+<th>man</th>
+</tr>
+
+<tr>
+<td>Purpose</td>
+<td>Help for built-in commands</td>
+<td>Help for all commands</td>
+</tr>
+
+<tr>
+<td>Works For</td>
+<td>Internal commands</td>
+<td>Internal + External commands</td>
+</tr>
+
+<tr>
+<td>Output</td>
+<td>Short help</td>
+<td>Detailed manual</td>
+</tr>
+
+<tr>
+<td>Speed</td>
+<td>Faster</td>
+<td>Slightly slower</td>
+</tr>
+
+<tr>
+<td>Example</td>
+<td><pre>help cd</pre></td>
+<td><pre>man ls</pre></td>
+</tr>
+
+</table>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li><b>help</b> works only for built-in commands</li>
+
+<li><b>man</b> provides detailed documentation</li>
+
+<li>Very common exam question</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<div class="exam">
+
+<h2>⭐ Exam Important Points</h2>
+
+<ul>
+
+<li>Internal commands → Built into shell</li>
+
+<li>External commands → Stored as files</li>
+
+<li>help → Built-in commands</li>
+
+<li>man → All commands</li>
+
+<li>Internal commands execute faster</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Commands Notes — Part H (Synchronous vs Asynchronous Execution)</title>
+
+<style>
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f9f9fb;
+  color: #222;
+  margin: 40px;
+}
+
+h1, h2, h3 {
+  color: #2c5aa0;
+  border-bottom: 2px solid #0077cc;
+  padding-bottom: 5px;
+}
+
+h2 { font-size: 1.3em; margin-top: 30px; }
+h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 15px 0;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+}
+
+th {
+  background: #0055cc;
+  color: white;
+}
+
+pre {
+  background: #f0f0f0;
+  padding: 10px;
+  border-left: 3px solid #0077cc;
+}
+
+.cmd {
+  color: #a00000;
+  font-weight: 600;
+}
+
+.extra {
+  background:#e8f4ff;
+  border:1px solid #0077cc;
+  padding:10px;
+  border-radius:6px;
+}
+
+.exam {
+  background: #fff8e1;
+  border: 2px solid #ffc107;
+  padding: 15px;
+  border-radius: 6px;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>Synchronous vs Asynchronous Execution</h1>
+
+<!-- Synchronous -->
+
+<h2>Synchronous Execution</h2>
+
+<p><strong>Definition:</strong><br>
+Synchronous execution means that 
+<b>one command runs at a time</b>.
+The next command starts only 
+<b>after the previous command finishes</b>.
+</p>
+
+<h3>Example</h3>
+
+<pre>
+ls
+pwd
+date
+</pre>
+
+Explanation:
+
+<ul>
+
+<li>First <b>ls</b> runs</li>
+
+<li>After completion → <b>pwd</b> runs</li>
+
+<li>Then → <b>date</b> runs</li>
+
+</ul>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li>This is the <b>default execution mode</b></li>
+
+<li>Most commands run synchronously</li>
+
+<li>Also called <b>Foreground Execution</b></li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- Asynchronous -->
+
+<h2>Asynchronous Execution</h2>
+
+<p><strong>Definition:</strong><br>
+Asynchronous execution means that 
+<b>multiple commands run simultaneously</b>.
+The shell does <b>not wait</b> 
+for the previous command to finish.
+</p>
+
+<h3>Syntax</h3>
+
+<pre>
+command &
+</pre>
+
+<h3>Example</h3>
+
+<pre>
+sleep 10 &
+</pre>
+
+Explanation:
+
+<ul>
+
+<li>Command runs in <b>background</b></li>
+
+<li>Terminal becomes free immediately</li>
+
+<li>User can run another command</li>
+
+</ul>
+
+<div class="extra">
+
+<b>Extra Notes 🧠</b>
+
+<ul>
+
+<li><b>&</b> symbol sends process to background</li>
+
+<li>Also called <b>Background Execution</b></li>
+
+<li>Very useful for:
+<ul>
+
+<li>Long-running tasks</li>
+
+<li>Downloads</li>
+
+<li>Server processes</li>
+
+</ul>
+
+</li>
+
+</ul>
+
+</div>
+
+<hr>
+
+<!-- Foreground vs Background -->
+
+<h2>Foreground vs Background Execution</h2>
+
+<table>
+
+<tr>
+<th>Execution Type</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td><b>Foreground</b></td>
+<td>Command runs in front and blocks terminal</td>
+</tr>
+
+<tr>
+<td><b>Background</b></td>
+<td>Command runs in background and frees terminal</td>
+</tr>
+
+</table>
+
+<hr>
+
+<!-- Comparison -->
+
+<h2>Synchronous vs Asynchronous ⭐</h2>
+
+<table>
+
+<tr>
+<th>Feature</th>
+<th>Synchronous</th>
+<th>Asynchronous</th>
+</tr>
+
+<tr>
+<td>Execution</td>
+<td>One at a time</td>
+<td>Multiple simultaneously</td>
+</tr>
+
+<tr>
+<td>Waiting</td>
+<td>Waits to finish</td>
+<td>Does not wait</td>
+</tr>
+
+<tr>
+<td>Terminal</td>
+<td>Blocked</td>
+<td>Free</td>
+</tr>
+
+<tr>
+<td>Operator</td>
+<td>None</td>
+<td>&</td>
+</tr>
+
+<tr>
+<td>Also Called</td>
+<td>Foreground</td>
+<td>Background</td>
+</tr>
+
+</table>
+
+<hr>
+
+<div class="exam">
+
+<h2>⭐ Exam Important Points</h2>
+
+<ul>
+
+<li>Synchronous → Foreground execution</li>
+
+<li>Asynchronous → Background execution</li>
+
+<li><b>&</b> → Background operator</li>
+
+<li>Default execution = Synchronous</li>
+
+<li>Very common exam question</li>
+
+</ul>
+
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,2991 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Basics - Part 1</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+    padding-bottom: 5px;
+}
+
+h3 {
+    color: #117864;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+    font-family: Consolas;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.note {
+    background-color: #fff9e6;
+    border-left: 6px solid #f1c40f;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands Basics — Part 1</h1>
+
+<hr>
+
+<h2>📌 Key Concepts</h2>
+
+<ul>
+<li>Linux commands are <span class="highlight">case-sensitive</span>.</li>
+<li><span class="code">.</span> → Current directory</li>
+<li><span class="code">..</span> → Parent directory</li>
+<li><span class="code">~</span> → Home directory</li>
+<li>Hidden files start with <span class="code">.</span></li>
+<li><span class="code">sudo</span> → Run commands with administrator privileges</li>
+<li><span class="code">man &lt;command&gt;</span> → Opens manual page</li>
+<li>
+<span class="underline">Standard Streams:</span>
+<ul>
+<li><b>stdin</b> → Standard Input</li>
+<li><b>stdout</b> → Standard Output</li>
+<li><b>stderr</b> → Standard Error</li>
+</ul>
+</li>
+
+</ul>
+
+<hr>
+
+<h2>📂 Navigation Commands</h2>
+
+<h3>📍 pwd — Print Working Directory</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">pwd</td>
+<td>Show full path of current directory</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📁 cd — Change Directory</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">cd folder</td>
+<td>Move into folder</td>
+</tr>
+
+<tr>
+<td class="code">cd ..</td>
+<td>Go to parent directory</td>
+</tr>
+
+<tr>
+<td class="code">cd ~</td>
+<td>Go to home directory</td>
+</tr>
+
+<tr>
+<td class="code">cd -</td>
+<td>Return to previous directory</td>
+</tr>
+
+<tr>
+<td class="code">cd /</td>
+<td>Go to root directory</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📄 ls — List Files</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">ls</td>
+<td>List files</td>
+</tr>
+
+<tr>
+<td class="code">ls -l</td>
+<td>Long listing format</td>
+</tr>
+
+<tr>
+<td class="code">ls -a</td>
+<td>Show hidden files</td>
+</tr>
+
+<tr>
+<td class="code">ls -la</td>
+<td>Long listing with hidden files</td>
+</tr>
+
+<tr>
+<td class="code">ls -lh</td>
+<td>Human readable file sizes</td>
+</tr>
+
+<tr>
+<td class="code">ls -R</td>
+<td>Recursive listing</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+<span class="code">ls -la</span> is commonly used to show full details including hidden files.
+</div>
+
+<hr>
+
+<h2>🌎 Environment Variables</h2>
+
+<h3>echo — Print Text or Variables</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">echo "Hello"</td>
+<td>Print text</td>
+</tr>
+
+<tr>
+<td class="code">echo $HOME</td>
+<td>Show home directory</td>
+</tr>
+
+<tr>
+<td class="code">echo $USER</td>
+<td>Show username</td>
+</tr>
+
+<tr>
+<td class="code">echo $PATH</td>
+<td>Show executable path</td>
+</tr>
+
+<tr>
+<td class="code">echo $$</td>
+<td>Show process ID</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>env — Show Environment Variables</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">env</td>
+<td>Display all environment variables</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>📁 Directory Management</h2>
+
+<h3>mkdir — Create Directory</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">mkdir dirname</td>
+<td>Create one directory</td>
+</tr>
+
+<tr>
+<td class="code">mkdir dir1 dir2</td>
+<td>Create multiple directories</td>
+</tr>
+
+<tr>
+<td class="code">mkdir -p a/b/c</td>
+<td>Create nested directories</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 <b>NOTE:</b>  
+<span class="code">mkdir -p</span> creates parent directories automatically.
+</div>
+
+<hr>
+
+<h3>rmdir — Remove Empty Directory</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">rmdir dirname</td>
+<td>Remove empty directory</td>
+</tr>
+
+<tr>
+<td class="code">rmdir dir1 dir2</td>
+<td>Remove multiple directories</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>tree — Show Directory Structure</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">tree</td>
+<td>Show directory structure</td>
+</tr>
+
+<tr>
+<td class="code">tree dirname</td>
+<td>Show specific directory</td>
+</tr>
+
+<tr>
+<td class="code">tree -a</td>
+<td>Include hidden files</td>
+</tr>
+
+<tr>
+<td class="code">tree -L 2</td>
+<td>Limit depth to 2 levels</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 <b>NOTE:</b>  
+The <span class="code">tree</span> command may need installation.
+</div>
+
+<hr>
+
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Basics - Part 2</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #117864;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+}
+
+.note {
+    background-color: #fff9e6;
+    border-left: 6px solid #f1c40f;
+    padding: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands Basics — Part 2</h1>
+
+<hr>
+
+<h2>📂 File Management Commands</h2>
+
+<h3>📄 touch — Create Files</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">touch file.txt</td>
+<td>Create empty file</td>
+</tr>
+
+<tr>
+<td class="code">touch f1.txt f2.txt</td>
+<td>Create multiple files</td>
+</tr>
+
+<tr>
+<td class="code">touch existing.txt</td>
+<td>Update timestamp</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📖 cat — Display or Write File Content</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">cat file.txt</td>
+<td>Display file content</td>
+</tr>
+
+<tr>
+<td class="code">cat f1.txt f2.txt</td>
+<td>Display multiple files</td>
+</tr>
+
+<tr>
+<td class="code">cat > file.txt</td>
+<td>Write new content</td>
+</tr>
+
+<tr>
+<td class="code">cat >> file.txt</td>
+<td>Append content</td>
+</tr>
+
+<tr>
+<td class="code">cat -n file.txt</td>
+<td>Show line numbers</td>
+</tr>
+
+<tr>
+<td class="code">cat -b file.txt</td>
+<td>Number non-empty lines</td>
+</tr>
+
+<tr>
+<td class="code">cat -s file.txt</td>
+<td>Squeeze blank lines</td>
+</tr>
+
+</table>
+
+<div class="warning">
+⚠ <b>WARNING:</b>  
+<span class="code">cat > file.txt</span> will overwrite existing content.
+</div>
+
+<hr>
+
+<h3>📋 cp — Copy Files and Directories</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">cp file.txt copy.txt</td>
+<td>Copy file</td>
+</tr>
+
+<tr>
+<td class="code">cp file.txt dir1</td>
+<td>Copy file to directory</td>
+</tr>
+
+<tr>
+<td class="code">cp file.txt dir1/new.txt</td>
+<td>Copy and rename</td>
+</tr>
+
+<tr>
+<td class="code">cp -r dir1 copy</td>
+<td>Copy directory recursively</td>
+</tr>
+
+<tr>
+<td class="code">cp -R folder backup</td>
+<td>Copy full folder</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📦 mv — Move or Rename Files</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">mv file.txt new.txt</td>
+<td>Rename file</td>
+</tr>
+
+<tr>
+<td class="code">mv file.txt dir</td>
+<td>Move file</td>
+</tr>
+
+<tr>
+<td class="code">mv dir1 dir2</td>
+<td>Rename directory</td>
+</tr>
+
+<tr>
+<td class="code">mv file.txt ~/Desktop</td>
+<td>Move file to location</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>🔁 rename — Rename Multiple Files</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">
+rename 's/.txt$/.html/' *.txt
+</td>
+
+<td>
+Rename all .txt files to .html
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h3>🔗 ln — Create Links</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">ln file1 hardlink</td>
+<td>Create hard link</td>
+</tr>
+
+<tr>
+<td class="code">ln -s file1 link</td>
+<td>Create symbolic link</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+Symbolic links behave like shortcuts in Windows.
+</div>
+
+<hr>
+
+<h3>📡 mkfifo — Create Named Pipe</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">mkfifo fifo</td>
+<td>Create named pipe</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>🗑 rm — Remove Files and Directories</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">rm file.txt</td>
+<td>Delete file</td>
+</tr>
+
+<tr>
+<td class="code">rm f1.txt f2.txt</td>
+<td>Delete multiple files</td>
+</tr>
+
+<tr>
+<td class="code">rm *.txt</td>
+<td>Delete all txt files</td>
+</tr>
+
+<tr>
+<td class="code">rm -i file.txt</td>
+<td>Ask before deleting</td>
+</tr>
+
+<tr>
+<td class="code">rm -r dirname</td>
+<td>Delete directory</td>
+</tr>
+
+<tr>
+<td class="code">rm -rf dirname</td>
+<td>Force delete</td>
+</tr>
+
+</table>
+
+<div class="warning">
+⚠ <b>DANGEROUS COMMAND:</b>  
+<span class="code">rm -rf</span> permanently deletes files without confirmation.
+</div>
+
+<hr>
+
+</body>
+
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Basics - Part 3</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #117864;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+}
+
+.note {
+    background-color: #fff9e6;
+    border-left: 6px solid #f1c40f;
+    padding: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands Basics — Part 3</h1>
+
+<hr>
+
+<h2>📖 Viewing and Inspecting File Content</h2>
+
+<h3>📌 head — Show Beginning of File</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">head file.txt</td>
+<td>Show first 10 lines</td>
+</tr>
+
+<tr>
+<td class="code">head -5 file.txt</td>
+<td>Show first 5 lines</td>
+</tr>
+
+<tr>
+<td class="code">head -4 file.txt</td>
+<td>Show first 4 lines</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+Use <span class="code">head</span> when you want to quickly preview file contents.
+</div>
+
+<hr>
+
+<h3>📌 tail — Show End of File</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">tail file.txt</td>
+<td>Show last 10 lines</td>
+</tr>
+
+<tr>
+<td class="code">tail -7 file.txt</td>
+<td>Show last 7 lines</td>
+</tr>
+
+<tr>
+<td class="code">tail -2 file.txt</td>
+<td>Show last 2 lines</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+<span class="code">tail</span> is very useful for monitoring logs.
+</div>
+
+<hr>
+
+<h3>📌 wc — Word, Line, and Byte Count</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">wc file.txt</td>
+<td>Show line, word, byte count</td>
+</tr>
+
+<tr>
+<td class="code">wc -l file.txt</td>
+<td>Show line count</td>
+</tr>
+
+<tr>
+<td class="code">wc -w file.txt</td>
+<td>Show word count</td>
+</tr>
+
+<tr>
+<td class="code">wc -c file.txt</td>
+<td>Show byte count</td>
+</tr>
+
+<tr>
+<td class="code">wc -m file.txt</td>
+<td>Show character count</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 <b>NOTE:</b>  
+<span class="code">wc</span> is commonly used to count lines in log files.
+</div>
+
+<hr>
+
+<h3>📌 tac — Reverse Line Order</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">tac file.txt</td>
+<td>Display lines in reverse order</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+<span class="code">tac</span> is reverse of <span class="code">cat</span>.
+</div>
+
+<hr>
+
+<h3>📌 rev — Reverse Characters in Lines</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">rev file.txt</td>
+<td>Reverse characters of each line</td>
+</tr>
+
+<tr>
+<td class="code">rev &lt; input.txt</td>
+<td>Reverse file input</td>
+</tr>
+
+<tr>
+<td class="code">rev &gt; output.txt</td>
+<td>Save reversed output</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 <b>NOTE:</b>  
+Use <span class="code">tac</span> for reversing lines and  
+<span class="code">rev</span> for reversing characters.
+</div>
+
+<hr>
+
+<h2>⭐ Important Combination Example</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">
+head -10 file.txt | tail -5
+</td>
+
+<td>
+Show lines 6 to 10 from first 10 lines
+</td>
+
+</tr>
+
+</table>
+
+<div class="highlight">
+⭐ This command is frequently asked in exams.
+</div>
+
+<hr>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Basics - Part 4</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #117864;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+}
+
+.note {
+    background-color: #fff9e6;
+    border-left: 6px solid #f1c40f;
+    padding: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands Basics — Part 4</h1>
+
+<hr>
+
+<h2>🔢 Sorting and Filtering Commands</h2>
+
+<h3>📌 sort — Sort Lines</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">sort file.txt</td>
+<td>Sort lines alphabetically</td>
+</tr>
+
+<tr>
+<td class="code">sort -n file.txt</td>
+<td>Sort numerically</td>
+</tr>
+
+<tr>
+<td class="code">sort file.txt > sorted.txt</td>
+<td>Save sorted output</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>TIP:</b>  
+Use <span class="code">sort -n</span> when sorting numbers.
+</div>
+
+<hr>
+
+<h3>📌 uniq — Remove Duplicate Lines</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">uniq file.txt</td>
+<td>Remove consecutive duplicate lines</td>
+</tr>
+
+<tr>
+<td class="code">sort file.txt | uniq</td>
+<td>Sort then remove duplicates</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 <b>NOTE:</b>  
+<span class="code">uniq</span> removes only adjacent duplicates.
+</div>
+
+<hr>
+
+<h2>🔤 Text Processing Commands</h2>
+
+<h3>📌 tr — Translate Characters</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">
+echo "Hello SunBeam" | tr " " "#"
+</td>
+
+<td>
+Replace spaces with #
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+echo "abc" | tr "a-z" "A-Z"
+</td>
+
+<td>
+Convert lowercase to uppercase
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+echo "ABC" | tr "A-Z" "a-z"
+</td>
+
+<td>
+Convert uppercase to lowercase
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+tr -s " "
+</td>
+
+<td>
+Squeeze repeated spaces
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 cut — Extract Fields</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">
+cut -d "," -f2 students.csv
+</td>
+
+<td>
+Extract column 2
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+cut -d "," -f3,4 students.csv
+</td>
+
+<td>
+Extract multiple columns
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+cut -d "," -f2-4 students.csv
+</td>
+
+<td>
+Extract range of columns
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h2>🔁 Pipes and Redirection</h2>
+
+<h3>📌 Pipes — Send Output to Another Command</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">
+sort file.txt | uniq
+</td>
+
+<td>
+Send sorted output to uniq
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+head -10 file.txt | tail -5
+</td>
+
+<td>
+Show middle lines
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+echo "Hello" | tr " " "#"
+</td>
+
+<td>
+Replace spaces
+</td>
+
+</tr>
+
+</table>
+
+<div class="highlight">
+⭐ Pipe symbol <span class="code">|</span> is heavily used in Linux.
+</div>
+
+<hr>
+
+<h3>📌 Output Redirection</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">
+command > file.txt
+</td>
+
+<td>
+Overwrite file output
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+command >> file.txt
+</td>
+
+<td>
+Append output
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+command 2> error.txt
+</td>
+
+<td>
+Save errors only
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+command > out.txt 2>&1
+</td>
+
+<td>
+Save output and errors together
+</td>
+
+</tr>
+
+</table>
+
+<div class="warning">
+⚠ <b>WARNING:</b>  
+<span class="code">></span> overwrites existing file content.
+</div>
+
+<hr>
+
+<h3>📌 Input Redirection</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">
+command < input.txt
+</td>
+
+<td>
+Read input from file
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+bc < input > output
+</td>
+
+<td>
+Read input and save output
+</td>
+
+</tr>
+
+</table>
+
+<hr>
+
+<h2>⭐ Important Exam Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td class="code">
+sort numbers.txt | uniq
+</td>
+
+<td>
+Remove duplicate numbers
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+command > out.txt 2>&1
+</td>
+
+<td>
+Store output + errors
+</td>
+
+</tr>
+
+<tr>
+<td class="code">
+head -10 file.txt | tail -5
+</td>
+
+<td>
+Extract middle lines
+</td>
+
+</tr>
+
+</table>
+
+<div class="highlight">
+⭐ These combinations are commonly asked in exams.
+</div>
+
+<hr>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Basics - Part 5</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    color: #1a5276;
+    border-bottom: 3px solid #3498db;
+}
+
+h3 {
+    color: #117864;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+}
+
+.note {
+    background-color: #fff9e6;
+    border-left: 6px solid #f1c40f;
+    padding: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands Basics — Part 5</h1>
+
+<hr>
+
+<h2>🖥 System and Utility Commands</h2>
+
+<h3>📄 vim — Text Editor</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">vim file.txt</td>
+<td>Open file in Vim editor</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 Vim is one of the most commonly used Linux text editors.
+</div>
+
+<hr>
+
+<h3>📌 uname — System Information</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">uname</td>
+<td>Show system name</td>
+</tr>
+
+<tr>
+<td class="code">uname -a</td>
+<td>Show complete system information</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 hostname — Show Host Name</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">hostname</td>
+<td>Display system hostname</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 date — Show Date and Time</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">date</td>
+<td>Show current date and time</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 cal — Show Calendar</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">cal</td>
+<td>Show current month</td>
+</tr>
+
+<tr>
+<td class="code">cal 2026</td>
+<td>Show full year calendar</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 ps — Process Status</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">ps</td>
+<td>Show current processes</td>
+</tr>
+
+<tr>
+<td class="code">ps -ef</td>
+<td>Show all running processes</td>
+</tr>
+
+<tr>
+<td class="code">ps -e</td>
+<td>Show all processes</td>
+</tr>
+
+<tr>
+<td class="code">ps -e -o pid,cmd</td>
+<td>Show PID and command</td>
+</tr>
+
+<tr>
+<td class="code">ps -e -o pid,ppid,cmd</td>
+<td>Show PID and Parent PID</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 kill — Stop Process</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">kill 1234</td>
+<td>Stop process with PID 1234</td>
+</tr>
+
+<tr>
+<td class="code">kill -9 1234</td>
+<td>Force stop process</td>
+</tr>
+
+</table>
+
+<div class="warning">
+⚠ Use <span class="code">kill -9</span> only when necessary.
+</div>
+
+<hr>
+
+<h3>📌 whoami — Current User</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">whoami</td>
+<td>Show logged-in username</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 who — Logged Users</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">who</td>
+<td>Show logged users</td>
+</tr>
+
+<tr>
+<td class="code">who am i</td>
+<td>Show current session info</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 users — Show User Names</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">users</td>
+<td>Show usernames</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 reboot — Restart System</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">reboot</td>
+<td>Restart system</td>
+</tr>
+
+<tr>
+<td class="code">init 6</td>
+<td>Restart using init</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 poweroff — Shutdown System</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">poweroff</td>
+<td>Shutdown system</td>
+</tr>
+
+<tr>
+<td class="code">init 0</td>
+<td>Shutdown using init</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 alias — Create Shortcut Commands</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">alias ll='ls -la'</td>
+<td>Create shortcut command</td>
+</tr>
+
+<tr>
+<td class="code">alias</td>
+<td>Show aliases</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 unalias — Remove Shortcut</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">unalias ll</td>
+<td>Remove alias</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 stat — Show File Details</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">stat file.txt</td>
+<td>Show file information</td>
+</tr>
+
+<tr>
+<td class="code">stat file.txt -c %y</td>
+<td>Show modification time</td>
+</tr>
+
+<tr>
+<td class="code">stat file.txt -c %h</td>
+<td>Show hard link count</td>
+</tr>
+
+<tr>
+<td class="code">stat file.txt -c "%F %A"</td>
+<td>Show type and permissions</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 man — Manual Pages</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">man ls</td>
+<td>Open manual for ls</td>
+</tr>
+
+<tr>
+<td class="code">man mkdir</td>
+<td>Open mkdir manual</td>
+</tr>
+
+<tr>
+<td class="code">man 2 mkdir</td>
+<td>Open section 2</td>
+</tr>
+
+<tr>
+<td class="code">man 3 printf</td>
+<td>Open library section</td>
+</tr>
+
+</table>
+
+<div class="note">
+📌 Common Sections:
+<br>1 → User Commands  
+<br>2 → System Calls  
+<br>3 → Library Functions  
+<br>5 → File Formats  
+<br>8 → Admin Commands  
+</div>
+
+<hr>
+
+<h3>📌 history — Command History</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td class="code">history</td>
+<td>Show previous commands</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h3>📌 sudo — Run as Administrator</h3>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">sudo command</td>
+<td>Run command as admin</td>
+</tr>
+
+</table>
+
+<div class="highlight">
+⭐ sudo is required for most administrative commands.
+</div>
+
+<hr>
+
+<h2>⭐ Important Commands to Remember</h2>
+
+<ul>
+
+<li class="highlight">ps -ef → Show all processes</li>
+
+<li class="highlight">kill -9 → Force stop process</li>
+
+<li class="highlight">uname -a → Full system info</li>
+
+<li class="highlight">alias → Create shortcuts</li>
+
+<li class="highlight">history → Show command history</li>
+
+<li class="highlight">sudo → Run as administrator</li>
+
+</ul>
+
+<hr>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Commands Quick Revision</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial, sans-serif;
+    background-color: #eef2f7;
+    margin: 20px;
+}
+
+h1 {
+    color: white;
+    background-color: #2c3e50;
+    padding: 14px;
+    border-radius: 8px;
+}
+
+h2 {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    background-color: #1a5276;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.code {
+    background-color: #2d3436;
+    color: #00ffcc;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+.tip {
+    background-color: #e8f8f5;
+    border-left: 6px solid #1abc9c;
+    padding: 10px;
+}
+
+.warning {
+    background-color: #fdecea;
+    border-left: 6px solid #e74c3c;
+    padding: 10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🐧 Linux Commands — Quick Revision Sheet</h1>
+
+<hr>
+
+<h2>📂 Navigation Commands</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Show current directory</td>
+<td class="code">pwd</td>
+</tr>
+
+<tr>
+<td>List files</td>
+<td class="code">ls</td>
+</tr>
+
+<tr>
+<td>Detailed list</td>
+<td class="code">ls -la</td>
+</tr>
+
+<tr>
+<td>Change directory</td>
+<td class="code">cd dir</td>
+</tr>
+
+<tr>
+<td>Go parent directory</td>
+<td class="code">cd ..</td>
+</tr>
+
+<tr>
+<td>Go home directory</td>
+<td class="code">cd ~</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>📁 File Management</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Create file</td>
+<td class="code">touch file.txt</td>
+</tr>
+
+<tr>
+<td>Copy file</td>
+<td class="code">cp file1 file2</td>
+</tr>
+
+<tr>
+<td>Move file</td>
+<td class="code">mv file dir</td>
+</tr>
+
+<tr>
+<td>Rename file</td>
+<td class="code">mv old new</td>
+</tr>
+
+<tr>
+<td>Delete file</td>
+<td class="code">rm file.txt</td>
+</tr>
+
+<tr>
+<td>Create directory</td>
+<td class="code">mkdir dir</td>
+</tr>
+
+<tr>
+<td>Delete directory</td>
+<td class="code">rm -r dir</td>
+</tr>
+
+</table>
+
+<div class="warning">
+⚠ <b>DANGEROUS:</b>  
+<span class="code">rm -rf</span> deletes permanently.
+</div>
+
+<hr>
+
+<h2>📖 File Viewing</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Show file</td>
+<td class="code">cat file.txt</td>
+</tr>
+
+<tr>
+<td>First lines</td>
+<td class="code">head file.txt</td>
+</tr>
+
+<tr>
+<td>Last lines</td>
+<td class="code">tail file.txt</td>
+</tr>
+
+<tr>
+<td>Count lines</td>
+<td class="code">wc -l file.txt</td>
+</tr>
+
+<tr>
+<td>Reverse lines</td>
+<td class="code">tac file.txt</td>
+</tr>
+
+<tr>
+<td>Reverse characters</td>
+<td class="code">rev file.txt</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>🔤 Text Processing</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Sort lines</td>
+<td class="code">sort file.txt</td>
+</tr>
+
+<tr>
+<td>Remove duplicates</td>
+<td class="code">uniq file.txt</td>
+</tr>
+
+<tr>
+<td>Translate text</td>
+<td class="code">tr</td>
+</tr>
+
+<tr>
+<td>Extract columns</td>
+<td class="code">cut</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>🔁 Pipes and Redirection</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Pipe output</td>
+<td class="code">command1 | command2</td>
+</tr>
+
+<tr>
+<td>Save output</td>
+<td class="code">command > file</td>
+</tr>
+
+<tr>
+<td>Append output</td>
+<td class="code">command >> file</td>
+</tr>
+
+<tr>
+<td>Save errors</td>
+<td class="code">command 2> error.txt</td>
+</tr>
+
+<tr>
+<td>Save output + error</td>
+<td class="code">command > out.txt 2>&1</td>
+</tr>
+
+</table>
+
+<div class="highlight">
+⭐ Most Important Symbols:  
+|  >  >>  <  2>
+</div>
+
+<hr>
+
+<h2>🖥 System Commands</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>System info</td>
+<td class="code">uname -a</td>
+</tr>
+
+<tr>
+<td>Show hostname</td>
+<td class="code">hostname</td>
+</tr>
+
+<tr>
+<td>Show date</td>
+<td class="code">date</td>
+</tr>
+
+<tr>
+<td>Show processes</td>
+<td class="code">ps -ef</td>
+</tr>
+
+<tr>
+<td>Kill process</td>
+<td class="code">kill pid</td>
+</tr>
+
+<tr>
+<td>Current user</td>
+<td class="code">whoami</td>
+</tr>
+
+<tr>
+<td>Logged users</td>
+<td class="code">who</td>
+</tr>
+
+<tr>
+<td>Command history</td>
+<td class="code">history</td>
+</tr>
+
+<tr>
+<td>Run admin command</td>
+<td class="code">sudo</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>⭐ Most Frequently Used Commands</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+
+<tr>
+<td class="code">ls -la</td>
+<td>Detailed listing</td>
+</tr>
+
+<tr>
+<td class="code">mkdir -p a/b/c</td>
+<td>Create nested directories</td>
+</tr>
+
+<tr>
+<td class="code">cp -r dir1 dir2</td>
+<td>Copy directory</td>
+</tr>
+
+<tr>
+<td class="code">head -10 file | tail -5</td>
+<td>Show middle lines</td>
+</tr>
+
+<tr>
+<td class="code">sort file | uniq</td>
+<td>Remove duplicates</td>
+</tr>
+
+<tr>
+<td class="code">command > out.txt 2>&1</td>
+<td>Save output + errors</td>
+</tr>
+
+</table>
+
+<div class="tip">
+💡 <b>REVISION TIP:</b>  
+Practice these commands daily in terminal.
+</div>
+
+<hr>
+
+<h2>🎯 Final Summary</h2>
+
+<ul>
+
+<li>
+Linux command line includes:
+<span class="highlight">
+Navigation, File Management, Viewing, Sorting,
+Pipes, Redirection, and System Commands.
+</span>
+</li>
+
+<li>
+Most important flags:
+<span class="code">
+-l  -a  -r  -R  -n  -i  -p
+</span>
+</li>
+
+<li>
+Important symbols:
+<span class="code">
+|  >  >>  <  2>
+</span>
+</li>
+
+</ul>
+
+<hr>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Real Command Usage</title>
+
+<style>
+
+body {
+    font-family: Consolas, Arial;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+h2 {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #1a5276;
+    color: white;
+    padding: 8px;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.code {
+    background-color: black;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>⭐ Real Linux Command Usage</h1>
+
+<h2>📂 File Search</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Find file by name</td>
+<td class="code">find . -name "file.txt"</td>
+</tr>
+
+<tr>
+<td>Find files larger than 5MB</td>
+<td class="code">find . -size +5M</td>
+</tr>
+
+<tr>
+<td>Find files modified today</td>
+<td class="code">find . -mtime 0</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>🔍 Search Inside Files</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Search word</td>
+<td class="code">grep "error" file.txt</td>
+</tr>
+
+<tr>
+<td>Ignore case</td>
+<td class="code">grep -i "error" file.txt</td>
+</tr>
+
+<tr>
+<td>Search recursively</td>
+<td class="code">grep -r "error" .</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>📊 Disk Usage</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Show disk usage</td>
+<td class="code">df -h</td>
+</tr>
+
+<tr>
+<td>Show folder size</td>
+<td class="code">du -sh *</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>📦 Archive Commands</h2>
+
+<table>
+
+<tr>
+<th>Task</th>
+<th>Command</th>
+</tr>
+
+<tr>
+<td>Create tar archive</td>
+<td class="code">tar -cvf backup.tar folder</td>
+</tr>
+
+<tr>
+<td>Extract archive</td>
+<td class="code">tar -xvf backup.tar</td>
+</tr>
+
+<tr>
+<td>Create gzip archive</td>
+<td class="code">tar -czvf backup.tar.gz folder</td>
+</tr>
+
+</table>
+
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Linux Permissions Guide</title>
+
+<style>
+
+body {
+    font-family: Consolas;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px;
+}
+
+h2 {
+    background-color: #3498db;
+    color: white;
+    padding: 8px;
+}
+
+.code {
+    background-color: black;
+    color: #00ffcc;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #1a5276;
+    color: white;
+}
+
+td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🔐 Linux File Permissions Guide</h1>
+
+<h2>Permission Types</h2>
+
+<table>
+
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Value</th>
+</tr>
+
+<tr>
+<td>r</td>
+<td>Read</td>
+<td>4</td>
+</tr>
+
+<tr>
+<td>w</td>
+<td>Write</td>
+<td>2</td>
+</tr>
+
+<tr>
+<td>x</td>
+<td>Execute</td>
+<td>1</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Permission Groups</h2>
+
+<table>
+
+<tr>
+<th>Group</th>
+<th>Description</th>
+</tr>
+
+<tr>
+<td>User (u)</td>
+<td>Owner</td>
+</tr>
+
+<tr>
+<td>Group (g)</td>
+<td>Group members</td>
+</tr>
+
+<tr>
+<td>Others (o)</td>
+<td>Everyone else</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>Numeric Permission Examples</h2>
+
+<table>
+
+<tr>
+<th>Permission</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">777</td>
+<td>Full access to all</td>
+</tr>
+
+<tr>
+<td class="code">755</td>
+<td>Owner full, others read</td>
+</tr>
+
+<tr>
+<td class="code">644</td>
+<td>Owner write, others read</td>
+</tr>
+
+</table>
+
+<hr>
+
+<h2>chmod Examples</h2>
+
+<table>
+
+<tr>
+<th>Command</th>
+<th>Meaning</th>
+</tr>
+
+<tr>
+<td class="code">chmod 755 file.sh</td>
+<td>Set executable permission</td>
+</tr>
+
+<tr>
+<td class="code">chmod +x script.sh</td>
+<td>Add execute permission</td>
+</tr>
+
+<tr>
+<td class="code">chmod u+r file.txt</td>
+<td>Add read permission to user</td>
+</tr>
+
+</table>
+
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Find and Grep Advanced</title>
+
+<style>
+
+body {
+    font-family: Consolas;
+    background-color: #f4f6f9;
+    margin: 20px;
+}
+
+h1 {
+    background-color: #2c3e50;
+    color: white;
+    padding: 12px;
+}
+
+.code {
+    background-color: black;
+    color: #00ffcc;
+    padding: 6px;
+}
+
+.highlight {
+    background-color: yellow;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🔍 Advanced Find + Grep</h1>
+
+<h2>Find Examples</h2>
+
+<p class="code">
+find /home -name "*.txt"
+</p>
+
+<p class="code">
+find . -size +10M
+</p>
+
+<p class="code">
+find . -mtime -1
+</p>
+
+<hr>
+
+<h2>Find + Delete</h2>
+
+<p class="code">
+find . -name "*.tmp" -delete
+</p>
+
+<hr>
+
+<h2>Grep Examples</h2>
+
+<p class="code">
+grep "root" /etc/passwd
+</p>
+
+<p class="code">
+grep -i "error" log.txt
+</p>
+
+<p class="code">
+grep -n "error" file.txt
+</p>
+
+<p class="code">
+grep -r "error" .
+</p>
+
+<hr>
+
+<h2>Find + Grep Combined</h2>
+
+<p class="code">
+find . -name "*.log" | xargs grep "error"
+</p>
+
+<p class="highlight">
+⭐ Very powerful real-world command
+</p>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

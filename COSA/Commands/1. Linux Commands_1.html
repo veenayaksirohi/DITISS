@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ls Command Notes</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #f9f9fb;
+      color: #222;
+      margin: 40px;
+    }
+    h1, h2, h3 {
+      color: #2c5aa0;
+      border-bottom: 2px solid #0077cc;
+      padding-bottom: 5px;
+    }
+    h2 { font-size: 1.3em; margin-top: 30px; }
+    h3 { font-size: 1.1em; margin-top: 20px; color: #d44400; }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 15px 0;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    th {
+      background: #0055cc;
+      color: white;
+      font-weight: 600;
+    }
+    pre {
+      background: #f0f0f0;
+      padding: 10px;
+      border-left: 3px solid #0077cc;
+      margin: 10px 0;
+      overflow-x: auto;
+    }
+    .exam {
+      background: #fff8e1;
+      border: 1px solid #ffc107;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .exam h3 {
+      color: #ff8f00;
+    }
+    .dir-col { color: #0055aa; font-weight: 600; }
+    .exe-col { color: #00aa00; font-weight: 600; }
+    .txt-col { color: #666; }
+    .cmd { color: #a00000; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<h1>ls Command — Sequential Brief Notes</h1>
+
+<h2>1. ls Command Definition</h2>
+The <span class="cmd">ls</span> (List) command is used in Linux to display the files and directories inside a directory.
+
+<p><strong>Example syntax:</strong></p>
+<pre>ls [options] [directory_name]</pre>
+
+<p><strong>Default behavior:</strong></p>
+<pre>ls</pre>
+Lists files and directories in the current directory in alphabetical order.
+
+<h2>2. ls -l — Long Listing Format</h2>
+<p><span class="cmd">ls -l</span> shows files in long listing format with detailed information.</p>
+<pre>ls -l</pre>
+Example output:
+<pre>-rw-r--r-- 1 user group 4096 Apr 5 10:30 file.txt</pre>
+
+<h3>Columns in ls -l output (9 columns)</h3>
+<table>
+  <tr><th>Column</th><th>Name</th><th>Definition</th></tr>
+  <tr><td>1</td><td>File Type & Permissions</td><td>Shows file type and permissions</td></tr>
+  <tr><td>2</td><td>Link Count</td><td>Number of hard links</td></tr>
+  <tr><td>3</td><td>Owner</td><td>File owner name</td></tr>
+  <tr><td>4</td><td>Group</td><td>Group owner</td></tr>
+  <tr><td>5</td><td>Size</td><td>File size in bytes</td></tr>
+  <tr><td>6</td><td>Month</td><td>Last modified month</td></tr>
+  <tr><td>7</td><td>Day</td><td>Last modified day</td></tr>
+  <tr><td>8</td><td>Time/Year</td><td>Last modified time/year</td></tr>
+  <tr><td>9</td><td>File Name</td><td>Name of file</td></tr>
+</table>
+
+<h3>File Types in ls -l (first character)</h3>
+<table>
+  <tr><th>Symbol</th><th>File Type</th><th>Definition</th></tr>
+  <tr><td>-</td><td>Regular File</td><td>Normal file (text, image, program)</td></tr>
+  <tr><td class="dir-col">d</td><td class="dir-col">Directory</td><td>Folder containing files</td></tr>
+  <tr><td>l</td><td>Symbolic Link</td><td>Shortcut pointing to another file</td></tr>
+  <tr><td>c</td><td>Character Device</td><td>Device handling data character‑by‑character</td></tr>
+  <tr><td>b</td><td>Block Device</td><td>Device handling data in blocks</td></tr>
+  <tr><td>p</td><td>Named Pipe (FIFO)</td><td>Used for process communication</td></tr>
+  <tr><td>s</td><td>Socket</td><td>Used for inter‑process communication</td></tr>
+</table>
+
+<h2>3. ls -a — Show All Files</h2>
+<p><span class="cmd">ls -a</span> displays all files, including hidden files (names starting with a dot <span class="txt-col">.</span>).</p>
+<p>Examples:</p>
+<pre>.bashrc
+.profile</pre>
+
+
+<h3>Special directories</h3>
+<table>
+  <tr><th>Symbol</th><th>Meaning</th><th>Definition</th></tr>
+  <tr><td class="txt-col">.</td><td>Current Directory</td><td>Refers to present directory</td></tr>
+  <tr><td class="txt-col">..</td><td>Parent Directory</td><td>Refers to directory above current directory</td></tr>
+</table>
+
+Example:
+<pre>ls -a</pre>
+Output:
+<pre>
+.
+..
+file1.txt
+.hiddenfile
+</pre>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Linux Shell Notes</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f6f8;
+        margin: 20px;
+        line-height: 1.6;
+    }
+
+    h1 {
+        color: #1a73e8;
+        text-align: center;
+    }
+
+    h2 {
+        color: #0b8043;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+    }
+
+    .box {
+        background: #ffffff;
+        padding: 15px;
+        margin: 15px 0;
+        border-left: 5px solid #1a73e8;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .important {
+        color: #d93025;
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .highlight {
+        background: yellow;
+        padding: 2px 4px;
+    }
+
+    code {
+        background: #eee;
+        padding: 3px 5px;
+        border-radius: 4px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+
+    th {
+        background-color: #1a73e8;
+        color: white;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🔵 1. .bashrc (Interactive Shell File)</h2>
+
+<p><span class="important">Meaning:</span> Used for interactive, non-login Bash shells</p>
+
+<p><span class="important">Location:</span> <code>~/.bashrc</code></p>
+
+<p><span class="important">When it runs:</span></p>
+<p> .bashrc runs everytime automatically when you open a new terminal</p>
+
+<p><span class="important">Purpose:</span> 
+<span class="highlight">Used to configure interactive terminal behavior</span>
+</p>
+
+<ul>
+    <li>Aliases</li>
+    <li>Functions</li>
+    <li>Prompt customization (PS1)</li>
+    <li>Shell options</li>
+</ul>
+
+<p><span class="important">Example:</span></p>
+<code>alias ll='ls -la'</code><br>
+<code>export PS1="\u@\h:\w$ "</code>
+
+<p><b>Memory Tip:</b> .bashrc = <u>Every terminal behavior settings</u></p>
+
+</div>
+
+<div class="box">
+
+<h2>🟡 2. .profile (Login Shell File)</h2>
+
+<p><span class="important">Meaning:</span> Used for login shells</p>
+
+<p><span class="important">Location:</span> <code>~/.profile</code></p>
+
+<p><span class="important">When it runs:</span> Runs once during login</p>
+
+<p><span class="important">Purpose:</span> 
+<span class="highlight">Used for system-wide environment setup</span>
+</p>
+
+<ul>
+    <li>Environment variables</li>
+    <li>PATH setup</li>
+    <li>Default programs</li>
+</ul>
+
+<p><span class="important">Example:</span></p>
+<code>export PATH="$HOME/bin:$PATH"</code><br>
+<code>export EDITOR=vim</code>
+
+<p><b>Memory Tip:</b> .profile = <u>Login environment setup</u></p>
+
+</div>
+
+<div class="box">
+
+<h2>🔄 3. Key Differences</h2>
+
+<table>
+<tr>
+    <th>Feature</th>
+    <th>.bashrc</th>
+    <th>.profile</th>
+</tr>
+<tr>
+    <td>Type</td>
+    <td>Interactive shell</td>
+    <td>Login shell</td>
+</tr>
+<tr>
+    <td>When runs</td>
+    <td>Every terminal</td>
+    <td>Once at login</td>
+</tr>
+<tr>
+    <td>Purpose</td>
+    <td>Aliases, prompt, functions</td>
+    <td>Environment variables, PATH</td>
+</tr>
+</table>
+
+</div>
+
+<div class="box">
+
+<h2>🔗 4. Relationship Between Them</h2>
+
+<p>Many systems link them using:</p>
+
+<code>
+if [ -f ~/.bashrc ]; then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;. ~/.bashrc<br>
+fi
+</code>
+
+<p class="important">This ensures login shells also load .bashrc settings</p>
+
+</div>
+
+<div class="box">
+
+<h2>🧠 Final Memory Trick</h2>
+
+<ul>
+    <li><b>.profile</b> → <u>LOGIN setup</u></li>
+    <li><b>.bashrc</b> → <u>TERMINAL behavior setup</u></li>
+</ul>
+
+</div>
+
+</body>
+</html>
+
+<h2>4. ls -A — Almost All Files</h2>
+<p><span class="cmd">ls -A</span> shows all hidden files except <span class="txt-col">.</span> and <span class="txt-col">..</span>.</p>
+<table>
+  <tr><th>Option</th><th>Definition</th></tr>
+  <tr><td class="cmd">ls -a</td><td>Shows all files including <span class="txt-col">.</span> and <span class="txt-col">..</span></td></tr>
+  <tr><td class="cmd">ls -A</td><td>Shows hidden files except <span class="txt-col">.</span> and <span class="txt-col">..</span></td></tr>
+</table>
+
+<h2>5. ls -h — Human Readable Size</h2>
+<p><span class="cmd">ls -h</span> shows file sizes in <strong>KB, MB, GB</strong>.</p>
+<pre>ls -lh</pre>
+Example output:
+<pre>
+4.0K    file1.txt
+2.3M    video.mp4
+</pre>
+
+<h2>6. ls -R — Recursive Listing</h2>
+<p><span class="cmd">ls -R</span> lists files and directories recursively, including subdirectories.</p>
+<pre>ls -R</pre>
+Shows:
+<pre>
+dir1:
+file1.txt
+
+dir1/subdir:
+file2.txt
+</pre>
+
+<h2>7. ls -t — Sort by Time</h2>
+<p><span class="cmd">ls -t</span> sorts files by modification time, newest first.</p>
+<pre>ls -t</pre>
+- New → Old
+
+Reverse order:
+<pre>ls -tr</pre>
+- Old → New
+
+<h2>8. ls -S — Sort by Size</h2>
+<p><span class="cmd">ls -S</span> sorts by file size (largest first).</p>
+<pre>ls -S</pre>
+Reverse:
+<pre>ls -Sr</pre>
+
+<h2>9. ls -r — Reverse Order</h2>
+<p><span class="cmd">ls -r</span> reverses the default sorting order.</p>
+Example:
+<pre>ls -r</pre>
+Order becomes: <span style="color:#a00;">Z → A</span>
+
+<h2>10. ls -i — Show Inode Number</h2>
+<p><span class="cmd">ls -i</span> shows the <strong>inode number</strong> of each file.</p>
+<pre>ls -i</pre>
+Example:
+<pre>
+12345    file1.txt
+12346    file2.txt
+</pre>
+
+<h3>What is an Inode?</h3>
+<p>An <strong>inode</strong> (Index Node) is a unique number assigned to each file that stores its metadata.</p>
+
+<p><strong>Inode stores:</strong></p>
+<ul>
+  <li>File type</li>
+  <li>Permissions</li>
+  <li>Owner</li>
+  <li>Group</li>
+  <li>File size</li>
+  <li>Link count</li>
+  <li>Time details</li>
+  <li>Disk location</li>
+</ul>
+
+<p><strong>Inode does NOT store:</strong></p>
+<ul>
+  <li>File name</li>
+  <li>File data</li>
+</ul>
+
+<h2>11. ls -d — List Directory Itself</h2>
+<p><span class="cmd">ls -d</span> shows directory names, not their contents.</p>
+
+<p><span class="cmd">ls -d */</span> shows only directories in the current directory.</p>
+
+<p>Why <span class="txt-col">*/</span> works:</p>
+<ul>
+  <li><span class="txt-col">*</span>: Matches all names</li>
+  <li><span class="txt-col">/</span>: Matches directories only</li>
+</ul>
+
+<table>
+  <tr><th>Command</th><th>Output</th></tr>
+  <tr><td class="cmd">ls -d</td><td>Shows directory name itself</td></tr>
+  <tr><td class="cmd">ls -d */</td><td>Shows only directories</td></tr>
+</table>
+
+<h2>12. ls --color=auto</h2>
+<p><span class="cmd">ls --color=auto</span> displays files in different colors based on file type.</p>
+<ul>
+  <li>Blue → <span class="dir-col">Directory</span></li>
+  <li>Green → <span class="exe-col">Executable</span></li>
+  <li>White → Normal file</li>
+</ul>
+
+<h2>📘 Special Configuration Files</h2>
+
+<h3>.bashrc</h3>
+<p>Configuration file for customizing terminal settings.</p>
+<ul>
+  <li>Aliases</li>
+  <li>Environment variables</li>
+  <li>Shell settings</li>
+</ul>
+
+<h3>.profile</h3>
+<p>Executed when a user logs in.</p>
+<ul>
+  <li>Environment variables</li>
+  <li>Startup commands</li>
+</ul>
+
+<h2>⭐ Final Summary Table (All Important ls Options)</h2>
+<table>
+  <tr><th>Command</th><th>Definition</th><th>Purpose</th></tr>
+  <tr><td class="cmd">ls</td><td>List files</td><td>Shows directory contents</td></tr>
+  <tr><td class="cmd">ls -l</td><td>Long listing</td><td>Shows detailed file info</td></tr>
+  <tr><td class="cmd">ls -a</td><td>All files</td><td>Shows hidden files</td></tr>
+  <tr><td class="cmd">ls -A</td><td>Almost all</td><td>Hides <span class="txt-col">.</span> and <span class="txt-col">..</span></td></tr>
+  <tr><td class="cmd">ls -h</td><td>Human readable</td><td>Shows sizes in KB/MB</td></tr>
+  <tr><td class="cmd">ls -R</td><td>Recursive</td><td>Shows subdirectories</td></tr>
+  <tr><td class="cmd">ls -t</td><td>Sort by time</td><td>Newest first</td></tr>
+  <tr><td class="cmd">ls -tr</td><td>Reverse time</td><td>Oldest first</td></tr>
+  <tr><td class="cmd">ls -S</td><td>Sort by size</td><td>Largest first</td></tr>
+  <tr><td class="cmd">ls -r</td><td>Reverse order</td><td>Reverses sorting</td></tr>
+  <tr><td class="cmd">ls -i</td><td>Show inode</td><td>Displays inode numbers</td></tr>
+  <tr><td class="cmd">ls -d</td><td>Directory only</td><td>Shows directory name</td></tr>
+  <tr><td class="cmd">ls -d */</td><td>Directories only</td><td>Lists only directories</td></tr>
+  <tr><td class="cmd">ls --color=auto</td><td>Colored output</td><td>Shows colored files</td></tr>
+</table>
+
+<h2 class="exam">⭐ Most Important Exam Commands (Must Remember)</h2>
+<p>These are most commonly asked:</p>
+<pre>
+ls
+ls -l
+ls -a
+ls -al
+ls -lh
+ls -R
+ls -t
+ls -S
+ls -i
+ls -d */
+ls -ltr
+</pre>
+
+</body>
+</html>
