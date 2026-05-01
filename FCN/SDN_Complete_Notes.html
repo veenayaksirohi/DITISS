@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SDN Complete Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,300;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ══════════════════════════════════════════════
+   DESIGN DIRECTION: Editorial / Academic
+   Warm cream paper, charcoal ink, one accent.
+   Typography-first. Spacing over decoration.
+══════════════════════════════════════════════ */
+
+:root {
+  /* Palette */
+  --ink:        #1c1917;
+  --ink-2:      #44403c;
+  --ink-3:      #78716c;
+  --ink-4:      #a8a29e;
+  --paper:      #fafaf7;
+  --paper-2:    #f5f5f0;
+  --paper-3:    #eeede8;
+  --rule:       #e7e5e0;
+  --rule-2:     #d6d3cd;
+
+  /* Accent — deep teal-blue */
+  --accent:     #0d5e6b;
+  --accent-2:   #0e7c8e;
+  --accent-bg:  #eef6f7;
+  --accent-bd:  #bde0e5;
+
+  /* Semantic callout tints */
+  --warn-bg:    #fefce8;
+  --warn-bd:    #fde047;
+  --warn-ink:   #713f12;
+  --tip-bg:     #f0fdf4;
+  --tip-bd:     #86efac;
+  --tip-ink:    #14532d;
+  --idea-bg:    #faf5ff;
+  --idea-bd:    #d8b4fe;
+  --idea-ink:   #581c87;
+
+  /* Layout */
+  --sidebar-w:  260px;
+  --content-max:820px;
+  --radius:     6px;
+
+  /* Type */
+  --font-head:  'Plus Jakarta Sans', sans-serif;
+  --font-body:  'Literata', Georgia, serif;
+  --font-code:  'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Reading Progress Bar ── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--accent);
+  width: 0%; z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* ══════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════ */
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--paper-2);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+
+#sidebar-header {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+
+#sidebar-header .logo-chip {
+  display: inline-flex; align-items: center;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+}
+#sidebar-header .logo-chip span {
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--accent); letter-spacing: .1em;
+  text-transform: uppercase;
+}
+#sidebar-header h2 {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -.01em;
+}
+#sidebar-header p {
+  font-family: var(--font-head); font-size: 0.7rem;
+  color: var(--ink-3); margin-top: 2px;
+}
+
+#toc-scroll { overflow-y: auto; flex: 1; padding: 8px 0 20px; }
+#toc-scroll::-webkit-scrollbar { width: 3px; }
+#toc-scroll::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 2px; }
+
+.toc-group-label {
+  font-family: var(--font-code); font-size: 0.6rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  padding: 12px 20px 4px; display: block;
+}
+
+.toc-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 20px; text-decoration: none;
+  color: var(--ink-3); font-family: var(--font-head); font-size: 0.77rem;
+  border-left: 2px solid transparent;
+  transition: color .15s, border-color .15s, background .15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-item:hover { color: var(--ink); background: var(--paper-3); }
+.toc-item.active {
+  color: var(--accent); border-left-color: var(--accent);
+  background: var(--accent-bg); font-weight: 600;
+}
+
+.toc-item .toc-num {
+  font-family: var(--font-code); font-size: 0.62rem;
+  color: var(--ink-4); min-width: 18px; flex-shrink: 0;
+}
+.toc-item.active .toc-num { color: var(--accent-2); }
+
+/* ── Mobile toggle ── */
+#menu-btn {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 6px;
+  width: 38px; height: 38px; cursor: pointer;
+  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+#menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; }
+
+/* ══════════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════════ */
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1; min-width: 0;
+  padding: 56px 56px 100px;
+  max-width: calc(var(--sidebar-w) + var(--content-max));
+}
+
+/* ── Hero ── */
+#hero {
+  padding: 40px 0 52px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 20px; padding: 4px 14px; margin-bottom: 18px;
+}
+.hero-badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-badge span {
+  font-family: var(--font-code); font-size: 0.67rem;
+  color: var(--accent); letter-spacing: .07em; text-transform: uppercase;
+}
+
+#hero h1 {
+  font-family: var(--font-head); font-size: 2.4rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink); margin-bottom: 14px; letter-spacing: -.02em;
+}
+#hero h1 .accent { color: var(--accent); }
+
+#hero p {
+  font-size: 1rem; color: var(--ink-2); max-width: 520px; line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex; gap: 36px; margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.stat { display: flex; flex-direction: column; }
+.stat-num {
+  font-family: var(--font-head); font-size: 1.4rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -.02em;
+}
+.stat-lbl {
+  font-family: var(--font-head); font-size: 0.67rem; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 1px;
+}
+
+/* ══════════════════════════════════════════════
+   SECTION STRUCTURE
+══════════════════════════════════════════════ */
+section { margin-bottom: 72px; scroll-margin-top: 16px; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-code); font-size: 0.64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.section-label::before {
+  content: ''; display: inline-block;
+  width: 14px; height: 1px; background: var(--accent);
+}
+
+h2.section-title {
+  font-family: var(--font-head); font-size: 1.7rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 4px; letter-spacing: -.025em; line-height: 1.2;
+}
+
+.section-divider {
+  height: 1px; background: var(--rule); margin-bottom: 28px;
+}
+
+.section-intro {
+  color: var(--ink-2); margin-bottom: 20px; font-size: 1rem; line-height: 1.75;
+}
+
+h3.sub-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin: 32px 0 10px; padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  letter-spacing: -.01em;
+}
+
+h4.mini-title {
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+  color: var(--ink-2); margin: 20px 0 8px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
+p { color: var(--ink-2); line-height: 1.8; margin-bottom: 12px; }
+
+/* ══════════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════════ */
+.card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 14px;
+}
+
+.card-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+}
+
+.card-sm {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.card-sm h4 {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 5px;
+}
+.card-sm p { font-size: 0.82rem; color: var(--ink-3); margin: 0; }
+
+/* ══════════════════════════════════════════════
+   CALLOUT BOXES
+══════════════════════════════════════════════ */
+.callout {
+  border-radius: var(--radius); padding: 14px 18px; margin: 20px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  border-left-width: 3px; border-left-style: solid;
+}
+.callout.info  { background: var(--accent-bg); border-left-color: var(--accent-2); border: 1px solid var(--accent-bd); border-left-width: 3px; border-left-style: solid; }
+.callout.tip   { background: var(--tip-bg);    border: 1px solid var(--tip-bd);    border-left-width: 3px; border-left-style: solid; border-left-color: #22c55e; }
+.callout.warn  { background: var(--warn-bg);   border: 1px solid var(--warn-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #eab308; }
+.callout.idea  { background: var(--idea-bg);   border: 1px solid var(--idea-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #a855f7; }
+
+.callout-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+.callout-body { flex: 1; }
+.callout-body strong {
+  display: block; font-family: var(--font-head); font-size: 0.8rem;
+  font-weight: 700; margin-bottom: 3px;
+}
+.callout.info  .callout-body strong { color: var(--accent); }
+.callout.tip   .callout-body strong { color: var(--tip-ink); }
+.callout.warn  .callout-body strong { color: var(--warn-ink); }
+.callout.idea  .callout-body strong { color: var(--idea-ink); }
+.callout-body p { font-size: 0.875rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+
+/* ══════════════════════════════════════════════
+   CODE BLOCKS
+══════════════════════════════════════════════ */
+pre {
+  background: var(--ink); border-radius: var(--radius);
+  padding: 20px 22px; overflow-x: auto; margin: 16px 0;
+  position: relative;
+}
+pre::before {
+  content: attr(data-lang);
+  position: absolute; top: 9px; right: 14px;
+  font-family: var(--font-code); font-size: 0.6rem;
+  color: #6b7280; letter-spacing: .1em; text-transform: uppercase;
+}
+pre code {
+  font-family: var(--font-code); font-size: 0.82rem;
+  color: #e5e7eb; line-height: 1.65;
+}
+
+/* Inline code */
+p code, li code {
+  font-family: var(--font-code); font-size: 0.8rem;
+  background: var(--paper-3); color: var(--accent);
+  border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* ── ASCII Diagrams ── */
+.diagram-wrap {
+  background: var(--paper-3); border: 1px solid var(--rule-2);
+  border-radius: var(--radius); padding: 18px 22px; margin: 16px 0;
+  overflow-x: auto;
+}
+.diagram-wrap pre {
+  background: none; border: none; padding: 0; margin: 0;
+}
+.diagram-wrap code {
+  font-family: var(--font-code); font-size: 0.79rem;
+  color: var(--accent); line-height: 1.6;
+}
+
+/* ══════════════════════════════════════════════
+   TABLES
+══════════════════════════════════════════════ */
+.table-wrap {
+  overflow-x: auto; margin: 16px 0;
+  border-radius: var(--radius); border: 1px solid var(--rule);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead tr { background: var(--paper-2); }
+thead th {
+  padding: 10px 16px; text-align: left;
+  font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+  color: var(--ink); letter-spacing: .03em; white-space: nowrap;
+  border-bottom: 1px solid var(--rule-2);
+}
+tbody tr { border-top: 1px solid var(--rule); }
+tbody tr:hover { background: var(--paper-2); }
+tbody td {
+  padding: 9px 16px; color: var(--ink-2); vertical-align: top;
+  font-family: var(--font-body); font-size: 0.875rem;
+}
+tbody td:first-child { color: var(--ink); font-weight: 500; }
+tbody td strong { color: var(--ink); }
+
+/* ══════════════════════════════════════════════
+   LISTS
+══════════════════════════════════════════════ */
+ul, ol { padding-left: 22px; margin: 10px 0; }
+ul li, ol li {
+  margin-bottom: 5px; color: var(--ink-2); font-size: 0.94rem; line-height: 1.7;
+}
+ul li::marker { color: var(--accent); }
+ol li::marker {
+  color: var(--accent); font-family: var(--font-code); font-size: 0.78rem;
+}
+li strong { color: var(--ink); }
+
+/* ── Mark ── */
+mark {
+  background: #fef3c7; color: #92400e;
+  border-radius: 2px; padding: 0 4px; font-weight: 500;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block; padding: 1px 7px; border-radius: 3px;
+  font-family: var(--font-code); font-size: 0.67rem; font-weight: 700;
+  letter-spacing: .04em; vertical-align: middle; margin: 0 2px;
+}
+.badge.cyan   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+.badge.orange { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.badge.green  { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge.purple { background: var(--idea-bg); color: #6b21a8; border: 1px solid var(--idea-bd); }
+
+/* ══════════════════════════════════════════════
+   TIMELINE
+══════════════════════════════════════════════ */
+.timeline { margin: 16px 0; }
+.tl-item { display: flex; gap: 18px; margin-bottom: 18px; }
+.tl-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.tl-year {
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 8px;
+  font-family: var(--font-code); font-size: 0.68rem; color: var(--accent);
+  white-space: nowrap; min-width: 72px; text-align: center; font-weight: 500;
+}
+.tl-line { flex: 1; width: 1px; background: var(--rule-2); margin: 4px auto; }
+.tl-right { flex: 1; padding-top: 3px; font-size: 0.875rem; color: var(--ink-2); font-family: var(--font-body); }
+.tl-right strong {
+  color: var(--ink); display: block; margin-bottom: 2px;
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+}
+
+/* ══════════════════════════════════════════════
+   QUICK REFERENCE GRID
+══════════════════════════════════════════════ */
+.ref-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+}
+.ref-item {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 11px; align-items: flex-start;
+}
+.ref-item .ref-tag {
+  font-family: var(--font-code); font-size: 0.64rem; font-weight: 500;
+  color: var(--accent); background: var(--accent-bg);
+  border: 1px solid var(--accent-bd); border-radius: 3px;
+  padding: 2px 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.ref-item p { font-size: 0.78rem; color: var(--ink-3); font-family: var(--font-head); margin: 0; line-height: 1.5; }
+.ref-item strong {
+  color: var(--ink); font-family: var(--font-head); font-size: 0.82rem;
+  display: block; margin-bottom: 2px; font-weight: 600;
+}
+
+/* ── Anchor scroll offsets ── */
+[id] { scroll-margin-top: 16px; }
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+    box-shadow: none;
+  }
+  #sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,.1);
+  }
+  #main { margin-left: 0; padding: 64px 20px 80px; }
+  #menu-btn { display: flex; }
+  .card-grid, .ref-grid { grid-template-columns: 1fr; }
+  #hero h1 { font-size: 1.75rem; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+}
+
+@media (max-width: 520px) {
+  .hero-stats { flex-direction: column; gap: 14px; }
+  #main { padding: 64px 16px 80px; }
+}
+
+/* ══════════════════════════════════════════════
+   PRINT-FRIENDLY
+══════════════════════════════════════════════ */
+@media print {
+  #sidebar, #menu-btn, #progress-bar { display: none; }
+  #main { margin-left: 0; padding: 0; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+
+<body>
+<div id="progress-bar"></div>
+
+<!-- Mobile menu button -->
+<button id="menu-btn" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ═══ SIDEBAR ═══ -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo-chip"><span>SDN / NOTES</span></div>
+    <h2>Study Guide</h2>
+    <p>26 Topics · Beginner → Advanced</p>
+  </div>
+  <div id="toc-scroll">
+    <span class="toc-group-label">Foundations</span>
+    <a class="toc-item" href="#s1"><span class="toc-num">01</span>Introduction to SDN</a>
+    <a class="toc-item" href="#s2"><span class="toc-num">02</span>Architecture of SDN</a>
+    <a class="toc-item" href="#s3"><span class="toc-num">03</span>Scalability</a>
+    <a class="toc-item" href="#s4"><span class="toc-num">04</span>Reliability</a>
+    <a class="toc-item" href="#s5"><span class="toc-num">05</span>Consistency</a>
+    <a class="toc-item" href="#s6"><span class="toc-num">06</span>Opportunities &amp; Challenges</a>
+
+    <span class="toc-group-label">Virtual Networking</span>
+    <a class="toc-item" href="#s7"><span class="toc-num">07</span>Virtual Networking</a>
+    <a class="toc-item" href="#s8"><span class="toc-num">08</span>Use Cases</a>
+
+    <span class="toc-group-label">OpenFlow</span>
+    <a class="toc-item" href="#s9"><span class="toc-num">09</span>Introduction to OpenFlow</a>
+    <a class="toc-item" href="#s10"><span class="toc-num">10</span>History &amp; Evolution</a>
+    <a class="toc-item" href="#s11"><span class="toc-num">11</span>Control &amp; Data Plane</a>
+
+    <span class="toc-group-label">OpenDaylight</span>
+    <a class="toc-item" href="#s12"><span class="toc-num">12</span>ODL Architecture</a>
+    <a class="toc-item" href="#s13"><span class="toc-num">13</span>Getting Started with ODL</a>
+    <a class="toc-item" href="#s14"><span class="toc-num">14</span>ODL Clustering</a>
+    <a class="toc-item" href="#s15"><span class="toc-num">15</span>MD-SAL</a>
+    <a class="toc-item" href="#s16"><span class="toc-num">16</span>Internal Datastore</a>
+    <a class="toc-item" href="#s17"><span class="toc-num">17</span>OpenFlow Plugin</a>
+
+    <span class="toc-group-label">Lab Tools</span>
+    <a class="toc-item" href="#s18"><span class="toc-num">18</span>Open vSwitch (OVS)</a>
+    <a class="toc-item" href="#s19"><span class="toc-num">19</span>Mininet</a>
+    <a class="toc-item" href="#s20"><span class="toc-num">20</span>L2 Switch App</a>
+
+    <span class="toc-group-label">Advanced Features</span>
+    <a class="toc-item" href="#s21"><span class="toc-num">21</span>AAA Security</a>
+    <a class="toc-item" href="#s22"><span class="toc-num">22</span>OVSDB Virtualization</a>
+    <a class="toc-item" href="#s23"><span class="toc-num">23</span>Group-Based Policy</a>
+    <a class="toc-item" href="#s24"><span class="toc-num">24</span>Service Function Chaining</a>
+    <a class="toc-item" href="#s25"><span class="toc-num">25</span>LISP Flow Mapping</a>
+    <a class="toc-item" href="#s26"><span class="toc-num">26</span>Virtual Tenant Networks</a>
+
+    <span class="toc-group-label">Reference</span>
+    <a class="toc-item" href="#ref"><span class="toc-num">★</span>Quick Summary</a>
+  </div>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main id="main">
+
+  <!-- Hero -->
+  <div id="hero">
+    <div class="hero-badge"><div class="dot"></div><span>Complete Study Notes</span></div>
+    <h1>Software Defined<br/><span class="accent">Networking</span></h1>
+    <p>A comprehensive guide covering all 26 topics — from SDN fundamentals to advanced OpenDaylight features. Organized for exam revision and practical understanding.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">26</span><span class="stat-lbl">Topics</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-lbl">Categories</span></div>
+      <div class="stat"><span class="stat-num">8</span><span class="stat-lbl">Added Topics</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-lbl">Exam Ready</span></div>
+    </div>
+  </div>
+
+
+  <!-- ══ S1 ══ -->
+  <section id="s1">
+    <div class="section-label">Topic 01 · Foundations</div>
+    <h2 class="section-title">Introduction to SDN</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>Software Defined Networking (SDN)</mark> is a modern approach to building and managing networks where the <strong>intelligence (control logic)</strong> is separated from the hardware that forwards traffic.</p>
+    <p style="color:var(--ink-2);margin-bottom:18px;">In traditional networks, every router and switch contains its own control logic — making them hard to configure and automate at scale. SDN solves this by moving all control to a <strong>central software controller</strong>.</p>
+
+    <h3 class="sub-title">Core Idea</h3>
+    <div class="card-grid">
+      <div class="card-sm"><h4>🧠 Controller</h4><p>The brain of the network. Makes all routing and policy decisions centrally.</p></div>
+      <div class="card-sm"><h4>⚙️ Switches / Routers</h4><p>The hands. Only forward packets based on rules sent by the controller.</p></div>
+      <div class="card-sm"><h4>📡 Programmability</h4><p>The network can be configured via software and APIs — no manual CLI per device.</p></div>
+      <div class="card-sm"><h4>🔓 Vendor Neutrality</h4><p>Standard interfaces like OpenFlow allow mixing equipment from different vendors.</p></div>
+    </div>
+
+    <div class="diagram-wrap">
+<pre><code>        Applications
+             |
+             v
+  +----------------------+
+  |    SDN Controller    |   ← Makes all decisions
+  +----------------------+
+       |       |       |
+       v       v       v
+    Switch  Switch  Router   ← Forward packets only</code></pre>
+    </div>
+
+    <h3 class="sub-title">Key Principles</h3>
+    <ul>
+      <li><strong>Separation of control and data planes</strong> — control logic lives in the controller, not in each device</li>
+      <li><strong>Centralized intelligence</strong> — one controller maintains a global view of the entire network</li>
+      <li><strong>Programmability</strong> — network behavior configured via software and APIs</li>
+      <li><strong>Vendor neutrality</strong> — standard southbound interfaces allow multi-vendor interoperability</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S2 ══ -->
+  <section id="s2">
+    <div class="section-label">Topic 02 · Foundations</div>
+    <h2 class="section-title">Overview &amp; Architecture of SDN</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">SDN is organized into <mark>three distinct layers</mark>, each connected by standard APIs.</p>
+
+    <div class="diagram-wrap">
+<pre><code>+-------------------------------+
+|       Application Layer       |   ← Network apps, business policies
++-------------------------------+
+               |
+         Northbound API
+               |
++-------------------------------+
+|        Control Layer          |   ← SDN Controller (decision-maker)
++-------------------------------+
+               |
+         Southbound API
+               |
++-------------------------------+
+|     Infrastructure Layer      |   ← Physical/virtual switches & routers
++-------------------------------+</code></pre>
+    </div>
+
+    <h3 class="sub-title">Layer Descriptions</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Components</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Application Layer</strong></td><td>Routing apps, firewalls, load balancers, monitoring</td><td>Define network policies and intent</td></tr>
+          <tr><td><strong>Control Layer</strong></td><td>SDN Controller (e.g., OpenDaylight, ONOS)</td><td>Translate policies into forwarding rules</td></tr>
+          <tr><td><strong>Infrastructure Layer</strong></td><td>OpenFlow switches, routers, OVS</td><td>Execute rules and forward traffic</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">APIs</h3>
+    <ul>
+      <li><strong>Northbound API</strong> — connects the controller to applications. Exposes the network as a programmable resource (usually REST-based).</li>
+      <li><strong>Southbound API</strong> — connects the controller to network devices. Most common protocol: <strong>OpenFlow</strong>.</li>
+      <li><strong>East-West API</strong> — used when multiple controllers communicate with each other (important for clustering/distributed SDN).</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S3 ══ -->
+  <section id="s3">
+    <div class="section-label">Topic 03 · Foundations</div>
+    <h2 class="section-title">Scalability</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Scalability means the ability to handle <mark>more devices, more traffic, and larger networks</mark> without degrading performance.</p>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Key Challenge</strong>
+        <p>A single SDN controller has limited processing capacity. As the network grows, it can become a bottleneck — too many devices sending requests, too many flow rules to install.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Scalability in Data Centers</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">Data centers host thousands of VMs and containers that constantly move and change. SDN must scale to handle:</p>
+    <ul>
+      <li><strong>Large numbers of hosts and flows</strong> — millions of flow entries across hundreds of switches</li>
+      <li><strong>VM live migration</strong> — when a VM moves to a different server, the network must update instantly</li>
+      <li><strong>Multi-tenancy</strong> — many organizations share the same physical data center, each needing isolated virtual networks</li>
+      <li><strong>East-west traffic</strong> — most data center traffic flows between servers internally, not just in/out</li>
+    </ul>
+    <div class="callout tip"><span class="callout-icon">✅</span><div class="callout-body"><strong>Solution</strong><p>Use multiple controllers in a cluster, partition the network into domains, and use distributed data stores to share network state efficiently.</p></div></div>
+
+    <h3 class="sub-title">Scalability in Service Provider Networks</h3>
+    <ul>
+      <li><strong>Hierarchical control</strong> — split large networks into domains, each with a local controller; a higher-level controller coordinates across domains</li>
+      <li><strong>Handling millions of flows</strong> — provider networks carry massively differentiated traffic</li>
+      <li><strong>Dynamic bandwidth allocation</strong> — traffic patterns change constantly; controller must adapt quickly</li>
+      <li><strong>Legacy integration</strong> — SDN must coexist with traditional routers and MPLS networks</li>
+    </ul>
+
+    <h3 class="sub-title">ISP Automation</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">ISPs use SDN to automate repetitive network management tasks:</p>
+    <ul>
+      <li><strong>Traffic engineering</strong> — automatically reroute traffic when links are congested</li>
+      <li><strong>Automated provisioning</strong> — bring up new customer connections without manual CLI configuration</li>
+      <li><strong>Policy enforcement</strong> — apply bandwidth limits, QoS policies, and routing rules automatically</li>
+      <li><strong>Fast fault recovery</strong> — controller calculates and pushes new routes to all affected switches in milliseconds</li>
+    </ul>
+    <div class="callout info"><span class="callout-icon">💡</span><div class="callout-body"><strong>Key Benefit</strong><p>Reduces operational cost (OpEx) by replacing time-consuming manual work with software-driven automation.</p></div></div>
+  </section>
+
+
+  <!-- ══ S4 ══ -->
+  <section id="s4">
+    <div class="section-label">Topic 04 · Foundations</div>
+    <h2 class="section-title">Reliability</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Reliability means the network <mark>stays available and functions correctly</mark> even when components fail.</p>
+
+    <div class="callout warn"><span class="callout-icon">⚠️</span><div class="callout-body"><strong>Single Point of Failure Risk</strong><p>If the controller crashes, switches may still forward existing traffic using cached rules — but no new rules can be installed and no topology changes handled.</p></div></div>
+
+    <h3 class="sub-title">QoS and Service Availability</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;"><strong>Quality of Service (QoS)</strong> ensures different traffic types get appropriate treatment — video calls need low latency; file transfers can tolerate delay.</p>
+    <p style="color:var(--ink-2);margin-bottom:14px;">SDN improves QoS management through:</p>
+    <ul>
+      <li><strong>Centralized traffic monitoring</strong> — global view of link utilization; detect congestion before it impacts users</li>
+      <li><strong>Dynamic traffic prioritization</strong> — flow rules mark and prioritize traffic; controller updates priorities in real time</li>
+      <li><strong>Traffic engineering</strong> — redirect high-priority flows away from congested links automatically</li>
+      <li><strong>SLA enforcement</strong> — Service Level Agreements enforced automatically through controller-driven policies</li>
+    </ul>
+
+    <h4 class="mini-title">Service Availability Mechanisms</h4>
+    <ul>
+      <li><strong>Controller redundancy</strong> — primary + standby controllers; standby takes over if primary fails</li>
+      <li><strong>Controller clustering</strong> — multiple active controllers share load; each switch connects to multiple controllers</li>
+      <li><strong>In-switch fallback rules</strong> — pre-installed default rules ensure basic connectivity even if controller is offline</li>
+      <li><strong>Fast failover groups (OpenFlow)</strong> — switch automatically switches to backup port without waiting for controller</li>
+    </ul>
+
+    <div class="diagram-wrap">
+<pre><code>  Primary Controller ──── Switch ──── Backup Controller
+         |                                    |
+    (active rules)                   (hot standby, synced)</code></pre>
+    </div>
+  </section>
+
+
+  <!-- ══ S5 ══ -->
+  <section id="s5">
+    <div class="section-label">Topic 05 · Foundations</div>
+    <h2 class="section-title">Consistency</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Consistency means <mark>all controllers and network devices agree</mark> on the same view of the network state at any given time.</p>
+
+    <h3 class="sub-title">Configuration Management</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">Ensures network-wide policies are applied <strong>correctly and uniformly</strong> across all devices.</p>
+    <h4 class="mini-title">Problems without consistency</h4>
+    <ul>
+      <li>A new policy via one controller may not reflect in another controller immediately</li>
+      <li>Switches connected to different controllers may apply conflicting rules</li>
+    </ul>
+    <h4 class="mini-title">Solutions</h4>
+    <ul>
+      <li><strong>Distributed data stores</strong> — replicate configuration across all controllers in real time</li>
+      <li><strong>Two-phase commit</strong> — all controllers must acknowledge a change before it takes effect</li>
+      <li><strong>Version control for configs</strong> — track every change with timestamps and rollback capability</li>
+    </ul>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Model</th><th>Behavior</th><th>Trade-off</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Strong consistency</strong></td><td>All controllers see same state before any change takes effect</td><td>Safer, but slower</td></tr>
+          <tr><td><strong>Eventual consistency</strong></td><td>Changes propagate over time; temporarily may disagree</td><td>Faster, but riskier for critical ops</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Access Control Violations</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">Occur when policies are <strong>inconsistently enforced</strong> — a device is blocked by one switch but allowed through another due to a stale or missing rule.</p>
+    <h4 class="mini-title">Causes</h4>
+    <ul>
+      <li>Rule update delays between controller and switch</li>
+      <li>Partial failure during policy deployment (some switches updated, others not)</li>
+      <li>Conflicting rules installed by different applications sharing the same controller</li>
+    </ul>
+    <h4 class="mini-title">Mitigations</h4>
+    <ul>
+      <li><strong>Atomic rule updates</strong> — pre-install new rules before removing old ones</li>
+      <li><strong>Rule conflict detection</strong> — controller checks for conflicts before installing rules</li>
+      <li><strong>Consistent updates protocol</strong> — network transitions cleanly without violating policy</li>
+      <li><strong>AAA integration</strong> — only authorized users/apps can modify network policies</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S6 ══ -->
+  <section id="s6">
+    <div class="section-label">Topic 06 · Foundations</div>
+    <h2 class="section-title">Opportunities &amp; Challenges</h2>
+    <div class="section-divider"></div>
+    <div class="card-grid">
+      <div class="card">
+        <h4 class="mini-title" style="color:#166534;">✅ Opportunities (Advantages)</h4>
+        <ul>
+          <li><strong>Easy automation</strong> — configure once, apply everywhere automatically</li>
+          <li><strong>Faster service deployment</strong> — new services in minutes, not weeks</li>
+          <li><strong>Better traffic management</strong> — optimize paths in real time</li>
+          <li><strong>Cost reduction</strong> — replace expensive proprietary hardware with commodity switches</li>
+          <li><strong>Cloud-friendly</strong> — ideal for dynamic environments</li>
+          <li><strong>Multi-tenancy support</strong> — run many isolated virtual networks on shared infrastructure</li>
+          <li><strong>Innovation-friendly</strong> — test new protocols without replacing hardware</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 class="mini-title" style="color:#9a3412;">⚠️ Challenges</h4>
+        <ul>
+          <li><strong>Controller bottleneck</strong> — single controller can get overloaded</li>
+          <li><strong>Single point of failure</strong> — controller crash can disrupt the entire network</li>
+          <li><strong>Security risk</strong> — controller is a high-value attack target</li>
+          <li><strong>Consistency problem</strong> — multiple controllers must stay synchronized</li>
+          <li><strong>Scalability limits</strong> — per-flow rules don't scale to millions of flows</li>
+          <li><strong>Migration difficulty</strong> — integrating SDN with legacy networks is complex</li>
+          <li><strong>Vendor gaps</strong> — not all hardware vendors fully support SDN standards</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ S7 ══ -->
+  <section id="s7">
+    <div class="section-label">Topic 07 · Virtual Networking</div>
+    <h2 class="section-title">Virtual Networking</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>Virtual Networking</mark> means creating network infrastructure entirely in software, without depending solely on physical cables and devices. It runs inside VMs, containers, hypervisors, and cloud platforms.</p>
+
+    <h3 class="sub-title">Core Components</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>vNIC (Virtual NIC)</strong></td><td>A software network card that connects a VM to the virtual network</td></tr>
+          <tr><td><strong>Virtual Switch</strong></td><td>Connects VMs on the same host and directs traffic between them</td></tr>
+          <tr><td><strong>Virtual Router / Gateway</strong></td><td>Routes traffic between different virtual networks or to the internet</td></tr>
+          <tr><td><strong>Tunnels / Overlays</strong></td><td>Wrap packets to carry virtual network traffic over a physical network (VXLAN, GRE)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diagram-wrap">
+<pre><code>  Sender VM
+      |
+    vNIC
+      |
+  Virtual Switch
+      |
+  Tunnel / Overlay (VXLAN / GRE)
+      |
+  Physical Network
+      |
+  Destination VM</code></pre>
+    </div>
+
+    <h3 class="sub-title">Key Techniques</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Technique</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VXLAN</strong></td><td>Creates up to 16 million virtual networks on top of one physical network</td></tr>
+          <tr><td><strong>EVPN</strong></td><td>Distributes MAC/IP routing information for VXLAN networks</td></tr>
+          <tr><td><strong>Micro-segmentation</strong></td><td>Divides network into small isolated security zones per workload</td></tr>
+          <tr><td><strong>ARP Suppression</strong></td><td>Reduces unnecessary broadcast traffic in large virtual networks</td></tr>
+          <tr><td><strong>GRE Tunneling</strong></td><td>Encapsulates packets to carry them across different network domains</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S8 ══ -->
+  <section id="s8">
+    <div class="section-label">Topic 08 · Virtual Networking</div>
+    <h2 class="section-title">Use Cases</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">8.1 Network Access Control (NAC)</h3>
+    <p style="color:var(--ink-2);margin-bottom:14px;"><mark>NAC</mark> controls <strong>who can connect to the network</strong> and <strong>what they are allowed to access</strong> after connecting.</p>
+    <ul>
+      <li>Identifies devices and users trying to connect</li>
+      <li>Checks compliance (device patched? antivirus up to date?)</li>
+      <li>Grants full access, limited access, or blocks entirely</li>
+      <li>Places suspicious or non-compliant devices in <strong>quarantine</strong></li>
+    </ul>
+    <div class="diagram-wrap">
+<pre><code>  Device requests network access
+              |
+      NAC checks identity & compliance
+              |
+     ┌────────────────────┐
+     ↓                    ↓
+  Compliant           Non-Compliant
+     ↓                    ↓
+ Full Access          Quarantine / Block</code></pre>
+    </div>
+    <div class="callout idea"><span class="callout-icon">💡</span><div class="callout-body"><strong>Analogy</strong><p>NAC is a security guard who checks your ID and health certificate before letting you into a building.</p></div></div>
+    <div class="callout info"><span class="callout-icon">ℹ️</span><div class="callout-body"><strong>SDN + NAC</strong><p>The SDN controller enforces NAC decisions dynamically by pushing access-control flow rules to switches in real time — no manual per-port VLAN configuration needed.</p></div></div>
+
+    <h3 class="sub-title">8.2 Virtual Customer Edge (vCE)</h3>
+    <p style="color:var(--ink-2);margin-bottom:14px;"><mark>vCE</mark> replaces a physical customer-edge router at a branch site with a <strong>software-based virtual router</strong> running as a VM, container, or virtual appliance.</p>
+    <div class="diagram-wrap">
+<pre><code>Traditional:
+  Branch Site → Physical CE Router → Provider Network
+
+vCE:
+  Branch Site → Virtual CE (VM/Container) → Provider Network</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>What vCE Handles</h4><p>Routing (BGP, OSPF), NAT, VPN tunnels, Firewall and access control</p></div>
+      <div class="card-sm"><h4>Benefits</h4><p>No physical hardware shipping. Remote upgrades via software. Faster deployment. Lower cost on standard x86 servers.</p></div>
+    </div>
+
+    <h3 class="sub-title">8.3 Data Center Optimization</h3>
+    <ul>
+      <li><strong>Multiple virtual networks on shared hardware</strong> — each tenant gets an isolated virtual network</li>
+      <li><strong>Automated provisioning</strong> — spin up a new virtual network in seconds</li>
+      <li><strong>Micro-segmentation</strong> — each workload isolated, reducing breach blast radius</li>
+      <li><strong>Dynamic load balancing</strong> — traffic redistributed automatically when servers overload</li>
+      <li><strong>Reduced hardware costs</strong> — virtual switches handle inter-VM traffic on the same host</li>
+    </ul>
+    <div class="diagram-wrap">
+<pre><code>  Many VMs / Containers
+         |
+  Virtual Network Layer (OVS + VXLAN)
+         |
+  Shared Physical Data Center Fabric
+         |
+  Servers / Storage / Internet</code></pre>
+    </div>
+  </section>
+
+
+  <!-- ══ S9 ══ -->
+  <section id="s9">
+    <div class="section-label">Topic 09 · OpenFlow</div>
+    <h2 class="section-title">Introduction to OpenFlow</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>OpenFlow</mark> is the most widely used <strong>southbound protocol</strong> in SDN. It defines the communication standard between the SDN controller and network switches.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  Controller  ←──── OpenFlow ────→  Switch
+       |                                |
+  Makes decisions               Forwards packets</code></pre>
+    </div>
+
+    <h3 class="sub-title">OpenFlow Message Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Message</th><th>Direction</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>Packet-In</code></td><td>Switch → Controller</td><td>Switch sends an unknown packet to the controller</td></tr>
+          <tr><td><code>Flow-Mod</code></td><td>Controller → Switch</td><td>Controller installs, modifies, or deletes a flow rule</td></tr>
+          <tr><td><code>Packet-Out</code></td><td>Controller → Switch</td><td>Controller tells switch to send a specific packet</td></tr>
+          <tr><td><code>Flow-Stats</code></td><td>Both</td><td>Request/response for flow statistics</td></tr>
+          <tr><td><code>Port-Status</code></td><td>Switch → Controller</td><td>Notifies controller of port state changes</td></tr>
+          <tr><td><code>Hello</code></td><td>Both</td><td>Handshake to establish connection</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Flow Table Entry Structure</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Part</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Match Fields</strong></td><td>Criteria to match — IP address, MAC, port number, protocol</td></tr>
+          <tr><td><strong>Priority</strong></td><td>Which rule takes precedence when multiple rules match</td></tr>
+          <tr><td><strong>Instructions / Actions</strong></td><td>What to do — forward to port, drop, send to controller</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Packet Processing Flow</h3>
+    <div class="diagram-wrap">
+<pre><code>  Host sends packet
+        ↓
+  Switch checks flow table
+        ↓
+  Match found?
+    YES → Execute action (forward / drop)
+    NO  → Send Packet-In to controller
+        ↓
+  Controller decides and sends Flow-Mod
+        ↓
+  Switch stores new rule and forwards packet</code></pre>
+    </div>
+  </section>
+
+
+  <!-- ══ S10 ══ -->
+  <section id="s10">
+    <div class="section-label">Topic 10 · OpenFlow</div>
+    <h2 class="section-title">History &amp; Evolution of SDN</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">SDN emerged from academic research as a response to the <mark>limitations of traditional network management</mark> at scale.</p>
+
+    <h3 class="sub-title">Timeline</h3>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">Early 2000s</div><div class="tl-line"></div></div><div class="tl-right"><strong>Research Begins</strong>Separation of control and data planes researched at universities (RCP, 4D project at CMU/Princeton)</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2004</div><div class="tl-line"></div></div><div class="tl-right"><strong>Clean-Slate Design</strong>"Clean-slate" network design concept gains momentum; researchers argue for control/forwarding separation</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2005–2007</div><div class="tl-line"></div></div><div class="tl-right"><strong>GENI &amp; Ethane</strong>GENI project funds early SDN research; Ethane project at Stanford separates flow control from switches</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2008</div><div class="tl-line"></div></div><div class="tl-right"><strong>OpenFlow v1.0</strong>OpenFlow paper published by McKeown et al. at Stanford — the first formal SDN southbound protocol</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2011</div><div class="tl-line"></div></div><div class="tl-right"><strong>ONF Founded</strong>Open Networking Foundation founded by Google, Facebook, Microsoft and others to promote SDN standards</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2012</div><div class="tl-line"></div></div><div class="tl-right"><strong>Google B4</strong>Google deploys SDN on its internal B4 backbone between data centers — landmark real-world deployment; OpenFlow 1.3 released</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2013</div><div class="tl-line"></div></div><div class="tl-right"><strong>OpenDaylight Launched</strong>OpenDaylight project launched under the Linux Foundation as the first major open-source SDN controller</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2014</div><div class="tl-line"></div></div><div class="tl-right"><strong>ONOS</strong>Open Network Operating System launched targeting carrier-grade SDN deployments</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2015–2017</div><div class="tl-line"></div></div><div class="tl-right"><strong>SDN Goes Mainstream</strong>SDN adoption grows in data centers (NSX, ACI); NFV and SDN begin to converge</div></div>
+      <div class="tl-item"><div class="tl-left"><div class="tl-year">2018–Now</div></div><div class="tl-right"><strong>Cloud-Native Era</strong>SDN embedded in Kubernetes CNI, intent-based networking (IBN), and 5G network slicing</div></div>
+    </div>
+
+    <h3 class="sub-title">Why SDN Was Needed</h3>
+    <ul>
+      <li><strong>Scale problem</strong> — thousands of devices needed the same config change manually</li>
+      <li><strong>Vendor lock-in</strong> — operators couldn't mix equipment from different vendors</li>
+      <li><strong>Slow innovation</strong> — adding a new routing protocol required firmware updates on all hardware</li>
+      <li><strong>Impractical research</strong> — testing new ideas required expensive physical labs</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S11 ══ -->
+  <section id="s11">
+    <div class="section-label">Topic 11 · OpenFlow</div>
+    <h2 class="section-title">Control &amp; Data Plane Separation</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">This is the <mark>foundational concept</mark> of SDN. Every traditional network device combines two functions — SDN splits them apart.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Plane</th><th>Role</th><th>Where it runs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Control Plane</strong></td><td>Makes decisions: routing, policy, topology discovery</td><td>SDN Controller (software)</td></tr>
+          <tr><td><strong>Data Plane</strong></td><td>Executes decisions: forwards, drops, or modifies packets</td><td>Switches / Routers (hardware)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout idea"><span class="callout-icon">💡</span><div class="callout-body"><strong>Simple Analogy</strong><p>The control plane is the <strong>GPS</strong> (decides the route); the data plane is the <strong>car</strong> (drives the route).</p></div></div>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4 class="mini-title">Traditional Network</h4>
+        <div class="diagram-wrap" style="margin:8px 0 0;">
+<pre><code>  ┌─────────────────────────────┐
+  │    Traditional Switch       │
+  │  ┌──────────┐ ┌──────────┐ │
+  │  │  Control │ │   Data   │ │
+  │  │  Plane   │ │  Plane   │ │
+  │  └──────────┘ └──────────┘ │
+  └─────────────────────────────┘
+ Each device decides independently</code></pre>
+        </div>
+      </div>
+      <div class="card">
+        <h4 class="mini-title">SDN</h4>
+        <div class="diagram-wrap" style="margin:8px 0 0;">
+<pre><code>  ┌──────────────────────┐
+  │    SDN Controller    │
+  │   (Control Plane)    │
+  └──────────┬───────────┘
+             │ OpenFlow
+             ↓
+  ┌──────────────────────┐
+  │   Switch / Router    │
+  │    (Data Plane)      │
+  └──────────────────────┘</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Benefits of Separation</h3>
+    <ul>
+      <li><strong>Global visibility</strong> — controller sees the entire network, enabling better routing</li>
+      <li><strong>Simplified hardware</strong> — switches only match and forward; no complex routing software</li>
+      <li><strong>Faster innovation</strong> — new routing algorithms deployed by updating controller software, not switch firmware</li>
+      <li><strong>Consistent policy</strong> — one controller enforces the same policy across all devices simultaneously</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S12 ══ -->
+  <section id="s12">
+    <div class="section-label">Topic 12 · OpenDaylight</div>
+    <h2 class="section-title">OpenDaylight Architecture Overview</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>OpenDaylight (ODL)</mark> is an open-source SDN controller maintained under the Linux Foundation — one of the most feature-rich and widely deployed SDN controllers.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  ┌────────────────────────────────────┐
+  │          Applications              │   ← L2Switch, GBP, SFC, VTN...
+  └─────────────┬──────────────────────┘
+                │ Northbound APIs (REST / RESTCONF / NETCONF)
+  ┌─────────────▼──────────────────────┐
+  │       OpenDaylight Controller      │
+  │  ┌──────────┐  ┌────────────────┐  │
+  │  │  MD-SAL  │  │ Internal       │  │
+  │  │          │  │ Datastore      │  │
+  │  └──────────┘  └────────────────┘  │
+  │  ┌──────────────────────────────┐  │
+  │  │  AAA  │ Clustering │ Plugins │  │
+  │  └──────────────────────────────┘  │
+  └─────────────┬──────────────────────┘
+                │ Southbound APIs
+  ┌─────────────▼──────────────────────┐
+  │  OpenFlow │ NETCONF │ BGP │ PCEP   │
+  └─────────────┬──────────────────────┘
+                ↓
+  ┌─────────────────────────────────────┐
+  │      Switches / Routers / OVS       │
+  └─────────────────────────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">Core Components</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>MD-SAL</strong></td><td>Internal service bus and data model layer</td></tr>
+          <tr><td><strong>Internal Datastore</strong></td><td>Stores all network state data (config + operational)</td></tr>
+          <tr><td><strong>AAA</strong></td><td>Authentication, Authorization, Accounting (security)</td></tr>
+          <tr><td><strong>Clustering</strong></td><td>Enables multiple ODL instances to work as one</td></tr>
+          <tr><td><strong>OpenFlow Plugin</strong></td><td>Communicates with OpenFlow-capable switches</td></tr>
+          <tr><td><strong>RESTCONF / REST API</strong></td><td>Northbound interface for applications and tools</td></tr>
+          <tr><td><strong>DLUX</strong></td><td>Web-based UI for viewing topology and flows</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Supported Southbound Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td><strong>OpenFlow</strong></td><td>Flow-based control of switches</td></tr>
+          <tr><td><strong>NETCONF</strong></td><td>Device configuration management</td></tr>
+          <tr><td><strong>BGP</strong></td><td>Routing protocol integration</td></tr>
+          <tr><td><strong>PCEP</strong></td><td>Path computation in MPLS/traffic engineering</td></tr>
+          <tr><td><strong>OVSDB</strong></td><td>Managing Open vSwitch database (tunnels, bridges)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S13 ══ -->
+  <section id="s13">
+    <div class="section-label">Topic 13 · OpenDaylight</div>
+    <h2 class="section-title">Getting Started with OpenDaylight</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">System Requirements</h3>
+    <ul>
+      <li><strong>Java</strong> — ODL requires JDK 11 or compatible version</li>
+      <li><strong>RAM</strong> — minimum 4 GB recommended for lab use</li>
+      <li><strong>OS</strong> — Linux or macOS environment recommended</li>
+    </ul>
+
+    <h3 class="sub-title">Installation Steps</h3>
+<pre data-lang="bash"><code># Step 1: Install Java
+sudo apt install openjdk-11-jdk
+
+# Step 2: Download and extract OpenDaylight
+wget https://nexus.opendaylight.org/content/.../karaf-&lt;version&gt;.zip
+unzip karaf-&lt;version&gt;.zip
+
+# Step 3: Start the Karaf runtime
+cd karaf-&lt;version&gt;/bin
+./karaf
+
+# Step 4: Inside Karaf console, install features
+opendaylight-user@root> feature:install odl-openflowplugin-all
+opendaylight-user@root> feature:install odl-l2switch-switch-ui
+opendaylight-user@root> feature:install odl-restconf
+opendaylight-user@root> feature:install odl-dlux-core</code></pre>
+
+    <h3 class="sub-title">Key Features to Install</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><code>odl-openflowplugin-all</code></td><td>OpenFlow support for talking to switches</td></tr>
+          <tr><td><code>odl-l2switch-switch-ui</code></td><td>L2 switch application with UI</td></tr>
+          <tr><td><code>odl-restconf</code></td><td>Enables REST API for external access</td></tr>
+          <tr><td><code>odl-dlux-core</code></td><td>Web-based topology visualization UI</td></tr>
+          <tr><td><code>odl-aaa-authn</code></td><td>Authentication and security</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Accessing ODL After Startup</h3>
+    <ul>
+      <li><strong>Web UI (DLUX):</strong> <code>http://localhost:8181/index.html</code> — default credentials: <code>admin / admin</code></li>
+      <li><strong>REST API:</strong> <code>http://localhost:8181/restconf/</code></li>
+    </ul>
+
+    <h3 class="sub-title">Connecting Mininet to ODL</h3>
+<pre data-lang="bash"><code># Start Mininet pointing to ODL as remote controller
+sudo mn --controller=remote,ip=&lt;ODL_IP&gt;,port=6633 --topo=tree,2</code></pre>
+  </section>
+
+
+  <!-- ══ S14 ══ -->
+  <section id="s14">
+    <div class="section-label">Topic 14 · OpenDaylight</div>
+    <h2 class="section-title">OpenDaylight Clustering</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Clustering means running <mark>multiple ODL controller instances</mark> together as a single logical controller.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Problem</th><th>Clustering Solution</th></tr></thead>
+        <tbody>
+          <tr><td>Single controller bottleneck</td><td>Distribute load across multiple instances</td></tr>
+          <tr><td>Single point of failure</td><td>If one node fails, others continue</td></tr>
+          <tr><td>Limited scalability</td><td>Add more controller nodes as network grows</td></tr>
+          <tr><td>Data loss on crash</td><td>State is replicated across all nodes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">How ODL Clustering Works</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">ODL uses the <strong>Akka</strong> framework and the <strong>Raft consensus algorithm</strong> to keep all nodes synchronized.</p>
+    <ul>
+      <li>One node is elected as <strong>leader</strong> for each shard of data</li>
+      <li>All write operations go through the leader</li>
+      <li>Leader replicates changes to <strong>follower</strong> nodes</li>
+      <li>If leader fails, followers elect a new leader automatically</li>
+    </ul>
+    <div class="diagram-wrap">
+<pre><code>  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+  │ Controller 1│    │ Controller 2│    │ Controller 3│
+  │  (Leader)   │◄──►│  (Follower) │◄──►│  (Follower) │
+  └──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+         │                  │                  │
+         └──────────────────┴──────────────────┘
+                    Shared Network State
+                   (Raft-replicated shards)</code></pre>
+    </div>
+
+    <h3 class="sub-title">Shard-Based Data Partitioning</h3>
+    <p style="color:var(--ink-2);">ODL splits its datastore into <strong>shards</strong>. Different shards can have different leaders, distributing write load. Common shards:</p>
+    <ul>
+      <li><code>default</code> — general topology data</li>
+      <li><code>inventory</code> — device/node information</li>
+      <li><code>topology</code> — link-state information</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ S15 ══ -->
+  <section id="s15">
+    <div class="section-label">Topic 15 · OpenDaylight</div>
+    <h2 class="section-title">Model-Driven Service Abstraction Layer (MD-SAL)</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>MD-SAL</mark> is the core service bus and data management layer inside OpenDaylight. It connects all internal components and applications through a common, model-driven framework.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  Applications / Plugins
+          ↓
+       MD-SAL
+    ┌────────────────────────────┐
+    │  Data Store  │  RPC Bus   │
+    │  Notification│  Service   │
+    └────────────────────────────┘
+          ↓
+  Network Devices / Southbound</code></pre>
+    </div>
+
+    <h3 class="sub-title">Key Functions</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Data Store Management</strong></td><td>Stores and retrieves all network state (config and operational)</td></tr>
+          <tr><td><strong>RPC (Remote Procedure Call)</strong></td><td>Components call services provided by other components</td></tr>
+          <tr><td><strong>Notifications</strong></td><td>Publish-subscribe system for internal events (e.g., "new node connected")</td></tr>
+          <tr><td><strong>Data Change Listeners</strong></td><td>Components register to be notified when specific data changes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">YANG Data Models</h3>
+    <p style="color:var(--ink-2);margin-bottom:10px;">MD-SAL uses <strong>YANG</strong> (Yet Another Next Generation) — a data modeling language — to define the structure of configuration/state data, RPC inputs/outputs, and notification formats. This makes ODL <strong>self-documenting and interoperable</strong>.</p>
+
+    <h3 class="sub-title">MD-SAL vs. AD-SAL</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>MD-SAL (Current)</th><th>AD-SAL (Deprecated)</th></tr></thead>
+        <tbody>
+          <tr><td>Data model</td><td>YANG-based, structured</td><td>API-based, less structured</td></tr>
+          <tr><td>Flexibility</td><td>High — models auto-generate APIs</td><td>Low — APIs written manually</td></tr>
+          <tr><td>Interoperability</td><td>Better</td><td>Limited</td></tr>
+          <tr><td>Status</td><td><span class="badge green">Active</span></td><td><span class="badge orange">Deprecated</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S16 ══ -->
+  <section id="s16">
+    <div class="section-label">Topic 16 · OpenDaylight</div>
+    <h2 class="section-title">Internal Datastore</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">The <mark>Internal Datastore</mark> is the database inside OpenDaylight that stores all network state information. It is built on top of MD-SAL and uses YANG-modeled data trees.</p>
+
+    <h3 class="sub-title">Two Types of Data Trees</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tree</th><th>Contains</th><th>Managed By</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Config Datastore</strong></td><td>Intended/desired state — what you want the network to look like</td><td>Operator or application writes</td></tr>
+          <tr><td><strong>Operational Datastore</strong></td><td>Actual/current state — what the network looks like right now</td><td>Controller and devices write</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info"><span class="callout-icon">ℹ️</span><div class="callout-body"><strong>Example</strong><p>You configure a flow rule → it enters the config datastore. Once the rule is confirmed installed on the switch, it appears in the operational datastore.</p></div></div>
+
+    <h3 class="sub-title">Key Properties</h3>
+    <ul>
+      <li><strong>In-memory storage</strong> — fast reads and writes for real-time network control</li>
+      <li><strong>Persistent backup</strong> — state can be persisted to disk and restored on restart</li>
+      <li><strong>Transactional</strong> — changes applied atomically; partial failures are rolled back</li>
+      <li><strong>Replicated</strong> — in a clustered setup, replicated across all controller nodes using Raft</li>
+    </ul>
+
+    <h3 class="sub-title">Accessing via RESTCONF</h3>
+<pre data-lang="bash"><code># Read config datastore
+GET http://localhost:8181/restconf/config/
+
+# Read operational datastore
+GET http://localhost:8181/restconf/operational/
+
+# Get all network nodes
+GET http://localhost:8181/restconf/operational/opendaylight-inventory:nodes</code></pre>
+  </section>
+
+
+  <!-- ══ S17 ══ -->
+  <section id="s17">
+    <div class="section-label">Topic 17 · OpenDaylight</div>
+    <h2 class="section-title">OpenFlow Plugin</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">The <mark>OpenFlow Plugin</mark> is the southbound component in OpenDaylight that enables communication with OpenFlow-capable switches. Without it, ODL cannot talk to OpenFlow switches.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  OpenDaylight Controller
+          ↓
+  OpenFlow Plugin
+   - translates MD-SAL data to OpenFlow wire format
+   - manages OpenFlow connections (TCP port 6633 / 6653)
+          ↓
+  OpenFlow Switch (OVS / hardware switch)</code></pre>
+    </div>
+
+    <h3 class="sub-title">What the Plugin Does</h3>
+    <ul>
+      <li>Establishes and maintains OpenFlow connections with switches</li>
+      <li>Translates flow rule objects (from MD-SAL) into OpenFlow binary messages</li>
+      <li>Receives <code>Packet-In</code> events from switches and publishes them to MD-SAL</li>
+      <li>Installs <code>Flow-Mod</code> messages onto switches when rules are added/changed</li>
+      <li>Collects switch statistics and updates the operational datastore</li>
+    </ul>
+
+    <h3 class="sub-title">Supported OpenFlow Versions</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Version</th><th>Key Features</th></tr></thead>
+        <tbody>
+          <tr><td><strong>OpenFlow 1.0</strong></td><td>Single flow table, basic match fields</td></tr>
+          <tr><td><strong>OpenFlow 1.3</strong></td><td>Multiple flow tables, group tables, meters (for QoS)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--ink-2);">ODL's OpenFlow plugin supports both versions and <strong>auto-negotiates</strong> with connected switches.</p>
+
+    <h3 class="sub-title">Flow Pipeline (OpenFlow 1.3)</h3>
+    <div class="diagram-wrap">
+<pre><code>  Packet arrives at switch
+        ↓
+  Table 0 (first table)
+        ↓ (match / miss)
+  Table 1 → Table 2 → ... → Table N
+        ↓
+  Final action: output to port / drop / send to controller</code></pre>
+    </div>
+  </section>
+
+
+  <!-- ══ S18 ══ -->
+  <section id="s18">
+    <div class="section-label">Topic 18 · Lab Tools</div>
+    <h2 class="section-title">Open vSwitch (OVS) Concepts</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>Open vSwitch (OVS)</mark> is a production-quality, open-source virtual switch designed for virtualized server environments. It is the most widely used virtual switch in SDN labs and cloud platforms (OpenStack, Kubernetes).</p>
+
+    <h3 class="sub-title">Key Features</h3>
+    <ul>
+      <li>Supports <strong>OpenFlow</strong> — can be controlled by any SDN controller</li>
+      <li>Supports <strong>OVSDB</strong> — configuration (bridges, ports, tunnels) can be managed remotely</li>
+      <li>Supports <strong>VXLAN, GRE, STT</strong> — creates overlay tunnels between hosts</li>
+      <li><strong>802.1Q VLAN</strong> tagging and trunking</li>
+      <li><strong>Bonding</strong> — link aggregation for redundancy</li>
+      <li>Works with the Linux kernel for high-performance packet forwarding</li>
+    </ul>
+
+    <div class="diagram-wrap">
+<pre><code>  VM1    VM2    VM3
+   |      |      |
+  ┌────────────────────┐
+  │    OVS Bridge      │  ← virtual switch (flow table)
+  └────────┬───────────┘
+           │
+  Physical NIC → Physical Network → Other Hosts</code></pre>
+    </div>
+
+    <h3 class="sub-title">Key OVS Components</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><code>ovs-vswitchd</code></td><td>Main daemon that manages the virtual switch</td></tr>
+          <tr><td><code>ovsdb-server</code></td><td>Database server storing OVS configuration</td></tr>
+          <tr><td><code>ovs-vsctl</code></td><td>CLI tool to configure OVS (add bridges, ports)</td></tr>
+          <tr><td><code>ovs-ofctl</code></td><td>CLI tool to manage OpenFlow flows on OVS</td></tr>
+          <tr><td><code>ovs-dpctl</code></td><td>CLI tool to manage the kernel datapath</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Common OVS Commands</h3>
+<pre data-lang="bash"><code># Create a new bridge (virtual switch)
+ovs-vsctl add-br br0
+
+# Add a physical port to the bridge
+ovs-vsctl add-port br0 eth0
+
+# Set controller for the bridge
+ovs-vsctl set-controller br0 tcp:&lt;controller_ip&gt;:6633
+
+# Create a VXLAN tunnel
+ovs-vsctl add-port br0 vxlan0 -- \
+  set interface vxlan0 type=vxlan options:remote_ip=&lt;remote_host_ip&gt;
+
+# Show all flows on a bridge
+ovs-ofctl dump-flows br0</code></pre>
+  </section>
+
+
+  <!-- ══ S19 ══ -->
+  <section id="s19">
+    <div class="section-label">Topic 19 · Lab Tools</div>
+    <h2 class="section-title">Mininet Overview</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>Mininet</mark> is a network emulator that creates a complete virtual network — hosts, switches, links, and a controller — on a single Linux machine. It is the standard tool for SDN research and learning.</p>
+
+    <div class="card-grid">
+      <div class="card-sm"><h4>Hosts</h4><p>Lightweight Linux processes with their own network namespace</p></div>
+      <div class="card-sm"><h4>Switches</h4><p>OVS instances that support OpenFlow rules</p></div>
+      <div class="card-sm"><h4>Links</h4><p>Virtual Ethernet pairs with configurable bandwidth and delay</p></div>
+      <div class="card-sm"><h4>Controller</h4><p>Local or remote (e.g., OpenDaylight) over IP</p></div>
+    </div>
+
+    <h3 class="sub-title">Starting Mininet</h3>
+<pre data-lang="bash"><code># Basic: 2 hosts + 1 switch + default controller
+sudo mn
+
+# Tree topology: depth 2, fanout 2
+sudo mn --topo=tree,2,2
+
+# Connect to a remote controller (e.g., OpenDaylight)
+sudo mn --controller=remote,ip=127.0.0.1,port=6633 --topo=linear,3
+
+# Single switch with 4 hosts
+sudo mn --topo=single,4</code></pre>
+
+    <h3 class="sub-title">Common CLI Commands</h3>
+<pre data-lang="mininet-cli"><code>nodes            # List all nodes
+links            # Show all links
+pingall          # Ping between all hosts
+iperf h1 h2      # Run iperf test between hosts
+xterm h1         # Open terminal for host h1
+h1 ifconfig      # Show interfaces of h1
+sh ovs-ofctl dump-flows s1   # Show OVS flows</code></pre>
+
+    <h3 class="sub-title">Common Topologies</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Topology</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>single</code></td><td>All hosts connected to one switch</td></tr>
+          <tr><td><code>linear</code></td><td>Switches connected in a line, one host per switch</td></tr>
+          <tr><td><code>tree</code></td><td>Hierarchical tree of switches and hosts</td></tr>
+          <tr><td><code>torus</code></td><td>Grid/mesh topology</td></tr>
+          <tr><td>Custom</td><td>Defined using Python Mininet API</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S20 ══ -->
+  <section id="s20">
+    <div class="section-label">Topic 20 · Lab Tools</div>
+    <h2 class="section-title">L2 Switch Application</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>L2Switch</mark> is a built-in application in OpenDaylight that makes ODL behave like a <strong>Layer 2 learning switch</strong> — learning MAC addresses and forwarding frames intelligently.</p>
+
+    <h3 class="sub-title">How a Learning Switch Works</h3>
+    <div class="diagram-wrap">
+<pre><code>  Host sends frame
+        ↓
+  Switch: "I don't know this MAC" → Flood to all ports
+        ↓
+  Destination replies → Switch learns its MAC + port
+        ↓
+  Flow rule installed → Future frames go directly</code></pre>
+    </div>
+
+    <h3 class="sub-title">What L2Switch Does in ODL</h3>
+    <ol>
+      <li><strong>Receives Packet-In</strong> — when a switch sends an unknown packet to ODL</li>
+      <li><strong>Learns MAC-to-port mapping</strong> — stores which host is on which switch port</li>
+      <li><strong>Installs flow rules</strong> — pushes Flow-Mod back to switch for direct forwarding</li>
+      <li><strong>Handles topology</strong> — uses LLDP to discover the network topology and avoid loops</li>
+    </ol>
+
+    <div class="diagram-wrap">
+<pre><code>  ODL + L2Switch
+        |
+  Packet-In (unknown destination)
+        |
+  L2Switch learns MAC → installs Flow-Mod
+        |
+  Future packets forwarded directly (no controller involvement)</code></pre>
+    </div>
+
+    <div class="callout info"><span class="callout-icon">ℹ️</span><div class="callout-body"><strong>Loop Prevention</strong><p>L2Switch uses Spanning Tree Protocol (STP) or topology-aware path selection to prevent forwarding loops in networks with redundant links.</p></div></div>
+
+    <h3 class="sub-title">Installing L2Switch in ODL</h3>
+<pre data-lang="karaf"><code>feature:install odl-l2switch-switch
+feature:install odl-l2switch-switch-ui  # includes topology UI</code></pre>
+  </section>
+
+
+  <!-- ══ S21 ══ -->
+  <section id="s21">
+    <div class="section-label">Topic 21 · Advanced Features</div>
+    <h2 class="section-title">OpenDaylight &amp; AAA</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>AAA</mark> stands for <strong>Authentication, Authorization, and Accounting</strong> — the security framework that protects access to the SDN controller.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th><th>Question it Answers</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Authentication</strong></td><td>Verify identity</td><td>"Who are you?"</td></tr>
+          <tr><td><strong>Authorization</strong></td><td>Check permissions</td><td>"What are you allowed to do?"</td></tr>
+          <tr><td><strong>Accounting</strong></td><td>Log activity</td><td>"What did you do, and when?"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout warn"><span class="callout-icon">⚠️</span><div class="callout-body"><strong>Why AAA is Critical</strong><p>The SDN controller has complete network control. An unauthorized user with API access could install malicious flow rules, block legitimate traffic, or expose private topology data.</p></div></div>
+
+    <h3 class="sub-title">AAA Flow in OpenDaylight</h3>
+    <div class="diagram-wrap">
+<pre><code>  User / Application requests access
+              ↓
+  Authentication (token, username/password, certificate)
+              ↓
+  Authorization (role-based: admin, user, viewer)
+              ↓
+       Access Granted / Denied
+              ↓
+  Accounting (log: who, what, when)</code></pre>
+    </div>
+
+    <h3 class="sub-title">Token-Based Authentication (ODL Default)</h3>
+<pre data-lang="bash"><code># Request an auth token
+curl -u admin:admin \
+  http://localhost:8181/auth/v1/tokens \
+  -H "Content-Type: application/json"
+
+# Use token in API request
+curl -H "Authorization: Bearer &lt;token&gt;" \
+  http://localhost:8181/restconf/operational/...</code></pre>
+
+    <h3 class="sub-title">External Authentication Integration</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>System</th><th>Protocol</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><strong>LDAP</strong></td><td>LDAP/LDAPs</td><td>Connect to company directory</td></tr>
+          <tr><td><strong>Active Directory</strong></td><td>Kerberos / LDAP</td><td>Windows enterprise environments</td></tr>
+          <tr><td><strong>RADIUS</strong></td><td>RADIUS</td><td>Network access control systems</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Role-Based Access Control (RBAC)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Permissions</th></tr></thead>
+        <tbody>
+          <tr><td><code>admin</code></td><td>Full read/write access to all APIs</td></tr>
+          <tr><td><code>user</code></td><td>Limited read/write</td></tr>
+          <tr><td><code>viewer</code></td><td>Read-only access</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S22 ══ -->
+  <section id="s22">
+    <div class="section-label">Topic 22 · Advanced Features</div>
+    <h2 class="section-title">OVSDB Virtualization</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>OVSDB (Open vSwitch Database Management Protocol)</mark> is a protocol used to configure and manage Open vSwitch — specifically to create and modify its database of bridges, ports, interfaces, and tunnels.</p>
+
+    <div class="callout idea"><span class="callout-icon">💡</span><div class="callout-body"><strong>OpenFlow vs. OVSDB</strong><p><strong>OpenFlow</strong> tells the switch <em>how to route traffic</em>. <strong>OVSDB</strong> tells the switch <em>how to be built</em> — creating bridges, ports, and tunnels.</p></div></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Controls</th><th>Used For</th></tr></thead>
+        <tbody>
+          <tr><td><strong>OpenFlow</strong></td><td>Traffic forwarding rules (flow table)</td><td>Deciding where packets go</td></tr>
+          <tr><td><strong>OVSDB</strong></td><td>Switch structure and configuration</td><td>Creating bridges, ports, tunnels</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">What OVSDB Can Do</h3>
+    <ul>
+      <li>Create and delete <strong>bridges</strong> (virtual switches)</li>
+      <li>Add and configure <strong>ports</strong> and <strong>interfaces</strong></li>
+      <li>Create <strong>VXLAN, GRE, or STT tunnels</strong> between hosts</li>
+      <li>Configure <strong>VLANs</strong> on ports</li>
+      <li>Set <strong>QoS policies</strong> on interfaces</li>
+    </ul>
+
+    <h3 class="sub-title">OVSDB Virtualization Use Case</h3>
+    <div class="diagram-wrap">
+<pre><code>  ODL Controller
+      ↓ OVSDB (TCP port 6640)
+  OVS on Host A ──── VXLAN Tunnel ──── OVS on Host B
+      |                                      |
+   Tenant A VM                          Tenant A VM</code></pre>
+    </div>
+    <ol>
+      <li><strong>Overlay Network Creation</strong> — OVSDB creates VXLAN tunnels between all hypervisors</li>
+      <li><strong>Dynamic Provisioning</strong> — when a new VM is created, controller configures local OVS via OVSDB</li>
+      <li><strong>Isolation</strong> — each tenant's traffic encapsulated in different VXLAN VNIs (virtual network identifiers)</li>
+    </ol>
+  </section>
+
+
+  <!-- ══ S23 ══ -->
+  <section id="s23">
+    <div class="section-label">Topic 23 · Advanced Features</div>
+    <h2 class="section-title">Application Intents &amp; Group-Based Policy (GBP)</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>GBP</mark> allows network policies to be defined using <strong>high-level intent</strong> rather than low-level IP addresses and port numbers. The controller automatically translates intent into flow rules.</p>
+
+    <div class="card-grid">
+      <div class="card" style="border-color:#fca5a5;">
+        <h4 class="mini-title" style="color:#991b1b;">❌ Traditional ACL (Low-level)</h4>
+        <p style="color:var(--ink-2);font-size:0.875rem;">"Allow TCP port 443 from 10.0.0.5 to 10.0.1.3, deny all else"</p>
+      </div>
+      <div class="card" style="border-color:#86efac;">
+        <h4 class="mini-title" style="color:#166534;">✅ GBP (High-level Intent)</h4>
+        <p style="color:var(--ink-2);font-size:0.875rem;">"Web servers can communicate with DB servers over HTTPS"</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Key Concepts</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Endpoint</strong></td><td>An individual device, VM, or container</td></tr>
+          <tr><td><strong>Endpoint Group (EPG)</strong></td><td>A logical group with the same role (e.g., "Web Servers")</td></tr>
+          <tr><td><strong>Contract</strong></td><td>Policy defining what communication is allowed between two EPGs</td></tr>
+          <tr><td><strong>Subject</strong></td><td>A grouping of rules inside a contract</td></tr>
+          <tr><td><strong>Clause</strong></td><td>A condition that determines when a subject applies</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diagram-wrap">
+<pre><code>  ┌────────────────┐   Contract: HTTP allowed   ┌────────────────┐
+  │  EPG: Web      │ ──────────────────────────► │  EPG: Database │
+  │  (Web Servers) │                             │  (DB Servers)  │
+  └────────────────┘                             └────────────────┘
+
+  ┌────────────────┐                             ┌────────────────┐
+  │  EPG: Dev PCs  │ ──── No Contract ──────────► │  EPG: Database │
+  │                │   (blocked by default)       │                │
+  └────────────────┘                             └────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">GBP vs Traditional ACLs</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Traditional ACL</th><th>GBP</th></tr></thead>
+        <tbody>
+          <tr><td>Based on IPs and ports</td><td>Based on roles and groups</td></tr>
+          <tr><td>Must be rewritten when IPs change</td><td>Policy stays when VMs move</td></tr>
+          <tr><td>Hard to understand and audit</td><td>Human-readable intent</td></tr>
+          <tr><td>Applied per device</td><td>Applied network-wide automatically</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S24 ══ -->
+  <section id="s24">
+    <div class="section-label">Topic 24 · Advanced Features</div>
+    <h2 class="section-title">Service Function Chaining (SFC)</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>SFC</mark> is an SDN/NFV technique that routes network traffic through a <strong>predefined, ordered sequence of network service functions</strong> before reaching its destination.</p>
+
+    <h3 class="sub-title">Problem SFC Solves</h3>
+    <p style="color:var(--ink-2);margin-bottom:14px;">Without SFC, traffic goes directly via shortest path. Enterprises need traffic to pass through security and optimization services first. Traditionally, this required manually inserting physical appliances. SFC allows services to be <strong>applied dynamically using virtual network functions (VNFs)</strong>.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  Client Traffic
+        ↓
+  ┌─────────────────────────────────────┐
+  │          Service Function Chain     │
+  │   Firewall → Load Balancer → IDS   │
+  └─────────────────────────────────────┘
+        ↓
+  Destination Server</code></pre>
+    </div>
+
+    <h3 class="sub-title">Key Components</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Role</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Service Function (SF)</strong></td><td>A network function that processes traffic (e.g., firewall)</td></tr>
+          <tr><td><strong>Service Function Forwarder (SFF)</strong></td><td>A switch that steers traffic to the right SF</td></tr>
+          <tr><td><strong>Service Function Path (SFP)</strong></td><td>The defined order of SFs that traffic must traverse</td></tr>
+          <tr><td><strong>Network Service Header (NSH)</strong></td><td>Metadata attached to packets to identify which chain they belong to</td></tr>
+          <tr><td><strong>Classifier</strong></td><td>Identifies which traffic should enter which chain</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout info"><span class="callout-icon">ℹ️</span><div class="callout-body"><strong>SFC in OpenDaylight</strong><p>ODL supports SFC through the <code>odl-sfc</code> feature set. The controller configures SFFs (usually OVS instances) to steer traffic, and uses NSH headers to track which chain a packet belongs to.</p></div></div>
+  </section>
+
+
+  <!-- ══ S25 ══ -->
+  <section id="s25">
+    <div class="section-label">Topic 25 · Advanced Features</div>
+    <h2 class="section-title">LISP Flow Mapping</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>LISP (Locator/ID Separation Protocol)</mark> separates a device's <strong>identity (what it is)</strong> from its <strong>location (where it is)</strong> in the network.</p>
+
+    <p style="color:var(--ink-2);margin-bottom:14px;">In traditional IP networking, an IP address serves both purposes. When a device moves, its IP changes, breaking connections. LISP solves this with two separate namespaces:</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Namespace</th><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Identity</strong></td><td>EID (Endpoint Identifier)</td><td>Stable address that stays with the device even when it moves</td></tr>
+          <tr><td><strong>Location</strong></td><td>RLOC (Routing Locator)</td><td>Address of the router/tunnel endpoint currently serving the device</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diagram-wrap">
+<pre><code>  Device (EID: 10.0.0.1)
+        ↓
+  Ingress Tunnel Router (ITR)
+        ↓  asks: "Where is EID 10.0.0.1?"
+  LISP Map Server / Map Resolver
+        ↓  replies: "RLOC is 192.168.1.5"
+  Egress Tunnel Router (ETR) at 192.168.1.5
+        ↓
+  Destination device</code></pre>
+    </div>
+
+    <h3 class="sub-title">LISP in OpenDaylight</h3>
+    <p style="color:var(--ink-2);margin-bottom:12px;">ODL includes a <strong>LISP Flow Mapping</strong> service acting as a LISP Map Server and Map Resolver. ODL stores EID-to-RLOC mappings and responds to mapping queries from network nodes.</p>
+
+    <h3 class="sub-title">Use Cases for LISP</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Use Case</th><th>How LISP Helps</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VM mobility</strong></td><td>VM keeps its EID (IP) when moved between data centers</td></tr>
+          <tr><td><strong>Multi-homing</strong></td><td>One EID maps to multiple RLOCs for redundancy</td></tr>
+          <tr><td><strong>Traffic engineering</strong></td><td>Controller changes RLOC mapping to redirect traffic</td></tr>
+          <tr><td><strong>Large-scale routing</strong></td><td>Reduces routing table size using compact RLOC space</td></tr>
+          <tr><td><strong>IoT / mobile networks</strong></td><td>Devices roam without IP address changes</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══ S26 ══ -->
+  <section id="s26">
+    <div class="section-label">Topic 26 · Advanced Features</div>
+    <h2 class="section-title">Virtual Tenant Networks (VTN)</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro"><mark>VTN</mark> is an OpenDaylight application that allows multiple users (tenants) to have their own <strong>isolated virtual networks</strong> running on top of a shared physical network infrastructure.</p>
+
+    <div class="diagram-wrap">
+<pre><code>  Shared Physical Network
+          ↓
+  ┌────────────────────────────────┐
+  │  Virtual Network: Tenant A    │  ← Isolated
+  │  Virtual Network: Tenant B    │  ← Isolated
+  │  Virtual Network: Tenant C    │  ← Isolated
+  └────────────────────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">VTN Components</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Component</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VTN</strong></td><td>Top-level virtual network for one tenant</td></tr>
+          <tr><td><strong>vBridge</strong></td><td>A virtual Layer 2 network (like a virtual LAN) inside a VTN</td></tr>
+          <tr><td><strong>vRouter</strong></td><td>A virtual Layer 3 router that connects vBridges within a VTN</td></tr>
+          <tr><td><strong>vInterface</strong></td><td>A virtual port that connects a host/VM to a vBridge</td></tr>
+          <tr><td><strong>Flow Filter</strong></td><td>Applies traffic policies (allow, deny, redirect) within a VTN</td></tr>
+          <tr><td><strong>Flow Condition</strong></td><td>Match criteria used by flow filters</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">VTN Architecture</h3>
+    <div class="diagram-wrap">
+<pre><code>  Tenant A VTN
+    ├── vBridge A1 (192.168.1.0/24)
+    │     ├── vInterface (Host 1)
+    │     └── vInterface (Host 2)
+    └── vBridge A2 (192.168.2.0/24)
+          └── vInterface (Host 3)
+
+  Tenant B VTN
+    └── vBridge B1 (10.0.0.0/24)
+          ├── vInterface (Host 4)
+          └── vInterface (Host 5)</code></pre>
+    </div>
+
+    <h3 class="sub-title">VTN Flow Filters</h3>
+    <ul>
+      <li><strong>Pass</strong> — allow traffic matching the condition</li>
+      <li><strong>Drop</strong> — silently discard traffic</li>
+      <li><strong>Redirect</strong> — send traffic through a specific service (e.g., SFC integration)</li>
+    </ul>
+
+    <h3 class="sub-title">Benefits of VTN</h3>
+    <ul>
+      <li><strong>Strong isolation</strong> — tenants cannot see or interfere with each other</li>
+      <li><strong>Flexible topology</strong> — each tenant defines their own network topology independently</li>
+      <li><strong>Centralized management</strong> — all VTNs managed from the single ODL controller</li>
+      <li><strong>Cloud-ready</strong> — integrates naturally with OpenStack and similar platforms</li>
+      <li><strong>Scalable</strong> — many tenants coexist without separate physical infrastructure</li>
+    </ul>
+  </section>
+
+
+  <!-- ══ QUICK REFERENCE ══ -->
+  <section id="ref">
+    <div class="section-label">Quick Reference</div>
+    <h2 class="section-title">Summary Table</h2>
+    <div class="section-divider"></div>
+    <div class="ref-grid">
+      <div class="ref-item"><div class="ref-tag">SDN</div><div><strong>Software Defined Networking</strong><p>Network controlled centrally by software; control plane separated from data plane</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Control Plane</div><div><strong>Thinking Part</strong><p>Makes routing and policy decisions — lives in the SDN controller</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Data Plane</div><div><strong>Working Part</strong><p>Forwards packets using rules given by the controller</p></div></div>
+      <div class="ref-item"><div class="ref-tag">OpenFlow</div><div><strong>Southbound Protocol</strong><p>Protocol that connects the SDN controller to switches</p></div></div>
+      <div class="ref-item"><div class="ref-tag">ODL</div><div><strong>OpenDaylight</strong><p>Open-source SDN controller with modular architecture under Linux Foundation</p></div></div>
+      <div class="ref-item"><div class="ref-tag">MD-SAL</div><div><strong>Service Abstraction Layer</strong><p>Internal service bus and data management layer inside ODL</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Datastore</div><div><strong>Internal Datastore</strong><p>ODL's in-memory, replicated database for config and operational state</p></div></div>
+      <div class="ref-item"><div class="ref-tag">OF Plugin</div><div><strong>OpenFlow Plugin</strong><p>Lets ODL communicate with OpenFlow-capable switches</p></div></div>
+      <div class="ref-item"><div class="ref-tag">OVS</div><div><strong>Open vSwitch</strong><p>Open-source virtual switch supporting OpenFlow and OVSDB</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Mininet</div><div><strong>Network Emulator</strong><p>Creates complete virtual SDN networks on a single machine for testing</p></div></div>
+      <div class="ref-item"><div class="ref-tag">L2Switch</div><div><strong>Learning Switch App</strong><p>ODL app implementing MAC learning and Layer 2 forwarding</p></div></div>
+      <div class="ref-item"><div class="ref-tag">AAA</div><div><strong>Security Framework</strong><p>Authentication (identity), authorization (permissions), accounting (logs)</p></div></div>
+      <div class="ref-item"><div class="ref-tag">OVSDB</div><div><strong>OVS Database Protocol</strong><p>Configures OVS structure — bridges, ports, VXLAN/GRE tunnels</p></div></div>
+      <div class="ref-item"><div class="ref-tag">GBP</div><div><strong>Group-Based Policy</strong><p>Define network policy by intent/groups, not IPs and ports</p></div></div>
+      <div class="ref-item"><div class="ref-tag">SFC</div><div><strong>Service Function Chaining</strong><p>Route traffic through an ordered chain of network service functions</p></div></div>
+      <div class="ref-item"><div class="ref-tag">LISP</div><div><strong>Locator/ID Separation</strong><p>Separates device identity (EID) from location (RLOC) for mobility</p></div></div>
+      <div class="ref-item"><div class="ref-tag">VTN</div><div><strong>Virtual Tenant Networks</strong><p>Multiple isolated virtual networks for different tenants on shared hardware</p></div></div>
+      <div class="ref-item"><div class="ref-tag">vNIC</div><div><strong>Virtual NIC</strong><p>Software-based network card connecting a VM to the virtual network</p></div></div>
+      <div class="ref-item"><div class="ref-tag">NAC</div><div><strong>Network Access Control</strong><p>Controls who can join the network and enforces device compliance</p></div></div>
+      <div class="ref-item"><div class="ref-tag">vCE</div><div><strong>Virtual Customer Edge</strong><p>Software-based customer edge router replacing physical hardware</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Cluster</div><div><strong>ODL Clustering</strong><p>Multiple ODL instances working as one for reliability and scale</p></div></div>
+      <div class="ref-item"><div class="ref-tag">Raft</div><div><strong>Consensus Algorithm</strong><p>Keeps all ODL cluster nodes synchronized using leader election</p></div></div>
+    </div>
+
+    <div class="callout tip" style="margin-top:32px;">
+      <span class="callout-icon">📌</span>
+      <div class="callout-body">
+        <strong>One-Line Summary</strong>
+        <p>SDN separates network control from forwarding, uses a central controller (OpenDaylight) to manage switches via OpenFlow, and supports advanced features like GBP, SFC, VTN, and LISP for scalable, automated, and secure network management.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ─── Reading Progress Bar ───
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  bar.style.width = pct + '%';
+}, { passive: true });
+
+// ─── Active TOC Highlighting ───
+const sections = document.querySelectorAll('section[id]');
+const tocLinks = document.querySelectorAll('.toc-item');
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
+      if (active) {
+        active.classList.add('active');
+        active.scrollIntoView({ block: 'nearest' });
+      }
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+// ─── Mobile Sidebar ───
+const sidebar  = document.getElementById('sidebar');
+const menuBtn  = document.getElementById('menu-btn');
+
+menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+sidebar.querySelectorAll('.toc-item').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth < 860) sidebar.classList.remove('open');
+  });
+});
+
+document.addEventListener('click', e => {
+  if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+    sidebar.classList.remove('open');
+  }
+});
+</script>
+
+</body>
+</html>
