@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Computer Networks – Complete Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,300;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink:        #1c1917;
+  --ink-2:      #44403c;
+  --ink-3:      #78716c;
+  --ink-4:      #a8a29e;
+  --paper:      #fafaf7;
+  --paper-2:    #f5f5f0;
+  --paper-3:    #eeede8;
+  --rule:       #e7e5e0;
+  --rule-2:     #d6d3cd;
+  --accent:     #0d5e6b;
+  --accent-2:   #0e7c8e;
+  --accent-bg:  #eef6f7;
+  --accent-bd:  #bde0e5;
+  --warn-bg:    #fefce8;
+  --warn-bd:    #fde047;
+  --warn-ink:   #713f12;
+  --tip-bg:     #f0fdf4;
+  --tip-bd:     #86efac;
+  --tip-ink:    #14532d;
+  --idea-bg:    #faf5ff;
+  --idea-bd:    #d8b4fe;
+  --idea-ink:   #581c87;
+  --sidebar-w:  260px;
+  --content-max:820px;
+  --radius:     6px;
+  --font-head:  'Plus Jakarta Sans', sans-serif;
+  --font-body:  'Literata', Georgia, serif;
+  --font-code:  'JetBrains Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  display: flex;
+  min-height: 100vh;
+}
+
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--accent);
+  width: 0%; z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--paper-2);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+
+#sidebar-header {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+
+#sidebar-header .logo-chip {
+  display: inline-flex; align-items: center;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+}
+#sidebar-header .logo-chip span {
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--accent); letter-spacing: .1em;
+  text-transform: uppercase;
+}
+#sidebar-header h2 {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -.01em;
+}
+#sidebar-header p {
+  font-family: var(--font-head); font-size: 0.7rem;
+  color: var(--ink-3); margin-top: 2px;
+}
+
+#toc-scroll { overflow-y: auto; flex: 1; padding: 8px 0 20px; }
+#toc-scroll::-webkit-scrollbar { width: 3px; }
+#toc-scroll::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 2px; }
+
+.toc-group-label {
+  font-family: var(--font-code); font-size: 0.6rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  padding: 12px 20px 4px; display: block;
+}
+
+.toc-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 20px; text-decoration: none;
+  color: var(--ink-3); font-family: var(--font-head); font-size: 0.77rem;
+  border-left: 2px solid transparent;
+  transition: color .15s, border-color .15s, background .15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-item:hover { color: var(--ink); background: var(--paper-3); }
+.toc-item.active {
+  color: var(--accent); border-left-color: var(--accent);
+  background: var(--accent-bg); font-weight: 600;
+}
+
+.toc-item .toc-num {
+  font-family: var(--font-code); font-size: 0.62rem;
+  color: var(--ink-4); min-width: 18px; flex-shrink: 0;
+}
+.toc-item.active .toc-num { color: var(--accent-2); }
+
+#menu-btn {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 6px;
+  width: 38px; height: 38px; cursor: pointer;
+  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+#menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; }
+
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1; min-width: 0;
+  padding: 56px 56px 100px;
+  max-width: calc(var(--sidebar-w) + var(--content-max));
+}
+
+#hero {
+  padding: 40px 0 52px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 20px; padding: 4px 14px; margin-bottom: 18px;
+}
+.hero-badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-badge span {
+  font-family: var(--font-code); font-size: 0.67rem;
+  color: var(--accent); letter-spacing: .07em; text-transform: uppercase;
+}
+
+#hero h1 {
+  font-family: var(--font-head); font-size: 2.4rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink); margin-bottom: 14px; letter-spacing: -.02em;
+}
+#hero h1 .accent { color: var(--accent); }
+
+#hero p {
+  font-size: 1rem; color: var(--ink-2); max-width: 520px; line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex; gap: 36px; margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.stat { display: flex; flex-direction: column; }
+.stat-num {
+  font-family: var(--font-head); font-size: 1.4rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -.02em;
+}
+.stat-lbl {
+  font-family: var(--font-head); font-size: 0.67rem; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 1px;
+}
+
+section { margin-bottom: 72px; scroll-margin-top: 16px; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-code); font-size: 0.64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.section-label::before {
+  content: ''; display: inline-block;
+  width: 14px; height: 1px; background: var(--accent);
+}
+
+h2.section-title {
+  font-family: var(--font-head); font-size: 1.7rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 4px; letter-spacing: -.025em; line-height: 1.2;
+}
+
+.section-divider {
+  height: 1px; background: var(--rule); margin-bottom: 28px;
+}
+
+.section-intro {
+  color: var(--ink-2); margin-bottom: 20px; font-size: 1rem; line-height: 1.75;
+}
+
+h3.sub-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin: 32px 0 10px; padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  letter-spacing: -.01em;
+}
+
+h4.mini-title {
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+  color: var(--ink-2); margin: 20px 0 8px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
+p { color: var(--ink-2); line-height: 1.8; margin-bottom: 12px; }
+
+.card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 14px;
+}
+
+.card-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+}
+
+.card-sm {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.card-sm h4 {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 5px;
+}
+.card-sm p { font-size: 0.82rem; color: var(--ink-3); margin: 0; }
+
+.callout {
+  border-radius: var(--radius); padding: 14px 18px; margin: 20px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  border-left-width: 3px; border-left-style: solid;
+}
+.callout.info  { background: var(--accent-bg); border-left-color: var(--accent-2); border: 1px solid var(--accent-bd); border-left-width: 3px; border-left-style: solid; }
+.callout.tip   { background: var(--tip-bg);    border: 1px solid var(--tip-bd);    border-left-width: 3px; border-left-style: solid; border-left-color: #22c55e; }
+.callout.warn  { background: var(--warn-bg);   border: 1px solid var(--warn-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #eab308; }
+.callout.idea  { background: var(--idea-bg);   border: 1px solid var(--idea-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #a855f7; }
+
+.callout-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+.callout-body { flex: 1; }
+.callout-body strong {
+  display: block; font-family: var(--font-head); font-size: 0.8rem;
+  font-weight: 700; margin-bottom: 3px;
+}
+.callout.info  .callout-body strong { color: var(--accent); }
+.callout.tip   .callout-body strong { color: var(--tip-ink); }
+.callout.warn  .callout-body strong { color: var(--warn-ink); }
+.callout.idea  .callout-body strong { color: var(--idea-ink); }
+.callout-body p { font-size: 0.875rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+
+pre {
+  background: var(--ink); border-radius: var(--radius);
+  padding: 20px 22px; overflow-x: auto; margin: 16px 0;
+  position: relative;
+}
+pre::before {
+  content: attr(data-lang);
+  position: absolute; top: 9px; right: 14px;
+  font-family: var(--font-code); font-size: 0.6rem;
+  color: #6b7280; letter-spacing: .1em; text-transform: uppercase;
+}
+pre code {
+  font-family: var(--font-code); font-size: 0.82rem;
+  color: #e5e7eb; line-height: 1.65;
+}
+
+p code, li code {
+  font-family: var(--font-code); font-size: 0.8rem;
+  background: var(--paper-3); color: var(--accent);
+  border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.diagram-wrap {
+  background: var(--paper-3); border: 1px solid var(--rule-2);
+  border-radius: var(--radius); padding: 18px 22px; margin: 16px 0;
+  overflow-x: auto;
+}
+.diagram-wrap pre {
+  background: none; border: none; padding: 0; margin: 0;
+}
+.diagram-wrap pre::before { display: none; }
+.diagram-wrap code {
+  font-family: var(--font-code); font-size: 0.79rem;
+  color: var(--accent); line-height: 1.6;
+}
+
+.table-wrap {
+  overflow-x: auto; margin: 16px 0;
+  border-radius: var(--radius); border: 1px solid var(--rule);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead tr { background: var(--paper-2); }
+thead th {
+  padding: 10px 16px; text-align: left;
+  font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+  color: var(--ink); letter-spacing: .03em; white-space: nowrap;
+  border-bottom: 1px solid var(--rule-2);
+}
+tbody tr { border-top: 1px solid var(--rule); }
+tbody tr:hover { background: var(--paper-2); }
+tbody td {
+  padding: 9px 16px; color: var(--ink-2); vertical-align: top;
+  font-family: var(--font-body); font-size: 0.875rem;
+}
+tbody td:first-child { color: var(--ink); font-weight: 500; }
+tbody td strong { color: var(--ink); }
+
+ul, ol { padding-left: 22px; margin: 10px 0; }
+ul li, ol li {
+  margin-bottom: 5px; color: var(--ink-2); font-size: 0.94rem; line-height: 1.7;
+}
+ul li::marker { color: var(--accent); }
+ol li::marker {
+  color: var(--accent); font-family: var(--font-code); font-size: 0.78rem;
+}
+li strong { color: var(--ink); }
+
+mark {
+  background: #fef3c7; color: #92400e;
+  border-radius: 2px; padding: 0 4px; font-weight: 500;
+}
+
+.badge {
+  display: inline-block; padding: 1px 7px; border-radius: 3px;
+  font-family: var(--font-code); font-size: 0.67rem; font-weight: 700;
+  letter-spacing: .04em; vertical-align: middle; margin: 0 2px;
+}
+.badge.cyan   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+.badge.orange { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.badge.green  { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge.purple { background: var(--idea-bg); color: #6b21a8; border: 1px solid var(--idea-bd); }
+
+.ref-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+}
+.ref-item {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 11px; align-items: flex-start;
+}
+.ref-item .ref-tag {
+  font-family: var(--font-code); font-size: 0.64rem; font-weight: 500;
+  color: var(--accent); background: var(--accent-bg);
+  border: 1px solid var(--accent-bd); border-radius: 3px;
+  padding: 2px 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.ref-item p { font-size: 0.78rem; color: var(--ink-3); font-family: var(--font-head); margin: 0; line-height: 1.5; }
+.ref-item strong {
+  color: var(--ink); font-family: var(--font-head); font-size: 0.82rem;
+  display: block; margin-bottom: 2px; font-weight: 600;
+}
+
+[id] { scroll-margin-top: 16px; }
+
+@media (max-width: 860px) {
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+    box-shadow: none;
+  }
+  #sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,.1);
+  }
+  #main { margin-left: 0; padding: 64px 20px 80px; }
+  #menu-btn { display: flex; }
+  .card-grid, .ref-grid { grid-template-columns: 1fr; }
+  #hero h1 { font-size: 1.75rem; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+}
+
+@media (max-width: 520px) {
+  .hero-stats { flex-direction: column; gap: 14px; }
+  #main { padding: 64px 16px 80px; }
+}
+
+@media print {
+  #sidebar, #menu-btn, #progress-bar { display: none; }
+  #main { margin-left: 0; padding: 0; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<button id="menu-btn" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo-chip"><span>CN · Study Notes</span></div>
+    <h2>Computer Networks</h2>
+    <p>15 Parts · Master Revision</p>
+  </div>
+  <div id="toc-scroll">
+    <span class="toc-group-label">Switching</span>
+    <a class="toc-item" href="#part1"><span class="toc-num">01</span>Switching Types</a>
+    <a class="toc-item" href="#part2"><span class="toc-num">02</span>Ethernet Forwarding</a>
+
+    <span class="toc-group-label">Layer 2 Security</span>
+    <a class="toc-item" href="#part3"><span class="toc-num">03</span>Port Security</a>
+    <a class="toc-item" href="#part4"><span class="toc-num">04</span>Spanning Tree Protocol</a>
+    <a class="toc-item" href="#part5"><span class="toc-num">05</span>STP Protocol Types</a>
+    <a class="toc-item" href="#part9"><span class="toc-num">09</span>STP Port Roles</a>
+    <a class="toc-item" href="#part10"><span class="toc-num">10</span>EtherChannel</a>
+    <a class="toc-item" href="#part11"><span class="toc-num">11</span>DHCP Snooping & DAI</a>
+
+    <span class="toc-group-label">VLANs & Routing</span>
+    <a class="toc-item" href="#part6"><span class="toc-num">06</span>VLANs & Inter-VLAN</a>
+    <a class="toc-item" href="#part7"><span class="toc-num">07</span>Infrastructure & ACLs</a>
+
+    <span class="toc-group-label">WAN & IPv6</span>
+    <a class="toc-item" href="#part8"><span class="toc-num">08</span>NAT, IPv4 vs IPv6</a>
+    <a class="toc-item" href="#part12"><span class="toc-num">12</span>IPv6 SLAAC</a>
+    <a class="toc-item" href="#part13"><span class="toc-num">13</span>PPPoE Discovery</a>
+    <a class="toc-item" href="#part14"><span class="toc-num">14</span>NAT64</a>
+    <a class="toc-item" href="#part15"><span class="toc-num">15</span>HDLC</a>
+
+    <span class="toc-group-label">Revision</span>
+    <a class="toc-item" href="#revision"><span class="toc-num">★</span>Master Tables</a>
+  </div>
+</nav>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main id="main">
+
+  <!-- Hero -->
+  <div id="hero">
+    <div class="hero-badge"><div class="dot"></div><span>Complete Study Notes</span></div>
+    <h1>Computer <span class="accent">Networks</span></h1>
+    <p>Comprehensive notes covering switching, STP, VLANs, security, NAT, IPv6, WAN technologies, and more — built for exam revision.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">15</span><span class="stat-lbl">Parts</span></div>
+      <div class="stat"><span class="stat-num">50+</span><span class="stat-lbl">Diagrams</span></div>
+      <div class="stat"><span class="stat-num">30+</span><span class="stat-lbl">Tables</span></div>
+      <div class="stat"><span class="stat-num">★</span><span class="stat-lbl">Master Revision</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       PART 1 – SWITCHING TYPES
+  ══════════════════════════════════ -->
+  <section id="part1">
+    <span class="section-label">Part 1</span>
+    <h2 class="section-title">Switching Types</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">1.1 Circuit Switching</h3>
+    <p>A dedicated physical path is established end-to-end <strong>before</strong> data transfer starts. The entire communication uses the same path, like a traditional telephone call.</p>
+    <h4 class="mini-title">Phases</h4>
+    <ol>
+      <li><strong>Setup</strong> — Call request and connection setup.</li>
+      <li><strong>Data Transfer</strong> — Data flows continuously over the fixed path.</li>
+      <li><strong>Teardown</strong> — Connection is released after transfer.</li>
+    </ol>
+    <div class="diagram-wrap">
+      <pre><code>  ┌────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌─────────────┐
+  │ Source │════│ Switch-A │════│ Switch-B │════│ Switch-C │════│ Destination │
+  └────────┘    └──────────┘    └──────────┘    └──────────┘    └─────────────┘
+                ══════════════════════════════════════════════════
+                     Dedicated path reserved for entire call
+                     No other traffic can use this path
+                     Path is IDLE if no data is being sent → waste</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Low delay during transfer — path is always ready.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Wastes bandwidth when path is idle.</p></div>
+    </div>
+
+    <h3 class="sub-title">1.2 Message Switching</h3>
+    <p>The entire message is treated as a <strong>single unit</strong>. Each intermediate node stores the whole message, then forwards it (store-and-forward).</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌────────┐     ┌────────┐     ┌────────┐     ┌─────────────┐
+  │ Source │─MSG→│ Node-1 │─MSG→│ Node-2 │─MSG→│ Destination │
+  └────────┘     │ STORE  │     │ STORE  │     └─────────────┘
+                 │   ↓    │     │   ↓    │
+                 │FORWARD │     │FORWARD │
+                 └────────┘     └────────┘
+         Entire message must be stored at each node before forwarding
+         High delay — especially for large messages</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Efficient for bursty traffic.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>High delay due to full-message storage; rarely used today.</p></div>
+    </div>
+
+    <h3 class="sub-title">1.3 Packet Switching</h3>
+    <p>Breaks the message into smaller <strong>packets</strong>. Two sub-types:</p>
+
+    <h4 class="mini-title">a) Datagram Switching (Connectionless)</h4>
+    <p>Each packet is routed <strong>independently</strong> — no fixed path. Different packets may take different routes; reassembly happens at the receiver. Every packet carries full source &amp; destination addresses.</p>
+    <div class="diagram-wrap">
+      <pre><code>                              ┌──────┐
+                   ┌──P1────→ │ SW-A │──P1──────────────────────────→ ┐
+                   │          └──────┘                                 │
+  ┌────────┐       │          ┌──────┐                       ┌─────────────┐
+  │ Source │───────┤──P2────→ │ SW-B │──P2─────────────────→│ Destination │
+  └────────┘       │          └──────┘                       └─────────────┘
+                   │          ┌──────┐  ┌──────┐                      ↑
+                   └──P3────→ │ SW-A │─→│ SW-B │──P3─────────────────┘
+                              └──────┘  └──────┘
+  ● Each packet carries full source & destination address
+  ● Packets may arrive OUT OF ORDER (P3 may arrive before P1)
+  ● Reassembly happens at Destination only</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>High efficiency; resilient to link failures.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Variable delay; out-of-order arrival possible.</p></div>
+    </div>
+
+    <h4 class="mini-title">b) Virtual Circuit Switching (Connection-Oriented)</h4>
+    <p>A <strong>logical path</strong> (virtual circuit) is set up before data transfer. All packets follow the same pre-decided route using a <strong>Virtual Circuit Identifier (VCI)</strong> instead of full addresses.</p>
+    <h4 class="mini-title">Phases</h4>
+    <ol>
+      <li><strong>VC Establishment</strong> — Setup packet reserves the path.</li>
+      <li><strong>Data Transfer</strong> — All packets follow the established VC.</li>
+      <li><strong>VC Teardown</strong> — Logical connection is released.</li>
+    </ol>
+    <div class="diagram-wrap">
+      <pre><code>  Phase 1 – VC Establishment (logical path reserved):
+  ┌────────┐   ┌────────┐   ┌────────┐   ┌────────┐   ┌─────────────┐
+  │ Source │═══│ Node-1 │═══│ Node-2 │═══│ Node-3 │═══│ Destination │
+  └────────┘   └────────┘   └────────┘   └────────┘   └─────────────┘
+               ══════════════════════════════════════════════
+                     Virtual Circuit VC1 (pre-established)
+                     ● Only VCI label in each packet header
+                     ● No per-packet routing decision
+
+  Phase 2 – Data Transfer (all packets follow VC1, arrive in order):
+  [VC1,P1] ──→ ──→ ──→ ──→ ──→  In-order delivery ✅
+  [VC1,P2] ──→ ──→ ──→ ──→ ──→
+  [VC1,P3] ──→ ──→ ──→ ──→ ──→
+
+  Phase 3 – VC Teardown: connection released, resources freed</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Low per-packet delay; ordered delivery guaranteed.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Less robust to link failure; setup overhead.</p></div>
+    </div>
+
+    <h3 class="sub-title">1.4 Quick Comparison</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Path</th><th>Addressing</th><th>Connection?</th><th>Arrival Order</th></tr></thead>
+        <tbody>
+          <tr><td>Circuit Switching</td><td>Fixed dedicated</td><td>None (pre-set)</td><td>Yes (end-to-end)</td><td>In order</td></tr>
+          <tr><td>Message Switching</td><td>Per message</td><td>Full in message</td><td>No</td><td>In order</td></tr>
+          <tr><td>Datagram (Packet)</td><td>Arbitrary per packet</td><td>Full in each packet</td><td>No (connectionless)</td><td>May be out-of-order</td></tr>
+          <tr><td>Virtual Circuit</td><td>Same logical path</td><td>VCI only</td><td>Yes (connection-oriented)</td><td>In order</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 2 – ETHERNET FORWARDING
+  ══════════════════════════════════ -->
+  <section id="part2">
+    <span class="section-label">Part 2</span>
+    <h2 class="section-title">Ethernet Forwarding Methods</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">2.1 Store-and-Forward Switching</h3>
+    <p>The switch <strong>receives the entire frame</strong> into its buffer before making a forwarding decision. It checks the <strong>FCS (CRC)</strong> for integrity and drops invalid frames.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────┐  Full Frame  ┌────────────────────────────────────────┐  Frame  ┌──────┐
+  │ Host │─────────────→│           Switch Buffer                │────────→│ Host │
+  │  A   │              │  [1] Receive entire frame into buffer  │         │  B   │
+  └──────┘              │  [2] Recalculate FCS / CRC             │         └──────┘
+                        │  [3] CRC OK?   → Forward  ✅           │
+                        │      CRC Fail? → DROP     ❌           │
+                        └────────────────────────────────────────┘</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Most reliable — no error propagation.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Highest latency of all methods.</p></div>
+    </div>
+
+    <h3 class="sub-title">2.2 Cut-Through Switching</h3>
+    <p>Forwarding begins <strong>before the whole frame arrives</strong>. Two variants:</p>
+
+    <h4 class="mini-title">a) Fast-Forward Switching</h4>
+    <p>Begins forwarding as soon as the <strong>destination MAC address</strong> is read (first 6 bytes only). Does NOT check FCS.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────┐  Bytes 1–6 (Dst MAC)  ┌───────────────────────────────────┐  Forwarding!  ┌──────┐
+  │ Host │──────────────────────→│ Switch reads Dst MAC (6 bytes)    │──────────────→│ Host │
+  │  A   │                       │ Immediately starts forwarding     │               │  B   │
+  └──────┘  Bytes 7–n ──────────→│ (rest of frame still arriving)   │               └──────┘
+            still arriving...    │ ❌ No FCS check — errors propagate│
+                                 └───────────────────────────────────┘</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Lowest latency of all switching methods.</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Can forward corrupted frames.</p></div>
+    </div>
+
+    <h4 class="mini-title">b) Fragment-Free Switching</h4>
+    <p>Improved cut-through — buffers the <strong>first 64 bytes</strong> before forwarding. Collisions produce fragments shorter than 64 bytes (runts), so this filters them. Still does NOT check full FCS.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────┐  Frame  ┌────────────────────────────────────────────┐  Frame  ┌──────┐
+  │ Host │────────→│  Switch buffers first 64 bytes             │────────→│ Host │
+  │  A   │         │  Is it a runt? (< 64 bytes?) → DROP ❌     │         │  B   │
+  └──────┘         │  Not a runt?                 → Forward ✅   │         └──────┘
+                   │  (No full FCS check beyond byte 64)        │
+                   └────────────────────────────────────────────┘</code></pre>
+    </div>
+    <div class="card-grid">
+      <div class="card-sm"><h4>✅ Pros</h4><p>Filters collision fragments (runts).</p></div>
+      <div class="card-sm"><h4>❌ Cons</h4><p>Does not catch bit errors beyond byte 64.</p></div>
+    </div>
+
+    <h3 class="sub-title">2.3 Quick Comparison</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Method</th><th>Buffer Amount</th><th>Error Check</th><th>Latency</th><th>Best For</th></tr></thead>
+        <tbody>
+          <tr><td>Store-and-Forward</td><td>Entire frame</td><td>Full FCS/CRC</td><td>Highest</td><td>Reliability</td></tr>
+          <tr><td>Fast-Forward</td><td>First 6 bytes (MAC DA)</td><td>None</td><td>Lowest</td><td>Speed</td></tr>
+          <tr><td>Fragment-Free</td><td>First 64 bytes</td><td>Runt/collision only</td><td>Medium–Low</td><td>Balance</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 3 – PORT SECURITY
+  ══════════════════════════════════ -->
+  <section id="part3">
+    <span class="section-label">Part 3</span>
+    <h2 class="section-title">Port Security</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">Port security limits which <strong>MAC addresses</strong> can send traffic through a switch access port, preventing unauthorized devices (rogue laptops, switches) from connecting.</p>
+
+    <h3 class="sub-title">3.1 Violation Modes</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mode</th><th>Action</th><th>Logs?</th><th>Port Stays Up?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Protect</strong></td><td>Drops violating frames silently</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td><strong>Restrict</strong></td><td>Drops frames + logs + increments counter</td><td>✅ Yes</td><td>✅ Yes</td></tr>
+          <tr><td><strong>Shutdown</strong></td><td>Err-disables the port; stops all traffic</td><td>✅ Yes</td><td>❌ No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Default on Cisco IOS = Shutdown</strong><p>If you don't specify a violation mode, the port will be err-disabled on the first violation.</p></div>
+    </div>
+
+    <h3 class="sub-title">3.2 Sticky MAC Addresses</h3>
+    <div class="card-grid">
+      <div class="card-sm"><h4>Static MACs</h4><p>Manually configured; survive reloads automatically.</p></div>
+      <div class="card-sm"><h4>Dynamic MACs</h4><p>Learned automatically but lost on reload.</p></div>
+      <div class="card-sm"><h4>Sticky MACs</h4><p>Dynamically learned but saved to running-config. Survive reboot only if you run <code>write memory</code>.</p></div>
+    </div>
+    <div class="diagram-wrap">
+      <pre><code>  ┌─────────────────────┐   Frame (src: aabb.cc00.0100)   ┌───────────────────────────────┐
+  │  PC (aabb.cc00.0100)│ ──────────────────────────────→ │      Switch Port Fa0/1        │
+  └─────────────────────┘                                  │                               │
+                                                           │  ① Receives first frame       │
+                                                           │  ② Learns MAC dynamically     │
+                                                           │  ③ Sticky: saves to config ──→│
+                                                           │     switchport port-security  │
+                                                           │      mac-address sticky       │
+                                                           │      aabb.cc00.0100           │
+                                                           │  ④ write memory → survives ✅ │
+                                                           │  ④ no write → lost on reload ❌│
+                                                           └───────────────────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">3.3 Aging Timers</h3>
+    <p>Controls how long a dynamically learned secure MAC stays bound to a port. By default, secure MACs never age out.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Absolute</strong></td><td>Timer starts at learn time; MAC removed when timer expires, even if device is active.</td></tr>
+          <tr><td><strong>Inactivity</strong></td><td>Timer resets on every frame; MAC removed only after no traffic for the set time.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body"><strong>Static MACs never age out.</strong><p>Only dynamic and sticky MACs are subject to aging timers.</p></div>
+    </div>
+
+    <h3 class="sub-title">3.4 Port Security Diagram</h3>
+    <div class="diagram-wrap">
+      <pre><code>            +-----------------------------+
+            |  Switch Access Port Fa0/1   |
+            |  max: 2 | sticky | aging: 10 min inactivity |
+            +-----------------------------+
+                     |
+  +------------------+    ✅ MAC-A → Allowed (sticky learned)
+  |  PC (MAC-A)      |──→ ✅ MAC-B → Allowed (sticky learned)
+  +------------------+
+  +------------------+    ❌ MAC-C → VIOLATION
+  |  PC (MAC-C)      |──→    Restrict: drop + log
+  +------------------+       Shutdown: port err-disabled</code></pre>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 4 – STP
+  ══════════════════════════════════ -->
+  <section id="part4">
+    <span class="section-label">Part 4</span>
+    <h2 class="section-title">Spanning Tree Protocol (STP)</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">Why STP is Needed – Layer 2 Loops</h3>
+    <p>Real networks use <strong>redundant links</strong> between switches for fault tolerance. But Ethernet frames have <strong>no TTL</strong> — nothing stops a frame from looping forever. Three simultaneous problems occur:</p>
+
+    <div class="card-grid">
+      <div class="card-sm"><h4>① Broadcast Storm</h4><p>A single ARP request loops endlessly → 100% CPU on all switches → complete network collapse.</p></div>
+      <div class="card-sm"><h4>② MAC Flapping</h4><p>MAC table entries flip-flop continuously → switches cannot forward correctly.</p></div>
+      <div class="card-sm"><h4>③ Duplicate Frames</h4><p>Same unicast frame arrives at destination multiple times → TCP connections break.</p></div>
+    </div>
+
+    <div class="diagram-wrap">
+      <pre><code>  WITHOUT STP (Loop Present):
+                       PC-A
+                        |
+                       SW1
+                      /    \
+                   Link1    Link2
+                    /          \
+                  SW2 ─────── SW3
+                       Link3
+
+  Step 1: PC-A sends broadcast → SW1 floods out Link1 AND Link2.
+  Step 2: SW2 via Link1 → floods via Link3; SW3 via Link2 → floods back.
+  Step 3: Both switches receive AGAIN → infinite loop.
+  ┌──────────────────────────────────────────────────┐
+  │  BROADCAST STORM — Network CRASHES               │
+  └──────────────────────────────────────────────────┘
+
+  WITH STP (Loop Broken):
+                       PC-A
+                        |
+                      SW1  ← Root Bridge (lowest BID)
+                      /    \
+                  Link1(DP)  Link2(DP)
+                   /               \
+                 SW2(RP) ──── SW3(RP)
+                         Link3
+                  SW2=Designated ✅  SW3=BLOCKED ❌
+  ┌──────────────────────────────────────────────────┐
+  │  Loop BROKEN — Backup path ready if SW2 fails    │
+  └──────────────────────────────────────────────────┘</code></pre>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Problem Without STP</th><th>STP Solution</th></tr></thead>
+        <tbody>
+          <tr><td>Broadcast storms crash the network</td><td>Blocks redundant ports to eliminate loops</td></tr>
+          <tr><td>MAC table instability / flapping</td><td>Stable topology = stable MAC learning</td></tr>
+          <tr><td>Duplicate frame delivery</td><td>Single forwarding path per segment</td></tr>
+          <tr><td>No Layer 2 TTL</td><td>STP acts as loop-prevention mechanism</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">4.1 Key STP Timers</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Timer</th><th>Default Value</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hello Time</strong></td><td>2 s</td><td>How often Root Bridge sends BPDUs</td></tr>
+          <tr><td><strong>Max Age</strong></td><td>20 s</td><td>How long to wait before assuming Root is gone</td></tr>
+          <tr><td><strong>Forward Delay</strong></td><td>15 s</td><td>Time spent in Listening and Learning states</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><strong>Total 802.1D Convergence</strong><p>Max Age + (2 × Forward Delay) = 20 + 30 = <strong>50 seconds</strong></p></div>
+    </div>
+
+    <h3 class="sub-title">4.2 BPDUs (Bridge Protocol Data Units)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Configuration BPDU</strong></td><td>Carries Root BID, path cost, sender BID, port ID, timers. Sent every 2s from Root.</td></tr>
+          <tr><td><strong>TCN BPDU</strong></td><td>Topology Change Notification — sent when a port changes state; triggers network update.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">4.3 Bridge ID (BID) &amp; Priority</h3>
+    <div class="diagram-wrap">
+      <pre><code>  Classic 802.1D BID:
+  ┌──────────────────┬──────────────────────────────┐
+  │  Priority (2 B)  │   System ID / MAC addr (6 B)  │
+  └──────────────────┴──────────────────────────────┘
+
+  Extended System ID (PVST+/Rapid PVST+):
+  Priority field = Bridge Priority + VLAN ID
+  Example: 32768 + 10 = 32778
+
+  Root Bridge Election: Lowest BID wins.
+  If priority equal → lowest MAC address wins.</code></pre>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 5 – STP PROTOCOL TYPES
+  ══════════════════════════════════ -->
+  <section id="part5">
+    <span class="section-label">Part 5</span>
+    <h2 class="section-title">STP Protocol Types</h2>
+    <div class="section-divider"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Vendor</th><th>Instances</th><th>Convergence</th><th>Key Trait</th></tr></thead>
+        <tbody>
+          <tr><td><strong>802.1D STP</strong></td><td>IEEE</td><td>1 for all VLANs</td><td>30–50 s</td><td>Original STP; 5 port states</td></tr>
+          <tr><td><strong>802.1w RSTP</strong></td><td>IEEE</td><td>1 for all VLANs</td><td>1–6 s</td><td>3 states; Alternate/Backup roles</td></tr>
+          <tr><td><strong>802.1s MSTP</strong></td><td>IEEE</td><td>Grouped VLANs → instances</td><td>1–6 s</td><td>Load-balance per instance</td></tr>
+          <tr><td><strong>PVST+</strong></td><td>Cisco</td><td>1 per VLAN (802.1D)</td><td>Slow</td><td>Per-VLAN root bridge</td></tr>
+          <tr><td><strong>RPVST+</strong></td><td>Cisco</td><td>1 per VLAN (802.1w)</td><td>Fast</td><td>Fastest; highest resource use</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diagram-wrap">
+      <pre><code>  SW1 (Root) ─── SW2 ─── SW3   (same 3-switch topology for all)
+
+  802.1D / 802.1w  →  1 tree for ALL VLANs
+  802.1s           →  Instance 1: VLANs 10, 20  |  Instance 2: VLAN 30
+  PVST+ / RPVST+   →  Separate tree per VLAN (10, 20, 30, ...)</code></pre>
+    </div>
+
+    <h3 class="sub-title">Port States Comparison</h3>
+    <div class="card-grid">
+      <div class="card-sm"><h4>802.1D — 5 States</h4><p>Blocking → Listening → Learning → Forwarding → Disabled</p></div>
+      <div class="card-sm"><h4>802.1w RSTP — 3 States</h4><p>Discarding → Learning → Forwarding</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 6 – VLANs & INTER-VLAN
+  ══════════════════════════════════ -->
+  <section id="part6">
+    <span class="section-label">Part 6</span>
+    <h2 class="section-title">VLANs &amp; Inter-VLAN Routing</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">A VLAN is a <strong>logical LAN</strong> on a physical switch — it divides one switch into multiple broadcast domains. Devices in the same VLAN communicate directly; different VLANs require <strong>Layer 3 routing</strong>.</p>
+
+    <h3 class="sub-title">6.1 VTP (VLAN Trunking Protocol)</h3>
+    <p>Cisco-proprietary protocol that synchronizes VLAN information across switches in a VTP domain.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mode</th><th>Can Create VLANs?</th><th>Syncs with Domain?</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Server</strong></td><td>✅ Yes</td><td>✅ Yes — sends &amp; receives updates</td></tr>
+          <tr><td><strong>Client</strong></td><td>❌ No</td><td>✅ Yes — receives only</td></tr>
+          <tr><td><strong>Transparent</strong></td><td>✅ Yes (locally)</td><td>❌ No — forwards but ignores updates</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Version</th><th>Key Feature</th></tr></thead>
+        <tbody>
+          <tr><td><strong>VTP v1</strong></td><td>Basic VLAN sync; normal VLANs only (1–1005)</td></tr>
+          <tr><td><strong>VTP v2</strong></td><td>Token Ring support; minor improvements</td></tr>
+          <tr><td><strong>VTP v3</strong></td><td><strong>Extended VLANs (1006–4094)</strong>; primary/secondary server roles; better security</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">6.2 802.1Q Tagging</h3>
+    <p>Standard for VLAN tagging on trunk links. Inserts a <strong>4-byte tag</strong> into the Ethernet frame, increasing max frame size from 1518 → <strong>1522 bytes</strong>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Port Type</th><th>Frame Type</th><th>VLANs Supported</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Access Port</strong></td><td>Untagged (to host)</td><td>One VLAN only</td></tr>
+          <tr><td><strong>Trunk Port</strong></td><td>Tagged (between switches/routers)</td><td>Many VLANs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">6.3 Router-on-a-Stick</h3>
+    <p>One physical router interface on a trunk link. Router uses <strong>subinterfaces</strong> (e.g., <code>G0/0.10</code>, <code>G0/0.20</code>) — one per VLAN.</p>
+    <div class="diagram-wrap">
+      <pre><code>  PC-A (VLAN 10) ──→ Switch ──[trunk]──→ Router
+                                          ├── G0/0.10 (gateway for VLAN 10)
+                                          └── G0/0.20 (gateway for VLAN 20)
+                                                  ↓
+                                          PC-B (VLAN 20)
+  ✅ Simple to configure
+  ❌ Single physical link = single point of failure</code></pre>
+    </div>
+
+    <h3 class="sub-title">6.4 Layer 3 Switching – SVIs</h3>
+    <p>A <strong>Switched Virtual Interface</strong> (<code>interface Vlan10</code>) is a logical VLAN interface on a Layer 3 switch with an IP address acting as the default gateway.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────────────────────────────────────────────────────┐
+  │              Layer 3 Switch                          │
+  │                                                      │
+  │  interface Vlan10                                    │
+  │  ip address 10.0.1.1 255.255.255.0  ◄── VLAN 10 GW │
+  │                                                      │
+  │  interface Vlan20                                    │
+  │  ip address 10.0.2.1 255.255.255.0  ◄── VLAN 20 GW │
+  │                                                      │
+  │  Routes between VLANs in hardware ✅ (much faster)   │
+  └──────────────────────┬───────────────────────────────┘
+                         │
+         ┌───────────────┴────────────────┐
+         │                                │
+  ┌──────────────────┐          ┌──────────────────┐
+  │  VLAN 10 — PCs   │          │  VLAN 20 — Servers│
+  │  10.0.1.0/24     │          │  10.0.2.0/24      │
+  └──────────────────┘          └──────────────────┘</code></pre>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 7 – SECURITY & ACLs
+  ══════════════════════════════════ -->
+  <section id="part7">
+    <span class="section-label">Part 7</span>
+    <h2 class="section-title">Infrastructure Security &amp; ACLs</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">7.1 AAA Framework</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Function</th><th>Question Answered</th><th>Examples</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Authentication</strong></td><td>"Who are you?"</td><td>Username/password, certificates, tokens</td></tr>
+          <tr><td><strong>Authorization</strong></td><td>"What can you do?"</td><td>Exec-privilege level, allowed commands</td></tr>
+          <tr><td><strong>Accounting</strong></td><td>"What did you do?"</td><td>Session logs, command history, duration</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">7.2 RADIUS</h3>
+    <p>Open standard client-server AAA protocol. Transport: <strong>UDP</strong> | Ports: <strong>1812</strong> (auth), <strong>1813</strong> (accounting). Authentication + Authorization are <strong>combined</strong> in one exchange.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────────────────────┐   Access-Request (UDP 1812)    ┌──────────────────────┐
+  │   Network Device     │ ──────────────────────────────→│    RADIUS Server     │
+  │  (Switch / Router)   │                                │                      │
+  │                      │ ←── Access-Accept / Reject ────│  Auth + Authz        │
+  │  User logs in ──────→│    (combined in one exchange)  │  combined in one     │
+  │                      │                                │  response            │
+  │                      │ ──── Accounting (UDP 1813) ───→│                      │
+  └──────────────────────┘                                └──────────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">7.3 TACACS+</h3>
+    <p>Cisco-enhanced AAA protocol. Transport: <strong>TCP</strong> | Port: <strong>49</strong>. Separates Authentication, Authorization, and Accounting into <strong>three independent exchanges</strong>. Supports <strong>per-command authorization</strong>.</p>
+    <div class="diagram-wrap">
+      <pre><code>  ┌──────────────────────┐  ① Auth Req (TCP 49)   ┌──────────────────────┐
+  │   Network Device     │ ──────────────────────→│   TACACS+ Server     │
+  │  (Router / Switch)   │ ←── Auth Response ─────│                      │
+  │                      │                        │  ① Authentication    │
+  │                      │ ──② Authorization ────→│  ② Authorization     │
+  │                      │ ←── Authz (per-cmd) ───│  ③ Accounting        │
+  │                      │                        │  (all 3 separate)    │
+  │                      │ ──③ Accounting ────────→│  Entire pkt encrypted│
+  └──────────────────────┘                        └──────────────────────┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">7.4 RADIUS vs TACACS+</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>RADIUS</th><th>TACACS+</th></tr></thead>
+        <tbody>
+          <tr><td>Standard</td><td>Open (RFC 2865)</td><td>Cisco proprietary</td></tr>
+          <tr><td>Transport</td><td>UDP</td><td>TCP</td></tr>
+          <tr><td>Ports</td><td>1812 / 1813</td><td>49</td></tr>
+          <tr><td>Separates A/A/A?</td><td>❌ No (Auth+Authz combined)</td><td>✅ Yes (all three separate)</td></tr>
+          <tr><td>Per-command auth</td><td>❌ Limited</td><td>✅ Full support</td></tr>
+          <tr><td>Encrypts packet body?</td><td>❌ Password only</td><td>✅ Entire packet</td></tr>
+          <tr><td>Common use</td><td>Wireless, VPN, ISP</td><td>Device administration (Cisco)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">7.5 Access Control Lists (ACLs)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Filters By</th><th>Number Range</th><th>Placement</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Standard ACL</strong></td><td>Source IP only</td><td>1–99, 1300–1999</td><td>Close to <strong>destination</strong></td></tr>
+          <tr><td><strong>Extended ACL</strong></td><td>Src/Dst IP, protocol, port</td><td>100–199, 2000–2699</td><td>Close to <strong>source</strong></td></tr>
+          <tr><td><strong>Named ACL</strong></td><td>Same as std/ext but named</td><td>N/A</td><td>Same placement rules</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Implicit Deny</strong><p>Every ACL ends with an invisible <code>deny any</code>. If no rule matches → traffic is dropped.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 8 – NAT, IPv4 vs IPv6 & WAN
+  ══════════════════════════════════ -->
+  <section id="part8">
+    <span class="section-label">Part 8</span>
+    <h2 class="section-title">NAT, IPv4 vs IPv6 &amp; WAN Technologies</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">8.1 NAT Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Mapping</th><th>Public IPs Used</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Static NAT</strong></td><td>1-to-1 permanent</td><td>One per private IP</td><td>Server reachable from outside</td></tr>
+          <tr><td><strong>Dynamic NAT</strong></td><td>Many-to-many (pool)</td><td>Pool of IPs</td><td>Multiple hosts; pool can run out</td></tr>
+          <tr><td><strong>PAT / NAT Overload</strong></td><td>Many-to-1 (ports)</td><td>One IP, many ports</td><td>Homes, businesses (most common)</td></tr>
+          <tr><td><strong>NAT64</strong></td><td>IPv6 ↔ IPv4</td><td>NAT64 prefix</td><td>IPv4–IPv6 transition</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="diagram-wrap">
+      <pre><code>  Static NAT:
+  Inside: 192.168.1.10 ──→ Router ──→ Outside: 203.0.113.5
+
+  Dynamic NAT:
+  192.168.1.10 ──→ 203.0.113.5  ┐
+  192.168.1.11 ──→ 203.0.113.6  ├── NAT Pool
+  192.168.1.12 ──→ 203.0.113.7  ┘
+
+  PAT (NAT Overload):
+  192.168.1.10 ──→ 203.0.113.5 : 10001  ┐
+  192.168.1.11 ──→ 203.0.113.5 : 10002  ├── Same public IP, different ports
+  192.168.1.12 ──→ 203.0.113.5 : 10003  ┘</code></pre>
+    </div>
+
+    <h3 class="sub-title">8.2 IPv4 vs IPv6</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+        <tbody>
+          <tr><td>Size</td><td>32-bit</td><td>128-bit</td></tr>
+          <tr><td>Format</td><td><code>192.168.1.10</code></td><td><code>2001:db8::1</code></td></tr>
+          <tr><td>Total addresses</td><td>~4.3 billion</td><td>~3.4 × 10³⁸</td></tr>
+          <tr><td>Auto-config</td><td>DHCP only</td><td>SLAAC or DHCPv6</td></tr>
+          <tr><td>Address resolution</td><td>ARP (broadcast)</td><td>NDP (multicast)</td></tr>
+          <tr><td>Loopback</td><td><code>127.0.0.1</code></td><td><code>::1</code></td></tr>
+          <tr><td>Private / Local</td><td>RFC 1918</td><td>Unique Local <code>fc00::/7</code></td></tr>
+          <tr><td>Link-Local</td><td><code>169.254.x.x</code> (APIPA)</td><td><code>fe80::/10</code> (mandatory)</td></tr>
+          <tr><td>NAT needed?</td><td>✅ Yes</td><td>❌ Rarely</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">8.3 NDP – Neighbor Discovery Protocol (IPv6)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Message</th><th>Direction</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>RS</strong> (Router Solicitation)</td><td>Host → <code>ff02::2</code></td><td>"Is there a router?"</td></tr>
+          <tr><td><strong>RA</strong> (Router Advertisement)</td><td>Router → <code>ff02::1</code></td><td>"I'm here; here's the prefix and gateway."</td></tr>
+          <tr><td><strong>NS</strong> (Neighbor Solicitation)</td><td>Host → solicited-node multicast</td><td>Resolve IPv6→MAC; used for DAD</td></tr>
+          <tr><td><strong>NA</strong> (Neighbor Advertisement)</td><td>Host/Router → unicast</td><td>Reply to NS with MAC address</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">8.4 PPP &amp; MLPPP</h3>
+    <p><strong>PPP</strong> (Point-to-Point Protocol) is a Layer 2 protocol for serial WAN links providing: Authentication (PAP/CHAP), encapsulation, error detection.</p>
+    <p><strong>MLPPP</strong> combines multiple physical serial links into one logical PPP bundle, increasing bandwidth and supporting load-sharing.</p>
+    <div class="diagram-wrap">
+      <pre><code>  Router-A ══╦═══════════════╦══ Router-B
+             ║  Serial Link 1 ║
+             ║  Serial Link 2 ║
+             ╚═══════════════╝
+             "MLPPP Bundle — 1 logical WAN link"</code></pre>
+    </div>
+
+    <h3 class="sub-title">8.5 PPPoE Stages</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>What Happens</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Discovery</strong></td><td>Client finds B-RAS and negotiates Session ID (PADI→PADO→PADR→PADS)</td></tr>
+          <tr><td><strong>PPP Session</strong></td><td>PPP negotiation (LCP → Authentication → NCP) then data exchange</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 9 – STP PORT ROLES
+  ══════════════════════════════════ -->
+  <section id="part9">
+    <span class="section-label">Part 9</span>
+    <h2 class="section-title">STP Port Roles</h2>
+    <div class="section-divider"></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Port Role</th><th>Found On</th><th>Forwards?</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Root Port (RP)</strong></td><td>Non-root switches</td><td>✅ Yes</td><td>Best (lowest cost) path toward Root Bridge</td></tr>
+          <tr><td><strong>Designated Port (DP)</strong></td><td>Every network segment</td><td>✅ Yes</td><td>Best port on a segment toward Root Bridge</td></tr>
+          <tr><td><strong>Alternate Port (AP)</strong></td><td>Non-root (RSTP only)</td><td>❌ No</td><td>Backup path to Root; instant failover when RP fails</td></tr>
+          <tr><td><strong>Backup Port (BP)</strong></td><td>Non-root (RSTP only)</td><td>❌ No</td><td>Backup to Designated Port on same segment</td></tr>
+          <tr><td><strong>Disabled</strong></td><td>Any switch</td><td>❌ No</td><td>Administratively shut down</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Root Port Selection Tiebreakers</h3>
+    <ol>
+      <li>Lowest <strong>Root Path Cost</strong></li>
+      <li>Lowest <strong>Sender Bridge ID</strong></li>
+      <li>Lowest <strong>Sender Port ID</strong></li>
+    </ol>
+
+    <h3 class="sub-title">Alternate vs Backup Port</h3>
+    <div class="card-grid">
+      <div class="card-sm"><h4>Alternate Port</h4><p>Backup path to the <strong>Root Bridge</strong> via a different path. Instantly transitions to forwarding when Root Port fails — key to RSTP's fast convergence.</p></div>
+      <div class="card-sm"><h4>Backup Port</h4><p>Backup to the <strong>Designated Port on the same segment</strong> on the same switch. Only appears when two ports on the same switch connect to the same segment (usually via a hub).</p></div>
+    </div>
+
+    <div class="diagram-wrap">
+      <pre><code>         SW1 (Root Bridge)
+         /              \
+       (DP)             (DP)    ← All SW1 ports = Designated Ports
+       /                   \
+     SW2                   SW3
+     (RP)                  (RP) ← Root Ports face toward SW1
+       \                   /
+        \                 /
+      (DP)\─────────────/(AP)  ← SW2 wins DP on this link
+                                   SW3 port = Alternate Port (blocking ❌)</code></pre>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 10 – ETHERCHANNEL
+  ══════════════════════════════════ -->
+  <section id="part10">
+    <span class="section-label">Part 10</span>
+    <h2 class="section-title">EtherChannel (LACP &amp; PAgP)</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">EtherChannel bundles <strong>multiple physical links</strong> between switches into <strong>one logical link</strong>. STP sees the bundle as a single interface, so no individual links get blocked. Provides increased bandwidth and redundancy.</p>
+
+    <div class="diagram-wrap">
+      <pre><code>  SW1 ══════════════════ SW2
+       4 × 1 Gbps links
+       = 1 logical 4 Gbps EtherChannel
+
+  "STP sees ONE link — no ports blocked inside the bundle"</code></pre>
+    </div>
+
+    <h3 class="sub-title">Negotiation Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>LACP</th><th>PAgP</th></tr></thead>
+        <tbody>
+          <tr><td>Full Name</td><td>Link Aggregation Control Protocol</td><td>Port Aggregation Protocol</td></tr>
+          <tr><td>Standard</td><td>IEEE 802.3ad (open)</td><td>Cisco proprietary</td></tr>
+          <tr><td>Multi-vendor</td><td>✅ Yes</td><td>❌ Cisco only</td></tr>
+          <tr><td>Modes</td><td>Active / Passive</td><td>Desirable / Auto</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card-grid">
+      <div class="card-sm"><h4>LACP Valid Combos</h4><p>Active + Active ✅ | Active + Passive ✅<br/>Passive + Passive ❌ (no channel)</p></div>
+      <div class="card-sm"><h4>PAgP Valid Combos</h4><p>Desirable + Desirable ✅ | Desirable + Auto ✅<br/>Auto + Auto ❌ (no channel)</p></div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body"><strong>At least one side must be active/desirable</strong><p>For both LACP and PAgP, at least one end must actively initiate negotiation. Two passive/auto ends will never form a channel.</p></div>
+    </div>
+
+    <h3 class="sub-title">Full Comparison Table</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Static (On)</th><th>LACP</th><th>PAgP</th></tr></thead>
+        <tbody>
+          <tr><td>Negotiation</td><td>❌ None</td><td>✅ Yes (IEEE)</td><td>✅ Yes (Cisco)</td></tr>
+          <tr><td>Multi-vendor</td><td>✅ Yes</td><td>✅ Yes</td><td>❌ No</td></tr>
+          <tr><td>Risk</td><td>Misconfiguration undetected</td><td>Low</td><td>Low</td></tr>
+          <tr><td>Recommended</td><td>Only when forced</td><td>✅ Preferred</td><td>Cisco-only networks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 11 – DHCP SNOOPING & DAI
+  ══════════════════════════════════ -->
+  <section id="part11">
+    <span class="section-label">Part 11</span>
+    <h2 class="section-title">DHCP Snooping &amp; Dynamic ARP Inspection</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">11.1 DHCP Snooping</h3>
+    <p>Layer 2 security feature that protects against <strong>rogue DHCP servers</strong>. Acts as a firewall between DHCP traffic and the real DHCP server.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Port Type</th><th>Connected To</th><th>DHCP Replies</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Trusted</strong></td><td>Legitimate DHCP server / uplink switch</td><td>✅ Allowed</td></tr>
+          <tr><td><strong>Untrusted</strong></td><td>End devices (PCs, printers)</td><td>❌ DROPPED</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Protects against:</strong> Rogue DHCP servers (attacker handing out wrong IPs/gateways) and DHCP starvation attacks (flooding DISCOVER messages to exhaust the pool).</p>
+    <div class="diagram-wrap">
+      <pre><code>  [Legit DHCP Server] ──(Trusted)──→ SW1 ──(Untrusted)──→ PCs
+                                       │
+                                 (Untrusted)
+                                       │
+                           [Rogue DHCP Server] ← REPLY DROPPED ❌</code></pre>
+    </div>
+
+    <h3 class="sub-title">11.2 Dynamic ARP Inspection (DAI)</h3>
+    <p>Layer 2 security feature that prevents <strong>ARP spoofing / ARP poisoning</strong>. Validates ARP packets against the DHCP Snooping Binding Table.</p>
+    <div class="diagram-wrap">
+      <pre><code>  PC-A (10.0.1.10 / MAC-A) ──── SW1 ──── PC-B (10.0.1.20 / MAC-B)
+                                 │
+                    [Attacker: "I am 10.0.1.20, my MAC = ATTACK"]
+                                 │
+                    DAI checks binding table:
+                    10.0.1.20 should be MAC-B → MISMATCH → DROP ❌</code></pre>
+    </div>
+
+    <h3 class="sub-title">11.3 DHCP Snooping vs DAI</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>DHCP Snooping</th><th>DAI</th></tr></thead>
+        <tbody>
+          <tr><td>Protects against</td><td>Rogue DHCP servers, starvation</td><td>ARP spoofing, MITM</td></tr>
+          <tr><td>Operates on</td><td>DHCP messages (Layer 2)</td><td>ARP messages (Layer 2)</td></tr>
+          <tr><td>Depends on</td><td>Nothing (standalone)</td><td><strong>DHCP Snooping binding table</strong></td></tr>
+          <tr><td>Trust model</td><td>Trusted / Untrusted ports</td><td>Trusted / Untrusted ports</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Enable DHCP Snooping BEFORE DAI</strong><p>DAI needs the binding table that DHCP Snooping builds. Without it, DAI has nothing to validate against.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 12 – IPv6 SLAAC
+  ══════════════════════════════════ -->
+  <section id="part12">
+    <span class="section-label">Part 12</span>
+    <h2 class="section-title">IPv6 SLAAC</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro"><strong>Stateless Address Autoconfiguration</strong> — an IPv6 host configures its own address <strong>without a DHCP server</strong>. Uses NDP messages (RS/RA) and EUI-64 for the interface ID. Defined in RFC 4862.</p>
+
+    <h3 class="sub-title">Step-by-Step Process</h3>
+    <ol>
+      <li><strong>Generate Link-Local Address</strong> — prefix <code>fe80::/10</code> + EUI-64 interface ID from MAC.</li>
+      <li><strong>DAD on Link-Local</strong> — host sends NS for its own address. No reply = unique ✅.</li>
+      <li><strong>Send Router Solicitation (RS)</strong> — to <code>ff02::2</code>: "Is there a router on this link?"</li>
+      <li><strong>Receive Router Advertisement (RA)</strong> — router replies with network prefix, default gateway (its Link-Local), and M/O flags.</li>
+      <li><strong>Build Global Unicast Address</strong> — Prefix from RA + EUI-64 interface ID.</li>
+      <li><strong>DAD on Global Unicast</strong> — confirms it's unique before using it.</li>
+    </ol>
+
+    <div class="diagram-wrap">
+      <pre><code>  Host                                      Router
+   │── Step 1: Generate Link-Local ──────────│
+   │   (fe80::... via EUI-64)                │
+   │── Step 2: DAD (NS for own addr) ────────│
+   │   (No reply = unique ✅)                │
+   │── Step 3: RS ────────────────────────── ff02::2
+   │                                          │
+   │←─ Step 4: RA (prefix, gateway, flags) ──│
+   │   prefix: 2001:db8::/64                 │
+   │   gateway: fe80::1 | M=0, O=0 → SLAAC  │
+   │── Step 5: Build Global Unicast ─────────│
+   │   2001:db8::<EUI-64>/64                 │
+   │── Step 6: DAD on Global addr ───────────│
+   │   Host fully configured! ✅              │</code></pre>
+    </div>
+
+    <h3 class="sub-title">RA Flags (M and O)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>M Flag</th><th>O Flag</th><th>Mode</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>0</td><td>Pure SLAAC</td><td>Host self-configures address + uses RA for everything</td></tr>
+          <tr><td>0</td><td>1</td><td>SLAAC + Stateless DHCPv6</td><td>Self-configures address; gets DNS etc. from DHCPv6</td></tr>
+          <tr><td>1</td><td>—</td><td>Stateful DHCPv6</td><td>Host must get address from DHCPv6 server</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">EUI-64 Interface ID Generation</h3>
+    <ol>
+      <li>Take 48-bit MAC: <code>1a:2b:3c:4d:5e:6f</code></li>
+      <li>Split in half: <code>1a:2b:3c</code> | <code>4d:5e:6f</code></li>
+      <li>Insert <code>ff:fe</code> in middle: <code>1a:2b:3c:ff:fe:4d:5e:6f</code></li>
+      <li>Flip the <strong>7th bit</strong> (Universal/Local bit) of the first byte.</li>
+      <li>Result = 64-bit Interface ID appended to network prefix.</li>
+    </ol>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 13 – PPPoE DISCOVERY
+  ══════════════════════════════════ -->
+  <section id="part13">
+    <span class="section-label">Part 13</span>
+    <h2 class="section-title">PPPoE Discovery Messages</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">PPPoE has two stages: <strong>Discovery</strong> (find the server, get a Session ID) and <strong>Session</strong> (run PPP). Discovery uses exactly 4 messages + 1 termination message.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Message</th><th>Sender</th><th>Destination</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>PADI</strong></td><td>Client</td><td><strong>Broadcast</strong></td><td>Discover Access Concentrators</td></tr>
+          <tr><td><strong>PADO</strong></td><td>Server (B-RAS)</td><td>Unicast to client</td><td>Offer PPPoE service</td></tr>
+          <tr><td><strong>PADR</strong></td><td>Client</td><td>Unicast to server</td><td>Request session with chosen server</td></tr>
+          <tr><td><strong>PADS</strong></td><td>Server (B-RAS)</td><td>Unicast to client</td><td>Confirm session + assign Session ID</td></tr>
+          <tr><td><strong>PADT</strong></td><td>Either</td><td>Unicast</td><td>Terminate active session</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="diagram-wrap">
+      <pre><code>  Client                                  B-RAS (Access Concentrator)
+    │                                               │
+    │──── PADI (Broadcast) ────────────────────────→│
+    │     "Anyone there?"                           │
+    │                                               │
+    │←─── PADO (Unicast) ──────────────────────────│
+    │     "I'm here, offering PPPoE"                │
+    │                                               │
+    │──── PADR (Unicast) ─────────────────────────→│
+    │     "I pick you — start a session"            │
+    │                                               │
+    │←─── PADS (Unicast) ──────────────────────────│
+    │     "Confirmed — Session ID = 0x0001"         │
+    │                                               │
+    │════════ PPP SESSION STAGE BEGINS ═════════════│
+    │   LCP → Authentication (PAP/CHAP) → NCP → Data│</code></pre>
+    </div>
+
+    <div class="callout idea">
+      <span class="callout-icon">🧠</span>
+      <div class="callout-body"><strong>Mnemonic: PADI PADO PADR PADS</strong><p>"Initiation → Offer → Request → Session" — think of it as a 4-way handshake. Only PADI is broadcast; everything else is unicast.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 14 – NAT64
+  ══════════════════════════════════ -->
+  <section id="part14">
+    <span class="section-label">Part 14</span>
+    <h2 class="section-title">NAT64</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">NAT64 allows <strong>IPv6-only hosts</strong> to communicate with <strong>IPv4-only servers</strong> by translating between IPv6 and IPv4 addresses at the network boundary. Works alongside <strong>DNS64</strong>.</p>
+
+    <h3 class="sub-title">How NAT64 Works</h3>
+    <ol>
+      <li>IPv6 host queries DNS64 for an IPv4-only domain (<code>example.com</code>).</li>
+      <li>DNS64 finds only an IPv4 A record (<code>93.184.216.34</code>). It synthesizes an AAAA record by embedding the IPv4 address into the <strong>NAT64 prefix</strong> (<code>64:ff9b::/96</code>):<br>Synthesized AAAA: <code>64:ff9b::5db8:d822</code></li>
+      <li>Host sends IPv6 packet to <code>64:ff9b::5db8:d822</code>.</li>
+      <li>NAT64 gateway intercepts, extracts IPv4 destination (<code>93.184.216.34</code>), translates IPv6→IPv4, forwards.</li>
+      <li>IPv4 server replies → gateway translates IPv4→IPv6 → sends back to host.</li>
+    </ol>
+
+    <div class="diagram-wrap">
+      <pre><code>  IPv6 Host          NAT64 Gateway            IPv4 Server
+  (2001:db8::1)      (64:ff9b::/96)         (93.184.216.34)
+       │                    │                      │
+       │── IPv6 packet ────→│                      │
+       │  Dst: 64:ff9b::    │── IPv4 packet ──────→│
+       │       5db8:d822    │  Dst: 93.184.216.34  │
+       │                    │                      │
+       │                    │←─ IPv4 reply ─────── │
+       │←─ IPv6 reply ──────│                      │
+       │  Src: 64:ff9b::    │                      │
+       │       5db8:d822    │                      │</code></pre>
+    </div>
+
+    <h3 class="sub-title">NAT64 vs Traditional NAT</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Traditional NAT</th><th>NAT64</th></tr></thead>
+        <tbody>
+          <tr><td>Translates</td><td>Private IPv4 ↔ Public IPv4</td><td>IPv6 ↔ IPv4</td></tr>
+          <tr><td>Purpose</td><td>Address conservation</td><td>Protocol transition</td></tr>
+          <tr><td>Needs DNS?</td><td>❌ No</td><td>✅ Yes (DNS64)</td></tr>
+          <tr><td>Direction</td><td>IPv4 client → IPv4 server</td><td>IPv6 client → IPv4 server</td></tr>
+          <tr><td>Use case</td><td>Home/office internet sharing</td><td>IPv4-to-IPv6 migration</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Key Terms</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NAT64</strong></td><td>Translates between IPv6 and IPv4</td></tr>
+          <tr><td><strong>DNS64</strong></td><td>Synthesizes AAAA records from IPv4 A records</td></tr>
+          <tr><td><strong>NAT64 Prefix</strong></td><td><code>64:ff9b::/96</code> — last 32 bits = IPv4 address</td></tr>
+          <tr><td><strong>Stateful NAT64</strong></td><td>Many-to-one (like PAT); many IPv6 hosts share one IPv4 address</td></tr>
+          <tr><td><strong>Stateless NAT64</strong></td><td>One-to-one mapping; requires a block of IPv4 addresses</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+       PART 15 – HDLC
+  ══════════════════════════════════ -->
+  <section id="part15">
+    <span class="section-label">Part 15</span>
+    <h2 class="section-title">HDLC</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro"><strong>High-Level Data Link Control</strong> — a Layer 2 protocol for serial point-to-point WAN links. Bit-oriented, data transmitted as a continuous bit stream. Originally defined by ISO; Cisco uses a <strong>proprietary version (cHDLC)</strong> that adds a Type field to support multiple Layer 3 protocols. <mark>Default encapsulation on Cisco serial interfaces.</mark></p>
+
+    <h3 class="sub-title">HDLC vs PPP</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>HDLC (Cisco)</th><th>PPP</th></tr></thead>
+        <tbody>
+          <tr><td>Standard</td><td>Cisco proprietary</td><td>Open (RFC 1661)</td></tr>
+          <tr><td>Multi-vendor</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td>Authentication</td><td>❌ None</td><td>✅ PAP / CHAP</td></tr>
+          <tr><td>Compression</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td>Error detection</td><td>✅ Yes (FCS)</td><td>✅ Yes (FCS)</td></tr>
+          <tr><td>Multilink</td><td>❌ No</td><td>✅ Yes (MLPPP)</td></tr>
+          <tr><td>Default Cisco serial</td><td>✅ <strong>Yes</strong></td><td>❌ No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><strong>Cisco to non-Cisco serial link?</strong><p>Use PPP, not HDLC. Cisco HDLC is proprietary and will cause an encapsulation mismatch with non-Cisco devices.</p></div>
+    </div>
+
+    <h3 class="sub-title">HDLC Frame Structure</h3>
+    <div class="diagram-wrap">
+      <pre><code>  Standard HDLC:
+  ┌────────┬─────────┬─────────┬────────────┬──────┬────────┐
+  │  Flag  │ Address │ Control │    Data    │ FCS  │  Flag  │
+  │ 1 byte │ 1 byte  │ 1 byte  │  Variable  │ 2 B  │ 1 byte │
+  └────────┴─────────┴─────────┴────────────┴──────┴────────┘
+    0x7E                                              0x7E
+
+  Cisco HDLC (adds proprietary Type field):
+  ┌────────┬─────────┬─────────┬────────┬────────────┬──────┬────────┐
+  │  Flag  │ Address │ Control │  Type  │    Data    │ FCS  │  Flag  │
+  │ 1 byte │ 1 byte  │ 1 byte  │ 2 byte │  Variable  │ 2 B  │ 1 byte │
+  └────────┴─────────┴─────────┴────────┴────────────┴──────┴────────┘
+                                    ↑
+                   Identifies Layer 3 protocol (e.g., 0x0800 = IP)</code></pre>
+    </div>
+
+    <h3 class="sub-title">HDLC Frame Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Name</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>I-frame</strong></td><td>Information</td><td>Carries user data; includes sequence numbers</td></tr>
+          <tr><td><strong>S-frame</strong></td><td>Supervisory</td><td>Flow control and error control (RR, RNR, REJ)</td></tr>
+          <tr><td><strong>U-frame</strong></td><td>Unnumbered</td><td>Link management (setup, disconnect, mode setting)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">HDLC Modes of Operation</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mode</th><th>Full Name</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NRM</strong></td><td>Normal Response Mode</td><td>Secondary can only transmit with primary's permission</td></tr>
+          <tr><td><strong>ARM</strong></td><td>Asynchronous Response Mode</td><td>Secondary can transmit without permission</td></tr>
+          <tr><td><strong>ABM</strong></td><td>Asynchronous Balanced Mode</td><td><strong>Both stations are equal peers</strong> — used on P-to-P WAN links</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Bit Stuffing</h3>
+    <p><strong>Problem:</strong> Flag byte = <code>01111110</code> (six consecutive 1s). If data also has six 1s → mistaken for a flag.</p>
+    <p><strong>Solution:</strong> Sender inserts a <code>0</code> after every five consecutive <code>1</code>s in data. Receiver removes the stuffed <code>0</code> to restore original data.</p>
+    <div class="diagram-wrap">
+      <pre><code>  Original:    0 1 1 1 1 1 1 0   ← six 1s looks like a flag!
+  After stuff: 0 1 1 1 1 1 0 1 0 ← extra 0 inserted after five 1s
+  Receiver removes stuffed 0 → original data restored ✅</code></pre>
+    </div>
+
+    <h3 class="sub-title">Flow Control via S-frames</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>S-frame</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>RR</strong> (Receive Ready)</td><td>"Send more frames — I'm ready."</td></tr>
+          <tr><td><strong>RNR</strong> (Receive Not Ready)</td><td>"Stop sending — I'm busy."</td></tr>
+          <tr><td><strong>REJ</strong> (Reject)</td><td>"Error detected — retransmit from frame N."</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════
+       MASTER REVISION TABLES
+  ══════════════════════════════════ -->
+  <section id="revision">
+    <span class="section-label">Master Revision</span>
+    <h2 class="section-title">Master Revision Tables</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Last-minute revision — all protocols and key facts consolidated.</p>
+
+    <h3 class="sub-title">Switching &amp; Forwarding</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concept</th><th>Key Fact</th><th>Gotcha</th></tr></thead>
+        <tbody>
+          <tr><td>Circuit Switching</td><td>Dedicated path; 3 phases</td><td>Wastes bandwidth when idle</td></tr>
+          <tr><td>Message Switching</td><td>Store-and-forward whole message</td><td>High delay; rarely used</td></tr>
+          <tr><td>Datagram Switching</td><td>Each packet independent</td><td>Out-of-order delivery possible</td></tr>
+          <tr><td>Virtual Circuit</td><td>Pre-set logical path; VCI</td><td>Not a physical dedicated path</td></tr>
+          <tr><td>Store-and-Forward</td><td>Full frame + CRC check</td><td>Highest latency</td></tr>
+          <tr><td>Fast-Forward</td><td>Forwards after 6-byte MAC read</td><td>No error checking</td></tr>
+          <tr><td>Fragment-Free</td><td>Buffers first 64 bytes</td><td>No full FCS check</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">STP Protocol Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Vendor</th><th>Instances</th><th>Convergence</th><th>Key Trait</th></tr></thead>
+        <tbody>
+          <tr><td>802.1D STP</td><td>IEEE</td><td>1 for all VLANs</td><td>30–50 s</td><td>Original; 5 port states</td></tr>
+          <tr><td>802.1w RSTP</td><td>IEEE</td><td>1 for all VLANs</td><td>1–6 s</td><td>3 states; Alternate/Backup ports</td></tr>
+          <tr><td>802.1s MSTP</td><td>IEEE</td><td>Grouped VLANs → instances</td><td>1–6 s</td><td>Load-balance per instance</td></tr>
+          <tr><td>PVST+</td><td>Cisco</td><td>1 per VLAN (802.1D)</td><td>Slow</td><td>Per-VLAN root bridge</td></tr>
+          <tr><td>RPVST+</td><td>Cisco</td><td>1 per VLAN (802.1w)</td><td>Fast</td><td>Fastest; highest resource use</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">STP Port Roles</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Switch</th><th>Forwards?</th><th>Key Fact</th></tr></thead>
+        <tbody>
+          <tr><td>Root Port</td><td>Non-root</td><td>✅ Yes</td><td>Best path to Root; one per switch</td></tr>
+          <tr><td>Designated Port</td><td>Every segment</td><td>✅ Yes</td><td>Root Bridge has ALL DPs</td></tr>
+          <tr><td>Alternate Port</td><td>Non-root (RSTP)</td><td>❌ No</td><td>Backup to Root Port; instant failover</td></tr>
+          <tr><td>Backup Port</td><td>Non-root (RSTP)</td><td>❌ No</td><td>Backup to DP on same segment</td></tr>
+          <tr><td>Disabled</td><td>Any</td><td>❌ No</td><td>Admin shutdown</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Port Security</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Mode</th><th>Drops Frames?</th><th>Logs?</th><th>Port Up?</th></tr></thead>
+        <tbody>
+          <tr><td>Protect</td><td>✅ Silently</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td>Restrict</td><td>✅ Yes</td><td>✅ Yes</td><td>✅ Yes</td></tr>
+          <tr><td>Shutdown</td><td>✅ Err-disabled</td><td>✅ Yes</td><td>❌ No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>MAC Type</th><th>Survives Reload?</th><th>Ages Out?</th></tr></thead>
+        <tbody>
+          <tr><td>Static</td><td>✅ Yes (in config)</td><td>❌ Never</td></tr>
+          <tr><td>Dynamic</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td>Sticky</td><td>✅ If saved</td><td>✅ If aging enabled</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">EtherChannel</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Standard</th><th>Modes</th><th>Both Passive/Auto?</th></tr></thead>
+        <tbody>
+          <tr><td>LACP</td><td>IEEE 802.3ad</td><td>Active / Passive</td><td>❌ No channel</td></tr>
+          <tr><td>PAgP</td><td>Cisco</td><td>Desirable / Auto</td><td>❌ No channel</td></tr>
+          <tr><td>Static</td><td>N/A</td><td>On / On</td><td>✅ Works (no negotiation)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Layer 2 Security</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>Protects Against</th><th>Depends On</th></tr></thead>
+        <tbody>
+          <tr><td>Port Security</td><td>Unauthorized MACs</td><td>Nothing</td></tr>
+          <tr><td>DHCP Snooping</td><td>Rogue DHCP, starvation</td><td>Nothing</td></tr>
+          <tr><td>DAI</td><td>ARP spoofing, MITM</td><td>DHCP Snooping binding table</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">VLANs &amp; Trunking</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Concept</th><th>Key Fact</th><th>Gotcha</th></tr></thead>
+        <tbody>
+          <tr><td>VLAN</td><td>Logical broadcast domain</td><td>Needs L3 to route between VLANs</td></tr>
+          <tr><td>802.1Q</td><td>4-byte tag; 1522-byte max frame</td><td>Untagged native VLAN must match both ends</td></tr>
+          <tr><td>VTP v1/v2</td><td>Normal VLANs 1–1005</td><td>High revision number can wipe VLAN DB</td></tr>
+          <tr><td>VTP v3</td><td>Extended VLANs 1006–4094</td><td>Only primary server can modify</td></tr>
+          <tr><td>Router-on-a-Stick</td><td>One link, multiple subinterfaces</td><td>Single point of failure</td></tr>
+          <tr><td>SVI (L3 Switch)</td><td>Logical VLAN interface = gateway</td><td>Faster than router-on-a-stick</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">AAA Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Transport</th><th>Port(s)</th><th>Separates A/A/A?</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>RADIUS</td><td>UDP</td><td>1812 / 1813</td><td>❌ Auth+Authz combined</td><td>Wireless, VPN, ISP</td></tr>
+          <tr><td>TACACS+</td><td>TCP</td><td>49</td><td>✅ All three separate</td><td>Device admin (Cisco)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">ACLs</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Filters By</th><th>Number Range</th><th>Placement</th></tr></thead>
+        <tbody>
+          <tr><td>Standard</td><td>Source IP only</td><td>1–99, 1300–1999</td><td>Close to <strong>destination</strong></td></tr>
+          <tr><td>Extended</td><td>Src/Dst IP, protocol, port</td><td>100–199, 2000–2699</td><td>Close to <strong>source</strong></td></tr>
+          <tr><td>Named</td><td>Same as std/ext</td><td>N/A</td><td>Same rules apply</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">NAT Types</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Mapping</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td>Static NAT</td><td>1-to-1 permanent</td><td>Internal server reachable from outside</td></tr>
+          <tr><td>Dynamic NAT</td><td>Many-to-many (pool)</td><td>Multiple hosts; pool can run out</td></tr>
+          <tr><td>PAT / NAT Overload</td><td>Many-to-1 via ports</td><td>Homes and businesses (most common)</td></tr>
+          <tr><td>NAT64</td><td>IPv6 ↔ IPv4</td><td>IPv4-to-IPv6 transition</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">IPv4 vs IPv6</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+        <tbody>
+          <tr><td>Size</td><td>32-bit</td><td>128-bit</td></tr>
+          <tr><td>Address resolution</td><td>ARP (broadcast)</td><td>NDP — NS/NA (multicast)</td></tr>
+          <tr><td>Auto-config</td><td>DHCP only</td><td>SLAAC or DHCPv6</td></tr>
+          <tr><td>Loopback</td><td><code>127.0.0.1</code></td><td><code>::1</code></td></tr>
+          <tr><td>Private/Local</td><td>RFC 1918</td><td>Unique Local <code>fc00::/7</code></td></tr>
+          <tr><td>Link-Local</td><td><code>169.254.x.x</code> (APIPA)</td><td><code>fe80::/10</code> (mandatory)</td></tr>
+          <tr><td>NAT needed?</td><td>✅ Yes</td><td>❌ Rarely</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">PPPoE Discovery Messages</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Message</th><th>Sender</th><th>Destination</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>PADI</td><td>Client</td><td><strong>Broadcast</strong></td><td>Discover Access Concentrators</td></tr>
+          <tr><td>PADO</td><td>Server (B-RAS)</td><td>Unicast</td><td>Offer PPPoE service</td></tr>
+          <tr><td>PADR</td><td>Client</td><td>Unicast</td><td>Request session with chosen server</td></tr>
+          <tr><td>PADS</td><td>Server (B-RAS)</td><td>Unicast</td><td>Confirm session + Session ID</td></tr>
+          <tr><td>PADT</td><td>Either</td><td>Unicast</td><td>Terminate session</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">WAN Encapsulation Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Protocol</th><th>Standard</th><th>Auth?</th><th>Multilink?</th><th>Default Cisco Serial?</th><th>Multi-vendor?</th></tr></thead>
+        <tbody>
+          <tr><td>HDLC (Cisco)</td><td>Cisco proprietary</td><td>❌ No</td><td>❌ No</td><td>✅ <strong>Yes</strong></td><td>❌ No</td></tr>
+          <tr><td>PPP</td><td>Open (RFC 1661)</td><td>✅ PAP/CHAP</td><td>✅ MLPPP</td><td>❌ No</td><td>✅ Yes</td></tr>
+          <tr><td>PPPoE</td><td>Open (RFC 2516)</td><td>✅ via PPP</td><td>❌ No</td><td>❌ No</td><td>✅ Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">IPv6 SLAAC Messages</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Message</th><th>From</th><th>Multicast Target</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>RS (Router Solicitation)</td><td>Host</td><td><code>ff02::2</code> (all routers)</td><td>Request router/prefix info</td></tr>
+          <tr><td>RA (Router Advertisement)</td><td>Router</td><td><code>ff02::1</code> (all nodes)</td><td>Advertise prefix, gateway, flags</td></tr>
+          <tr><td>NS (Neighbor Solicitation)</td><td>Host</td><td>Solicited-node multicast</td><td>Resolve MAC; perform DAD</td></tr>
+          <tr><td>NA (Neighbor Advertisement)</td><td>Host/Router</td><td>Unicast or multicast</td><td>Reply with MAC address</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+</main>
+
+<script>
+  // ── Progress Bar ──
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const s = document.documentElement.scrollTop;
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    bar.style.width = (s / h * 100) + '%';
+  });
+
+  // ── Mobile Sidebar Toggle ──
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+      sidebar.classList.remove('open');
+    }
+  });
+
+  // ── Active TOC Item on Scroll ──
+  const sections = document.querySelectorAll('section[id]');
+  const tocLinks = document.querySelectorAll('.toc-item');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.toc-item[href="#${entry.target.id}"]`);
+        if (active) {
+          active.classList.add('active');
+          active.scrollIntoView({ block: 'nearest' });
+        }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

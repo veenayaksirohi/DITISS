@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Network Protocols – Complete Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,300;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --ink:        #1c1917;
+  --ink-2:      #44403c;
+  --ink-3:      #78716c;
+  --ink-4:      #a8a29e;
+  --paper:      #fafaf7;
+  --paper-2:    #f5f5f0;
+  --paper-3:    #eeede8;
+  --rule:       #e7e5e0;
+  --rule-2:     #d6d3cd;
+  --accent:     #0d5e6b;
+  --accent-2:   #0e7c8e;
+  --accent-bg:  #eef6f7;
+  --accent-bd:  #bde0e5;
+  --warn-bg:    #fefce8;
+  --warn-bd:    #fde047;
+  --warn-ink:   #713f12;
+  --tip-bg:     #f0fdf4;
+  --tip-bd:     #86efac;
+  --tip-ink:    #14532d;
+  --idea-bg:    #faf5ff;
+  --idea-bd:    #d8b4fe;
+  --idea-ink:   #581c87;
+  --sidebar-w:  260px;
+  --content-max:820px;
+  --radius:     6px;
+  --font-head:  'Plus Jakarta Sans', sans-serif;
+  --font-body:  'Literata', Georgia, serif;
+  --font-code:  'JetBrains Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  display: flex;
+  min-height: 100vh;
+}
+
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--accent);
+  width: 0%; z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--paper-2);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+
+#sidebar-header {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+#sidebar-header .logo-chip {
+  display: inline-flex; align-items: center;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+}
+#sidebar-header .logo-chip span {
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--accent); letter-spacing: .1em; text-transform: uppercase;
+}
+#sidebar-header h2 {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -.01em;
+}
+#sidebar-header p {
+  font-family: var(--font-head); font-size: 0.7rem;
+  color: var(--ink-3); margin-top: 2px;
+}
+
+#toc-scroll { overflow-y: auto; flex: 1; padding: 8px 0 20px; }
+#toc-scroll::-webkit-scrollbar { width: 3px; }
+#toc-scroll::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 2px; }
+
+.toc-group-label {
+  font-family: var(--font-code); font-size: 0.6rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  padding: 12px 20px 4px; display: block;
+}
+
+.toc-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 20px; text-decoration: none;
+  color: var(--ink-3); font-family: var(--font-head); font-size: 0.77rem;
+  border-left: 2px solid transparent;
+  transition: color .15s, border-color .15s, background .15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-item:hover { color: var(--ink); background: var(--paper-3); }
+.toc-item.active {
+  color: var(--accent); border-left-color: var(--accent);
+  background: var(--accent-bg); font-weight: 600;
+}
+.toc-item .toc-num {
+  font-family: var(--font-code); font-size: 0.62rem;
+  color: var(--ink-4); min-width: 18px; flex-shrink: 0;
+}
+.toc-item.active .toc-num { color: var(--accent-2); }
+
+#menu-btn {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 6px;
+  width: 38px; height: 38px; cursor: pointer;
+  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+#menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; }
+
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1; min-width: 0;
+  padding: 56px 56px 100px;
+  max-width: calc(var(--sidebar-w) + var(--content-max));
+}
+
+#hero {
+  padding: 40px 0 52px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 20px; padding: 4px 14px; margin-bottom: 18px;
+}
+.hero-badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-badge span {
+  font-family: var(--font-code); font-size: 0.67rem;
+  color: var(--accent); letter-spacing: .07em; text-transform: uppercase;
+}
+#hero h1 {
+  font-family: var(--font-head); font-size: 2.4rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink); margin-bottom: 14px; letter-spacing: -.02em;
+}
+#hero h1 .accent { color: var(--accent); }
+#hero p { font-size: 1rem; color: var(--ink-2); max-width: 520px; line-height: 1.7; }
+
+.hero-stats {
+  display: flex; gap: 36px; margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.stat { display: flex; flex-direction: column; }
+.stat-num {
+  font-family: var(--font-head); font-size: 1.4rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -.02em;
+}
+.stat-lbl {
+  font-family: var(--font-head); font-size: 0.67rem; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 1px;
+}
+
+section { margin-bottom: 72px; scroll-margin-top: 16px; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-code); font-size: 0.64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.section-label::before {
+  content: ''; display: inline-block;
+  width: 14px; height: 1px; background: var(--accent);
+}
+h2.section-title {
+  font-family: var(--font-head); font-size: 1.7rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 4px; letter-spacing: -.025em; line-height: 1.2;
+}
+.section-divider { height: 1px; background: var(--rule); margin-bottom: 28px; }
+.section-intro { color: var(--ink-2); margin-bottom: 20px; font-size: 1rem; line-height: 1.75; }
+
+h3.sub-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin: 32px 0 10px; padding-left: 12px;
+  border-left: 3px solid var(--accent); letter-spacing: -.01em;
+}
+h4.mini-title {
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+  color: var(--ink-2); margin: 20px 0 8px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+
+p { color: var(--ink-2); line-height: 1.8; margin-bottom: 12px; }
+
+.card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 14px;
+}
+.card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.card-sm {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.card-sm h4 {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 5px;
+}
+.card-sm p { font-size: 0.82rem; color: var(--ink-3); margin: 0; }
+
+.callout {
+  border-radius: var(--radius); padding: 14px 18px; margin: 20px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  border-left-width: 3px; border-left-style: solid;
+}
+.callout.info  { background: var(--accent-bg); border: 1px solid var(--accent-bd); border-left: 3px solid var(--accent-2); }
+.callout.tip   { background: var(--tip-bg);    border: 1px solid var(--tip-bd);    border-left: 3px solid #22c55e; }
+.callout.warn  { background: var(--warn-bg);   border: 1px solid var(--warn-bd);   border-left: 3px solid #eab308; }
+.callout.idea  { background: var(--idea-bg);   border: 1px solid var(--idea-bd);   border-left: 3px solid #a855f7; }
+.callout-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+.callout-body { flex: 1; }
+.callout-body strong {
+  display: block; font-family: var(--font-head); font-size: 0.8rem;
+  font-weight: 700; margin-bottom: 3px;
+}
+.callout.info  .callout-body strong { color: var(--accent); }
+.callout.tip   .callout-body strong { color: var(--tip-ink); }
+.callout.warn  .callout-body strong { color: var(--warn-ink); }
+.callout.idea  .callout-body strong { color: var(--idea-ink); }
+.callout-body p { font-size: 0.875rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+
+p code, li code {
+  font-family: var(--font-code); font-size: 0.8rem;
+  background: var(--paper-3); color: var(--accent);
+  border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.table-wrap {
+  overflow-x: auto; margin: 16px 0;
+  border-radius: var(--radius); border: 1px solid var(--rule);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead tr { background: var(--paper-2); }
+thead th {
+  padding: 10px 16px; text-align: left;
+  font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+  color: var(--ink); letter-spacing: .03em; white-space: nowrap;
+  border-bottom: 1px solid var(--rule-2);
+}
+tbody tr { border-top: 1px solid var(--rule); }
+tbody tr:hover { background: var(--paper-2); }
+tbody td {
+  padding: 9px 16px; color: var(--ink-2); vertical-align: top;
+  font-family: var(--font-body); font-size: 0.875rem;
+}
+tbody td:first-child { color: var(--ink); font-weight: 500; }
+tbody td strong { color: var(--ink); }
+
+ul, ol { padding-left: 22px; margin: 10px 0; }
+ul li, ol li { margin-bottom: 5px; color: var(--ink-2); font-size: 0.94rem; line-height: 1.7; }
+ul li::marker { color: var(--accent); }
+ol li::marker { color: var(--accent); font-family: var(--font-code); font-size: 0.78rem; }
+li strong { color: var(--ink); }
+
+.badge {
+  display: inline-block; padding: 1px 7px; border-radius: 3px;
+  font-family: var(--font-code); font-size: 0.67rem; font-weight: 700;
+  letter-spacing: .04em; vertical-align: middle; margin: 0 2px;
+}
+.badge.cyan   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+.badge.orange { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.badge.green  { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge.purple { background: var(--idea-bg); color: #6b21a8; border: 1px solid var(--idea-bd); }
+.badge.red    { background: #fff1f2; color: #9f1239; border: 1px solid #fecdd3; }
+
+.ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+.ref-item {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 11px; align-items: flex-start;
+}
+.ref-item .ref-tag {
+  font-family: var(--font-code); font-size: 0.64rem; font-weight: 500;
+  color: var(--accent); background: var(--accent-bg);
+  border: 1px solid var(--accent-bd); border-radius: 3px;
+  padding: 2px 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.ref-item p { font-size: 0.78rem; color: var(--ink-3); font-family: var(--font-head); margin: 0; line-height: 1.5; }
+.ref-item strong {
+  color: var(--ink); font-family: var(--font-head); font-size: 0.82rem;
+  display: block; margin-bottom: 2px; font-weight: 600;
+}
+
+[id] { scroll-margin-top: 16px; }
+
+@media (max-width: 860px) {
+  #sidebar { transform: translateX(-100%); transition: transform .2s ease; }
+  #sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,.1); }
+  #main { margin-left: 0; padding: 64px 20px 80px; }
+  #menu-btn { display: flex; }
+  .card-grid, .ref-grid { grid-template-columns: 1fr; }
+  #hero h1 { font-size: 1.75rem; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+}
+@media (max-width: 520px) {
+  .hero-stats { flex-direction: column; gap: 14px; }
+  #main { padding: 64px 16px 80px; }
+}
+@media print {
+  #sidebar, #menu-btn, #progress-bar { display: none; }
+  #main { margin-left: 0; padding: 0; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<button id="menu-btn" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo-chip"><span>CN Notes</span></div>
+    <h2>Network Protocols</h2>
+    <p>Ports &amp; Reference Sheet</p>
+  </div>
+  <div id="toc-scroll">
+    <span class="toc-group-label">Sections</span>
+    <a class="toc-item active" href="#core"><span class="toc-num">01</span>Core Protocols</a>
+    <a class="toc-item" href="#secure"><span class="toc-num">02</span>Secure Protocols</a>
+    <a class="toc-item" href="#quickref"><span class="toc-num">03</span>Quick Reference</a>
+    <a class="toc-item" href="#distinctions"><span class="toc-num">04</span>Key Distinctions</a>
+  </div>
+</nav>
+
+<main id="main">
+
+  <header id="hero">
+    <div class="hero-badge"><div class="dot"></div><span>Study Notes</span></div>
+    <h1>Network <span class="accent">Protocols</span><br>Ports &amp; Reference</h1>
+    <p>A complete reference for networking protocols — covering transport, application, routing, and secure variants with their standard port numbers.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">23+</span><span class="stat-lbl">Protocols</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-lbl">Sections</span></div>
+      <div class="stat"><span class="stat-num">TCP/UDP/IP</span><span class="stat-lbl">Covered</span></div>
+    </div>
+  </header>
+
+  <!-- SECTION 1: CORE PROTOCOLS -->
+  <section id="core">
+    <span class="section-label">Section 01</span>
+    <h2 class="section-title">Core Protocols</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Foundational networking protocols spanning transport, application, routing, and network-service layers.</p>
+
+    <h3 class="sub-title">Transport &amp; Network Layer</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>TCP</strong></td>
+            <td>Reliable, connection-oriented transport. Ensures ordered delivery and retransmission of lost data.</td>
+            <td><span class="badge cyan">No fixed port</span></td>
+          </tr>
+          <tr>
+            <td><strong>UDP</strong></td>
+            <td>Fast, connectionless transport. No guarantee of delivery or order.</td>
+            <td><span class="badge cyan">No fixed port</span></td>
+          </tr>
+          <tr>
+            <td><strong>IP (IPv4/IPv6)</strong></td>
+            <td>Provides logical addressing and routing between networks.</td>
+            <td><span class="badge cyan">No port</span></td>
+          </tr>
+          <tr>
+            <td><strong>ICMP</strong></td>
+            <td>Used for diagnostics and error reporting (e.g. <code>ping</code>).</td>
+            <td><span class="badge cyan">No port</span></td>
+          </tr>
+          <tr>
+            <td><strong>ARP</strong></td>
+            <td>Maps IPv4 addresses to MAC addresses on a LAN.</td>
+            <td><span class="badge cyan">No port</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Web &amp; File Transfer</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>HTTP</strong></td>
+            <td>Transfers web pages and data in plain text.</td>
+            <td><span class="badge orange">TCP 80</span></td>
+          </tr>
+          <tr>
+            <td><strong>HTTPS</strong></td>
+            <td>Secure HTTP using TLS encryption.</td>
+            <td><span class="badge green">TCP 443</span></td>
+          </tr>
+          <tr>
+            <td><strong>HTTP-alt</strong></td>
+            <td>Alternate HTTP port, often used for dev servers or admin panels.</td>
+            <td><span class="badge orange">TCP 8080</span></td>
+          </tr>
+          <tr>
+            <td><strong>FTP</strong></td>
+            <td>Transfers files between client and server.</td>
+            <td><span class="badge orange">TCP 20/21</span></td>
+          </tr>
+          <tr>
+            <td><strong>TFTP</strong></td>
+            <td>Simple file transfer, often used in networking devices and booting.</td>
+            <td><span class="badge orange">UDP 69</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Email Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SMTP</strong></td>
+            <td>Sends email between clients and servers.</td>
+            <td><span class="badge orange">TCP 25</span> <span class="badge green">465</span> <span class="badge green">587</span></td>
+          </tr>
+          <tr>
+            <td><strong>POP3</strong></td>
+            <td>Downloads email from server to client, often removing it from the server.</td>
+            <td><span class="badge orange">TCP 110</span> <span class="badge green">995</span></td>
+          </tr>
+          <tr>
+            <td><strong>IMAP</strong></td>
+            <td>Accesses and syncs email while keeping mail on the server.</td>
+            <td><span class="badge orange">TCP 143</span> <span class="badge green">993</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Remote Access</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SSH</strong></td>
+            <td>Secure remote login and command execution.</td>
+            <td><span class="badge green">TCP 22</span></td>
+          </tr>
+          <tr>
+            <td><strong>Telnet</strong></td>
+            <td>Old remote login protocol. Not secure — sends data in plain text.</td>
+            <td><span class="badge red">TCP 23</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Network Services</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>DNS</strong></td>
+            <td>Translates domain names into IP addresses.</td>
+            <td><span class="badge orange">UDP 53</span> <span class="badge orange">TCP 53</span></td>
+          </tr>
+          <tr>
+            <td><strong>DHCP</strong></td>
+            <td>Automatically assigns IP address, subnet mask, gateway, and DNS info.</td>
+            <td><span class="badge orange">UDP 67/68</span></td>
+          </tr>
+          <tr>
+            <td><strong>NTP</strong></td>
+            <td>Synchronizes time between systems on a network.</td>
+            <td><span class="badge orange">UDP 123</span></td>
+          </tr>
+          <tr>
+            <td><strong>SNMP</strong></td>
+            <td>Used to monitor and manage network devices.</td>
+            <td><span class="badge orange">UDP 161</span> <span class="badge orange">UDP 162 (traps)</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Routing Protocols</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>BGP</strong></td>
+            <td>Routing protocol used between ISPs and large networks on the Internet.</td>
+            <td><span class="badge cyan">TCP 179</span></td>
+          </tr>
+          <tr>
+            <td><strong>RIP</strong></td>
+            <td>Distance-vector routing protocol used inside a network.</td>
+            <td><span class="badge cyan">UDP 520</span></td>
+          </tr>
+          <tr>
+            <td><strong>EIGRP</strong></td>
+            <td>Cisco routing protocol; runs directly over IP.</td>
+            <td><span class="badge cyan">IP Protocol 88</span></td>
+          </tr>
+          <tr>
+            <td><strong>OSPF</strong></td>
+            <td>Link-state routing protocol; runs directly over IP.</td>
+            <td><span class="badge cyan">IP Protocol 89</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 2: SECURE PROTOCOLS -->
+  <section id="secure">
+    <span class="section-label">Section 02</span>
+    <h2 class="section-title">Secure Protocols</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Encrypted and authenticated variants of standard protocols, plus dedicated security tunneling options.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Protocol</th><th>Description</th><th>Port(s)</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>HTTPS-alt</strong></td>
+            <td>Alternate secure web port for admin panels, dev servers, and reverse proxies.</td>
+            <td><span class="badge green">TCP 8443</span></td>
+          </tr>
+          <tr>
+            <td><strong>FTPS</strong></td>
+            <td>FTP over TLS/SSL for secure file transfer.</td>
+            <td><span class="badge green">TCP 21 (explicit)</span> <span class="badge green">TCP 990 (implicit)</span></td>
+          </tr>
+          <tr>
+            <td><strong>SFTP</strong></td>
+            <td>Secure File Transfer Protocol over SSH. Not the same as FTPS.</td>
+            <td><span class="badge green">TCP 22</span></td>
+          </tr>
+          <tr>
+            <td><strong>SCP</strong></td>
+            <td>Secure Copy Protocol — copies files between hosts over SSH. Simpler than SFTP.</td>
+            <td><span class="badge green">TCP 22</span></td>
+          </tr>
+          <tr>
+            <td><strong>SMTPS</strong></td>
+            <td>Secure SMTP over TLS/SSL.</td>
+            <td><span class="badge green">TCP 465</span></td>
+          </tr>
+          <tr>
+            <td><strong>Submission</strong></td>
+            <td>Modern secure email submission using STARTTLS.</td>
+            <td><span class="badge green">TCP 587</span></td>
+          </tr>
+          <tr>
+            <td><strong>POP3S</strong></td>
+            <td>Secure POP3 over TLS/SSL.</td>
+            <td><span class="badge green">TCP 995</span></td>
+          </tr>
+          <tr>
+            <td><strong>IMAPS</strong></td>
+            <td>Secure IMAP over TLS/SSL.</td>
+            <td><span class="badge green">TCP 993</span></td>
+          </tr>
+          <tr>
+            <td><strong>LDAPS</strong></td>
+            <td>LDAP over TLS/SSL for secure directory access.</td>
+            <td><span class="badge green">TCP 636</span></td>
+          </tr>
+          <tr>
+            <td><strong>SNMPv3</strong></td>
+            <td>Secure SNMP with authentication and encryption.</td>
+            <td><span class="badge green">UDP 161/162</span></td>
+          </tr>
+          <tr>
+            <td><strong>SSH</strong></td>
+            <td>Secure remote shell, file administration, and tunneling.</td>
+            <td><span class="badge green">TCP 22</span></td>
+          </tr>
+          <tr>
+            <td><strong>IPsec</strong></td>
+            <td>VPN tunneling protocol suite for secure IP communication.</td>
+            <td><span class="badge purple">UDP 500 / 4500</span></td>
+          </tr>
+          <tr>
+            <td><strong>OpenVPN</strong></td>
+            <td>Open-source VPN tunneling protocol.</td>
+            <td><span class="badge purple">UDP/TCP 1194</span></td>
+          </tr>
+          <tr>
+            <td><strong>WireGuard</strong></td>
+            <td>Modern, high-performance VPN protocol.</td>
+            <td><span class="badge purple">UDP 51820</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✅</span>
+      <div class="callout-body">
+        <strong>Secure Email Ports to Remember</strong>
+        <p>SMTPS: <code>465</code> &nbsp;|&nbsp; Submission (STARTTLS): <code>587</code> &nbsp;|&nbsp; IMAPS: <code>993</code> &nbsp;|&nbsp; POP3S: <code>995</code></p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Avoid Telnet in Production</strong>
+        <p>Telnet (port 23) sends all data including credentials in plain text. Always use SSH (port 22) instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3: QUICK REFERENCE -->
+  <section id="quickref">
+    <span class="section-label">Section 03</span>
+    <h2 class="section-title">Quick Reference</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Grouped by category for fast exam recall.</p>
+
+    <div class="ref-grid">
+      <div class="ref-item">
+        <span class="ref-tag">Web</span>
+        <div>
+          <strong>HTTP / HTTPS / Alt</strong>
+          <p>HTTP <code>80</code> &nbsp;· HTTPS <code>443</code> &nbsp;· HTTP-alt <code>8080</code> &nbsp;· HTTPS-alt <code>8443</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">Mail</span>
+        <div>
+          <strong>SMTP / POP3 / IMAP</strong>
+          <p>SMTP <code>25/465/587</code> &nbsp;· POP3 <code>110/995</code> &nbsp;· IMAP <code>143/993</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">Remote</span>
+        <div>
+          <strong>SSH / Telnet</strong>
+          <p>SSH <code>22</code> &nbsp;· Telnet <code>23</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">File</span>
+        <div>
+          <strong>FTP / TFTP / FTPS / SFTP / SCP</strong>
+          <p>FTP <code>20/21</code> &nbsp;· TFTP <code>69</code> &nbsp;· FTPS <code>21/990</code> &nbsp;· SFTP/SCP <code>22</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">Services</span>
+        <div>
+          <strong>DNS / DHCP / NTP / SNMP</strong>
+          <p>DNS <code>53</code> &nbsp;· DHCP <code>67/68</code> &nbsp;· NTP <code>123</code> &nbsp;· SNMP <code>161/162</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">Routing</span>
+        <div>
+          <strong>BGP / RIP / EIGRP / OSPF</strong>
+          <p>BGP <code>179</code> &nbsp;· RIP <code>520</code> &nbsp;· EIGRP <code>88</code> &nbsp;· OSPF <code>89</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">Directory</span>
+        <div>
+          <strong>LDAPS</strong>
+          <p>LDAPS <code>636</code></p>
+        </div>
+      </div>
+      <div class="ref-item">
+        <span class="ref-tag">VPN</span>
+        <div>
+          <strong>IPsec / OpenVPN / WireGuard</strong>
+          <p>IPsec <code>500/4500</code> &nbsp;· OpenVPN <code>1194</code> &nbsp;· WireGuard <code>51820</code></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: KEY DISTINCTIONS -->
+  <section id="distinctions">
+    <span class="section-label">Section 04</span>
+    <h2 class="section-title">Key Distinctions</h2>
+    <div class="section-divider"></div>
+    <p class="section-intro">Common exam traps and important protocol differences to keep straight.</p>
+
+    <h3 class="sub-title">File Transfer — FTPS vs SFTP vs SCP</h3>
+    <div class="card-grid">
+      <div class="card-sm">
+        <h4>FTPS</h4>
+        <p>FTP secured with TLS. Uses ports <strong>21</strong> (explicit) or <strong>990</strong> (implicit). Still based on the FTP protocol.</p>
+      </div>
+      <div class="card-sm">
+        <h4>SFTP</h4>
+        <p>File transfer over SSH. Port <strong>22</strong>. A completely separate protocol from FTPS — not FTP at all.</p>
+      </div>
+      <div class="card-sm">
+        <h4>SCP</h4>
+        <p>Secure Copy over SSH. Port <strong>22</strong>. Simpler than SFTP — designed purely for copying files, not browsing directories.</p>
+      </div>
+    </div>
+
+    <div class="callout idea">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>Memory Trick</strong>
+        <p>FTPS = FTP + TLS &nbsp;·&nbsp; SFTP = SSH + file transfer &nbsp;·&nbsp; SCP = SSH + copy only. SFTP and SCP share port 22 because both ride over SSH.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">SMTP Port Confusion</h3>
+    <div class="callout info">
+      <span class="callout-icon">ℹ️</span>
+      <div class="callout-body">
+        <strong>Port 25 vs 465 vs 587</strong>
+        <p><strong>25</strong> — Server-to-server relay. Not for client submission (often blocked by ISPs). <strong>465</strong> — SMTPS, implicit TLS. <strong>587</strong> — Modern client submission with STARTTLS. Use 587 for your email client.</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">SNMP vs SNMPv3</h3>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body">
+        <strong>Always Prefer SNMPv3</strong>
+        <p>Plain SNMP (v1/v2c) sends community strings in clear text. SNMPv3 adds authentication and encryption on the same ports (<code>161/162</code>).</p>
+      </div>
+    </div>
+
+    <h3 class="sub-title">TCP vs UDP — When Each Is Used</h3>
+    <div class="card-grid">
+      <div class="card-sm">
+        <h4>TCP (Reliable)</h4>
+        <p>Used when delivery must be guaranteed: HTTP, HTTPS, SSH, FTP, SMTP, POP3, IMAP, BGP, Telnet.</p>
+      </div>
+      <div class="card-sm">
+        <h4>UDP (Fast)</h4>
+        <p>Used when speed matters more than reliability: DNS, DHCP, TFTP, NTP, SNMP, RIP, video/audio streaming.</p>
+      </div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+  // Progress bar
+  window.addEventListener('scroll', () => {
+    const el = document.documentElement;
+    const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  // Active TOC highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const tocItems = document.querySelectorAll('.toc-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        tocItems.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.toc-item[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // Mobile sidebar toggle
+  const menuBtn = document.getElementById('menu-btn');
+  const sidebar = document.getElementById('sidebar');
+  menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+  document.querySelectorAll('.toc-item').forEach(a => {
+    a.addEventListener('click', () => sidebar.classList.remove('open'));
+  });
+</script>
+</body>
+</html>
