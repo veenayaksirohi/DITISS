@@ -129,41 +129,246 @@ Here are the **3 clean purpose tables** for your selected **most important paths
 
 Part B )  IMPORTANT SYSTEM SUBPATHS
 
+/usr/bin
+/usr/sbin
+/usr/lib
+/usr/local
+
+/var/log
+/var/spool
+/var/cache
+/var/tmp
+
+/proc/cpuinfo
+/proc/meminfo
+/proc/[PID]
+
+/dev/sda
+/dev/sdb
+/dev/sdc
+/dev/sda1
+/dev/sda2
+/dev/sdb1
+/dev/null
+/dev/tty
+
+
 Part C) USER & SHELL PATHS
+~/.bashrc
+~/.profile
+/home/<user>
+$HOME
+$PATH
+$USER
+$SHELL
+
+Used for:
+
+Environment setup
+Login shell config
+User settings
 
 Part D ) SYSTEMD PATHS 
 
+/etc/systemd/system/
+/usr/lib/systemd/system/
+/lib/systemd/system/
+/run/systemd
+
+/etc/systemd/system/default.target
+/etc/systemd/system/myapp.service
+/etc/systemd/system/mydisk.mount
+/usr/lib/systemd/systemd
+
+Very important for:
+Services
+Boot targets
+Daemons
+
 Part E ) MOUNT & FILESYSTEM PATHS  
+/etc/fstab
+/mnt
+/home
+
+Used for:
+
+Persistent mounts
+NFS mounts
 
 Part F ) NETWORK CONFIGURATION PATHS
 
+/etc/sysconfig/network-scripts/
+/etc/sysconfig/dhcpd
+/etc/services
+/etc/protocols
+/etc/hosts
+
+Important for:
+
+Networking
+DHCP binding
+Host resolution
+
 Part E ) DHCP PATHS
 
+/etc/dhcp/dhcpd.conf
+/etc/sysconfig/dhcpd
+
+Used for:
+
+IP allocation
+DHCP subnet config
+
 Part F ) DNS PATHS
+/etc/hosts
+
+Used for:
+Local DNS mapping
 
 Part G ) FTP (VSFTPD) PATHS
+/etc/vsftpd/vsftpd.conf
+/etc/vsftpd/chroot_list
+/run/sshd.pid
+
+
+Used for:
+FTP configuration
+User restrictions
+
 
 Part 7 ) 🗂️ NFS PATHS
+/etc/idmapd.conf
+/etc/exports
 
+Used for:
+Network file sharing
 
 Part 8 ) 🖥️ SAMBA PATHS
+/etc/samba/smb.conf
+/var/smb/share
 
+Used for:
+Windows file sharing
 
 Part 9 ) APACHE (WEB SERVER) PATHS
+/etc/httpd/conf/httpd.conf
+/etc/httpd/conf.d/
+/etc/httpd/conf.d/example.conf
+
+/var/www/html/
+/var/www/example
+
+/var/log/httpd/
+
+Used for:
+Website hosting
+Virtual hosts
+Logs
+
 
 Part  10)  MAIL SERVER PATHS (DOVECOT)
+/etc/dovecot/conf.d/10-mail.conf
+/etc/dovecot/conf.d/10-auth.conf
+/etc/dovecot/conf.d/10-master.conf
 
+/var/spool/postfix/private/auth
+
+/var/mail/<user>
+/home/<user>/Maildir/new/
+
+Used for:
+Email services
 
 Part 11) SQUID PROXY PATHS  
 
+/etc/squid/squid.conf
+/etc/squid/blocked_domains.txt
+/etc/squid/blocked_extensions.txt
+/etc/squid/ad_patterns.txt
+
+Used for:
+
+Web filtering
+Proxy control
 
 part 12) PACKAGE MANAGEMENT PATHS  
 
+Debian / Ubuntu
+/etc/apt/sources.list
+/etc/apt/sources.list.d/*.list
+/var/lib/dpkg/
+
+
+RHEL / CentOS
+/etc/yum.repos.d/
+
+Used for:
+Software repositories
+
 part 13) 🔐 LDAP PATHS
+/etc/openldap/schema/
+
+/etc/openldap/schema/core.ldif
+/etc/openldap/schema/cosine.ldif
+/etc/openldap/schema/inetorgperson.ldif
+/etc/openldap/schema/nis.ldif
+/etc/openldap/schema/openldap.ldif
+
+Used for:
+
+Directory services
+
 
 Part 14) USER DATABASE PATHS 
 
+/etc/passwd
+/etc/shadow
+/etc/group
+/etc/hosts
+/etc/services
+/etc/protocols
+
+Used for:
+
+Authentication
+Users
+Networking
+
 part 15 ) LOGGING PATHS
+
+/var/log
+/tmp/session.log
+
+Used for:
+
+Troubleshooting
+Debugging
+
 
 part 16 ) MOST IMPORTANT EXAM PATHS (Revise these first) 
 
+/etc/passwd
+/etc/shadow
+/etc/group
+
+/etc/fstab
+
+/etc/systemd/system/
+/usr/lib/systemd/system/
+
+/etc/dhcp/dhcpd.conf
+
+/etc/httpd/conf/httpd.conf
+/var/www/html/
+
+/etc/samba/smb.conf
+
+/etc/vsftpd/vsftpd.conf
+
+/etc/exports
+
+/etc/apt/sources.list
+
+/etc/openldap/schema/
+
+/var/log
