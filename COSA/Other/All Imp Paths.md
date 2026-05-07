@@ -127,7 +127,6 @@
 
 ## Part 7 — 🔍 Important System Subpaths
 
-<<<<<<< HEAD
 | 📂 Path                | 🧠 Purpose                          | 📌 What It Stores                                                          |
 | ---------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
 | `/etc`                 | System-wide config hub              | Main config files for almost all services and system tools                 |
@@ -146,133 +145,10 @@
 | `/dev`                 | Device files                        | Hardware devices as files (e.g., `/dev/sda`, `/dev/ttyS0`)                |
 | `/sys`                 | Kernel device info                  | Exported kernel data for device and driver configuration                   |
 | `/tmp`                 | System-wide temp                    | Volatile temporary files, often cleared on reboot                          |
-=======
-/usr/bin
-/usr/sbin
-/usr/lib
-/usr/local
-
-/var/log
-/var/spool
-/var/cache
-/var/tmp
-
-/proc/cpuinfo
-/proc/meminfo
-/proc/[PID]
-
-/dev/sda
-/dev/sdb
-/dev/sdc
-/dev/sda1
-/dev/sda2
-/dev/sdb1
-/dev/null
-/dev/tty
-
-
-/usr/bin
-/usr/sbin
-/usr/lib
-/usr/local
-
-/var/log
-/var/spool
-/var/cache
-/var/tmp
-
-/proc/cpuinfo
-/proc/meminfo
-/proc/[PID]
-
-/dev/sda
-/dev/sdb
-/dev/sdc
-/dev/sda1
-/dev/sda2
-/dev/sdb1
-/dev/null
-/dev/tty
-
-
-Part C) USER & SHELL PATHS
-~/.bashrc
-~/.profile
-/home/<user>
-$HOME
-$PATH
-$USER
-$SHELL
-<<<<<<< Updated upstream
-
-Used for:
-
-Environment setup
-Login shell config
-User settings
-=======
->>>>>>> Stashed changes
-
-Used for:
-
-Environment setup
-Login shell config
-User settings
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
 
 ---
 
-<<<<<<< HEAD
 ## Part 8 — 👤 User & Shell Paths
-=======
-/etc/systemd/system/
-/usr/lib/systemd/system/
-/lib/systemd/system/
-/run/systemd
-
-/etc/systemd/system/default.target
-/etc/systemd/system/myapp.service
-/etc/systemd/system/mydisk.mount
-/usr/lib/systemd/systemd
-
-Very important for:
-Services
-Boot targets
-Daemons
-
-/etc/systemd/system/
-/usr/lib/systemd/system/
-/lib/systemd/system/
-/run/systemd
-
-/etc/systemd/system/default.target
-/etc/systemd/system/myapp.service
-/etc/systemd/system/mydisk.mount
-/usr/lib/systemd/systemd
-
-Very important for:
-Services
-Boot targets
-Daemons
-
-Part E ) MOUNT & FILESYSTEM PATHS  
-/etc/fstab
-/mnt
-/home
-<<<<<<< Updated upstream
-
-Used for:
-
-Persistent mounts
-NFS mounts
-=======
->>>>>>> Stashed changes
-
-Used for:
-
-Persistent mounts
-NFS mounts
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
 
 | 📂 Path                    | 🧠 Purpose             | 📌 What It Stores                                              |
 | -------------------------- | ---------------------- | -------------------------------------------------------------- |
@@ -287,7 +163,6 @@ NFS mounts
 | `~/.bashrc`                | User-level bash config | Aliases, prompt, PATH, and environment variables               |
 | `~/.profile`               | User profile script    | Environment variables and startup commands for login shells    |
 
-<<<<<<< HEAD
 ---
 
 ## Part 9 — 🔧 Systemd Paths
@@ -324,103 +199,6 @@ NFS mounts
 ---
 
 ## Part 11 — 🌍 DNS Paths (BIND)
-=======
-/etc/sysconfig/network-scripts/
-/etc/sysconfig/dhcpd
-/etc/services
-/etc/protocols
-/etc/hosts
-
-Important for:
-
-Networking
-DHCP binding
-Host resolution
-
-/etc/sysconfig/network-scripts/
-/etc/sysconfig/dhcpd
-/etc/services
-/etc/protocols
-/etc/hosts
-
-Important for:
-
-Networking
-DHCP binding
-Host resolution
-
-Part E ) DHCP PATHS
-
-/etc/dhcp/dhcpd.conf
-/etc/sysconfig/dhcpd
-
-Used for:
-
-IP allocation
-DHCP subnet config
-
-Part F ) DNS PATHS
-/etc/hosts
-
-Used for:
-Local DNS mapping
-
-Part G ) FTP (VSFTPD) PATHS
-/etc/vsftpd/vsftpd.conf
-/etc/vsftpd/chroot_list
-/run/sshd.pid
-
-
-Used for:
-FTP configuration
-User restrictions
-
-
-Part 7 ) 🗂️ NFS PATHS
-/etc/idmapd.conf
-/etc/exports
-
-Used for:
-Network file sharing
-
-Part 8 ) 🖥️ SAMBA PATHS
-/etc/samba/smb.conf
-/var/smb/share
-
-Used for:
-Windows file sharing
-
-Part 9 ) APACHE (WEB SERVER) PATHS
-/etc/httpd/conf/httpd.conf
-/etc/httpd/conf.d/
-/etc/httpd/conf.d/example.conf
-
-/var/www/html/
-/var/www/example
-
-/var/log/httpd/
-
-Used for:
-Website hosting
-Virtual hosts
-Logs
-
-
-Part  10)  MAIL SERVER PATHS (DOVECOT)
-/etc/dovecot/conf.d/10-mail.conf
-/etc/dovecot/conf.d/10-auth.conf
-/etc/dovecot/conf.d/10-master.conf
-<<<<<<< Updated upstream
-=======
-
-/var/spool/postfix/private/auth
-
-/var/mail/<user>
-/home/<user>/Maildir/new/
-
-Used for:
-Email services
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
 
 | 📂 Path                                          | 🧠 Purpose           | 📌 What It Stores                                              |
 | ------------------------------------------------ | -------------------- | -------------------------------------------------------------- |
@@ -432,108 +210,19 @@ Email services
 | `/var/lib/bind/` (Debian)                        | Zone files directory | Debian BIND zone-file storage                                  |
 | `/var/log/messages` (RHEL) / `/var/log/syslog` (Debian) | DNS logs     | DNS-related messages if BIND logging is enabled                |
 
-<<<<<<< HEAD
 ---
-=======
-/etc/squid/squid.conf
-/etc/squid/blocked_domains.txt
-/etc/squid/blocked_extensions.txt
-/etc/squid/ad_patterns.txt
-
-Used for:
-
-Web filtering
-Proxy control
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
 
 ## Part 12 — 🖥️ Samba Paths
 
-<<<<<<< HEAD
 | 📂 Path                   | 🧠 Purpose              | 📌 What It Stores                                              |
 | ------------------------- | ----------------------- | -------------------------------------------------------------- |
 | `/etc/samba/smb.conf`     | Main Samba config       | Shares, security mode, workgroup, authentication, mappings     |
 | `/etc/samba/smbusers`     | UID/username mapping    | Map Samba user names to local Linux accounts                   |
 | `/var/lib/samba/`         | Samba DB & runtime      | TDB files for user/SID mapping, locking, etc.                  |
 | `/var/log/samba/`         | Samba logs              | Access, authentication, and error logs for each share          |
-=======
-Debian / Ubuntu
-/etc/apt/sources.list
-/etc/apt/sources.list.d/*.list
-/var/lib/dpkg/
->>>>>>> Stashed changes
-
-/var/spool/postfix/private/auth
-
-/var/mail/<user>
-/home/<user>/Maildir/new/
-
-Used for:
-Email services
-
-RHEL / CentOS
-/etc/yum.repos.d/
-
-<<<<<<< Updated upstream
-/etc/squid/squid.conf
-/etc/squid/blocked_domains.txt
-/etc/squid/blocked_extensions.txt
-/etc/squid/ad_patterns.txt
-
-Used for:
-
-Web filtering
-Proxy control
-
-part 12) PACKAGE MANAGEMENT PATHS  
-=======
-Used for:
-Software repositories
->>>>>>> Stashed changes
-
-Debian / Ubuntu
-/etc/apt/sources.list
-/etc/apt/sources.list.d/*.list
-/var/lib/dpkg/
-
-
-RHEL / CentOS
-/etc/yum.repos.d/
-
-Used for:
-Software repositories
-
-part 13) 🔐 LDAP PATHS
-/etc/openldap/schema/
-<<<<<<< Updated upstream
-
-/etc/openldap/schema/core.ldif
-/etc/openldap/schema/cosine.ldif
-/etc/openldap/schema/inetorgperson.ldif
-/etc/openldap/schema/nis.ldif
-/etc/openldap/schema/openldap.ldif
-
-Used for:
-
-Directory services
-
-=======
->>>>>>> Stashed changes
-
-/etc/openldap/schema/core.ldif
-/etc/openldap/schema/cosine.ldif
-/etc/openldap/schema/inetorgperson.ldif
-/etc/openldap/schema/nis.ldif
-/etc/openldap/schema/openldap.ldif
-
-Used for:
-
-Directory services
-
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
 
 ---
 
-<<<<<<< HEAD
 ## Part 13 — 📧 Mail Server Paths (Postfix + Dovecot)
 
 ### Postfix
@@ -717,73 +406,3 @@ This shares `/home` with the `192.168.1.0/24` network with read/write access and
 | `/var/log/auth.log` / `/var/log/secure`              | Authentication logs (SSH, sudo)                       |
 | `/var/log/messages` / `/var/log/syslog`              | General system logs                                   |
 | `/var/log/journal/`                                  | systemd journal logs                                  |
-=======
-/etc/passwd
-/etc/shadow
-/etc/group
-/etc/hosts
-/etc/services
-/etc/protocols
-
-Used for:
-
-Authentication
-Users
-Networking
-
-/etc/passwd
-/etc/shadow
-/etc/group
-/etc/hosts
-/etc/services
-/etc/protocols
-
-Used for:
-
-Authentication
-Users
-Networking
-
-part 15 ) LOGGING PATHS
-
-/var/log
-/tmp/session.log
-
-Used for:
-
-Troubleshooting
-Debugging
-
-
-part 16 ) MOST IMPORTANT EXAM PATHS (Revise these first) 
-
-/etc/passwd
-/etc/shadow
-/etc/group
-
-/etc/fstab
-
-/etc/systemd/system/
-/usr/lib/systemd/system/
-
-/etc/dhcp/dhcpd.conf
-
-/etc/httpd/conf/httpd.conf
-/var/www/html/
-
-/etc/samba/smb.conf
-
-/etc/vsftpd/vsftpd.conf
-
-/etc/exports
-
-/etc/apt/sources.list
-
-/etc/openldap/schema/
-
-<<<<<<< Updated upstream
-/var/log
-=======
-/var/log
->>>>>>> cf1495547c7c71ef277e9456d70815447516f1b7
->>>>>>> Stashed changes
