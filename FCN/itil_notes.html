@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ITIL Complete Study Notes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;0,7..72,600;1,7..72,300;1,7..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --ink:        #1c1917;
+  --ink-2:      #44403c;
+  --ink-3:      #78716c;
+  --ink-4:      #a8a29e;
+  --paper:      #fafaf7;
+  --paper-2:    #f5f5f0;
+  --paper-3:    #eeede8;
+  --rule:       #e7e5e0;
+  --rule-2:     #d6d3cd;
+  --accent:     #0d5e6b;
+  --accent-2:   #0e7c8e;
+  --accent-bg:  #eef6f7;
+  --accent-bd:  #bde0e5;
+  --warn-bg:    #fefce8;
+  --warn-bd:    #fde047;
+  --warn-ink:   #713f12;
+  --tip-bg:     #f0fdf4;
+  --tip-bd:     #86efac;
+  --tip-ink:    #14532d;
+  --idea-bg:    #faf5ff;
+  --idea-bd:    #d8b4fe;
+  --idea-ink:   #581c87;
+  --sidebar-w:  260px;
+  --content-max:820px;
+  --radius:     6px;
+  --font-head:  'Plus Jakarta Sans', sans-serif;
+  --font-body:  'Literata', Georgia, serif;
+  --font-code:  'JetBrains Mono', 'Courier New', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  display: flex;
+  min-height: 100vh;
+}
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 2px;
+  background: var(--accent);
+  width: 0%; z-index: 9999;
+  transition: width 0.1s linear;
+}
+#sidebar {
+  position: fixed; top: 0; left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  background: var(--paper-2);
+  border-right: 1px solid var(--rule);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  overflow: hidden;
+}
+#sidebar-header {
+  padding: 24px 20px 18px;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+#sidebar-header .logo-chip {
+  display: inline-flex; align-items: center;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 9px; margin-bottom: 10px;
+}
+#sidebar-header .logo-chip span {
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--accent); letter-spacing: .1em;
+  text-transform: uppercase;
+}
+#sidebar-header h2 {
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  color: var(--ink); letter-spacing: -.01em;
+}
+#sidebar-header p {
+  font-family: var(--font-head); font-size: 0.7rem;
+  color: var(--ink-3); margin-top: 2px;
+}
+#toc-scroll { overflow-y: auto; flex: 1; padding: 8px 0 20px; }
+#toc-scroll::-webkit-scrollbar { width: 3px; }
+#toc-scroll::-webkit-scrollbar-thumb { background: var(--rule-2); border-radius: 2px; }
+.toc-group-label {
+  font-family: var(--font-code); font-size: 0.6rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-4);
+  padding: 12px 20px 4px; display: block;
+}
+.toc-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 20px; text-decoration: none;
+  color: var(--ink-3); font-family: var(--font-head); font-size: 0.77rem;
+  border-left: 2px solid transparent;
+  transition: color .15s, border-color .15s, background .15s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.toc-item:hover { color: var(--ink); background: var(--paper-3); }
+.toc-item.active {
+  color: var(--accent); border-left-color: var(--accent);
+  background: var(--accent-bg); font-weight: 600;
+}
+.toc-item .toc-num {
+  font-family: var(--font-code); font-size: 0.62rem;
+  color: var(--ink-4); min-width: 18px; flex-shrink: 0;
+}
+.toc-item.active .toc-num { color: var(--accent-2); }
+#menu-btn {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  background: var(--paper); border: 1px solid var(--rule-2); border-radius: 6px;
+  width: 38px; height: 38px; cursor: pointer;
+  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+#menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; }
+#main {
+  margin-left: var(--sidebar-w);
+  flex: 1; min-width: 0;
+  padding: 56px 56px 100px;
+  max-width: calc(var(--sidebar-w) + var(--content-max));
+}
+#hero {
+  padding: 40px 0 52px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 56px;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 20px; padding: 4px 14px; margin-bottom: 18px;
+}
+.hero-badge .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+  animation: pulse 2.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-badge span {
+  font-family: var(--font-code); font-size: 0.67rem;
+  color: var(--accent); letter-spacing: .07em; text-transform: uppercase;
+}
+#hero h1 {
+  font-family: var(--font-head); font-size: 2.4rem; font-weight: 700;
+  line-height: 1.2; color: var(--ink); margin-bottom: 14px; letter-spacing: -.02em;
+}
+#hero h1 .accent { color: var(--accent); }
+#hero p {
+  font-size: 1rem; color: var(--ink-2); max-width: 520px; line-height: 1.7;
+}
+.hero-stats {
+  display: flex; gap: 36px; margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid var(--rule);
+}
+.stat { display: flex; flex-direction: column; }
+.stat-num {
+  font-family: var(--font-head); font-size: 1.4rem; font-weight: 700;
+  color: var(--accent); letter-spacing: -.02em;
+}
+.stat-lbl {
+  font-family: var(--font-head); font-size: 0.67rem; color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: .08em; margin-top: 1px;
+}
+section { margin-bottom: 72px; scroll-margin-top: 16px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-code); font-size: 0.64rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+}
+.section-label::before {
+  content: ''; display: inline-block;
+  width: 14px; height: 1px; background: var(--accent);
+}
+h2.section-title {
+  font-family: var(--font-head); font-size: 1.7rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 4px; letter-spacing: -.025em; line-height: 1.2;
+}
+.section-divider {
+  height: 1px; background: var(--rule); margin-bottom: 28px;
+}
+.section-intro {
+  color: var(--ink-2); margin-bottom: 20px; font-size: 1rem; line-height: 1.75;
+}
+h3.sub-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin: 32px 0 10px; padding-left: 12px;
+  border-left: 3px solid var(--accent);
+  letter-spacing: -.01em;
+}
+h4.mini-title {
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+  color: var(--ink-2); margin: 20px 0 8px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+p { color: var(--ink-2); line-height: 1.8; margin-bottom: 12px; }
+.card {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 14px;
+}
+.card-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;
+}
+.card-sm {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 14px 16px;
+}
+.card-sm h4 {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  color: var(--accent); margin-bottom: 5px;
+}
+.card-sm p { font-size: 0.82rem; color: var(--ink-3); margin: 0; }
+.callout {
+  border-radius: var(--radius); padding: 14px 18px; margin: 20px 0;
+  display: flex; gap: 12px; align-items: flex-start;
+  border-left-width: 3px; border-left-style: solid;
+}
+.callout.info  { background: var(--accent-bg); border-left-color: var(--accent-2); border: 1px solid var(--accent-bd); border-left-width: 3px; border-left-style: solid; }
+.callout.tip   { background: var(--tip-bg);    border: 1px solid var(--tip-bd);    border-left-width: 3px; border-left-style: solid; border-left-color: #22c55e; }
+.callout.warn  { background: var(--warn-bg);   border: 1px solid var(--warn-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #eab308; }
+.callout.idea  { background: var(--idea-bg);   border: 1px solid var(--idea-bd);   border-left-width: 3px; border-left-style: solid; border-left-color: #a855f7; }
+.callout-icon { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+.callout-body { flex: 1; }
+.callout-body strong {
+  display: block; font-family: var(--font-head); font-size: 0.8rem;
+  font-weight: 700; margin-bottom: 3px;
+}
+.callout.info  .callout-body strong { color: var(--accent); }
+.callout.tip   .callout-body strong { color: var(--tip-ink); }
+.callout.warn  .callout-body strong { color: var(--warn-ink); }
+.callout.idea  .callout-body strong { color: var(--idea-ink); }
+.callout-body p { font-size: 0.875rem; color: var(--ink-2); margin: 0; line-height: 1.6; }
+pre {
+  background: var(--ink); border-radius: var(--radius);
+  padding: 20px 22px; overflow-x: auto; margin: 16px 0;
+  position: relative;
+}
+pre code {
+  font-family: var(--font-code); font-size: 0.82rem;
+  color: #e5e7eb; line-height: 1.65;
+}
+p code, li code {
+  font-family: var(--font-code); font-size: 0.8rem;
+  background: var(--paper-3); color: var(--accent);
+  border: 1px solid var(--rule-2); border-radius: 3px;
+  padding: 1px 5px;
+}
+.diagram-wrap {
+  background: var(--paper-3); border: 1px solid var(--rule-2);
+  border-radius: var(--radius); padding: 18px 22px; margin: 16px 0;
+  overflow-x: auto;
+}
+.diagram-wrap pre {
+  background: none; border: none; padding: 0; margin: 0;
+}
+.diagram-wrap code {
+  font-family: var(--font-code); font-size: 0.79rem;
+  color: var(--accent); line-height: 1.6;
+}
+.table-wrap {
+  overflow-x: auto; margin: 16px 0;
+  border-radius: var(--radius); border: 1px solid var(--rule);
+}
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+thead tr { background: var(--paper-2); }
+thead th {
+  padding: 10px 16px; text-align: left;
+  font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+  color: var(--ink); letter-spacing: .03em; white-space: nowrap;
+  border-bottom: 1px solid var(--rule-2);
+}
+tbody tr { border-top: 1px solid var(--rule); }
+tbody tr:hover { background: var(--paper-2); }
+tbody td {
+  padding: 9px 16px; color: var(--ink-2); vertical-align: top;
+  font-family: var(--font-body); font-size: 0.875rem;
+}
+tbody td:first-child { color: var(--ink); font-weight: 500; }
+tbody td strong { color: var(--ink); }
+ul, ol { padding-left: 22px; margin: 10px 0; }
+ul li, ol li {
+  margin-bottom: 5px; color: var(--ink-2); font-size: 0.94rem; line-height: 1.7;
+}
+ul li::marker { color: var(--accent); }
+ol li::marker {
+  color: var(--accent); font-family: var(--font-code); font-size: 0.78rem;
+}
+li strong { color: var(--ink); }
+mark {
+  background: #fef3c7; color: #92400e;
+  border-radius: 2px; padding: 0 4px; font-weight: 500;
+}
+.badge {
+  display: inline-block; padding: 1px 7px; border-radius: 3px;
+  font-family: var(--font-code); font-size: 0.67rem; font-weight: 700;
+  letter-spacing: .04em; vertical-align: middle; margin: 0 2px;
+}
+.badge.cyan   { background: var(--accent-bg); color: var(--accent); border: 1px solid var(--accent-bd); }
+.badge.orange { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; }
+.badge.green  { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.badge.purple { background: var(--idea-bg); color: #6b21a8; border: 1px solid var(--idea-bd); }
+.timeline { margin: 16px 0; }
+.tl-item { display: flex; gap: 18px; margin-bottom: 18px; }
+.tl-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.tl-year {
+  background: var(--accent-bg); border: 1px solid var(--accent-bd);
+  border-radius: 4px; padding: 3px 8px;
+  font-family: var(--font-code); font-size: 0.68rem; color: var(--accent);
+  white-space: nowrap; min-width: 72px; text-align: center; font-weight: 500;
+}
+.tl-line { flex: 1; width: 1px; background: var(--rule-2); margin: 4px auto; }
+.tl-right { flex: 1; padding-top: 3px; font-size: 0.875rem; color: var(--ink-2); font-family: var(--font-body); }
+.tl-right strong {
+  color: var(--ink); display: block; margin-bottom: 2px;
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+}
+.ref-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px;
+}
+.ref-item {
+  background: var(--paper-2); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 12px 14px;
+  display: flex; gap: 11px; align-items: flex-start;
+}
+.ref-item .ref-tag {
+  font-family: var(--font-code); font-size: 0.64rem; font-weight: 500;
+  color: var(--accent); background: var(--accent-bg);
+  border: 1px solid var(--accent-bd); border-radius: 3px;
+  padding: 2px 6px; white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+  text-transform: uppercase; letter-spacing: .04em;
+}
+.ref-item p { font-size: 0.78rem; color: var(--ink-3); font-family: var(--font-head); margin: 0; line-height: 1.5; }
+.ref-item strong {
+  color: var(--ink); font-family: var(--font-head); font-size: 0.82rem;
+  display: block; margin-bottom: 2px; font-weight: 600;
+}
+[id] { scroll-margin-top: 16px; }
+@media (max-width: 860px) {
+  #sidebar {
+    transform: translateX(-100%);
+    transition: transform .2s ease;
+    box-shadow: none;
+  }
+  #sidebar.open {
+    transform: translateX(0);
+    box-shadow: 4px 0 24px rgba(0,0,0,.1);
+  }
+  #main { margin-left: 0; padding: 64px 20px 80px; }
+  #menu-btn { display: flex; }
+  .card-grid, .ref-grid { grid-template-columns: 1fr; }
+  #hero h1 { font-size: 1.75rem; }
+  .hero-stats { flex-wrap: wrap; gap: 20px; }
+}
+@media (max-width: 520px) {
+  .hero-stats { flex-direction: column; gap: 14px; }
+  #main { padding: 64px 16px 80px; }
+}
+@media print {
+  #sidebar, #menu-btn, #progress-bar { display: none; }
+  #main { margin-left: 0; padding: 0; }
+  pre { white-space: pre-wrap; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<button id="menu-btn" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sidebar">
+  <div id="sidebar-header">
+    <div class="logo-chip"><span>Study Notes</span></div>
+    <h2>ITIL Complete Notes</h2>
+    <p>Easy Language Edition</p>
+  </div>
+  <div id="toc-scroll">
+    <span class="toc-group-label">Introduction</span>
+    <a class="toc-item" href="#intro"><span class="toc-num">00</span>What is ITIL?</a>
+
+    <span class="toc-group-label">Lifecycle Stages</span>
+    <a class="toc-item" href="#service-strategy"><span class="toc-num">01</span>Service Strategy</a>
+    <a class="toc-item" href="#service-design"><span class="toc-num">02</span>Service Design</a>
+    <a class="toc-item" href="#service-transition"><span class="toc-num">03</span>Service Transition</a>
+    <a class="toc-item" href="#service-operation"><span class="toc-num">04</span>Service Operation</a>
+    <a class="toc-item" href="#csi"><span class="toc-num">05</span>Continual Service Improvement</a>
+
+    <span class="toc-group-label">Data Centers</span>
+    <a class="toc-item" href="#data-centers"><span class="toc-num">06</span>Data Center Management</a>
+    <a class="toc-item" href="#dc-location"><span class="toc-num">07</span>Geographic Location</a>
+    <a class="toc-item" href="#dc-planning"><span class="toc-num">08</span>Planning Guidelines</a>
+    <a class="toc-item" href="#dc-infra"><span class="toc-num">09</span>Infrastructure</a>
+    <a class="toc-item" href="#dc-security"><span class="toc-num">10</span>Security &amp; Cleaning</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main id="main">
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-badge"><div class="dot"></div><span>ITIL v3 / Foundation</span></div>
+    <h1>ITIL Notes in <span class="accent">Easy Language</span></h1>
+    <p><strong>ITIL</strong> stands for <strong>Information Technology Infrastructure Library</strong>. It is a set of best practices for managing IT services properly — helping a company run its IT work in a smooth, organized, and customer-friendly way.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">5</span><span class="stat-lbl">Lifecycle Stages</span></div>
+      <div class="stat"><span class="stat-num">13+</span><span class="stat-lbl">Key Processes</span></div>
+      <div class="stat"><span class="stat-num">7</span><span class="stat-lbl">CSI Steps</span></div>
+      <div class="stat"><span class="stat-num">4</span><span class="stat-lbl">Design Ps</span></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════ SECTION 0: INTRO ══════════════════════ -->
+  <section id="intro">
+    <div class="section-label">Introduction</div>
+    <h2 class="section-title">What ITIL Is</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">Instead of just fixing computers and servers, ITIL treats IT like a service that should support the business well.</p>
+
+    <h3 class="sub-title">1. What ITIL Is</h3>
+    <p>ITIL is a guide for planning, delivering, maintaining, and improving IT services. Its main goal is to make IT work efficient, consistent, and reliable. It also helps IT teams work like business partners, not just technical support staff.</p>
+
+    <h3 class="sub-title">2. Why ITIL Became Important</h3>
+    <p>Long ago, companies had many IT problems because each place did things differently. ITIL was created to bring the same rules and same methods so IT services work better everywhere.</p>
+
+    <h3 class="sub-title">3. Why ITIL Is Successful</h3>
+    <p>ITIL works well because it is:</p>
+    <ul>
+      <li><strong>Vendor neutral</strong> — not tied to one company or product</li>
+      <li><strong>Non-prescriptive</strong> — you can use it and adapt it to your own organization</li>
+      <li><strong>Useful everywhere</strong> — for small or large companies, public or private sector</li>
+    </ul>
+
+    <h3 class="sub-title">4. What Is a Service?</h3>
+    <p>A service is something that gives value to the customer and helps them achieve a result.</p>
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>Example: Email is a service. The user just wants to send and receive messages. They do not need to worry about servers, network, user accounts, or other hidden technical parts. The service provider handles all that.</p></div>
+    </div>
+
+    <h3 class="sub-title">5. Types of Services</h3>
+    <ul>
+      <li><strong>Core service</strong> — the main service the customer wants (e.g. email)</li>
+      <li><strong>Enabling service</strong> — helps the core service run (e.g. network and server support)</li>
+      <li><strong>Enhancing service</strong> — extra feature that makes the service better (e.g. accessing email on mobile or web)</li>
+    </ul>
+
+    <h3 class="sub-title">6. Customer, User, Stakeholder</h3>
+    <ul>
+      <li><strong>Customer</strong> — the person or group who buys or approves the service</li>
+      <li><strong>User</strong> — the person who actually uses the service every day</li>
+      <li><strong>Stakeholder</strong> — anyone who has an interest in the service, project, or organization</li>
+    </ul>
+
+    <h3 class="sub-title">7. Internal and External Customers</h3>
+    <ul>
+      <li><strong>Internal customer</strong> — someone inside the same company (e.g. HR department using IT services)</li>
+      <li><strong>External customer</strong> — someone outside the company who pays for the service</li>
+    </ul>
+
+    <h3 class="sub-title">8. IT Service Management (ITSM)</h3>
+    <p>ITSM means managing IT services in a proper way so they meet business needs.</p>
+    <p>It uses three things:</p>
+    <ul>
+      <li><strong>People</strong> — the staff, teams, and roles who plan, deliver, and support IT services. Without the right people with the right skills, no process or tool will work properly.</li>
+      <li><strong>Processes</strong> — the structured steps and workflows that guide how IT tasks are done consistently and correctly every time.</li>
+      <li><strong>Technology</strong> — the tools, software, and systems used to deliver and manage IT services (e.g. ticketing systems, monitoring tools, automation).</li>
+    </ul>
+    <p>The idea is: IT should not just be technical work — it should help the business succeed.</p>
+
+    <h3 class="sub-title">9. Types of IT Service Providers</h3>
+    <ul>
+      <li><strong>Type I</strong> — internal team serving one business unit</li>
+      <li><strong>Type II</strong> — shared internal IT team serving many business units</li>
+      <li><strong>Type III</strong> — external company providing IT services to customers outside</li>
+    </ul>
+
+    <h3 class="sub-title">10. ITIL Service Lifecycle</h3>
+    <p>ITIL has five main stages:</p>
+    <ol>
+      <li><strong>Service Strategy</strong> — plan what services are needed</li>
+      <li><strong>Service Design</strong> — design the service properly</li>
+      <li><strong>Service Transition</strong> — move new or changed services into use</li>
+      <li><strong>Service Operation</strong> — run the service daily</li>
+      <li><strong>Continual Service Improvement</strong> — keep improving the service all the time</li>
+    </ol>
+  </section>
+
+  <!-- ══════════════════════ SECTION 1: SERVICE STRATEGY ══════════════════════ -->
+  <section id="service-strategy">
+    <div class="section-label">Stage 01</div>
+    <h2 class="section-title">Service Strategy — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What &amp; Why</h3>
+    <p>Service Strategy is the core stage of the ITIL service lifecycle. Its job is to define the overall strategic direction for how services will be managed across the entire lifecycle, by understanding the business goals, future plans, and activity patterns of the customers. By understanding what outcomes the business needs, the strategy guides everything else in the lifecycle.</p>
+
+    <h3 class="sub-title">Objectives of Service Strategy</h3>
+    <ul>
+      <li>Understand what "strategy" actually means in an IT context</li>
+      <li>Identify which services to offer and who the customers are</li>
+      <li>Define how value will be created and delivered</li>
+      <li>Find opportunities to provide new or better services</li>
+      <li>Create a clear service provision model (who gets what, how it's funded, and why)</li>
+      <li>Understand what organizational capabilities (people, tools, skills) are needed</li>
+      <li>Document and optimize use of service assets</li>
+      <li>Define processes that will deliver the strategic IT plans</li>
+      <li>Understand demand levels and build strong customer relationships</li>
+    </ul>
+
+    <h3 class="sub-title">Setting the Scope</h3>
+    <p>Service strategy applies to both internal and external service providers, whether they are profit-making or nonprofit. It covers two key aspects:</p>
+    <ul>
+      <li><strong>Strategy for the customer</strong> — guidance on delivering services that meet business outcomes</li>
+      <li><strong>Strategy for managing services</strong> — how to consistently run and improve those services</li>
+    </ul>
+
+    <h3 class="sub-title">Values Provided to the Business</h3>
+    <p>Service Strategy provides:</p>
+    <ul>
+      <li>A clear link between IT activities and the business outcomes that matter to customers</li>
+      <li>The ability to understand which types of services are needed and organize delivery consistently</li>
+      <li>Faster response to business change, making the organization more competitive</li>
+      <li>A service portfolio that shows the return on investment for all services</li>
+      <li>Transparent communication between IT and customers</li>
+      <li>A clear organizational model for delivering services efficiently</li>
+    </ul>
+
+    <h3 class="sub-title">Assets, Resources &amp; Capabilities</h3>
+    <p>Assets are anything an organization uses to deliver value — resources or capabilities.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Asset</strong></td><td>Any resource or capability</td></tr>
+          <tr><td><strong>Customer Asset</strong></td><td>Something a customer uses to achieve a business outcome</td></tr>
+          <tr><td><strong>Service Asset</strong></td><td>Something the IT provider uses to deliver a service</td></tr>
+          <tr><td><strong>Resources</strong></td><td>Direct inputs like money, servers, applications, people — physical things</td></tr>
+          <tr><td><strong>Capabilities</strong></td><td>Knowledge, skills, experience — the organization's ability to do something with resources</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>Think of it this way: a guitar is a resource, but the skill to play it is a capability.</p></div>
+    </div>
+
+    <h3 class="sub-title">Risk Management</h3>
+    <p>Risk is the likelihood of something going wrong that could impact the service or project. Key steps:</p>
+    <ul>
+      <li><strong>Identify</strong> — Name and document every possible risk in a Risk Register (a central list of all risks)</li>
+      <li><strong>Analyse</strong> — Assess how likely each risk is and what the impact would be, using both numbers (probability score) and descriptions</li>
+      <li><strong>Manage</strong> — A risk with 100% probability is no longer a risk — it's a certainty, so it becomes an "issue" to be dealt with immediately. A risk with 0% probability is removed from the register.</li>
+    </ul>
+
+    <h3 class="sub-title">The 5 Processes of Service Strategy</h3>
+
+    <h4 class="mini-title">1. Strategy Management for IT Services</h4>
+    <p>This ensures IT services align with the organization's overall goals. It has three steps:</p>
+    <ul>
+      <li><strong>Assessment</strong> — Evaluate the current market position, opportunities, constraints, and competitors</li>
+      <li><strong>Definition</strong> — Set goals and identify which services to offer to which customer segments</li>
+      <li><strong>Execution</strong> — Plan and implement the strategy</li>
+    </ul>
+
+    <h4 class="mini-title">2. IT Financial Management (The ABCs)</h4>
+    <p>Focuses on the financial health of IT services — budgeting, accounting, and charging:</p>
+    <ul>
+      <li><strong>Accounting (A)</strong> — Track exactly what is being spent on IT (hardware, software, staff, overhead). Build a clear picture of costs to identify savings.</li>
+      <li><strong>Budgeting (B)</strong> — Calculate and allocate funding needed for services. Covers capital expenditures, operational costs, and strategic investments. Planning happens yearly with monthly monitoring.</li>
+      <li><strong>Charging (C)</strong> — Bill customers based on the services they use, with a chargeback system that reflects cost and value.</li>
+    </ul>
+
+    <h4 class="mini-title">3. Service Portfolio Management (SPM)</h4>
+    <p>Monitors all services from idea to retirement. The portfolio has three parts:</p>
+    <ul>
+      <li><strong>Service Catalog</strong> — All currently active services offered to customers</li>
+      <li><strong>Service Pipeline</strong> — Services in development or proposal stage (not yet visible to customers)</li>
+      <li><strong>Retired Services Catalog</strong> — Archived services with documentation</li>
+    </ul>
+    <p>The four SPM steps are:</p>
+    <ul>
+      <li><strong>Define</strong> — Desired outcomes for a proposed service</li>
+      <li><strong>Analyse</strong> — Impact on other services and resources needed</li>
+      <li><strong>Approve</strong> — Formal proposal and authorization to move to design</li>
+      <li><strong>Charter</strong> — Communicate decisions and allocate resources for deployment</li>
+    </ul>
+
+    <h4 class="mini-title">4. Demand Management</h4>
+    <p>Helps the business understand, predict, and control customer demand for IT services. Uses Patterns of Business Activity (PBA) — data on frequency, volume, duration, and location of service usage. Three activities:</p>
+    <ul>
+      <li><strong>Analysing</strong> — Track service desk data, network usage, uptime to understand current usage</li>
+      <li><strong>Anticipating</strong> — Communicate with customers and use trends to predict future needs</li>
+      <li><strong>Influencing</strong> — Manage excessive demand through methods like network throttling or charging extra fees to protect costs and service quality</li>
+    </ul>
+
+    <h4 class="mini-title">5. Business Relationship Management (BRM)</h4>
+    <p>Focuses on building and maintaining strong relationships between IT and its customers. Key activities include:</p>
+    <ul>
+      <li>Maintaining ongoing customer relationships</li>
+      <li>Identifying service requirements</li>
+      <li>Acquiring new customers</li>
+      <li>Collecting customer satisfaction feedback</li>
+      <li>Handling and monitoring complaints and incidents</li>
+    </ul>
+    <p>BRM plays a role at every stage of the ITIL lifecycle, ensuring customer needs are always understood and addressed.</p>
+
+    <h3 class="sub-title">The BRM Role in Detail</h3>
+    <p>The BRM is the bridge between IT and the business. While other roles focus on processes and technology, the BRM's entire job is to understand what the business needs and make sure IT delivers it.</p>
+
+    <h4 class="mini-title">📌 1. Relationship Building</h4>
+    <p><strong>👉 Meaning:</strong></p>
+    <ul>
+      <li>Talk to customers regularly</li>
+      <li>Understand what they want, problems they face</li>
+    </ul>
+    <p><strong>👉 Simple example:</strong></p>
+    <ul><li>Like a <strong>friend who checks in often</strong> so problems don't build up</li></ul>
+    <p><strong>👉 Goal:</strong></p>
+    <ul><li>Build <strong>trust</strong>, so customers speak up early</li></ul>
+
+    <h4 class="mini-title">📌 2. Identifying Requirements</h4>
+    <p><strong>👉 Meaning:</strong></p>
+    <ul>
+      <li>Find out: What customer needs <strong>now</strong> and What they may need <strong>in future</strong></li>
+    </ul>
+    <p><strong>👉 Then:</strong></p>
+    <ul><li>Give these needs to <strong>Service Design team</strong></li></ul>
+    <p><strong>👉 Simple example:</strong></p>
+    <ul>
+      <li>Customer says: "We need faster system"</li>
+      <li>BRM tells IT: "Improve performance"</li>
+    </ul>
+
+    <h4 class="mini-title">📌 3. Customer Satisfaction</h4>
+    <p><strong>👉 Meaning:</strong></p>
+    <ul><li>Check if customers are happy or not</li></ul>
+    <p><strong>👉 How:</strong></p>
+    <ul><li>Surveys, feedback forms, reports</li></ul>
+    <p><strong>👉 Important:</strong></p>
+    <ul><li>If satisfaction is <strong>low → fix service</strong></li></ul>
+    <p><strong>👉 Simple example:</strong></p>
+    <ul><li>Like rating an app ⭐⭐⭐⭐ — Low rating = something is wrong</li></ul>
+
+    <h4 class="mini-title">📌 4. Complaint Handling</h4>
+    <p><strong>👉 Meaning:</strong></p>
+    <ul><li>When customer is unhappy → BRM steps in</li></ul>
+    <p><strong>👉 What BRM does:</strong></p>
+    <ul>
+      <li>Logs complaint</li>
+      <li>Tracks it</li>
+      <li>Makes sure it's solved properly</li>
+    </ul>
+    <p><strong>👉 Simple example:</strong></p>
+    <ul><li>Like a <strong>manager handling a customer complaint in a shop</strong></li></ul>
+
+    <h4 class="mini-title">📌 5. New Business</h4>
+    <p><strong>👉 Meaning:</strong></p>
+    <ul>
+      <li>Find opportunities to Improve services and Offer new services</li>
+    </ul>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Customer uses basic plan → BRM suggests advanced features</li></ul>
+    <p><strong>👉 Goal:</strong></p>
+    <ul><li>Grow business + give better solutions</li></ul>
+
+    <h4 class="mini-title">📌 6. Lifecycle Involvement</h4>
+    <p><strong>👉 BRM is involved everywhere:</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stage</th><th>What BRM does</th></tr></thead>
+        <tbody>
+          <tr><td>Strategy</td><td>Understand needs</td></tr>
+          <tr><td>Design</td><td>Check if service fits needs</td></tr>
+          <tr><td>Transition</td><td>Manage expectations during changes</td></tr>
+          <tr><td>Operation</td><td>Monitor satisfaction</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Key Roles &amp; Responsibilities</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IT Strategist / Strategy Manager</strong></td><td>Leads assessment, definition, and execution of the IT strategy</td></tr>
+          <tr><td><strong>Financial Manager</strong></td><td>Manages accounting, budgeting, and charging for IT services</td></tr>
+          <tr><td><strong>Service Portfolio Manager</strong></td><td>Oversees the full pipeline of services — from proposal to retirement</td></tr>
+          <tr><td><strong>Demand Manager</strong></td><td>Analyses PBA data, forecasts demand, and influences usage patterns</td></tr>
+          <tr><td><strong>Business Relationship Manager</strong></td><td>Maintains customer relationships, captures requirements, handles complaints, and measures satisfaction across the full lifecycle</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ SECTION 2: SERVICE DESIGN ══════════════════════ -->
+  <section id="service-design">
+    <div class="section-label">Stage 02</div>
+    <h2 class="section-title">Service Design — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What is Service Design?</h3>
+    <p>Service Design is the stage where you <strong>plan both new services and changes to existing services</strong>, making sure they fulfill the goals set in the Service Strategy. It touches every area of IT because all departments play a role in delivering and supporting the final service. A very important rule here is: <strong>successful design depends on planning ahead</strong> — skipping the planning phase causes costly rework and delays later. Part of the planning phase is also identifying and managing risks to ensure a successful outcome.</p>
+
+    <h3 class="sub-title">Purpose of Service Design</h3>
+    <ul>
+      <li>Deliver a new or changed service capable of meeting the strategic business outcome</li>
+      <li>It's not just about technology — it also covers the <strong>processes and policies</strong> needed to ensure the solution delivers value</li>
+      <li>It considers what the transition phase will need to implement the service into the live environment</li>
+      <li>The service must run <strong>within the allocated budget</strong> and meet or exceed customer requirements</li>
+    </ul>
+
+    <h3 class="sub-title">Objectives of Service Design</h3>
+    <ul>
+      <li>Ideally, services should be designed so well they need <strong>little or no improvement</strong> after deployment</li>
+      <li>While not always realistic, the goal is to minimize the need for future fixes</li>
+      <li>Every design effort should <strong>apply lessons learned</strong> from previous design projects to improve the output</li>
+      <li>Business requirements may change, so design activities may be done on a regular basis or when a new business need is identified</li>
+    </ul>
+
+    <h3 class="sub-title">Scope of Service Design</h3>
+    <ul>
+      <li>Service design considers not only current needs but also <strong>anticipates future requirements</strong> to ensure the service can grow</li>
+      <li>The design must align the service with the actual business need — functional requirements AND service levels both need to be considered</li>
+      <li>Design constraints must be identified and followed</li>
+      <li>The <strong>8 processes</strong> included in service design are:
+        <ul>
+          <li>Design Coordination</li>
+          <li>Service Catalog Management</li>
+          <li>Service Level Management</li>
+          <li>Availability Management</li>
+          <li>Capacity Management</li>
+          <li>IT Service Continuity Management</li>
+          <li>Information Security Management</li>
+          <li>Supplier Management</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="callout warn">
+      <span class="callout-icon">⚠️</span>
+      <div class="callout-body"><p>All processes must be linked — changing one process must not accidentally break another</p></div>
+    </div>
+
+    <h3 class="sub-title">Value Service Design Provides to the Business</h3>
+    <ul>
+      <li>Good service design delivers <strong>high-performing, affordable services</strong> that match the business requirement</li>
+      <li>It results in a <strong>lower total cost of ownership</strong> over the lifetime of the service because everything is designed to work together from the start, minimizing rework</li>
+      <li>It considers corporate strategy, existing systems, and design constraints so the service fits perfectly into the existing environment</li>
+      <li>It ensures the service meets <strong>service level requirements</strong> including capacity, availability, and continuity — cost-effectively</li>
+      <li>It produces a <strong>Service Design Package (SDP)</strong> — a document with all the information needed for the transition phase to move the service to live</li>
+      <li>It ensures the right <strong>metrics and controls</strong> are built into the design for future monitoring, governance, and continual improvement</li>
+      <li>It also considers strategic requirements like using <strong>cloud technologies</strong> or reducing carbon footprint</li>
+    </ul>
+
+    <h3 class="sub-title">Service Design Package (SDP)</h3>
+    <p>ITIL recommends producing a key output called the <strong>Service Design Package (SDP)</strong> — one or more documents that describe all aspects of the service throughout its lifecycle. A typical SDP contains:</p>
+    <ul>
+      <li>Original agreed business requirements</li>
+      <li>How the service will be used</li>
+      <li>Key contacts and stakeholders</li>
+      <li>Functional requirements</li>
+      <li>Management requirements</li>
+      <li>Service level requirements</li>
+      <li>Technical design (hardware, software, networks, data, applications, tools, documentation)</li>
+      <li>Sourcing strategy</li>
+      <li>New or changed processes needed to support the service</li>
+      <li>Organizational readiness assessment</li>
+    </ul>
+
+    <h3 class="sub-title">Key Elements of Service Design — The 4 Ps</h3>
+    <p>A common mistake is to focus only on the technical side of design, ignoring the bigger picture. Successful service design must consider all <strong>four key elements (4 Ps)</strong>:</p>
+
+    <h4 class="mini-title">1. 👥 People</h4>
+    <ul>
+      <li>The best technical design will <strong>fail if people are not prepared</strong> to use or support it</li>
+      <li>Designers must consider how many people will be needed (resource) and what skills they require (capability)</li>
+      <li>Training must be provided for both <strong>support staff and end users</strong></li>
+      <li>A <strong>training needs analysis</strong> must be done, with proper budget set aside for training</li>
+      <li>A <strong>communications plan</strong> is needed to ensure the right information reaches the right people at the right time</li>
+    </ul>
+
+    <h4 class="mini-title">2. ⚙️ Processes</h4>
+    <ul>
+      <li>New services may require entirely new processes (e.g., authorization, procurement)</li>
+      <li>Skipping process design to speed up launch is a "false economy" — it causes bigger problems later</li>
+      <li>Failure to plan for future capacity needs can mean the service cannot handle increased demand without a major redesign</li>
+      <li>All processes must be <strong>documented with their interfaces</strong> to other processes</li>
+      <li>All existing processes across the lifecycle must be reviewed to see if changes are needed to support the new service</li>
+    </ul>
+
+    <h4 class="mini-title">3. 🛠️ Products</h4>
+    <ul>
+      <li>Products include both the <strong>final service itself</strong> and the technology/tools used to build or support it</li>
+      <li>Example: An online shopping service may involve a credit-card processing app, automatic stock reordering, monitoring tools for response time alerts, etc.</li>
+    </ul>
+
+    <h4 class="mini-title">4. 🤝 Partners</h4>
+    <ul>
+      <li>Partners are <strong>external third-party suppliers, manufacturers, and vendors</strong> who provide part of the overall service</li>
+      <li>Choosing the right supplier is critical — a supplier failure can cause the IT provider to breach an agreed service level</li>
+      <li>External suppliers are managed through the <strong>Supplier Management Process</strong>, which puts contracts in place and monitors delivery</li>
+    </ul>
+
+    <h3 class="sub-title">Five Major Aspects of Service Design</h3>
+    <p>Just focusing on the service solution is not enough — design must take a <strong>holistic approach</strong>. There are <strong>5 aspects</strong> of service design:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>What it Means</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Service Solutions</strong></td><td>The actual new or changed service — the functionality being delivered. Must work within technical and financial constraints and comply with corporate rules</td></tr>
+          <tr><td><strong>Management Information Systems &amp; Tools</strong></td><td>Tools that support and automate processes. The new service must integrate with existing systems like the <strong>SKMS (Service Knowledge Management System)</strong>, which holds all service portfolio and catalog details</td></tr>
+          <tr><td><strong>Architectures</strong></td><td>The new service must be compatible with the organization's <strong>existing IT infrastructure and technical standards</strong>. If not, either the architecture is updated or the design is revised</td></tr>
+          <tr><td><strong>Measurement Systems</strong></td><td>Design must ensure the right <strong>metrics are being gathered</strong> to assess the service's efficiency and effectiveness. If current metrics are insufficient, they must be improved</td></tr>
+          <tr><td><strong>Processes</strong></td><td>All processes — new and existing — across the entire lifecycle must be reviewed and updated as needed to support the new service. Process models can help clarify these</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Service Design Processes (Details)</h3>
+
+    <h4 class="mini-title">📋 Service Catalog Management</h4>
+    <ul>
+      <li>A <strong>database or structured document</strong> with information about all live IT services, including those available for deployment</li>
+      <li>The Service Catalogue is part of the Service Portfolio and contains two types of services:
+        <ul>
+          <li><strong>Customer-facing services</strong> — visible to the business</li>
+          <li><strong>Supporting services</strong> — required by the IT provider behind the scenes to deliver customer-facing services</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4 class="mini-title">✅ Availability Management</h4>
+    <ul>
+      <li>The availability of a service is <strong>critical to its value</strong> — a brilliant service with poor uptime is useless</li>
+      <li>Poor availability is a <strong>primary cause of customer dissatisfaction</strong></li>
+      <li>Availability is one of the four <strong>warranty aspects</strong> a service must deliver to be "fit for use"</li>
+      <li>Availability targets are usually included in <strong>SLAs (Service Level Agreements)</strong></li>
+    </ul>
+    <p><strong>Calculating Availability formula:</strong></p>
+    <div class="callout info">
+      <span class="callout-icon">📐</span>
+      <div class="callout-body">
+        <strong>Formula</strong>
+        <p><strong>Availability % = (Agreed Service Hours − Downtime) ÷ Agreed Service Hours × 100</strong></p>
+        <p><strong>Example A</strong> (24/7 service, 1 hour downtime per week): 168 − 1 = 167 ÷ 168 × 100 = <strong>99.4% availability</strong></p>
+        <p><strong>Example B</strong> (9am–5pm Mon–Fri service, same 1 hour downtime): 40 − 1 = 39 ÷ 40 × 100 = <strong>97.5% availability</strong></p>
+      </div>
+    </div>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>The agreed service hours MUST be documented in the SLA — overnight downtime may not even count in Example B!</p></div>
+    </div>
+
+    <h4 class="mini-title">⏱️ MTRS (Mean Time to Restore Service)</h4>
+    <ul>
+      <li>When a fault occurs and there is not enough resilience to prevent downtime, <strong>how quickly</strong> the fault is fixed determines the length of the outage</li>
+      <li>This ability to fix quickly is called <strong>Maintainability</strong>, measured as <strong>MTRS</strong></li>
+    </ul>
+    <div class="callout info">
+      <span class="callout-icon">📐</span>
+      <div class="callout-body">
+        <strong>Formula</strong>
+        <p><strong>MTRS = Total Downtime ÷ Total Number of Failures</strong></p>
+        <p><strong>Example:</strong> 4 failures in a month: 1hr, 2hr, 1.2hr, 1.8hr → Total = 6 hours. MTRS = 6 ÷ 4 = <strong>1.5 hours</strong></p>
+      </div>
+    </div>
+
+    <h4 class="mini-title">📦 Capacity Management</h4>
+    <ul>
+      <li>The service provider must ensure the service can <strong>cope with the demands placed on it</strong> — both now and in the future</li>
+      <li>If the design cannot cope with demand, the service will <strong>fail to meet the SLA performance targets</strong></li>
+      <li>Over-designing wastes money; under-designing causes failure — the right balance is needed</li>
+      <li>ITIL defines Capacity Management as ensuring IT services and infrastructure meet <strong>current and future capacity and performance needs in a cost-effective and timely manner</strong></li>
+      <li>Delivering sufficient capacity is a <strong>key warranty aspect</strong> of any service</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════ SECTION 3: SERVICE TRANSITION ══════════════════════ -->
+  <section id="service-transition">
+    <div class="section-label">Stage 03</div>
+    <h2 class="section-title">Service Transition — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What is Service Transition?</h3>
+    <p>Service Transition is the lifecycle stage that deals with <strong>moving a new or changed service from the design stage into the live, working environment</strong>. It uses processes like Change Management, Configuration Management, and Knowledge Management throughout the entire lifecycle to keep control over the live environment. Think of it like the <strong>"grand opening" phase</strong> — everything planned and built must now be tested, handed over, and made ready for actual use.</p>
+
+    <h3 class="sub-title">Purpose of Service Transition</h3>
+    <ul>
+      <li>Ensure services that were agreed upon and designed (in Strategy and Design stages) are now <strong>delivered effectively into live operation</strong></li>
+      <li>Any new, modified, or retired service must be transitioned following the plans and documents prepared in earlier stages</li>
+      <li>All previous work — customer negotiations, requirement agreements, SLAs — must be considered when introducing a new or changed service</li>
+      <li>This is where the <strong>expectation of the business is set</strong>, because this is the stage where the new service is tested for its ability to perform as required</li>
+      <li>Transition puts in place <strong>measurable, repeatable activities</strong> to ensure a smooth handover into operations</li>
+      <li>If a customer does not understand how a service is intended to work, they may fault something that was never designed to perform that way — proper transition avoids this</li>
+    </ul>
+
+    <h3 class="sub-title">Objectives of Service Transition</h3>
+    <ul>
+      <li>Plan and manage changes to services, introduction of new services, or retirement of services — <strong>efficiently and effectively</strong></li>
+      <li>Manage all risks associated with new, modified, or retired services being transitioned</li>
+      <li><strong>Successfully deploy releases</strong> into the live environment</li>
+      <li>Set clear expectations for performance and use of the new or modified services</li>
+      <li>Ensure changes to services deliver the <strong>anticipated business value</strong></li>
+      <li>Provide relevant, good-quality <strong>knowledge and information</strong> about the services and service assets</li>
+    </ul>
+
+    <h3 class="sub-title">Scope of Service Transition</h3>
+    <ul>
+      <li>Covers the <strong>planning, build, test, evaluation, implementation, and deployment</strong> of new services or changes to existing services</li>
+      <li>Also covers transitioning services between service providers (internal and external) and <strong>retiring services</strong> that are no longer needed</li>
+      <li>Links strategy → design → transition so that what was planned and designed is <strong>successfully realized in operation</strong> with minimal risk and disruption</li>
+      <li>Includes introducing new technologies, working with suppliers and partners, and managing working practices</li>
+      <li>Has a <strong>close association with project management</strong> — it may adopt a project management approach to coordinate all transition activities</li>
+    </ul>
+
+    <h3 class="sub-title">Change Management</h3>
+
+    <h4 class="mini-title">Purpose</h4>
+    <p>ITIL defines the purpose of Change Management as: <strong>"to control the lifecycle of all changes, enabling beneficial changes to be made with minimum disruption to IT services"</strong>. According to the IT Service Management Forum (ITSMF), <strong>80% of all IT incidents are caused by changes</strong> to the IT infrastructure — uncontrolled change is the #1 cause of problems.</p>
+
+    <h4 class="mini-title">Objectives</h4>
+    <ul>
+      <li>Keep up with changes happening in the business environment while <strong>reducing incidents, disruption, and rework</strong></li>
+      <li>Maximize the value of IT services by ensuring changes are well managed</li>
+      <li>As the business evolves, keep IT services aligned to the current business needs</li>
+    </ul>
+
+    <h4 class="mini-title">Scope of Change Management</h4>
+    <p>ITIL defines a <strong>change</strong> as: <em>"the addition, modification, or removal of anything that could have an effect on IT services"</em>. This includes:</p>
+    <ul>
+      <li>Architecture, infrastructure, processes, documentation, metrics, and tools</li>
+      <li>Changes to IT services and configuration items</li>
+    </ul>
+    <p><strong>Out of scope</strong> examples:</p>
+    <ul>
+      <li>Changes to departmental structures or business policies (these are organizational changes, not IT changes)</li>
+      <li>Minor routine maintenance like simple printer repairs</li>
+    </ul>
+
+    <h4 class="mini-title">Types of Change (RFC — Request for Change)</h4>
+    <p>A change is formally captured as an <strong>RFC (Request for Change)</strong> — a call to the service desk, a completed form, or a project initiation document. There are <strong>three types</strong>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Standard Change</strong></td><td>A pre-approved, low-risk, routine change that follows an established procedure (e.g., password reset)</td></tr>
+          <tr><td><strong>Emergency Change</strong></td><td>Needs to be implemented urgently, often to fix a critical issue; has a faster approval path</td></tr>
+          <tr><td><strong>Normal Change</strong></td><td>Any change that is not standard or emergency; follows the full approval and review process</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Knowledge Management</h3>
+    <p>Knowledge Management is a process that <strong>impacts the entire service lifecycle</strong>, not just Service Transition. It provides one of the key systems for service management: the <strong>SKMS (Service Knowledge Management System)</strong>.</p>
+    <p>It uses the <strong>DIKW Model</strong> to manage knowledge:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Level</th><th>What it Means</th></tr></thead>
+        <tbody>
+          <tr><td><strong>D — Data</strong></td><td>Raw facts and numbers (e.g., "50 incidents logged")</td></tr>
+          <tr><td><strong>I — Information</strong></td><td>Data with context (e.g., "50 incidents in the billing module")</td></tr>
+          <tr><td><strong>K — Knowledge</strong></td><td>Understanding why (e.g., "billing module fails after updates")</td></tr>
+          <tr><td><strong>W — Wisdom</strong></td><td>Knowing what to do (e.g., "always test billing after updates")</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Objectives of Knowledge Management</h4>
+    <ul>
+      <li>Improve the <strong>quality of decision-making</strong> throughout the service lifecycle</li>
+      <li>Ensure staff understand the <strong>value of the services</strong> they support</li>
+      <li>Maintain the <strong>SKMS</strong> (Service Knowledge Management System)</li>
+      <li>Gather, store, analyse, share, use, and maintain knowledge, information, and data across the service provider organization</li>
+    </ul>
+
+    <h3 class="sub-title">Release and Deployment Management</h3>
+
+    <h4 class="mini-title">What it is</h4>
+    <p>Release and Deployment Management ensures the <strong>successful introduction of changes into the live environment</strong>, minimizing unexpected impact on the business. It is one of the <strong>most visible processes</strong> during Transition, because it is where IT and the business community directly interact with new or changed services.</p>
+
+    <h4 class="mini-title">Purpose</h4>
+    <ul>
+      <li>Ensure the build, test, and deployment of a release is done with <strong>minimal adverse impact</strong> to the business</li>
+      <li>All release activity must be <strong>planned, scheduled, and controlled</strong> according to organizational needs</li>
+      <li>Carry out <strong>pilots and testing</strong> of new services to confirm the service design can work effectively in the real world</li>
+      <li>Ensure new or changed services <strong>do not negatively impact existing services</strong></li>
+    </ul>
+
+    <h4 class="mini-title">Four Phases of Release and Deployment</h4>
+    <ol>
+      <li><strong>Release and Deployment Planning</strong> — Plan the release schedule and approach</li>
+      <li><strong>Release Build and Test</strong> — Build and test the service in a controlled environment</li>
+      <li><strong>Deployment</strong> — Move the tested service to the live environment</li>
+      <li><strong>Review and Close</strong> — Review the deployment, capture lessons learned, formally close the release</li>
+    </ol>
+
+    <h3 class="sub-title">Transition Planning and Support</h3>
+
+    <h4 class="mini-title">What It Is</h4>
+    <p>Transition Planning and Support is the process responsible for planning and coordinating all the resources needed to successfully transition a new or changed service into live operation. Think of it as the project management backbone of Service Transition — it makes sure every other transition process (Change Management, Release Management, SACM, etc.) works together in a coordinated way.</p>
+
+    <h4 class="mini-title">Purpose</h4>
+    <ul>
+      <li>Provide overall planning for Service Transition activities and coordinate the resources those activities require</li>
+      <li>Ensure transition plans are realistic, fully resourced, and agreed upon by all stakeholders</li>
+      <li>Identify, manage, and communicate any risks or issues that could affect the transition</li>
+      <li>Maintain a clear and up-to-date picture of all transitions in progress at any one time</li>
+    </ul>
+
+    <h4 class="mini-title">Objectives</h4>
+    <ul>
+      <li>Plan and coordinate the resources needed to meet the requirements of the Service Strategy and Service Design</li>
+      <li>Ensure all transition plans and activities are in line with the customer's requirements and agreed timescales</li>
+      <li>Coordinate activities across projects, suppliers, and service teams</li>
+      <li>Monitor and improve the performance of Service Transition activities</li>
+      <li>Communicate clearly with all stakeholders so there are no surprises during transition</li>
+    </ul>
+
+    <h4 class="mini-title">Key Activities</h4>
+    <ul>
+      <li><strong>Define the transition strategy</strong> — Decide on the overall approach: will this be a phased rollout, a big-bang release, or a pilot first? Document the approach clearly.</li>
+      <li><strong>Prepare the transition plan</strong> — Create a detailed plan listing all activities, timescales, resources, dependencies, and milestones. This plan links directly to the Service Design Package (SDP).</li>
+      <li><strong>Coordinate and manage resources</strong> — Ensure people, tools, environments, and budgets are in place when needed. Flag conflicts early (e.g., two releases competing for the same test environment).</li>
+      <li><strong>Monitor and report progress</strong> — Track each transition against the plan. Provide regular status updates to stakeholders and escalate when things fall behind.</li>
+      <li><strong>Review and close</strong> — Once transition is complete, review how it went, capture lessons learned, and formally close the transition record.</li>
+    </ul>
+
+    <h4 class="mini-title">Key Roles in Transition Planning and Support</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Service Transition Manager</strong></td><td>Owns the entire transition process; ensures plans are created, followed, and completed</td></tr>
+          <tr><td><strong>Change Manager</strong></td><td>Approves and controls all RFCs (Requests for Change) during transition</td></tr>
+          <tr><td><strong>Change Advisory Board (CAB)</strong></td><td>A group that reviews and advises on significant or risky changes before approval</td></tr>
+          <tr><td><strong>Release Manager</strong></td><td>Manages the build, test, and deployment of releases into the live environment</td></tr>
+          <tr><td><strong>Configuration Manager</strong></td><td>Maintains the CMDB and ensures all CIs are correctly recorded throughout transition</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ SECTION 4: SERVICE OPERATION ══════════════════════ -->
+  <section id="service-operation">
+    <div class="section-label">Stage 04</div>
+    <h2 class="section-title">Service Operation — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What is Service Operation?</h3>
+    <p>Service Operation is the stage where the service is <strong>actually being delivered to the business in real time</strong>. It is often the <strong>longest stage</strong> in the entire ITIL lifecycle — much longer than Strategy, Design, or Transition — because it runs for the entire active life of the service.</p>
+
+    <h3 class="sub-title">Purpose of Service Operation</h3>
+    <ul>
+      <li>Deliver the service at the <strong>agreed level defined in the SLA (Service Level Agreement)</strong></li>
+      <li>This includes all day-to-day activities required to run the service AND manage the technology behind it (applying updates, backing up data, monitoring systems, etc.)</li>
+      <li>The service must be delivered <strong>effectively AND within the original planned operational cost</strong></li>
+      <li>If the service costs more than what was planned, the original business benefits (like cost savings) may <strong>never be realized</strong></li>
+    </ul>
+
+    <h3 class="sub-title">Objectives of Service Operation</h3>
+    <ul>
+      <li>Deliver all services as agreed in the SLA so the business gets the level it expects</li>
+      <li>Reduce both the <strong>number and impact</strong> of service outages (some outages are unavoidable, but service operation minimizes them)</li>
+      <li>Use <strong>Problem Management</strong> to reduce repeat incidents that disrupt the business</li>
+      <li>Use <strong>Incident Management</strong> to fix incidents that do occur as quickly as possible</li>
+      <li>Use <strong>Access Management</strong> to ensure only authorized users can access IT services</li>
+    </ul>
+
+    <h3 class="sub-title">Scope of Service Operation</h3>
+    <p>The ITIL framework says service operation's scope covers the <strong>"processes, functions, organization, and tools"</strong> used to deliver and support agreed services. It is responsible for:</p>
+    <ul>
+      <li><strong>The Services Themselves</strong> — All activities needed to consistently deliver services within agreed service levels. These may be carried out by the IT provider, a supplier, or even the user</li>
+      <li><strong>The Service Management Processes</strong> — Event, Incident, Problem, Access Management, and Request Fulfillment</li>
+      <li><strong>The Technology Delivering</strong> — Managing all technology (networks, desktops, servers, databases, monitoring tools) that underlies the services</li>
+      <li><strong>The People</strong> — Despite automation, human support staff are still the key to successful service delivery, managing both technology and processes</li>
+      <li><strong>Performance Data Collection</strong> — Collects operational data that feeds into <strong>Continual Service Improvement (CSI)</strong> to identify future improvement opportunities</li>
+    </ul>
+
+    <h3 class="sub-title">Value Service Operation Adds to the Business</h3>
+    <ul>
+      <li><strong>Financial savings</strong> from reduced downtime through effective Incident and Problem Management</li>
+      <li>Produces <strong>management reports</strong> on efficiency and effectiveness of service delivery</li>
+      <li>Protects services from <strong>unauthorized access</strong> in line with the organization's security policy</li>
+      <li>Enables business users to obtain <strong>standard services quickly</strong> with minimal paperwork (through Request Management)</li>
+      <li>Uses <strong>automation</strong> (based on event management data) to reduce the number of staff needed to run a service</li>
+    </ul>
+
+    <h3 class="sub-title">Service Operation Functions</h3>
+
+    <h4 class="mini-title">🔧 Technical Management</h4>
+    <p>Technical Management refers to the teams responsible for <strong>managing and developing the IT infrastructure</strong>. This includes all teams with names like "network management," "infrastructure support," or "technical support." Key responsibilities:</p>
+    <ul>
+      <li>Hold the technical knowledge and expertise to design, test, manage, and improve IT services</li>
+      <li>Draw up the technical strategy and ensure the infrastructure supports the service strategy</li>
+      <li>Carry out technical design of new or changed services and plan their transition into live</li>
+      <li>Once live: resolve incidents, investigate problems, respond to alerts, and recommend changes</li>
+      <li>Work with the <strong>CSI Manager</strong> to identify and implement service improvements</li>
+    </ul>
+
+    <h4 class="mini-title">💻 Application Management</h4>
+    <p>Application Management is similar to Technical Management but focuses on <strong>application software</strong> rather than infrastructure. Key difference to note:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Application Management</th><th>Application Development</th></tr></thead>
+        <tbody>
+          <tr><td>Involved across <strong>every stage</strong> of the service lifecycle (requirements → design → operation → improvement)</td><td>Mostly involved in <strong>single, finite activities</strong> like designing and building a new application</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Service Desk Organization</h3>
+    <p>The right structure for a service desk depends on the <strong>size and structure of the organization</strong>. ITIL defines three types:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Local Service Desk</strong></td><td>A desk physically located with the users it serves; an organization with 3 offices would have 3 local desks — understands local business priorities</td></tr>
+          <tr><td><strong>Centralized Service Desk</strong></td><td>All users contact one single desk; most common structure; no duplication of provision = economies of scale</td></tr>
+          <tr><td><strong>Virtual Service Desk</strong></td><td>Two or more desk locations that operate as <strong>one single desk</strong>; calls and emails are distributed across staff as if they were in one place</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Key Service Operation Processes</h3>
+
+    <h4 class="mini-title">🚨 Incident Management</h4>
+    <p>An <strong>Incident</strong> is defined as: <em>"an unplanned interruption to an IT service, a reduction in the quality of an IT service, or a failure of a CI (Configuration Item) that has not yet impacted a service"</em>.</p>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>Key idea: <strong>Fixing the incident does NOT require knowing WHY it happened</strong> — that's Problem Management's job. If a reboot fixes it, the service desk can do it without calling expensive second-line technicians.</p></div>
+    </div>
+    <p><strong>Steps to Manage an Incident:</strong></p>
+    <ol>
+      <li>Incident Identification</li>
+      <li>Incident Categorization</li>
+      <li>Incident Prioritization</li>
+      <li>Initial Diagnosis</li>
+      <li>Incident Escalation (if needed)</li>
+      <li>Investigation and Diagnosis</li>
+      <li>Resolution and Recovery</li>
+      <li>Incident Closure</li>
+    </ol>
+
+    <h4 class="mini-title">🔍 Problem Management</h4>
+    <p>A <strong>Problem</strong> is defined as: <em>"the underlying cause of one or more incidents"</em>. An <strong>incident never becomes a problem</strong> — they are separate records. Problem Management:</p>
+    <ul>
+      <li>Investigates the <strong>root cause</strong> of incidents</li>
+      <li>Provides a <strong>workaround</strong> to restore the service temporarily while a permanent fix is found</li>
+      <li>Implements a <strong>permanent solution</strong> to prevent the incident from recurring</li>
+      <li>Creates a <strong>virtuous circle</strong>: the more problems solved, the fewer incidents occur, freeing up more time for further problem management</li>
+    </ul>
+    <p><strong>Problem Management Process Steps:</strong></p>
+    <ol>
+      <li>Detecting Problems</li>
+      <li>Logging Problems</li>
+      <li>Categorizing Problems</li>
+      <li>Prioritizing Problems</li>
+      <li>Investigating and Diagnosing</li>
+      <li>Identifying a Workaround</li>
+      <li>Raising a <strong>Known Error Record</strong> (a documented problem whose root cause is known but not yet permanently fixed)</li>
+    </ol>
+
+    <h4 class="mini-title">📡 Event Management</h4>
+    <p>An <strong>Event</strong> is defined as: <em>"any change of state that has significance for the management of a Configuration Item (CI) or IT service"</em>. Event Management is responsible for managing events throughout their lifecycle and is one of the <strong>main activities of IT Operations</strong>.</p>
+    <p><strong>Types of events:</strong></p>
+    <ul>
+      <li><strong>Informational</strong> — e.g., a user logging into an application, a transaction completing successfully</li>
+      <li><strong>Warning</strong> — something needs attention before it becomes a problem</li>
+      <li><strong>Exception</strong> — something has failed or is operating outside normal boundaries</li>
+    </ul>
+    <p><strong>Event Monitoring Tools:</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool Type</th><th>How It Works</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Active Monitoring</strong></td><td>Polls (sends a "ping" to) devices to check they work; if no response, alerts staff; some tools auto-restart or reroute traffic</td></tr>
+          <tr><td><strong>Passive Monitoring</strong></td><td>Does not poll — only detects events generated by CIs and correlates (groups related) events</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Event Management vs Event Monitoring — Key Difference:</strong></p>
+    <ul>
+      <li><strong>Event Management</strong> — generates and detects event notifications; provides status information about the infrastructure</li>
+      <li><strong>Event Monitoring</strong> — goes further; actively checks CIs to confirm they are working correctly, <strong>whether or not</strong> an event has been generated</li>
+    </ul>
+
+    <h4 class="mini-title">🔐 Access Management</h4>
+    <p>Access Management (also called <strong>Rights Management</strong> or <strong>Identity Management</strong>) is the process of <strong>granting authorized users the right to use a service while blocking unauthorized users</strong>. Key activities:</p>
+    <ul>
+      <li>Manage access to services based on policies defined in <strong>Information Security Management</strong></li>
+      <li>Verify and authorize all access requests, including requests to <strong>restrict or remove</strong> access</li>
+      <li>Process requests efficiently — balancing security control with responsiveness to business needs</li>
+      <li>Ensure granted rights are always used <strong>in line with security policies</strong></li>
+    </ul>
+
+    <h3 class="sub-title">Balancing Conflicting Goals in Service Operation</h3>
+
+    <h4 class="mini-title">The Core Challenge</h4>
+    <p>Service Operation is where the real tension in IT management becomes visible. Every decision involves a trade-off between competing priorities. Getting the balance wrong in either direction causes problems — being too rigid means IT becomes a bottleneck; being too flexible means IT becomes chaotic and unreliable.</p>
+    <p>ITIL identifies four key balancing acts that Service Operation must manage every day:</p>
+
+    <h4 class="mini-title">1. Internal IT View vs. External Business View</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Internal IT View</th><th>External Business View</th></tr></thead>
+        <tbody>
+          <tr><td>Focuses on managing individual technology components — servers, networks, databases</td><td>Focuses on end-to-end services that the business uses to operate</td></tr>
+          <tr><td>Too much internal focus = IT loses sight of what the business actually needs</td><td>Too much external focus = IT cannot manage or fix the underlying technology effectively</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Balance:</strong> IT must understand both layers. A server crash is an internal event, but its impact is measured in terms of the business service it supports.</p>
+
+    <h4 class="mini-title">2. Stability vs. Responsiveness</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stability</th><th>Responsiveness</th></tr></thead>
+        <tbody>
+          <tr><td>Keep the live environment stable and reliable — avoid unnecessary changes</td><td>Respond quickly to business changes — introduce new services and fix problems fast</td></tr>
+          <tr><td>Too much stability = IT becomes slow, resistant to change, and fails to meet business needs</td><td>Too much responsiveness = changes are rushed, causing instability and more incidents</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Balance:</strong> Use Change Management and Release Management to introduce changes in a controlled, planned way — fast enough to meet business needs, careful enough not to break things.</p>
+
+    <h4 class="mini-title">3. Quality of Service vs. Cost of Service</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Quality of Service</th><th>Cost of Service</th></tr></thead>
+        <tbody>
+          <tr><td>High availability, fast response times, no downtime — premium service levels</td><td>Running IT services cheaply — fewer staff, older equipment, minimal redundancy</td></tr>
+          <tr><td>High quality without cost control = overspend, unsustainable</td><td>Low cost without quality control = SLA breaches, customer dissatisfaction, business loss</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Balance:</strong> Use Capacity Management and Financial Management together. Design services to meet the agreed SLA level — not higher than needed (gold-plating), not lower than agreed (under-delivering).</p>
+
+    <h4 class="mini-title">4. Reactive vs. Proactive</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Reactive</th><th>Proactive</th></tr></thead>
+        <tbody>
+          <tr><td>Respond to incidents and problems as they occur</td><td>Identify and prevent issues before they affect the business</td></tr>
+          <tr><td>Too reactive = IT is always fighting fires, never improving</td><td>Too proactive = IT spends too much time on analysis and misses urgent live issues</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>Balance:</strong> Dedicate a portion of operational capacity to Problem Management and CSI so the team learns from incidents and reduces their recurrence — without ignoring the live environment in the meantime.</p>
+
+    <h4 class="mini-title">Why This Balance Matters</h4>
+    <p>If these tensions are not managed well, Service Operation can either become a bottleneck (too much control) or a source of instability (too little control). The goal is a stable, efficient operation that can still adapt quickly to business needs — and that is exactly what the ITIL processes in Service Operation are designed to achieve.</p>
+  </section>
+
+  <!-- ══════════════════════ SECTION 5: CSI ══════════════════════ -->
+  <section id="csi">
+    <div class="section-label">Stage 05</div>
+    <h2 class="section-title">Continual Service Improvement — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What is Continual Service Improvement (CSI)?</h3>
+    <p>CSI is a <strong>separate but connected stage</strong> that touches every other part of the ITIL lifecycle. Unlike other stages, it does not work in isolation — it constantly interacts with Strategy, Design, Transition, and Operations to make everything better over time. The desire to improve is often the <strong>real reason organizations adopt ITIL</strong> in the first place, even if they don't recognize it at the start.</p>
+
+    <h3 class="sub-title">Purpose of CSI</h3>
+    <p>The main purpose of CSI is to <strong>keep IT services aligned with changing business needs</strong>. Businesses constantly change to survive market competition, and IT services must change with them. Organizations that ignore outside forces and refuse to evolve will usually fail in the marketplace — and the same applies to IT service providers. CSI ensures that when business processes change, the IT services supporting them change too.</p>
+
+    <h3 class="sub-title">Objectives of CSI</h3>
+    <ul>
+      <li>Review, analyze, prioritize, and recommend improvements across <strong>all lifecycle stages</strong> — Strategy, Design, Transition, Operation, and CSI itself</li>
+      <li>Review and analyze whether <strong>SLA targets</strong> are actually being met</li>
+      <li>Identify and implement activities to improve <strong>IT service quality</strong>, including the efficiency and effectiveness of underlying processes</li>
+      <li>Improve <strong>cost-effectiveness</strong> of service delivery without reducing customer satisfaction — because customer satisfaction is a key measure of service value</li>
+      <li>Use appropriate <strong>quality management methods</strong> to support improvement activities</li>
+      <li>Ensure every process has <strong>clearly defined objectives and metrics</strong> that produce real, actionable improvements</li>
+      <li>Understand <strong>what to measure, why to measure it</strong>, and what a successful outcome looks like</li>
+    </ul>
+
+    <h3 class="sub-title">The 7-Step Improvement Process</h3>
+    <p>The heart of CSI is the <strong>7-Step Improvement Process</strong> — a structured cycle that follows the <strong>Plan → Do → Check → Act (PDCA)</strong> model. Its goal is to define and manage all the steps needed to successfully implement improvements.</p>
+
+    <h4 class="mini-title">Step 1 — Identify the Strategy for Improvement</h4>
+    <p>Ask: <em>"What are we trying to achieve for the business?"</em> This step establishes the overall vision by looking at the business need, strategy, tactical goals, and operational goals.</p>
+    <p><strong>Inputs/triggers for this step include:</strong></p>
+    <ul>
+      <li>Business plans and strategy</li>
+      <li>Service review meetings</li>
+      <li>Vision and mission statements</li>
+      <li>Corporate objectives</li>
+      <li>Governance controls</li>
+      <li>Customer satisfaction surveys</li>
+      <li>CSI register</li>
+    </ul>
+
+    <h4 class="mini-title">Step 2 — Define What You Will Measure</h4>
+    <p>Ask: <em>"What data do we need to collect to know if we're improving?"</em> This step links directly to the goals defined for measuring services and service management processes.</p>
+    <p><strong>Inputs include:</strong></p>
+    <ul>
+      <li>SLRs (Service Level Requirements) and targets</li>
+      <li>Service review meetings</li>
+      <li>Service portfolio and service catalog budget cycle</li>
+      <li>Measurement results and reports (e.g., balanced scorecards)</li>
+      <li>Customer satisfaction surveys</li>
+      <li>Benchmark and baseline data</li>
+      <li>Risk assessments and mitigation plans</li>
+    </ul>
+
+    <h4 class="mini-title">Step 3 — Gather the Data</h4>
+    <p>Ask: <em>"Who collects the data? How? When?"</em> Monitoring must be in place to gather data. For CSI purposes, you are <strong>less focused on real-time monitoring</strong> and more focused on exceptions, resolutions, and trends.</p>
+    <p><strong>Tasks in this step:</strong></p>
+    <ol>
+      <li>Define monitoring and data collection requirements</li>
+      <li>Define frequency of monitoring and data collection</li>
+      <li>Determine tool requirements for monitoring and data collection</li>
+      <li>Develop monitoring and data collection procedures</li>
+      <li>Develop and communicate the monitoring and data collection plan</li>
+      <li>Update availability and capacity plans</li>
+      <li>Begin monitoring and data collection</li>
+    </ol>
+
+    <h4 class="mini-title">Step 4 — Process the Data</h4>
+    <p>Ask: <em>"How do we turn raw data into useful information?"</em> Report-generating tools are commonly used here to convert raw data into structured information. Processing data allows broader analytical techniques and gives a full picture of the overall service (not just individual data points).</p>
+    <p><strong>Key considerations:</strong></p>
+    <ul>
+      <li>How frequently should data be processed?</li>
+      <li>What output format is required?</li>
+      <li>Which tools and systems will be used?</li>
+      <li>How will the accuracy of the data be verified?</li>
+    </ul>
+
+    <h4 class="mini-title">Step 5 — Analyse the Information and Data</h4>
+    <p>Ask: <em>"What does the data tell us?"</em> Without proper analysis, you cannot make informed decisions. This step checks for trends, targets, and areas needing improvement.</p>
+    <p><strong>Analysis should answer:</strong></p>
+    <ul>
+      <li>Are operations running to plan (availability, capacity, continuity plans)?</li>
+      <li>Are SLA targets being met?</li>
+      <li>Are there structural problems?</li>
+      <li>Are improvements required?</li>
+      <li>Are there positive or negative trends?</li>
+      <li>Is there an identifiable cause for those trends?</li>
+    </ul>
+
+    <h4 class="mini-title">Step 6 — Present and Use the Information</h4>
+    <p>Ask: <em>"Did we get there?"</em> This step presents findings — reports, action plans, reviews, evaluations, and opportunities — to the right audience.</p>
+    <p><strong>Four types of audience:</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Audience</th><th>What They Need</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Customers</strong></td><td>Info on IT services and what happens if targets are missed</td></tr>
+          <tr><td><strong>Senior IT Management</strong></td><td>CSFs and KPIs — actual vs. predicted performance (often a balanced scorecard)</td></tr>
+          <tr><td><strong>Internal IT Teams</strong></td><td>KPIs and activity metrics to plan and coordinate operational improvements</td></tr>
+          <tr><td><strong>Suppliers</strong></td><td>KPIs and activity metrics related to their own service offerings and performance</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Step 7 — Implement Improvement</h4>
+    <p>Ask: <em>"What do we actually do now?"</em> This final step uses the knowledge from Step 6 combined with past experience to make a decision and take action. It may involve implementing improvements directly or building a <strong>business case</strong> to justify the improvement to management. The step also includes checking whether the improvement <strong>achieved its objective</strong> and feeds back into the cycle.</p>
+
+    <h3 class="sub-title">The CSI Cycle (PDCA Summary)</h3>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>The 7 steps map onto the classic Plan → Do → Check → Act loop:</strong>
+        <p><strong>PLAN</strong> = Steps 1 &amp; 2 (Identify strategy + define what to measure)</p>
+        <p><strong>DO</strong> = Step 3 (Gather data)</p>
+        <p><strong>CHECK</strong> = Steps 4 &amp; 5 (Process + Analyse data)</p>
+        <p><strong>ACT</strong> = Steps 6 &amp; 7 (Present information + Implement improvement)</p>
+      </div>
+    </div>
+    <p>This cycle never ends — once an improvement is implemented, the process loops back to the beginning, making CSI a <strong>permanent, living part of the service lifecycle</strong>.</p>
+  </section>
+
+  <!-- ══════════════════════ SECTION 6: DATA CENTERS ══════════════════════ -->
+  <section id="data-centers">
+    <div class="section-label">Data Centers</div>
+    <h2 class="section-title">Data Centers — In-Depth Notes</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">What is Data Center Management?</h3>
+    <p>Data center management refers to <strong>all the tasks and activities an organization handles to keep a data center running smoothly on a day-to-day basis</strong>. Data centers are increasingly complex because they involve managing hardware, software, services, and physical infrastructure all together. The physical infrastructure specifically includes power supply, cooling systems, backup systems for disaster recovery, and security/access control to the premises.</p>
+
+    <h3 class="sub-title">Challenges of Data Center Management</h3>
+
+    <h4 class="mini-title">⚙️ Operational Challenges</h4>
+    <ul>
+      <li><strong>Capacity Management</strong> — Always a challenge to ensure available resources (CPU, storage, bandwidth) can meet user demands</li>
+      <li><strong>Service Level Agreements (SLAs)</strong> — Beyond just managing capacity, data centers must operate at specific levels of availability and performance to comply with agreed SLAs</li>
+      <li><strong>Change Management</strong> — Hardware and software constantly need to be updated; managing these changes and the processes around them is a real challenge</li>
+      <li><strong>Disaster Recovery</strong> — Businesses must prepare for unexpected events like power failures, cyberattacks, or hardware failures</li>
+    </ul>
+
+    <h4 class="mini-title">📊 Visibility &amp; Power Challenges</h4>
+    <ul>
+      <li><strong>Real-time Reporting</strong> — Providing real-time data on the state of all data center operations at any given point is often complex</li>
+      <li><strong>Security</strong> — Managing both physical security (protecting hardware) and IT security (protecting workloads in multi-tenant environments) is complicated</li>
+      <li><strong>Power Management</strong> — Balancing power consumption and cost concerns while still maintaining SLAs is an ongoing challenge for many operators</li>
+    </ul>
+
+    <h3 class="sub-title">Best Practices for Data Center Management</h3>
+    <ul>
+      <li><strong>Measure everything</strong> — You can't manage what you don't measure; data measurement and logs must exist for all assets</li>
+      <li><strong>Understand effective power usage</strong> — Power usage is one of the most critical metrics; it shows how efficiently the data center is operating</li>
+      <li><strong>Consider cooling options</strong> — Cooling is one of the most power-intensive activities; using optimized airflow management and ambient cooler air in suitable climates can lower costs</li>
+      <li><strong>Backup and more backups</strong> — Redundant systems and backups for power and operations are essential</li>
+      <li><strong>Predictive and proactive maintenance</strong> — Don't wait for assets to fail before replacing them — proactive maintenance and replacement policies fix issues <em>before</em> they cause downtime</li>
+      <li><strong>Embrace DCIM (Data Center Infrastructure Management)</strong> — Organizations need the right DCIM technology to optimize data center processes and operations</li>
+    </ul>
+
+    <h3 class="sub-title">Components of a Data Center</h3>
+
+    <h4 class="mini-title">🏢 Facility</h4>
+    <p>The data center's physical building — essentially a large, open space where infrastructure is deployed. A properly designed facility considers multiple factors beyond just space.</p>
+
+    <h4 class="mini-title">📐 Space</h4>
+    <ul>
+      <li>Must have sufficient floor space (measured in sq. ft. / sq. meters) to hold all current AND future IT infrastructure</li>
+      <li>Must be located at a well-chosen site with affordable taxes and easy access</li>
+      <li>Often subdivided to accommodate different purposes or use types</li>
+    </ul>
+
+    <h4 class="mini-title">⚡ Power</h4>
+    <ul>
+      <li>Must provide adequate power — often up to <strong>100 megawatts</strong> — to run all IT infrastructure</li>
+      <li>Power must be affordable, clean (free from fluctuations), and reliable</li>
+      <li>Renewable energy and auxiliary/supplemental backup power must also be included</li>
+    </ul>
+
+    <h4 class="mini-title">🌡️ Cooling</h4>
+    <ul>
+      <li>The enormous power delivered to a data center is converted into computing AND a lot of <strong>heat</strong></li>
+      <li>This heat must be removed using conventional <strong>HVAC systems</strong> and other unconventional cooling technologies</li>
+    </ul>
+
+    <h4 class="mini-title">🔒 Security</h4>
+    <ul>
+      <li>Given the critical importance of a data center, controlled access must be enforced using multiple tactics — from <strong>employee badge access to video surveillance</strong></li>
+    </ul>
+
+    <h4 class="mini-title">🖥️ Management</h4>
+    <ul>
+      <li>Modern data centers use a <strong>Building Management System (BMS)</strong> to oversee the environment in real time</li>
+      <li>BMS covers temperature, humidity, power and cooling levels, as well as access and security logging</li>
+    </ul>
+
+    <h4 class="mini-title">💾 Enterprise Data Storage</h4>
+    <ul>
+      <li>A modern data center houses an organization's data in a well-protected infrastructure along with <strong>servers, storage subsystems, networking switches, routers, firewalls, cabling, and physical racks</strong></li>
+    </ul>
+
+    <h4 class="mini-title">🔧 Support Infrastructure</h4>
+    <p>Provides the highest available uptime sustainability. Components include:</p>
+    <ul>
+      <li>Power distribution and supplemental power subsystems</li>
+      <li>Electrical switching</li>
+      <li><strong>UPSes (Uninterruptible Power Supplies)</strong></li>
+      <li>Backup generators</li>
+      <li>Ventilation and cooling systems (in-row cooling, CRACs — Computer Room Air Conditioners)</li>
+      <li>Network carrier/telecom connectivity</li>
+    </ul>
+
+    <h4 class="mini-title">👨‍💻 Operational Staff</h4>
+    <ul>
+      <li>Employees required to <strong>maintain and monitor</strong> IT and infrastructure equipment around the clock (24/7)</li>
+    </ul>
+
+    <h3 class="sub-title">Types of Data Centers</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Enterprise</strong></td><td>Built and owned by the organization for internal users; supports IT operations of a single company; can be on-site or off-site</td></tr>
+          <tr><td><strong>Managed Services</strong></td><td>Managed by third parties; companies <strong>lease</strong> (not buy) the infrastructure and services</td></tr>
+          <tr><td><strong>Cloud-based</strong></td><td>Off-site, managed by public cloud providers like <strong>AWS, Azure, or Google Cloud</strong>; uses an IaaS (Infrastructure-as-a-Service) model; can provision a virtual data center within minutes</td></tr>
+          <tr><td><strong>Edge</strong></td><td>Smaller facilities placed geographically closer to data sources to <strong>solve latency problems</strong></td></tr>
+          <tr><td><strong>Colocation</strong></td><td>Third-party owned facility; the renting organization brings its own hardware, and the facility provides space, bandwidth, cooling, and security — avoids large capital expenditure</td></tr>
+          <tr><td><strong>Hyperscale</strong></td><td>Used by giants like <strong>Amazon, Meta, and Google</strong>; maximizes hardware density while minimizing cooling and administrative overhead costs</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="sub-title">Hardware Requirements</h3>
+
+    <h4 class="mini-title">🖥️ Servers</h4>
+    <ul>
+      <li>The <strong>heart of a data center</strong> — responsible for storage, analysis, and transmission of data</li>
+      <li>Three major types: <strong>Blade servers, Rack servers, and Tower servers</strong></li>
+      <li>Modern data centers use <strong>rack servers</strong> — multiple servers stacked within a single rack</li>
+    </ul>
+
+    <h4 class="mini-title">🗄️ Racks</h4>
+    <ul>
+      <li>Two major kinds: <strong>Open Racks</strong> (better visibility, easier handling) and <strong>Cabinets</strong> (more secure and stable)</li>
+      <li>Must support the physical weight of servers, storage devices, and switches</li>
+      <li>Choosing the right type balances accessibility and security</li>
+    </ul>
+
+    <h4 class="mini-title">🔀 Switches</h4>
+    <ul>
+      <li><strong>Connector units</strong> that link multiple devices together within the data center</li>
+      <li>They function based on the <strong>hardware (MAC) addresses</strong> of devices</li>
+    </ul>
+
+    <h4 class="mini-title">🔌 Cables</h4>
+    <ul>
+      <li><strong>Coaxial, twisted pair, and fiber optic</strong> cables connect switches, storage devices, and servers</li>
+      <li><strong>Fiber optic cables</strong> are used heavily in modern data centers because they allow the fastest data transmission</li>
+      <li><strong>Fiber cable raceways</strong> are used to protect and organize cables for increased efficiency</li>
+    </ul>
+
+    <h4 class="mini-title">💿 Storage</h4>
+    <ul>
+      <li><strong>NAS (Network Attached Storage)</strong> and <strong>SAN (Storage Area Network)</strong> are the two most commonly used storage types</li>
+      <li>SAN provides <strong>higher speeds</strong> and more efficient access to stored files and block-level data</li>
+    </ul>
+
+    <h4 class="mini-title">🔋 Power Equipment</h4>
+    <ul>
+      <li>Data centers require <strong>24×7 power availability</strong>, so backup generators and multiple data routes for UPS are mandatory</li>
+      <li>This is especially important in regions where power supply is unreliable</li>
+    </ul>
+
+    <h4 class="mini-title">🛡️ Security Systems</h4>
+    <ul>
+      <li>The physical space must be <strong>resistant to natural disasters</strong> like flooding, earthquakes, and fires</li>
+      <li>Physical security systems and access control systems must keep data private</li>
+    </ul>
+
+    <h4 class="mini-title">❄️ Cooling Systems</h4>
+    <ul>
+      <li>Multiple servers placed in a confined space create a <strong>high risk of overheating</strong></li>
+      <li>Server rooms must be maintained at a <strong>specific prescribed temperature</strong> using external <strong>HVAC equipment</strong></li>
+    </ul>
+
+    <h4 class="mini-title">📋 Policies and Procedures</h4>
+    <ul>
+      <li>Maintenance and management of physical hardware requires strict adherence to defined <strong>policies and procedures</strong></li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════ SECTION 7: DC LOCATION ══════════════════════ -->
+  <section id="dc-location">
+    <div class="section-label">Data Centers</div>
+    <h2 class="section-title">Selecting a Geographic Location</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">Why Location Is a Critical Decision</h3>
+    <p>Choosing where to build or lease a data center is one of the most important and long-lasting decisions an organization makes. Unlike software or hardware, a data center's physical location cannot easily be changed once it is built. A poor location choice can lead to higher costs, legal problems, power shortages, or catastrophic service outages.</p>
+
+    <h3 class="sub-title">Key Factors When Selecting a Location</h3>
+
+    <h4 class="mini-title">📌 1. Natural Disaster Risk</h4>
+    <p><strong>👉 Choose a place with low disaster risk</strong></p>
+    <ul>
+      <li>Floods 🌊</li>
+      <li>Earthquakes 🌍</li>
+      <li>Fires 🔥</li>
+    </ul>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Building in flood zone = <strong>very risky even if tech is good</strong></li></ul>
+
+    <h4 class="mini-title">📌 2. Power Availability &amp; Cost</h4>
+    <p><strong>👉 Data centers need huge electricity</strong></p>
+    <p><strong>👉 Must have:</strong></p>
+    <ul>
+      <li>Reliable power</li>
+      <li>Affordable cost</li>
+    </ul>
+    <p><strong>👉 Extra:</strong></p>
+    <ul><li>Backup systems (UPS, generators)</li></ul>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Frequent power cuts = more cost for backup systems</li></ul>
+
+    <h4 class="mini-title">📌 3. Network Connectivity</h4>
+    <p><strong>👉 Must connect to multiple ISPs</strong></p>
+    <p><strong>👉 Why:</strong></p>
+    <ul><li>Avoid single point of failure</li></ul>
+    <p><strong>👉 Bonus:</strong></p>
+    <ul><li>Near IXPs = faster internet 🚀</li></ul>
+
+    <h4 class="mini-title">📌 4. Climate</h4>
+    <p><strong>👉 Cooler places = less cooling cost</strong></p>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Cold countries use <strong>natural air cooling</strong></li></ul>
+    <p><strong>👉 Why important:</strong></p>
+    <ul><li>Cooling = biggest expense in data centers</li></ul>
+
+    <h4 class="mini-title">📌 5. Tax &amp; Legal Environment</h4>
+    <p><strong>👉 Some locations give:</strong></p>
+    <ul>
+      <li>Tax benefits 💰</li>
+      <li>Discounts on electricity</li>
+    </ul>
+    <p><strong>👉 Legal rules:</strong></p>
+    <ul><li>Data must stay in certain countries (data laws)</li></ul>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Banking data may need to stay inside India 🇮🇳</li></ul>
+
+    <h4 class="mini-title">📌 6. Land Cost &amp; Space</h4>
+    <p><strong>👉 Need:</strong></p>
+    <ul>
+      <li>Cheap land</li>
+      <li>Enough space for expansion</li>
+    </ul>
+    <p><strong>👉 Example:</strong></p>
+    <ul>
+      <li>City land = expensive + no expansion</li>
+      <li>Rural area = cheaper + scalable</li>
+    </ul>
+
+    <h4 class="mini-title">📌 7. Proximity to Users</h4>
+    <p><strong>👉 Closer to users = faster response (low latency)</strong></p>
+    <p><strong>👉 Example:</strong></p>
+    <ul><li>Stock trading systems need <strong>ultra-low delay</strong></li></ul>
+    <p><strong>👉 Simple idea:</strong></p>
+    <ul><li>Distance = delay</li></ul>
+
+    <h4 class="mini-title">📌 8. Physical Security</h4>
+    <p><strong>👉 Location should be:</strong></p>
+    <ul>
+      <li>Safe area (low crime)</li>
+      <li>Away from dangerous places</li>
+    </ul>
+    <p><strong>👉 Example:</strong></p>
+    <p>Not near:</p>
+    <ul>
+      <li>Chemical plants</li>
+      <li>Airports</li>
+      <li>Military zones</li>
+    </ul>
+  </section>
+
+  <!-- ══════════════════════ SECTION 8: DC PLANNING ══════════════════════ -->
+  <section id="dc-planning">
+    <div class="section-label">Data Centers</div>
+    <h2 class="section-title">Guidelines for Planning a Data Center</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">Why Planning Matters</h3>
+    <p>A data center is a major long-term investment. Poor planning leads to capacity shortfalls, cooling failures, power outages, and security breaches — all of which are expensive to fix after construction. Planning must be thorough, documented, and reviewed by all stakeholders before a single piece of equipment is installed.</p>
+
+    <h3 class="sub-title">Step-by-Step Planning Guidelines</h3>
+
+    <h4 class="mini-title">Step 1 — Define Business Requirements</h4>
+    <p>Start with the business, not the technology. Ask: what workloads will this data center support? What are the uptime requirements? What is the growth forecast for the next 5–10 years? The answers determine everything else — size, power, cooling, and redundancy levels.</p>
+
+    <h4 class="mini-title">Step 2 — Determine the Tier Level</h4>
+    <p>Data centers are classified into Tier I through Tier IV based on their redundancy and uptime guarantees:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tier</th><th>Uptime Guarantee</th><th>Redundancy</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tier I</strong></td><td>99.671%</td><td>No redundancy — single paths for power and cooling</td></tr>
+          <tr><td><strong>Tier II</strong></td><td>99.741%</td><td>Some redundancy components added</td></tr>
+          <tr><td><strong>Tier III</strong></td><td>99.982%</td><td>N+1 redundancy — can be maintained without shutdown</td></tr>
+          <tr><td><strong>Tier IV</strong></td><td>99.995%</td><td>Fully fault-tolerant — two independent paths for all systems</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The required tier level should be decided early as it significantly affects construction cost.</p>
+
+    <h4 class="mini-title">Step 3 — Plan Power Infrastructure</h4>
+    <p>Calculate the total power demand for all planned IT equipment, then add overhead for cooling, lighting, and support systems. Plan for future growth. Ensure:</p>
+    <ul>
+      <li>Multiple power feeds from the utility provider</li>
+      <li>UPS (Uninterruptible Power Supply) systems for instant failover</li>
+      <li>Backup diesel generators with sufficient fuel storage</li>
+      <li>Automatic Transfer Switches (ATS) to switch between power sources</li>
+    </ul>
+
+    <h4 class="mini-title">Step 4 — Plan Cooling Infrastructure</h4>
+    <p>Cooling typically accounts for 30–50% of a data center's total energy consumption. Plan the cooling strategy based on the power density of the equipment:</p>
+    <ul>
+      <li>Use hot aisle / cold aisle containment to separate hot exhaust air from cool supply air</li>
+      <li>Plan for in-row cooling for high-density server areas</li>
+      <li>Consider free cooling (using outside air) in suitable climates to reduce costs</li>
+      <li>Size cooling systems for peak load, not average load</li>
+    </ul>
+
+    <h4 class="mini-title">Step 5 — Design the Physical Layout</h4>
+    <ul>
+      <li>Allocate space for server racks, network equipment, storage, and support infrastructure</li>
+      <li>Leave planned space for future expansion — do not fill all available floor space immediately</li>
+      <li>Design cable pathways (raised floors or overhead trays) to keep power and data cables organized and accessible</li>
+      <li>Clearly separate IT zones from support zones (offices, loading bays, UPS rooms)</li>
+    </ul>
+
+    <h4 class="mini-title">Step 6 — Plan Network Infrastructure</h4>
+    <ul>
+      <li>Ensure redundant network connections from at least two different ISPs entering the building via separate physical routes</li>
+      <li>Design the internal network with core, distribution, and access layers for performance and resilience</li>
+      <li>Plan for sufficient bandwidth now and in the future — underestimating network capacity is a common and costly mistake</li>
+    </ul>
+
+    <h4 class="mini-title">Step 7 — Plan Physical and Logical Security</h4>
+    <ul>
+      <li>Define access control zones — not everyone should be able to access every area</li>
+      <li>Plan for: perimeter security, mantrap entry systems, biometric access, CCTV, and 24/7 security staffing</li>
+      <li>Logical security planning covers firewall placement, network segmentation, and intrusion detection systems</li>
+    </ul>
+
+    <h4 class="mini-title">Step 8 — Document Everything</h4>
+    <p>Every decision made during planning must be documented. This includes design drawings, equipment schedules, cable plans, power diagrams, and cooling layouts. This documentation becomes the master reference for future upgrades, maintenance, and audits.</p>
+
+    <h4 class="mini-title">Step 9 — Test Before Go-Live</h4>
+    <p>Before going live, conduct a Commissioning Test — a full test of all power, cooling, and network systems under simulated load. This identifies faults before real workloads are moved in, avoiding costly outages at launch.</p>
+  </section>
+
+  <!-- ══════════════════════ SECTION 9: DC INFRASTRUCTURE ══════════════════════ -->
+  <section id="dc-infra">
+    <div class="section-label">Data Centers</div>
+    <h2 class="section-title">Infrastructure in a Data Center</h2>
+    <div class="section-divider"></div>
+
+    <p class="section-intro">A data center is not just a room full of servers. It is a carefully designed system where every component — physical, electrical, and network — works together to keep services running reliably.</p>
+
+    <h3 class="sub-title">🏗️ Modular Cabling Design</h3>
+    <p>Cabling is the physical backbone of a data center. A well-planned modular cabling design ensures performance, scalability, and easy maintenance.</p>
+
+    <h4 class="mini-title">What is Modular Cabling?</h4>
+    <p>Modular cabling means designing the cable infrastructure in structured, interchangeable modules so sections can be added, replaced, or upgraded without rewiring the entire data center.</p>
+
+    <h4 class="mini-title">Cable Types Used:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cable Type</th><th>Use Case</th><th>Speed</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fiber Optic</strong></td><td>Primary backbone between racks, switches, and floors</td><td>Fastest — up to 100 Gbps+</td></tr>
+          <tr><td><strong>Twisted Pair (Cat6/Cat6a)</strong></td><td>Short-distance connections, patch panels</td><td>Up to 10 Gbps</td></tr>
+          <tr><td><strong>Coaxial</strong></td><td>Legacy systems, some WAN links</td><td>Lower speed</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Key Design Elements:</h4>
+    <ul>
+      <li><strong>Raised Floor / Overhead Trays</strong> — Cable pathways run under raised floors or in overhead trays to keep power and data cables separated, organized, and accessible</li>
+      <li><strong>Fiber Cable Raceways</strong> — Protective channels that route and protect fiber cables, improving efficiency and reducing damage risk</li>
+      <li><strong>Patch Panels</strong> — Central termination points that allow easy moves, adds, and changes (MACs) without disturbing the main runs</li>
+      <li><strong>Color Coding</strong> — Different cable colors for power vs. data vs. management to prevent confusion during maintenance</li>
+      <li><strong>Separation of Power and Data Cables</strong> — Running them on opposite sides or in separate trays prevents electromagnetic interference (EMI)</li>
+    </ul>
+
+    <h4 class="mini-title">Best Practices:</h4>
+    <ul>
+      <li>Label every cable at both ends</li>
+      <li>Document all cable runs in a cable management system</li>
+      <li>Leave extra capacity (slack) for future growth</li>
+      <li>Use pre-terminated modular cassettes for faster installation and less human error</li>
+      <li>Plan for hot aisle / cold aisle compatibility — cables must not block airflow</li>
+    </ul>
+
+    <h3 class="sub-title">📍 Points of Distribution (PoD)</h3>
+    <p>Points of Distribution (PoDs) are the structured network hierarchy points through which data and signals flow from the core network down to individual devices.</p>
+
+    <h4 class="mini-title">The Three-Layer Distribution Model:</h4>
+    <div class="diagram-wrap">
+      <pre><code>[ Internet / WAN ]
+        ↓
+[ Core Layer ]         ← High-speed backbone switches; connects everything
+        ↓
+[ Distribution Layer ] ← Aggregates access layer traffic; enforces policies
+        ↓
+[ Access Layer ]       ← Connects directly to servers, storage, and end devices</code></pre>
+    </div>
+
+    <h4 class="mini-title">Each Layer Explained:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Layer</th><th>Role</th><th>Equipment</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Core</strong></td><td>Ultra-fast routing between all distribution blocks</td><td>High-end core switches/routers</td></tr>
+          <tr><td><strong>Distribution</strong></td><td>Traffic aggregation, VLAN routing, firewall policies</td><td>Layer 3 switches, firewalls</td></tr>
+          <tr><td><strong>Access</strong></td><td>End-point connectivity to servers and storage</td><td>Top-of-Rack (ToR) switches</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Top-of-Rack (ToR) vs. End-of-Row (EoR) Design:</h4>
+    <ul>
+      <li><strong>ToR</strong> — Switch sits at the top of each rack; short cables run down to servers → less cable clutter, easier to manage</li>
+      <li><strong>EoR</strong> — One switch at the end of a row serves multiple racks → fewer switches needed, longer cable runs</li>
+    </ul>
+
+    <h4 class="mini-title">Why Points of Distribution Matter:</h4>
+    <ul>
+      <li>Provide redundant paths — if one switch fails, traffic reroutes automatically</li>
+      <li>Allow scalability — add a new PoD block without redesigning the whole network</li>
+      <li>Enable traffic isolation — separate test, production, and management networks</li>
+      <li>Support load balancing across multiple uplinks</li>
+    </ul>
+
+    <h3 class="sub-title">🌐 ISP Network Infrastructure and WAN Links</h3>
+    <p>A data center must have reliable, redundant connectivity to the internet and external networks.</p>
+
+    <h4 class="mini-title">ISP Redundancy — The Golden Rule:</h4>
+    <p>Never rely on a single ISP. A single ISP = a single point of failure. Always connect via at least two different ISPs entering the building via physically separate routes.</p>
+
+    <h4 class="mini-title">WAN Link Types:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Link Type</th><th>Description</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Leased Line / MPLS</strong></td><td>Dedicated private circuit between locations</td><td>Inter-data center links, corporate WAN</td></tr>
+          <tr><td><strong>Fiber Broadband</strong></td><td>High-speed fiber from ISP</td><td>Primary internet uplink</td></tr>
+          <tr><td><strong>Dark Fiber</strong></td><td>Unlit fiber leased from a provider; you run your own equipment</td><td>High bandwidth, full control</td></tr>
+          <tr><td><strong>SD-WAN</strong></td><td>Software-defined WAN using multiple links intelligently</td><td>Cost-effective, flexible WAN</td></tr>
+          <tr><td><strong>Satellite / Microwave</strong></td><td>Backup link in remote locations</td><td>Disaster recovery only</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Internet Exchange Points (IXPs):</h4>
+    <ul>
+      <li>An IXP is a physical location where multiple ISPs and networks interconnect</li>
+      <li>Data centers located near an IXP benefit from lower latency and faster routing</li>
+      <li>Reduces the number of hops between your data center and the wider internet</li>
+    </ul>
+
+    <h4 class="mini-title">BGP (Border Gateway Protocol):</h4>
+    <ul>
+      <li>The routing protocol used between ISPs and large networks</li>
+      <li>With dual ISPs, BGP allows automatic failover — if one ISP goes down, traffic automatically shifts to the other</li>
+      <li>Also enables load sharing across both ISPs simultaneously</li>
+    </ul>
+
+    <h4 class="mini-title">WAN Infrastructure Inside the Data Center:</h4>
+    <ul>
+      <li><strong>Edge Routers</strong> — First device traffic hits when entering/leaving the data center; connects to ISP</li>
+      <li><strong>Firewalls</strong> — Sit between edge routers and internal network; first line of defense</li>
+      <li><strong>Load Balancers</strong> — Distribute incoming traffic across multiple servers</li>
+      <li><strong>DMZ (Demilitarized Zone)</strong> — A buffer network zone between the internet-facing systems and the internal private network</li>
+    </ul>
+
+    <h3 class="sub-title">🖥️ Network Operations Center (NOC) and Monitoring</h3>
+    <p>The NOC is the central command center from which IT staff monitor, manage, and maintain the data center and its network infrastructure 24/7.</p>
+
+    <h4 class="mini-title">What a NOC Does:</h4>
+    <ul>
+      <li>Monitors all network devices, servers, storage, power, and cooling systems in real time</li>
+      <li>Detects alerts and alarms and escalates based on severity</li>
+      <li>Coordinates incident response when outages or degraded performance occur</li>
+      <li>Manages scheduled maintenance windows</li>
+      <li>Tracks SLA performance and uptime metrics</li>
+    </ul>
+
+    <h4 class="mini-title">NOC Tools and Systems:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tool / System</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>DCIM</strong> (Data Center Infrastructure Management)</td><td>Monitors power, cooling, space, and assets in real time</td></tr>
+          <tr><td><strong>BMS</strong> (Building Management System)</td><td>Tracks temperature, humidity, power levels, airflow, and access control</td></tr>
+          <tr><td><strong>NMS</strong> (Network Management System)</td><td>Monitors switches, routers, and links — tools like Nagios, Zabbix, PRTG</td></tr>
+          <tr><td><strong>SIEM</strong> (Security Information &amp; Event Management)</td><td>Collects and analyzes security logs in real time</td></tr>
+          <tr><td><strong>Ticketing System</strong></td><td>Logs all incidents and changes (e.g., ServiceNow)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Key Monitoring Metrics:</h4>
+    <ul>
+      <li><strong>PUE (Power Usage Effectiveness)</strong> — Total facility power ÷ IT equipment power; ideal PUE is close to 1.0</li>
+      <li><strong>Uptime / Availability %</strong> — Tracks whether SLA targets (e.g., 99.99%) are being met</li>
+      <li><strong>Temperature and Humidity</strong> — Must stay within safe ranges (18–27°C, 40–60% humidity per ASHRAE standards)</li>
+      <li><strong>Network Bandwidth Utilization</strong> — Detects bottlenecks and capacity issues before they cause outages</li>
+      <li><strong>CPU / Memory / Storage</strong> — Server resource monitoring to anticipate capacity needs</li>
+    </ul>
+
+    <h4 class="mini-title">Monitoring categories in a data center:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>What Is Monitored</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Network</strong></td><td>Bandwidth utilization, packet loss, latency, interface errors, BGP session status</td></tr>
+          <tr><td><strong>Servers</strong></td><td>CPU, memory, disk I/O, OS health, application availability</td></tr>
+          <tr><td><strong>Storage</strong></td><td>Disk usage, RAID health, I/O throughput, replication status</td></tr>
+          <tr><td><strong>Power</strong></td><td>UPS charge level, generator fuel, PDU load, power feed status</td></tr>
+          <tr><td><strong>Cooling</strong></td><td>Temperature and humidity per rack row, CRAC unit status, airflow readings</td></tr>
+          <tr><td><strong>Security</strong></td><td>Physical access logs, CCTV feeds, intrusion detection alerts</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">NOC Best Practices:</h4>
+    <ul>
+      <li>Staff the NOC 24 × 7 × 365 — problems don't follow business hours</li>
+      <li>Use automated alerting with defined escalation paths so the right person is notified immediately</li>
+      <li>Maintain a <strong>runbook</strong> — documented step-by-step responses to common alerts</li>
+      <li>Conduct regular drills for major failure scenarios (power loss, cooling failure, network outage)</li>
+      <li>Integrate NOC with the Change Management process — all changes must be logged so the NOC knows what changed when an alert fires</li>
+    </ul>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>The NOC is the "nerve center" of the data center — without it, problems go undetected until they cause outages.</p></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════ SECTION 10: DC SECURITY & CLEANING ══════════════════════ -->
+  <section id="dc-security">
+    <div class="section-label">Data Centers</div>
+    <h2 class="section-title">Security &amp; Cleaning</h2>
+    <div class="section-divider"></div>
+
+    <h3 class="sub-title">Data Center Physical Security</h3>
+    <p>Physical security prevents unauthorized humans from gaining access to hardware, data, and infrastructure. No matter how strong the logical (IT) security is, if someone can physically access a server, they can bypass almost all software controls.</p>
+
+    <h4 class="mini-title">Layered Physical Security Model (Defense in Depth)</h4>
+    <div class="diagram-wrap">
+      <pre><code>[ Perimeter Security ]  → Fencing, gates, security guards, CCTV
+        ↓
+[ Building Entry ]      → Visitor logs, security desk, badge readers
+        ↓
+[ Mantrap / Airlock ]   → Double-door entry; one door must close before next opens
+        ↓
+[ Data Hall Access ]    → Biometric (fingerprint/retina), key card, PIN
+        ↓
+[ Rack-Level Security ] → Individual rack locks, tamper-evident seals</code></pre>
+    </div>
+
+    <h4 class="mini-title">Key Physical Security Controls:</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Control</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Perimeter Fencing</strong></td><td>Bollards and barriers prevent vehicle-based attacks</td></tr>
+          <tr><td><strong>CCTV</strong></td><td>24/7 surveillance; footage retained for a defined period (e.g., 90 days)</td></tr>
+          <tr><td><strong>Mantrap</strong></td><td>Two-door airlock entry; prevents "tailgating" (one badge, one person)</td></tr>
+          <tr><td><strong>Biometric Access</strong></td><td>Fingerprint, retinal, or facial recognition for high-security zones</td></tr>
+          <tr><td><strong>Key Card / Badge</strong></td><td>Zoned access control — not everyone can access every area</td></tr>
+          <tr><td><strong>Security Guards</strong></td><td>Manned entry points 24/7; escort visitors</td></tr>
+          <tr><td><strong>Visitor Policy</strong></td><td>All visitors must sign in, be escorted, and sign out</td></tr>
+          <tr><td><strong>Rack Locks</strong></td><td>Physical lock on each server cabinet with logged key access</td></tr>
+          <tr><td><strong>Motion Sensors</strong></td><td>Detect movement in restricted areas outside business hours</td></tr>
+          <tr><td><strong>Background Checks</strong></td><td>All staff with data center access undergo security vetting</td></tr>
+          <tr><td><strong>Two-Person Rule</strong></td><td>For the most sensitive areas, two authorized people must be present — prevents insider threats</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Access Zones:</h4>
+    <p>Data centers are divided into security zones:</p>
+    <ul>
+      <li><strong>Zone 1</strong> — Public / reception area</li>
+      <li><strong>Zone 2</strong> — Office and support areas</li>
+      <li><strong>Zone 3</strong> — Data hall (servers, storage, networking)</li>
+      <li><strong>Zone 4</strong> — Critical infrastructure (UPS room, generators, cooling)</li>
+    </ul>
+    <p>Access rights are assigned by role — even internal IT staff may not have access to all zones.</p>
+
+    <h3 class="sub-title">Data Center Logical Security</h3>
+    <p>Logical security protects data, systems, and networks from unauthorized digital access, malware, and cyberattacks. While physical security stops people from walking in, logical security stops attackers from getting in over the network.</p>
+
+    <h4 class="mini-title">Core Logical Security Controls</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Control</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Firewall</strong></td><td>Filters traffic between internet, DMZ, and internal networks</td></tr>
+          <tr><td><strong>IDS / IPS</strong></td><td>Intrusion Detection/Prevention System — monitors and blocks malicious traffic</td></tr>
+          <tr><td><strong>Network Segmentation / VLANs</strong></td><td>Isolates different systems so a breach in one zone doesn't spread</td></tr>
+          <tr><td><strong>Access Control Lists (ACLs)</strong></td><td>Rules on routers/switches that permit or deny specific traffic</td></tr>
+          <tr><td><strong>Multi-Factor Authentication (MFA)</strong></td><td>Requires two or more verification factors to log in</td></tr>
+          <tr><td><strong>Encryption</strong></td><td>Data encrypted at rest (storage) and in transit (TLS/SSL)</td></tr>
+          <tr><td><strong>Patch Management</strong></td><td>Regular OS and firmware updates to close known vulnerabilities</td></tr>
+          <tr><td><strong>SIEM</strong></td><td>Aggregates logs from all systems to detect suspicious patterns</td></tr>
+          <tr><td><strong>Privileged Access Management (PAM)</strong></td><td>Controls and logs admin-level access to critical systems</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">DMZ Architecture:</h4>
+    <div class="diagram-wrap">
+      <pre><code>Internet → [ Firewall 1 ] → [ DMZ: Web/Mail Servers ] → [ Firewall 2 ] → Internal Network</code></pre>
+    </div>
+    <ul>
+      <li>Public-facing servers live in the DMZ</li>
+      <li>Even if a DMZ server is compromised, Firewall 2 blocks access to the internal network</li>
+    </ul>
+
+    <h4 class="mini-title">Logical Security Best Practices:</h4>
+    <ul>
+      <li>Apply the <strong>Principle of Least Privilege</strong> — users only get the minimum access they need</li>
+      <li>Disable all unused ports and services on every device</li>
+      <li>Conduct regular <strong>vulnerability scans</strong> and <strong>penetration tests</strong></li>
+      <li>Enforce strong password policies and MFA for all admin accounts</li>
+      <li>Maintain detailed <strong>audit logs</strong> for all access and configuration changes</li>
+      <li>Have an <strong>Incident Response Plan (IRP)</strong> ready and tested</li>
+    </ul>
+
+    <h3 class="sub-title">Data Center Cleaning</h3>
+    <p>Cleaning is often overlooked but is critical for hardware health, airflow efficiency, and compliance.</p>
+
+    <h4 class="mini-title">Why Cleaning Matters</h4>
+    <ul>
+      <li><strong>Dust accumulation</strong> is the most common physical threat — clogs server fans, reduces airflow, causes overheating, and can cause short circuits</li>
+      <li><strong>Electrostatic discharge (ESD)</strong> from improper cleaning materials can permanently damage sensitive electronic components</li>
+      <li>A dirty data center fails compliance audits (ISO 27001, SOC 2, etc.)</li>
+      <li><strong>Contamination</strong> (chemical residues, moisture, insects) can corrode connectors and circuit boards over time</li>
+    </ul>
+
+    <h4 class="mini-title">Cleaning Schedule</h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Frequency</th><th>Task</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Daily</strong></td><td>Visual inspection of floors, remove debris from raised floor tiles near vents</td></tr>
+          <tr><td><strong>Weekly</strong></td><td>Wipe down exterior of racks and cabinets, inspect cable management</td></tr>
+          <tr><td><strong>Monthly</strong></td><td>Clean under raised floor panels, inspect and clean air filters on CRAC units</td></tr>
+          <tr><td><strong>Quarterly</strong></td><td>Deep clean of entire data hall, clean top-of-rack switches, check for pest activity</td></tr>
+          <tr><td><strong>Annually</strong></td><td>Full equipment audit clean, replace worn filters, professional anti-static cleaning</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4 class="mini-title">Cleaning Best Practices</h4>
+    <ul>
+      <li>Use only <strong>ESD-safe (anti-static)</strong> cleaning materials — regular cloths can damage components</li>
+      <li>Use <strong>HEPA vacuums</strong> — standard vacuums can blow dust into equipment</li>
+      <li>Clean during <strong>maintenance windows</strong> — not during peak production hours</li>
+      <li>Never use liquid cleaners near live equipment</li>
+      <li>Staff must wear <strong>anti-static wrist straps</strong> when working near open servers</li>
+      <li>Maintain a <strong>cleaning log</strong> — documented proof for audits and compliance</li>
+      <li>Control <strong>humidity (40–60%)</strong> to reduce static buildup and prevent condensation</li>
+    </ul>
+
+    <h4 class="mini-title">Under-Floor Cleaning:</h4>
+    <ul>
+      <li>The raised floor plenum is used as a cold air supply path — dust here reduces airflow efficiency and can be drawn into servers</li>
+      <li>Tiles must be lifted carefully using suction cup tools, and the plenum vacuumed with HEPA equipment</li>
+    </ul>
+
+    <h4 class="mini-title">Post-Construction Cleaning:</h4>
+    <ul>
+      <li>After any construction or fit-out work, a <strong>deep clean</strong> must be performed before IT equipment is powered on</li>
+      <li>Construction dust is extremely fine and can penetrate server chassis even through closed doors</li>
+    </ul>
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body"><p>A clean data center runs cooler, lasts longer, and has fewer hardware failures. Cleaning is preventive maintenance, not optional housekeeping.</p></div>
+    </div>
+
+    <h3 class="sub-title">📌 Quick Revision Summary</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Topic</th><th>Key Points</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cabling</strong></td><td>Fiber-optic backbone, modular cassettes, separated power/data paths</td></tr>
+          <tr><td><strong>PoD</strong></td><td>Core → Distribution → Access layers with redundant paths</td></tr>
+          <tr><td><strong>ISP / WAN</strong></td><td>Dual ISP, BGP failover, near IXP, edge router + firewall + DMZ</td></tr>
+          <tr><td><strong>NOC</strong></td><td>24/7 monitoring using DCIM, BMS, NMS, SIEM; track PUE, uptime, temp</td></tr>
+          <tr><td><strong>Physical Security</strong></td><td>Layered zones, mantrap, biometric, CCTV, rack locks</td></tr>
+          <tr><td><strong>Logical Security</strong></td><td>Firewall, IDS/IPS, VLAN, MFA, encryption, least privilege</td></tr>
+          <tr><td><strong>Cleaning</strong></td><td>ESD-safe, HEPA vacuum, scheduled deep cleans, humidity control</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const scrolled = el.scrollTop / (el.scrollHeight - el.clientHeight) * 100;
+  document.getElementById('progress-bar').style.width = scrolled + '%';
+});
+
+// Mobile sidebar
+const menuBtn = document.getElementById('menu-btn');
+const sidebar = document.getElementById('sidebar');
+menuBtn.addEventListener('click', () => sidebar.classList.toggle('open'));
+document.addEventListener('click', e => {
+  if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) sidebar.classList.remove('open');
+});
+
+// Active TOC highlighting
+const sections = document.querySelectorAll('section[id]');
+const tocItems = document.querySelectorAll('.toc-item');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocItems.forEach(i => i.classList.remove('active'));
+      const active = document.querySelector(`.toc-item[href="#${entry.target.id}"]`);
+      if (active) { active.classList.add('active'); active.scrollIntoView({block:'nearest'}); }
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
