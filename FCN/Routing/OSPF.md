@@ -35,7 +35,7 @@ Very common MCQ question.
 
 OSPF cost is based on **bandwidth**.
 
-Cost = \frac{10^8}{Bandwidth}
+Cost = 10^8/Bandwidth
 
 Where:
 
@@ -166,10 +166,89 @@ Very likely to appear:
 
 ---
 
-If you're making notes like your RIP page, next best topics to add are:
 
-* **EIGRP Timers + Info**
-* **BGP Basics**
-* **DR/BDR Election Rules**
+Here is your content formatted cleanly in **Markdown (.md)**, organized block by block:
 
-I can generate **EIGRP similar to RIP & OSPF** next if you want.
+---
+
+# OSPF DR and BDR
+
+## Overview
+
+On broadcast and multi-access networks (like Ethernet segments), OSPF elects two special routers to reduce traffic:
+
+* **DR (Designated Router)** → The main router responsible for distributing routing information on that segment.
+* **BDR (Backup Designated Router)** → The backup router; it becomes DR if the original DR fails.
+
+Instead of every router forming full adjacency with every other router:
+
+* Other routers (**DROTHERs**) form adjacencies mainly with the DR and BDR.
+* This reduces:
+
+  * Number of adjacencies
+  * LSA flooding
+  * Bandwidth and CPU usage
+
+---
+
+## DR/BDR Election Process
+
+OSPF uses two main factors:
+
+* **OSPF Priority (per interface)**
+* **Router ID (RID)**
+
+---
+
+## Election Rules
+
+### 1. Highest Priority Wins
+
+* Each router has an OSPF priority (range: **0–255**).
+* The router with the **highest priority → DR**.
+* The router with the **second-highest priority → BDR**.
+
+---
+
+### 2. Tie-Breaker: Router ID
+
+* If priorities are equal:
+
+  * Highest **Router ID → DR**
+  * Second-highest **Router ID → BDR**
+
+---
+
+### 3. Priority 0 (Ineligible)
+
+* A router with **priority = 0**:
+
+  * Cannot become DR or BDR
+  * Functions only as a **DROTHER**
+
+---
+
+### 4. Default Behavior
+
+* Default OSPF priority = **1**
+* If all routers use default:
+
+  * Election is based entirely on **Router ID**
+
+---
+
+## OSPF Neighbor States
+
+| State        | Meaning                                                                        |
+| ------------ | ------------------------------------------------------------------------------ |
+| **Down**     | No Hello packet received yet. OSPF has not started forming a relationship.     |
+| **Init**     | Hello received, but router has not seen its own Router ID in neighbor's Hello. |
+| **Two-Way**  | Bidirectional communication confirmed (routers see each other).                |
+| **ExStart**  | Routers decide master/slave roles for database exchange.                       |
+| **Exchange** | Routers exchange Database Description (DBD) packets (LSDB summaries).          |
+| **Loading**  | Missing LSAs requested (LSR) and received (LSU).                               |
+| **Full**     | LSDBs are fully synchronized; adjacency is complete.                           |
+
+---
+
+If you want, I can also convert this into **flashcards**, **interview Q&A**, or a **diagram-style explanation**.
