@@ -61,6 +61,7 @@ The single firewall enforces both Internet→DMZ and DMZ→LAN rules.
 ## 2. Two-Tier Architecture
 
 **Concept:** Two firewalls in series create **three distinct security zones**.
+
 - Zone 1: Internet (Untrusted)
 - Zone 2: DMZ (Semi-trusted — public-facing servers)
 - Zone 3: LAN (Trusted — internal network)
@@ -132,6 +133,7 @@ Even if the DMZ webserver is compromised, the attacker must still bypass FW2.
 
 **Concept:** Three or more firewalls create **multiple security zones** for
 enterprise-grade segmentation. Each tier isolates one functional layer:
+
 - Tier 1 (FW1): Internet → DMZ (Presentation Layer)
 - Tier 2 (FW2): DMZ → App Zone (Application Layer)
 - Tier 3 (FW3): App Zone → Data Zone (Data Layer)
@@ -234,7 +236,6 @@ be **completely isolated** from the Internet with multiple independent hops.
 
 ---
 
-
 ## Types of Firewall
 
 1. Hardware Firewall
@@ -251,10 +252,10 @@ It protects one device or a specific system.
 
 Easy Difference:
 
-| Type | Form | Protects | Example |
-|---|---|---|---|
-| Hardware firewall | Physical device | Whole network | Office firewall appliance |
-| Software firewall | Program | One computer/server | Windows Defender Firewall |
+| Type              | Form            | Protects            | Example                   |
+| ----------------- | --------------- | ------------------- | ------------------------- |
+| Hardware firewall | Physical device | Whole network       | Office firewall appliance |
+| Software firewall | Program         | One computer/server | Windows Defender Firewall |
 
 ## Filtering Technique
 
@@ -300,10 +301,6 @@ Example:
 
 ## Firewall VPN / GRE
 
-
-
-
-
 # iptables — Complete Study Notes
 
 ---
@@ -348,6 +345,7 @@ Example:
 ```
 
 ### Hierarchy Rule:
+
 ```
   TABLE  ──contains──►  CHAINS  ──contains──►  RULES
 ```
@@ -407,11 +405,11 @@ Example:
   └─────────────────────────────────────────────────────────────────┘
 ```
 
-| Chain | Direction | Use Case |
-|-------|-----------|----------|
-| **INPUT** | Outside → This machine | Protect this machine from inbound traffic |
-| **OUTPUT** | This machine → Outside | Control outbound traffic from this machine |
-| **FORWARD** | Outside → Through → Outside | Machine acting as a **router** (2 NICs) |
+| Chain       | Direction                   | Use Case                                   |
+| ----------- | --------------------------- | ------------------------------------------ |
+| **INPUT**   | Outside → This machine      | Protect this machine from inbound traffic  |
+| **OUTPUT**  | This machine → Outside      | Control outbound traffic from this machine |
+| **FORWARD** | Outside → Through → Outside | Machine acting as a **router** (2 NICs)    |
 
 ---
 
@@ -517,6 +515,7 @@ Example:
 ## 8. iptables Commands — Syntax Reference
 
 ### General Syntax:
+
 ```
   sudo iptables  [TABLE]  COMMAND  CHAIN  [MATCH OPTIONS]  -j TARGET
 ```
@@ -526,11 +525,13 @@ Example:
 ### Commands Used in Notes:
 
 #### List all rules
+
 ```bash
 sudo iptables -L
 ```
 
 #### Set Default Policy (Policy for a chain)
+
 ```bash
 # Set FORWARD chain default policy to DROP
 sudo iptables -P FORWARD DROP
@@ -538,12 +539,15 @@ sudo iptables -P FORWARD DROP
 # Set OUTPUT chain default policy to DROP
 sudo iptables -P OUTPUT DROP
 ```
-> `-P` = Policy  |  Note: `-p` in original notes is `-P` (capital P for policy)
+
+> `-P` = Policy | Note: `-p` in original notes is `-P` (capital P for policy)
 
 #### Allow Loopback Interface (lo)
+
 ```bash
 iptables -A INPUT -i lo -j ACCEPT
 ```
+
 - `-A` = Append rule to chain
 - `-i lo` = interface loopback (`lo` = loopback, full form: **loopback**)
 - `-j` = Jump to target (ACCEPT/DROP)
@@ -552,16 +556,20 @@ iptables -A INPUT -i lo -j ACCEPT
 > Blocking it can break local services (DNS, databases, web servers on localhost).
 
 #### Allow ESTABLISHED connections
+
 ```bash
 iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
 ```
+
 - `-m state` = use the **state module** (connection tracking)
 - `--state ESTABLISHED` = match packets belonging to existing connections
 
 #### Allow SSH from specific IP
+
 ```bash
 iptables -A INPUT -p tcp -s 192.168.80.1 --dport ssh -j ACCEPT
 ```
+
 - `-p tcp` = protocol TCP
 - `-s 192.168.80.1` = source IP address (`-m` in original = should be `-s` for source)
 - `--dport ssh` = destination port SSH (port 22)
@@ -569,9 +577,11 @@ iptables -A INPUT -p tcp -s 192.168.80.1 --dport ssh -j ACCEPT
 > **Note:** `--dport ssh` = `--dport 22` (iptables resolves service names from `/etc/services`)
 
 #### Flush (delete) all rules
+
 ```bash
 iptables -F
 ```
+
 - `-F` = Flush — **deletes ALL rules** in all chains (default policy remains)
 
 ---
@@ -635,19 +645,106 @@ sudo iptables -F
 
 ## 11. Key Exam Points 🎯
 
-| Question | Answer |
-|----------|--------|
-| iptables user mode talks to? | netfilter (kernel mode) |
-| Default table in iptables? | filter |
-| How many default tables? | 5 (filter, nat, mangle, raw, security) |
-| Chains in filter table? | INPUT, OUTPUT, FORWARD |
-| FORWARD chain is used when? | Machine is acting as a router (2 NICs) |
-| Rules are processed in? | Sequence (top to bottom) |
-| What happens after a rule matches? | Remaining rules are NOT checked |
-| Default policy in filter table? | ACCEPT (allow all) |
-| DROP vs REJECT? | DROP = silent discard; REJECT = discard + sends error back |
-| `-F` flag does what? | Flushes (deletes) all rules; default policy stays |
-| Full form of `lo`? | loopback (127.0.0.1) |
-| `-m state --state ESTABLISHED`? | Match packets of existing connections |
-| `-j` flag means? | Jump to target (ACCEPT / DROP) |
+| Question                                                | Answer                                                                                                                                                                                                                                                 |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| iptables user mode talks to?                            | netfilter (kernel mode)                                                                                                                                                                                                                                |
+| Default table in iptables?                              | filter                                                                                                                                                                                                                                                 |
+| How many default tables?                                | 5 (filter, nat, mangle, raw, security)                                                                                                                                                                                                                 |
+| Chains in filter table?                                 | INPUT, OUTPUT, FORWARD                                                                                                                                                                                                                                 |
+| FORWARD chain is used when?                             | Machine is acting as a router (2 NICs)                                                                                                                                                                                                                 |
+| Rules are processed in?                                 | Sequence (top to bottom)                                                                                                                                                                                                                               |
+| What happens after a rule matches?                      | Remaining rules are NOT checked                                                                                                                                                                                                                        |
+| Default policy in filter table?                         | ACCEPT (allow all)                                                                                                                                                                                                                                     |
+| DROP vs REJECT?                                         | DROP = silent discard; REJECT = discard + sends error back                                                                                                                                                                                             |
+| `-F` flag does what?                                    | Flushes (deletes) all rules; default policy stays                                                                                                                                                                                                      |
+| Full form of `lo`?                                      | loopback (127.0.0.1)                                                                                                                                                                                                                                   |
+| `-m state --state ESTABLISHED`?                         | Match packets of existing connections                                                                                                                                                                                                                  |
+| `-j` flag means?                                        | Jump to target (ACCEPT / DROP)                                                                                                                                                                                                                         |
 | What happens to default policy when `iptables -F` runs? | **Default policy is NOT affected.** `-F` only flushes (deletes) all rules. The default policy (ACCEPT or DROP) remains unchanged. Example: if policy was DROP before `-F`, it stays DROP after `-F`. To reset policy use `-P CHAIN ACCEPT` separately. |
+
+# Stateful Packet Inspection (SPI) Firewall
+
+## Definition
+
+A **Stateful Packet Inspection (SPI) Firewall** is a firewall that monitors and tracks the state of active network connections. It maintains a **state table** and makes filtering decisions based on the connection state, source/destination addresses, ports, and protocols.
+
+---
+
+## How SPI Firewall Works
+
+1. A packet arrives at the firewall.
+2. The firewall checks its **state table**.
+3. If the packet belongs to an existing valid connection, it is allowed.
+4. If the packet does not match any valid connection, it is blocked.
+
+### Example
+
+```text
+Client ---------> Web Server
+       TCP SYN
+```
+
+The firewall creates an entry in its state table:
+
+```text
+Source IP      Destination IP      Protocol    State
+192.168.1.10   8.8.8.8             TCP         ESTABLISHED
+```
+
+When the reply packet arrives, the firewall verifies that it belongs to an existing connection and allows it.
+
+---
+
+## Connection States
+
+| State       | Description                       |
+| ----------- | --------------------------------- |
+| NEW         | New connection request            |
+| ESTABLISHED | Existing connection               |
+| RELATED     | Related to an existing connection |
+| INVALID     | Invalid or malformed packet       |
+
+---
+
+## Advantages of SPI Firewall
+
+- More secure than packet filtering firewalls.
+- Tracks active sessions.
+- Blocks unsolicited inbound traffic.
+- Helps prevent spoofing attacks.
+- Allows only valid return traffic.
+
+---
+
+## Limitations
+
+- Does not fully inspect application-layer content.
+- Cannot inspect encrypted VPN traffic without decryption.
+- Less powerful than an Application Proxy Firewall.
+
+---
+
+# Is iptables an SPI Firewall?
+
+## Yes
+
+Linux **iptables** can function as a **Stateful Packet Inspection (SPI) Firewall** because it uses the **Connection Tracking (conntrack)** subsystem of the Linux kernel.
+
+It keeps track of connection states such as:
+
+- NEW
+- ESTABLISHED
+- RELATED
+- INVALID
+
+and filters packets based on these states.
+
+### Example Rule
+
+```bash
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+```
+
+This rule allows packets that belong to an existing or related connection.
+
+---
