@@ -1,0 +1,200 @@
+## Session Timeout
+
+A **session timeout** means the server automatically logs out or invalidates a user session after a certain period of inactivity or time limit.
+
+### Why it is used
+
+* Prevent unauthorized access
+* Protect accounts if user leaves device unattended
+* Reduce risk of session hijacking
+
+### Example
+
+1. User logs into a banking website.
+2. Server creates a session ID.
+3. User stays inactive for 15 minutes.
+4. Server expires the session.
+5. User must log in again.
+
+---
+
+## Types of Session Timeout
+
+| Type             | Meaning                                |
+| ---------------- | -------------------------------------- |
+| Idle Timeout     | Session expires after inactivity       |
+| Absolute Timeout | Session expires after fixed total time |
+| Renewal Timeout  | Session ID changes periodically        |
+
+---
+
+## Session Timeout Flow
+
+```text
+Login → Server Creates Session → Session ID Stored in Cookie
+       ↓
+User Active? ---- YES → Continue
+       ↓ NO
+Session Expired → User Logged Out
+```
+
+---
+
+# Cookies
+
+A **cookie** is a small piece of data stored in the browser by a website.
+
+Cookies help websites:
+
+* Remember logins
+* Store preferences
+* Track sessions
+* Personalize content
+
+---
+
+## Cookie Structure
+
+```http
+Set-Cookie: sessionid=abc123; HttpOnly; Secure
+```
+
+### Parts
+
+| Part      | Meaning              |
+| --------- | -------------------- |
+| sessionid | Cookie name          |
+| abc123    | Cookie value         |
+| HttpOnly  | JS cannot access it  |
+| Secure    | Sent only over HTTPS |
+
+---
+
+## Types of Cookies
+
+| Type              | Purpose                      |
+| ----------------- | ---------------------------- |
+| Session Cookie    | Deleted after browser closes |
+| Persistent Cookie | Stored for longer time       |
+| Secure Cookie     | Sent only over HTTPS         |
+| HttpOnly Cookie   | Prevents JavaScript access   |
+| SameSite Cookie   | Helps stop CSRF attacks      |
+
+---
+
+## Session vs Cookies
+
+| Feature      | Session              | Cookie                   |
+| ------------ | -------------------- | ------------------------ |
+| Stored Where | Server               | Browser                  |
+| Size         | Large possible       | Small                    |
+| Security     | More secure          | Less secure              |
+| Lifetime     | Controlled by server | Controlled by browser    |
+| Used For     | Authentication state | Session ID & preferences |
+
+---
+
+## How Sessions and Cookies Work Together
+
+### Step-by-step
+
+1. User logs in
+2. Server creates session:
+
+   ```text
+   Session ID = XYZ123
+   ```
+3. Server sends cookie:
+
+   ```http
+   Set-Cookie: PHPSESSID=XYZ123
+   ```
+4. Browser stores cookie
+5. Browser sends cookie on every request:
+
+   ```http
+   Cookie: PHPSESSID=XYZ123
+   ```
+6. Server verifies session ID
+
+---
+
+## Important Security Risks
+
+| Attack            | Description                                       |
+| ----------------- | ------------------------------------------------- |
+| Session Hijacking | Stealing session cookie                           |
+| Session Fixation  | Forcing victim to use known session ID            |
+| Cookie Theft      | XSS steals cookies                                |
+| CSRF              | Browser sends authenticated request automatically |
+
+---
+
+## Protection Methods
+
+| Protection       | Purpose                        |
+| ---------------- | ------------------------------ |
+| HTTPS            | Encrypt cookies                |
+| HttpOnly         | Stops JS cookie theft          |
+| Secure Flag      | HTTPS only                     |
+| SameSite         | Reduces CSRF                   |
+| Session Rotation | Changes session ID after login |
+| Short Timeout    | Limits attacker access         |
+
+---
+
+## Example HTTP Headers
+
+### Server Response
+
+```http
+HTTP/1.1 200 OK
+Set-Cookie: sessionid=abc123; HttpOnly; Secure; SameSite=Strict
+```
+
+### Browser Request
+
+```http
+GET /dashboard HTTP/1.1
+Cookie: sessionid=abc123
+```
+
+---
+
+## Real-Life Analogy
+
+| Concept         | Real-life Example               |
+| --------------- | ------------------------------- |
+| Session         | Temporary access pass in office |
+| Cookie          | Card storing your access number |
+| Session Timeout | Pass expires after inactivity   |
+
+---
+
+## Common Cookie Flags
+
+| Flag            | Meaning                 |
+| --------------- | ----------------------- |
+| Secure          | HTTPS only              |
+| HttpOnly        | No JavaScript access    |
+| SameSite=Lax    | Partial CSRF protection |
+| SameSite=Strict | Strong CSRF protection  |
+| Expires         | Expiry date             |
+| Max-Age         | Lifetime in seconds     |
+
+---
+
+## In Cyber Security Testing
+
+Tools like:
+
+* Burp Suite
+* Wireshark
+* Browser DevTools
+
+are used to inspect:
+
+* Session cookies
+* Timeout behavior
+* Authentication flaws
+* Insecure cookie flags

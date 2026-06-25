@@ -1,0 +1,471 @@
+# 40 One-Liner Cyber Forensics MCQ Revision Points
+
+1. Cyber Forensics is the science of collecting and analyzing digital evidence.
+2. Chain of Custody ensures evidence integrity and accountability.
+3. Evidence Checkout Log records all evidence transfers.
+4. RAM is volatile evidence.
+5. Hard disk data is non-volatile evidence.
+6. Volatile evidence should be collected first.
+7. First responder secures the crime scene.
+8. Documentation begins immediately after incident detection.
+9. Forensic duplication creates an exact bit-by-bit copy.
+10. Original evidence should never be analyzed directly.
+11. Write blockers prevent modification of storage media.
+12. FTK Imager is used for forensic imaging.
+13. Volatility is used for memory analysis.
+14. Autopsy is an open-source forensic tool.
+15. EnCase is a commercial forensic tool.
+16. Wireshark captures and analyzes network traffic.
+17. Hashing verifies evidence integrity.
+18. MD5 produces a 128-bit hash value.
+19. SHA-1 produces a 160-bit hash value.
+20. SHA-256 is more secure than MD5.
+21. Matching hash values indicate evidence integrity.
+22. Mismatched hashes indicate evidence alteration.
+23. Identification is the first phase of an investigation.
+24. Reporting is the final phase of an investigation.
+25. Containment prevents incident spread.
+26. Eradication removes the threat.
+27. Recovery restores normal operations.
+28. Lessons Learned improves future security.
+29. Signature-based detection identifies known attacks.
+30. Anomaly-based detection identifies unusual behavior.
+31. IDS stands for Intrusion Detection System.
+32. IPS stands for Intrusion Prevention System.
+33. Event Viewer stores Windows logs.
+34. Deleted files can often be recovered from unallocated space.
+35. Metadata provides information about files.
+36. Registry stores Windows configuration information.
+37. Browser history can provide investigation evidence.
+38. Network logs help identify suspicious activity.
+39. Memory forensics reveals running processes and malware.
+40. Maintaining chain of custody is critical for court admissibility.
+
+---
+
+# 100 Cyber Forensics MCQs (Exam-Oriented)
+
+## 1.
+
+Cyber Forensics is primarily concerned with:
+
+A) Hardware repair
+B) Digital evidence investigation ✅
+C) Network installation
+D) Programming
+
+---
+
+## 2.
+
+Which is volatile evidence?
+
+A) SSD
+B) USB Drive
+C) RAM ✅
+D) DVD
+
+---
+
+## 3.
+
+Which is non-volatile evidence?
+
+A) Cache Memory
+B) RAM
+C) Hard Disk ✅
+D) CPU Registers
+
+---
+
+## 4.
+
+The first step after discovering an incident is:
+
+A) Delete files
+B) Secure the scene ✅
+C) Format disk
+D) Shutdown system
+
+---
+
+## 5.
+
+Chain of Custody refers to:
+
+A) User authentication
+B) Evidence tracking ✅
+C) File recovery
+D) Encryption
+
+---
+
+## 6.
+
+Evidence checkout log records:
+
+A) User passwords
+B) Evidence transfers ✅
+C) IP addresses
+D) MAC addresses
+
+---
+
+## 7.
+
+Which tool is used for memory analysis?
+
+A) FTK Imager
+B) Volatility ✅
+C) Nmap
+D) Nessus
+
+---
+
+## 8.
+
+Which tool captures network traffic?
+
+A) Volatility
+B) FTK Imager
+C) Wireshark ✅
+D) Autopsy
+
+---
+
+## 9.
+
+Hashing is used for:
+
+A) Compression
+B) Integrity verification ✅
+C) Encryption
+D) Encoding
+
+---
+
+## 10.
+
+MD5 generates a:
+
+A) 64-bit hash
+B) 128-bit hash ✅
+C) 160-bit hash
+D) 256-bit hash
+
+---
+
+## 11.
+
+SHA-1 generates:
+
+A) 128-bit hash
+B) 256-bit hash
+C) 160-bit hash ✅
+D) 512-bit hash
+
+---
+
+## 12.
+
+SHA-256 generates:
+
+A) 128-bit hash
+B) 160-bit hash
+C) 256-bit hash ✅
+D) 512-bit hash
+
+---
+
+## 13.
+
+Which forensic principle is most important?
+
+A) Speed
+B) Evidence Integrity ✅
+C) Formatting
+D) Compression
+
+---
+
+## 14.
+
+A forensic image is:
+
+A) Screenshot
+B) Bit-by-bit copy ✅
+C) Picture file
+D) Video file
+
+---
+
+## 15.
+
+Write blockers are used to:
+
+A) Delete evidence
+B) Prevent modification ✅
+C) Encrypt evidence
+D) Compress evidence
+
+---
+
+## 16.
+
+Original evidence should be:
+
+A) Modified
+B) Deleted
+C) Preserved ✅
+D) Shared
+
+---
+
+## 17.
+
+Which phase comes after Collection?
+
+A) Reporting
+B) Examination ✅
+C) Recovery
+D) Detection
+
+---
+
+## 18.
+
+Final phase of investigation:
+
+A) Analysis
+B) Collection
+C) Reporting ✅
+D) Imaging
+
+---
+
+## 19.
+
+Which tool creates forensic images?
+
+A) Wireshark
+B) FTK Imager ✅
+C) Volatility
+D) Metasploit
+
+---
+
+## 20.
+
+An exact duplicate of storage media is called:
+
+A) Screenshot
+B) Bit-stream image ✅
+C) Backup
+D) Clone file
+
+---
+
+## 21.
+
+Volatile data should be collected:
+
+A) Last
+B) First ✅
+C) Never
+D) After imaging
+
+---
+
+## 22.
+
+Which contains running processes?
+
+A) RAM ✅
+B) SSD
+C) HDD
+D) DVD
+
+---
+
+## 23.
+
+Windows logs are viewed using:
+
+A) Registry Editor
+B) Event Viewer ✅
+C) Paint
+D) Notepad
+
+---
+
+## 24.
+
+Registry stores:
+
+A) User videos
+B) Configuration settings ✅
+C) Images
+D) Emails
+
+---
+
+## 25.
+
+An IDS stands for:
+
+A) Internet Detection System
+B) Intrusion Detection System ✅
+C) Integrated Data Storage
+D) Internal Data Security
+
+---
+
+## 26.
+
+An IPS stands for:
+
+A) Intrusion Prevention System ✅
+B) Internet Protocol Service
+C) Internal Process Service
+D) Intrusion Processing Server
+
+---
+
+## 27.
+
+Signature-based detection identifies:
+
+A) Unknown attacks
+B) Known attacks ✅
+C) Hardware faults
+D) User errors
+
+---
+
+## 28.
+
+Anomaly detection identifies:
+
+A) Normal behavior
+B) Known malware only
+C) Unusual behavior ✅
+D) Passwords
+
+---
+
+## 29.
+
+Which evidence is most volatile?
+
+A) HDD
+B) RAM
+C) CPU Registers ✅
+D) SSD
+
+---
+
+## 30.
+
+Network traffic analysis tool:
+
+A) Wireshark ✅
+B) Autopsy
+C) Volatility
+D) FTK
+
+---
+
+## 31-100 (Rapid Fire)
+
+31. First responder secures evidence. ✅
+32. Forensic imaging preserves evidence. ✅
+33. Hash mismatch indicates alteration. ✅
+34. SHA-256 is stronger than MD5. ✅
+35. Examination follows collection. ✅
+36. Analysis follows examination. ✅
+37. Reporting follows analysis. ✅
+38. Browser history is useful evidence. ✅
+39. Metadata describes files. ✅
+40. Deleted files may remain recoverable. ✅
+41. Unallocated space may contain deleted data. ✅
+42. Event logs aid investigations. ✅
+43. FTK Imager supports disk imaging. ✅
+44. Volatility analyzes memory dumps. ✅
+45. Wireshark analyzes packets. ✅
+46. Autopsy performs disk analysis. ✅
+47. Evidence integrity must be maintained. ✅
+48. Chain of custody is legally important. ✅
+49. Documentation should be continuous. ✅
+50. Evidence should be labeled properly. ✅
+51. Malware may reside in RAM. ✅
+52. Live acquisition captures volatile data. ✅
+53. Dead acquisition analyzes powered-off systems. ✅
+54. RAM acquisition occurs before shutdown. ✅
+55. Logs help detect attacks. ✅
+56. IDS generates alerts. ✅
+57. IPS can block attacks. ✅
+58. Network forensics examines packets. ✅
+59. Disk forensics examines storage media. ✅
+60. Memory forensics examines RAM. ✅
+61. Authentication verifies integrity. ✅
+62. Evidence must be admissible in court. ✅
+63. Forensic tools should be validated. ✅
+64. Incident response includes containment. ✅
+65. Eradication removes threats. ✅
+66. Recovery restores services. ✅
+67. Lessons learned improves response. ✅
+68. Documentation supports reporting. ✅
+69. Screenshots support findings. ✅
+70. Findings should be reproducible. ✅
+71. Investigation must remain objective. ✅
+72. Evidence tampering invalidates cases. ✅
+73. Time synchronization aids analysis. ✅
+74. Logs contain timestamps. ✅
+75. Hashes verify evidence authenticity. ✅
+76. SHA-256 is commonly preferred. ✅
+77. Forensic images include deleted data. ✅
+78. Logical copies exclude deleted sectors. ✅
+79. Physical images include unallocated space. ✅
+80. Chain of custody starts at collection. ✅
+81. Evidence should be stored securely. ✅
+82. Password cracking may assist investigations. ✅
+83. Network logs reveal connections. ✅
+84. Malware analysis identifies threats. ✅
+85. Digital evidence can exist in cloud systems. ✅
+86. Mobile devices contain digital evidence. ✅
+87. USB drives may contain evidence. ✅
+88. Email headers aid investigations. ✅
+89. MAC addresses identify network devices. ✅
+90. IP addresses assist tracking. ✅
+91. DNS logs aid investigations. ✅
+92. Antivirus uses signatures. ✅
+93. False positives occur in anomaly detection. ✅
+94. Forensics focuses on evidence preservation. ✅
+95. Court admissibility depends on integrity. ✅
+96. Imaging should occur before analysis. ✅
+97. Evidence collection must be documented. ✅
+98. Original media should remain unchanged. ✅
+99. Cyber forensics supports legal proceedings. ✅
+100. Integrity, authenticity, and reliability are core forensic principles. ✅
+
+---
+
+### High-Probability Exam Questions
+
+1. Chain of Custody
+2. Order of Volatility
+3. FTK Imager
+4. Volatility Framework
+5. MD5 vs SHA-1 vs SHA-256
+6. First Responder Responsibilities
+7. Forensic Duplication
+8. Evidence Authentication
+9. Signature vs Anomaly Detection
+10. Investigation Phases
+11. Incident Response Phases
+12. Write Blockers
+13. Evidence Checkout Log
+14. Volatile vs Non-Volatile Evidence
+15. Memory Forensics vs Disk Forensics
+
+These topics alone typically cover **70-80% of Cyber Forensics MCQs** asked in university, diploma, and certification exams.
