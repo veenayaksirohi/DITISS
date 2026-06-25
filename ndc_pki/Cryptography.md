@@ -199,106 +199,116 @@ Reading by columns:
 
 ===================================================================================================
 
-``````````
-modern cryptography 
-``````````````
-
-symmetric key cryptiography 
-
-sender and recivers use two instance of the same keys for necry pion and description 
-
-adv 
-fast than asymmetric system
-
-if n want to secure comminatin using the symmetric need
-n(n-1)/2 keys 
-"If N people want to communicate securely with each other using Symmetric Key Cryptography, the total number of keys required in the system is:"
-N(N−1)2
-2N(N−1)​
-
-disadv
-scaliblity and key managent 
-first time key share
-if 2 persion have the key , not able to identiy how encrypt or decript the file 
-auth and non repudation not available 
-
-explame
-
-des
-3des
-blowfish 
-twofish
-idea
-rc4,rcs,rc6
-aes
-
-`````````````````
-asymmetric system 
-`````````````````
-
-
-1 two keys
-2 1 public 2 pricate
-3 encyotion from 1 public and description from coruponding privatae key , keep private key  secreate 
-4 enctpted by one decryperted by the corresponding key 
-
-In asymmetric cryptography, the public key encrypts the data, and only the corresponding private key can decrypt it. However, the reverse is also used in digital signatures — the private key signs (encrypts the hash), and the public key verifies (decrypts the hash).
-
-
-secure message foramation 
-when the message is encryotion with a public key of receivers(confidently) 
-
-open message format 
-encryption data with the sendes private key (ensure integrity )
-
-adv 
-better key distribution 
-better scalablity 
-can provide auth and non - repudation 
-
-disadv
-slow than symmetric 
-
-
-example
-rsa
-ecc
-diffehellman
-el0garmal
-dsa
-knapsack
-
-
-mac(message auth code )/(medetary acces control )
-
-
-(medetary acces control ) mac
-
-
-
-# MAC — Message Authentication Code (Cryptography)
-
-> **Core idea:** A MAC is a short cryptographic tag generated from a message + a shared secret key. It lets the receiver verify that the message was sent by someone who holds the key and was not tampered with in transit.
+# Modern Cryptography — Interview Notes
 
 ---
 
-## 1. What is a MAC?
+## 1. Symmetric Key Cryptography
 
-A **Message Authentication Code** is a fixed-size tag/checksum generated from:
+The sender and receiver both hold **a copy of the same shared secret key**, which is used for both encryption and decryption.
+
+### Key Formula
+
+If **N** people want to communicate securely with each other using symmetric key cryptography, the total number of keys required is:
+
+```
+Total Keys = N(N-1) / 2
+```
+
+### Advantages
+
+- **Faster** than asymmetric systems (uses simple operations like XOR, substitution, permutation)
+
+### Disadvantages
+
+- **Scalability and key management** — the number of keys grows rapidly with N (N(N-1)/2 problem)
+- **Key distribution problem** — how do two parties securely share the key for the first time?
+- **No identity binding** — if two parties share the same key, you cannot identify _who_ encrypted or decrypted the file
+- **No authentication or non-repudiation** — either party can deny sending a message since both hold the same key
+
+### Examples
+
+| Algorithm | Notes                                                                      |
+| --------- | -------------------------------------------------------------------------- |
+| DES       | 56-bit key, deprecated (brute-forceable)                                   |
+| 3DES      | Triple DES; stronger than DES but deprecated by NIST in 2023 (legacy only) |
+| Blowfish  | Fast block cipher, variable key length                                     |
+| Twofish   | AES finalist, 128/192/256-bit keys                                         |
+| IDEA      | 128-bit key, used in older PGP versions                                    |
+| RC4       | Stream cipher, now deprecated (weak)                                       |
+| RC5       | Block cipher, variable block/key/round                                     |
+| RC6       | AES finalist, based on RC5                                                 |
+| AES       | **Current standard** — 128/192/256-bit key                                 |
+
+---
+
+## 2. Asymmetric Key Cryptography
+
+### Core Properties
+
+1. Uses **two mathematically linked keys**: a **public key** and a **private key**
+2. Data encrypted with the **public key** can only be decrypted by the **corresponding private key** — keep the private key secret
+3. Data encrypted with the **private key** can be verified (decrypted) by the **corresponding public key** — used in digital signatures
+4. The two keys are a matched pair — a public key from one pair cannot decrypt what was encrypted by a different pair's private key
+
+### Message Formats
+
+| Format                  | Key Used to Encrypt       | Purpose                                  |
+| ----------------------- | ------------------------- | ---------------------------------------- |
+| **Secure Message**      | Receiver's **public key** | Confidentiality — only receiver can read |
+| **Open/Signed Message** | Sender's **private key**  | Integrity + Authentication (signature)   |
+
+> In digital signatures — the private key **signs** (encrypts the hash), and the public key **verifies** (decrypts the hash to confirm it matches).
+
+### Advantages
+
+- **Better key distribution** — public keys can be shared openly; no secret channel needed
+- **Better scalability** — N users need only N key pairs (not N(N-1)/2 shared secrets)
+- **Provides authentication and non-repudiation** — only the private key holder could have signed the message
+
+### Disadvantages
+
+- **Slower than symmetric** — involves complex mathematical operations (modular exponentiation, elliptic curve math)
+
+### Examples
+
+| Algorithm      | Notes                                                         |
+| -------------- | ------------------------------------------------------------- |
+| RSA            | Most widely used; based on factoring large prime products     |
+| ECC            | Elliptic Curve Cryptography; smaller keys, same strength      |
+| Diffie-Hellman | Key exchange protocol; not encryption — only key agreement    |
+| ElGamal        | Based on discrete logarithm; used in PGP                      |
+| DSA            | Digital Signature Algorithm; signing only, not encryption     |
+| Knapsack       | Early public-key system; most variants broken, historical use |
+
+---
+
+## 3. MAC — Message Authentication Code
+
+> **Note on naming:** MAC has two meanings in IT:
+>
+> - **MAC (Cryptography)** = Message Authentication Code — covered here
+> - **MAC (OS Security)** = Mandatory Access Control — a separate access-control topic
+
+---
+
+### What is a MAC?
+
+A **Message Authentication Code** is a fixed-size cryptographic tag generated from a message and a **shared secret key**. It lets the receiver verify:
+
+- **Authentication** — did this message come from a trusted sender (someone who holds the key)?
+- **Integrity** — was the message modified in transit?
 
 ```
 Message (M)  +  Secret Key (K)  →  MAC Algorithm  →  MAC Tag
 ```
 
-It answers two questions at the receiver's end:
-- **Did this message come from who I think it did?** (Authentication)
-- **Was this message modified in transit?** (Integrity)
-
 ---
 
-## 2. How it Works — Step by Step
+### How it Works — Step by Step
 
-### Sender Side
+#### Sender Side
+
 ```
 ┌─────────────┐     ┌───────────┐     ┌──────────────┐
 │  Message M  │──►  │    MAC    │◄──  │  Secret Key  │
@@ -313,7 +323,8 @@ It answers two questions at the receiver's end:
 Sender transmits:  [ Message M ]  +  [ MAC Tag ]
 ```
 
-### Receiver Side
+#### Receiver Side
+
 ```
 Received:  [ Message M' ]  +  [ MAC Tag (received) ]
 
@@ -340,25 +351,23 @@ Received:  [ Message M' ]  +  [ MAC Tag (received) ]
 
 ---
 
-## 3. Why is a Key Needed?
+### Why is a Key Needed?
 
-This is the critical question. Why not just use a hash (like SHA-256) without a key?
-
-### Without a key — hash alone is NOT enough
+#### Without a key — a plain hash is NOT enough
 
 ```
 Attacker intercepts:   [ Message M ]  +  [ Hash(M) ]
 
 Attacker modifies:     [ Message M* ]
-Attacker recomputes:   [ Hash(M*) ]     ← anyone can do this!
+Attacker recomputes:   [ Hash(M*) ]     ← anyone can do this — no key required!
 
 Receiver gets:         [ Message M* ]  +  [ Hash(M*) ]
 Receiver checks:       Hash(M*) == Hash(M*)  →  ✅ PASS  ← WRONG! Attacker fooled receiver
 ```
 
-A plain hash gives **no authentication** — anyone can recompute it after modifying the message.
+A plain hash provides **no authentication** — anyone can recompute it after modifying the message.
 
-### With a secret key — attacker is blocked
+#### With a secret key — attacker is blocked
 
 ```
 Attacker intercepts:   [ Message M ]  +  [ MAC(K, M) ]
@@ -371,123 +380,54 @@ Receiver gets:         [ Message M* ]  +  [ invalid/guessed tag ]
 Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacker caught!
 ```
 
-### Why the key works — summary
+#### Summary Table
 
-| | Hash only (no key) | MAC (with key) |
-|---|---|---|
-| Anyone can recompute? | ✅ Yes — attacker can too | ❌ No — needs secret key |
-| Detects tampering? | ❌ No | ✅ Yes |
-| Proves sender identity? | ❌ No | ✅ Yes (key holder only) |
-| Attacker can forge? | ✅ Easily | ❌ Computationally infeasible |
-
-> **The key is the proof of identity.** Only parties who hold K can produce a valid MAC tag. The key binds the tag to a specific group of trusted parties.
-
----
-# MAC — Message Authentication Code (Cryptography)
-
-> **Core idea:** A MAC is a short cryptographic tag generated from a message + a shared secret key. It lets the receiver verify that the message was sent by someone who holds the key and was not tampered with in transit.
-
----
-
-## 1. What is a MAC?
-
-A **Message Authentication Code** is a fixed-size tag/checksum generated from:
-
-```
-Message (M)  +  Secret Key (K)  →  MAC Algorithm  →  MAC Tag
-```
-
-It answers two questions at the receiver's end:
-- **Did this message come from who I think it did?** (Authentication)
-- **Was this message modified in transit?** (Integrity)
-
----
-
-## 2. How it Works — Step by Step
-
-### Sender Side
-```
-┌─────────────┐     ┌───────────┐     ┌──────────────┐
-│  Message M  │──►  │    MAC    │◄──  │  Secret Key  │
-└─────────────┘     │ Algorithm │     │      K       │
-                    └─────┬─────┘     └──────────────┘
-                          │
-                          ▼
-                    ┌───────────┐
-                    │  MAC Tag  │  ← appended to message
-                    └───────────┘
-
-Sender transmits:  [ Message M ]  +  [ MAC Tag ]
-```
-
-### Receiver Side
-```
-Received:  [ Message M' ]  +  [ MAC Tag (received) ]
-
-┌──────────────┐     ┌───────────┐     ┌──────────────┐
-│ Message M'   │──►  │    MAC    │◄──  │  Secret Key  │
-└──────────────┘     │ Algorithm │     │      K       │
-                     └─────┬─────┘     └──────────────┘
-                           │
-                           ▼
-                   [ MAC Tag (computed) ]
-                           │
-                           ▼
-          ┌────────────────────────────────┐
-          │  computed tag == received tag? │
-          └────────────────┬───────────────┘
-                 ┌─────────┴──────────┐
-                YES                   NO
-                 │                    │
-                 ▼                    ▼
-          ✅ ACCEPT               ❌ REJECT
-      Message authentic         Message tampered
-      and unmodified            or wrong sender
-```
-
----
-
-## 3. Why is a Key Needed?
-
-This is the critical question. Why not just use a hash (like SHA-256) without a key?
-
-### Without a key — hash alone is NOT enough
-
-```
-Attacker intercepts:   [ Message M ]  +  [ Hash(M) ]
-
-Attacker modifies:     [ Message M* ]
-Attacker recomputes:   [ Hash(M*) ]     ← anyone can do this!
-
-Receiver gets:         [ Message M* ]  +  [ Hash(M*) ]
-Receiver checks:       Hash(M*) == Hash(M*)  →  ✅ PASS  ← WRONG! Attacker fooled receiver
-```
-
-A plain hash gives **no authentication** — anyone can recompute it after modifying the message.
-
-### With a secret key — attacker is blocked
-
-```
-Attacker intercepts:   [ Message M ]  +  [ MAC(K, M) ]
-
-Attacker modifies:     [ Message M* ]
-Attacker tries:        MAC(?, M*)  ← attacker does NOT have key K
-                                   ← cannot produce a valid tag
-
-Receiver gets:         [ Message M* ]  +  [ invalid/guessed tag ]
-Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacker caught!
-```
-
-### Why the key works — summary
-
-| | Hash only (no key) | MAC (with key) |
-|---|---|---|
-| Anyone can recompute? | ✅ Yes — attacker can too | ❌ No — needs secret key |
-| Detects tampering? | ❌ No | ✅ Yes |
-| Proves sender identity? | ❌ No | ✅ Yes (key holder only) |
-| Attacker can forge? | ✅ Easily | ❌ Computationally infeasible |
+|                         | Hash only (no key) | MAC (with key)                   |
+| ----------------------- | ------------------ | -------------------------------- |
+| Anyone can recompute?   | ✅ Yes             | ❌ No — needs secret key         |
+| Detects tampering?      | ❌ No              | ✅ Yes                           |
+| Proves sender identity? | ❌ No              | ✅ Yes (only key holder can tag) |
+| Attacker can forge?     | ✅ Easily          | ❌ Computationally infeasible    |
 
 > **The key is the proof of identity.** Only parties who hold K can produce a valid MAC tag. The key binds the tag to a specific group of trusted parties.
 
 ---
 
+### MAC Limitations (Interview Trap)
+
+| Property        | MAC                            | Digital Signature (Asymmetric)       |
+| --------------- | ------------------------------ | ------------------------------------ |
+| Authentication  | ✅ Yes (key holder only)       | ✅ Yes                               |
+| Integrity       | ✅ Yes                         | ✅ Yes                               |
+| Confidentiality | ❌ No                          | ❌ No (use encryption for this)      |
+| Non-repudiation | ❌ No — both parties share key | ✅ Yes — only sender has private key |
+
+> **Interview trap:** MAC does NOT provide non-repudiation. Since both sender and receiver hold the same key, either party could have generated the tag — you cannot prove in court which one created it. For non-repudiation, you need an **asymmetric digital signature**.
+
+---
+
+### Common MAC Algorithms
+
+| Algorithm   | Based on           | Notes                                                |
+| ----------- | ------------------ | ---------------------------------------------------- |
+| HMAC-SHA256 | Hash (SHA-256)     | Most widely used; used in JWT, TLS 1.2, API signing  |
+| HMAC-SHA512 | Hash (SHA-512)     | Stronger variant of HMAC                             |
+| CMAC        | Block cipher (AES) | Cipher-based MAC; used in some banking/IoT protocols |
+| GMAC        | AES-GCM            | Used inside AES-GCM for authenticated encryption     |
+
+> In practice, **HMAC-SHA256** is the default choice unless a specific protocol mandates otherwise.
+
+---
+
+## Quick Comparison: Symmetric vs Asymmetric
+
+| Property            | Symmetric                         | Asymmetric                             |
+| ------------------- | --------------------------------- | -------------------------------------- |
+| Keys                | Same key for encrypt + decrypt    | Public key encrypts, private decrypts  |
+| Speed               | Fast                              | Slow                                   |
+| Key count (N users) | N(N-1)/2 shared keys              | N key pairs only                       |
+| Key distribution    | Hard (needs secure channel first) | Easy (public key shared openly)        |
+| Authentication      | ❌ Not possible                   | ✅ Yes (digital signatures)            |
+| Non-repudiation     | ❌ Not possible                   | ✅ Yes                                 |
+| Use case            | Bulk data encryption              | Key exchange, signatures, certificates |
+| Examples            | AES, DES, Blowfish                | RSA, ECC, DSA                          |
