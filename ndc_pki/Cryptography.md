@@ -300,7 +300,7 @@ A **Message Authentication Code** is a fixed-size cryptographic tag generated fr
 - **Integrity** — was the message modified in transit?
 
 ```
-Message (M)  +  Secret Key (K)  →  MAC Algorithm  →  MAC Tag
+Message (M)  + (Symmetric) Secret Key (K)  -->  MAC Algorithm  -->  MAC Tag
 ```
 
 ---
@@ -310,15 +310,15 @@ Message (M)  +  Secret Key (K)  →  MAC Algorithm  →  MAC Tag
 #### Sender Side
 
 ```
-┌─────────────┐     ┌───────────┐     ┌──────────────┐
-│  Message M  │──►  │    MAC    │◄──  │  Secret Key  │
-└─────────────┘     │ Algorithm │     │      K       │
-                    └─────┬─────┘     └──────────────┘
-                          │
-                          ▼
-                    ┌───────────┐
-                    │  MAC Tag  │  ← appended to message
-                    └───────────┘
++-------------+     +-----------+     +--------------+
+|  Message M  |-->  |    MAC    |<--  |  Secret Key  |
++-------------+     | Algorithm |     |      K       |
+                    +-----+-----+     +--------------+
+                          |
+                          v
+                    +-----------+
+                    |  MAC Tag  |  <- appended to message
+                    +-----------+
 
 Sender transmits:  [ Message M ]  +  [ MAC Tag ]
 ```
@@ -328,25 +328,25 @@ Sender transmits:  [ Message M ]  +  [ MAC Tag ]
 ```
 Received:  [ Message M' ]  +  [ MAC Tag (received) ]
 
-┌──────────────┐     ┌───────────┐     ┌──────────────┐
-│ Message M'   │──►  │    MAC    │◄──  │  Secret Key  │
-└──────────────┘     │ Algorithm │     │      K       │
-                     └─────┬─────┘     └──────────────┘
-                           │
-                           ▼
++--------------+     +-----------+     +--------------+
+| Message M'   |-->  |    MAC    |<--  |  Secret Key  |
++--------------+     | Algorithm |     |      K       |
+                     +-----+-----+     +--------------+
+                           |
+                           v
                    [ MAC Tag (computed) ]
-                           │
-                           ▼
-          ┌────────────────────────────────┐
-          │  computed tag == received tag? │
-          └────────────────┬───────────────┘
-                 ┌─────────┴──────────┐
-                YES                   NO
-                 │                    │
-                 ▼                    ▼
-          ✅ ACCEPT               ❌ REJECT
-      Message authentic         Message tampered
-      and unmodified            or wrong sender
+                           |
+                           v
+          +----------------------------------+
+          |  computed tag == received tag?   |
+          +--------------+-------------------+
+                 +--------+--------+
+                YES                NO
+                 |                 |
+                 v                 v
+          [OK] ACCEPT         [X] REJECT
+      Message authentic       Message tampered
+      and unmodified          or wrong sender
 ```
 
 ---
@@ -359,10 +359,10 @@ Received:  [ Message M' ]  +  [ MAC Tag (received) ]
 Attacker intercepts:   [ Message M ]  +  [ Hash(M) ]
 
 Attacker modifies:     [ Message M* ]
-Attacker recomputes:   [ Hash(M*) ]     ← anyone can do this — no key required!
+Attacker recomputes:   [ Hash(M*) ]     <- anyone can do this — no key required!
 
 Receiver gets:         [ Message M* ]  +  [ Hash(M*) ]
-Receiver checks:       Hash(M*) == Hash(M*)  →  ✅ PASS  ← WRONG! Attacker fooled receiver
+Receiver checks:       Hash(M*) == Hash(M*)  -->  [OK] PASS  <- WRONG! Attacker fooled receiver
 ```
 
 A plain hash provides **no authentication** — anyone can recompute it after modifying the message.
@@ -373,21 +373,21 @@ A plain hash provides **no authentication** — anyone can recompute it after mo
 Attacker intercepts:   [ Message M ]  +  [ MAC(K, M) ]
 
 Attacker modifies:     [ Message M* ]
-Attacker tries:        MAC(?, M*)  ← attacker does NOT have key K
-                                   ← cannot produce a valid tag
+Attacker tries:        MAC(?, M*)  <- attacker does NOT have key K
+                                   <- cannot produce a valid tag
 
 Receiver gets:         [ Message M* ]  +  [ invalid/guessed tag ]
-Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacker caught!
+Receiver checks:       MAC(K, M*) != received tag  -->  [X] REJECT  <- Attacker caught!
 ```
 
 #### Summary Table
 
-|                         | Hash only (no key) | MAC (with key)                   |
-| ----------------------- | ------------------ | -------------------------------- |
-| Anyone can recompute?   | ✅ Yes             | ❌ No — needs secret key         |
-| Detects tampering?      | ❌ No              | ✅ Yes                           |
-| Proves sender identity? | ❌ No              | ✅ Yes (only key holder can tag) |
-| Attacker can forge?     | ✅ Easily          | ❌ Computationally infeasible    |
+|                         | Hash only (no key) | MAC (with key)                |
+| ----------------------- | ------------------ | ----------------------------- |
+| Anyone can recompute?   | Yes                | No — needs secret key         |
+| Detects tampering?      | No                 | Yes                           |
+| Proves sender identity? | No                 | Yes (only key holder can tag) |
+| Attacker can forge?     | Easily             | Computationally infeasible    |
 
 > **The key is the proof of identity.** Only parties who hold K can produce a valid MAC tag. The key binds the tag to a specific group of trusted parties.
 
@@ -395,12 +395,12 @@ Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacke
 
 ### MAC Limitations (Interview Trap)
 
-| Property        | MAC                            | Digital Signature (Asymmetric)       |
-| --------------- | ------------------------------ | ------------------------------------ |
-| Authentication  | ✅ Yes (key holder only)       | ✅ Yes                               |
-| Integrity       | ✅ Yes                         | ✅ Yes                               |
-| Confidentiality | ❌ No                          | ❌ No (use encryption for this)      |
-| Non-repudiation | ❌ No — both parties share key | ✅ Yes — only sender has private key |
+| Property        | MAC                         | Digital Signature (Asymmetric)    |
+| --------------- | --------------------------- | --------------------------------- |
+| Authentication  | Yes (key holder only)       | Yes                               |
+| Integrity       | Yes                         | Yes                               |
+| Confidentiality | No                          | No (use encryption for this)      |
+| Non-repudiation | No — both parties share key | Yes — only sender has private key |
 
 > **Interview trap:** MAC does NOT provide non-repudiation. Since both sender and receiver hold the same key, either party could have generated the tag — you cannot prove in court which one created it. For non-repudiation, you need an **asymmetric digital signature**.
 
@@ -419,6 +419,148 @@ Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacke
 
 ---
 
+## 4. Digital Signatures
+
+### Definition
+
+A **Digital Signature** is a cryptographic mechanism that uses **asymmetric key cryptography**
+to bind a sender's identity to a message or document. It is the digital equivalent of a
+handwritten signature or stamped seal — but far more secure, because it is mathematically
+tied to both the **content of the message** and the **sender's private key**.
+
+A digital signature guarantees three security properties:
+
+| Property            | Meaning                                                                   |
+| ------------------- | ------------------------------------------------------------------------- |
+| **Integrity**       | The message was not altered after signing                                 |
+| **Authentication**  | The message came from the claimed sender (only they hold the private key) |
+| **Non-repudiation** | The sender cannot deny having signed — only their private key could sign  |
+
+> A digital signature does **NOT** provide confidentiality — it does not encrypt the message.
+> To also achieve confidentiality, encrypt the document separately (e.g. with the receiver's public key).
+
+---
+
+> A **digital signature** provides **Integrity + Authentication + Non-repudiation**
+> using **asymmetric cryptography** (private key signs, public key verifies).
+
+### Roles
+
+| Label | Role            |
+| ----- | --------------- |
+| A     | Sender          |
+| B     | Attacker / MITM |
+| C     | Receiver        |
+
+---
+
+### Step 1 — Key Setup
+
+```
+A generates an asymmetric key pair:
+
+  +----------------+       +-----------------+
+  |  Private Key   |       |   Public Key    |
+  |  (A keeps it)  |       |  (sent to C     |
+  |                |       |   openly / PKI) |
+  +----------------+       +-----------------+
+```
+
+> **A keeps the private key secret. The public key is shared with C (and anyone else).**
+
+---
+
+### Step 2 — Sender Side (Creating the Digital Signature)
+
+```
++------------------+
+|   Document M     |
++--------+---------+
+         |
+         v
++------------------+
+|    Hash(M)       |  <- e.g. SHA-256 of the document
++--------+---------+
+         |
+         v  Encrypt with A's PRIVATE KEY
++----------------------+
+|  Digital Signature   |  <- Encrypted hash
++----------------------+
+         |
+         v
+Sender transmits:  [ Document M ]  +  [ Digital Signature ]
+```
+
+---
+
+### Step 3 — Receiver Side (Verifying the Signature)
+
+```
+Received:  [ Document M' ]  +  [ Digital Signature ]
+
+Step 1 — Extract & decrypt signature using A's PUBLIC KEY:
+  Digital Signature  -->  Decrypt(Public Key)  -->  Hash_original
+
+Step 2 — Compute hash of received document:
+  Document M'  -->  Hash(M')  -->  Hash_computed
+
+Step 3 — Compare:
+  +---------------------------------------+
+  |  Hash_original  ==  Hash_computed?    |
+  +--------------+------------------------+
+         +-------+--------+
+        YES               NO
+         |                |
+         v                v
+   [OK] VALID         [X] INVALID
+   Signature OK       Tampered or wrong sender
+```
+
+---
+
+### Step 4 — What Can Attacker B Do?
+
+| Action by B                          | Result                                           |
+| ------------------------------------ | ------------------------------------------------ |
+| Read the document in transit         | Yes — document is NOT encrypted by default       |
+| Modify the document (M --> M\*)      | Detected — Hash(M\*) != Hash_original --> REJECT |
+| Forge a new valid signature          | No — B does not have A's private key             |
+| Replace signature with own signature | Detected — C verifies only with A's public key   |
+
+> **Key insight:** B can _read_ the document (signatures provide no confidentiality).
+> B _cannot_ tamper undetected — any change to M invalidates the signature.
+> For confidentiality, encrypt the document separately (e.g. with C's public key).
+
+---
+
+### Digital Signature vs MAC — Interview Trap
+
+| Property        | MAC (Symmetric Key)             | Digital Signature (Asymmetric)         |
+| --------------- | ------------------------------- | -------------------------------------- |
+| Key used        | Shared secret key               | Private key signs, public key verifies |
+| Authentication  | Yes (key holder only)           | Yes                                    |
+| Integrity       | Yes                             | Yes                                    |
+| Non-repudiation | No — both parties hold same key | Yes — only sender has private key      |
+| Confidentiality | No                              | No                                     |
+| Speed           | Fast                            | Slow                                   |
+
+> **Non-repudiation only comes from digital signatures — not from MAC.**
+> In MAC, both sender and receiver hold the same key — either could have generated the tag,
+> making it unprovable in court who actually sent the message.
+
+---
+
+### Common Digital Signature Algorithms
+
+| Algorithm | Notes                                              |
+| --------- | -------------------------------------------------- |
+| RSA       | Sign with private key, verify with public key      |
+| DSA       | Signing only (no encryption); FIPS standard        |
+| ECDSA     | ECC-based DSA; smaller keys, faster, same strength |
+| EdDSA     | Modern ECC variant (Ed25519); used in SSH, TLS 1.3 |
+
+---
+
 ## Quick Comparison: Symmetric vs Asymmetric
 
 | Property            | Symmetric                         | Asymmetric                             |
@@ -427,7 +569,20 @@ Receiver checks:       MAC(K, M*) ≠ received tag  →  ❌ REJECT  ← Attacke
 | Speed               | Fast                              | Slow                                   |
 | Key count (N users) | N(N-1)/2 shared keys              | N key pairs only                       |
 | Key distribution    | Hard (needs secure channel first) | Easy (public key shared openly)        |
-| Authentication      | ❌ Not possible                   | ✅ Yes (digital signatures)            |
-| Non-repudiation     | ❌ Not possible                   | ✅ Yes                                 |
+| Authentication      | Not possible                      | Yes (digital signatures)               |
+| Non-repudiation     | Not possible                      | Yes                                    |
 | Use case            | Bulk data encryption              | Key exchange, signatures, certificates |
 | Examples            | AES, DES, Blowfish                | RSA, ECC, DSA                          |
+
+============================================================================================================================================================
+
+ca
+
+if issuer and subject is same then self signed
+
+highracy
+root ca(certificate (selfsigned)) certificate signing request(csr)
+|**\_> sub ca (privatekey certificate signing request(csr) certificate(sub ca)
+|**> web (private key certificate signing request(csr) certificate(www))
+
+root ca create the selfsigned because now on is above
