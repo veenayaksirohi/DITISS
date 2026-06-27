@@ -76,7 +76,7 @@ So, the **host machine performs the NAT function** for the virtual machines.
 
 ## Ways to Install Packages in Linux
 
-### 1\. Binary Package Installation (.deb / .rpm)
+### 1. Binary Package Installation (.deb / .rpm)
 
 - Pre-compiled software package (already converted to binary).
 - No source code compilation is required.
@@ -89,9 +89,9 @@ sudo apt install ./package.deb
 sudo dpkg -i package.deb
 ```
 
-\---
+---
 
-### 2\. Package Manager Installation
+### 2. Package Manager Installation
 
 - Uses package managers such as **APT, DNF, YUM, Snap**, or **Flatpak**.
 - Automatically downloads and installs required dependencies.
@@ -104,9 +104,9 @@ sudo apt install <package>
 sudo snap install <package>
 ```
 
-\---
+---
 
-### 3\. Source Code Installation
+### 3. Source Code Installation
 
 - Software is installed from its source code.
 
@@ -175,7 +175,7 @@ Where:
 ## Local Repository Example
 
 ```bash
-deb \[trusted=1] <local-repository-url> bookworm main
+deb [trusted=1] <local-repository-url> bookworm main
 ```
 
 Where:
@@ -183,7 +183,7 @@ Where:
 - **local-repository-url** -> Local repository location
 - **bookworm** -> Debian 12 codename
 - **main** -> Repository component
-- **\[trusted=1]** -> Tells APT to trust the local repository
+- **[trusted=1]** -> Tells APT to trust the local repository
 
 ## Typical `sources.list` Entries
 
@@ -191,7 +191,7 @@ Where:
 deb <repository-url> bookworm main
 deb <security-repository-url> bookworm-security main
 deb <repository-url> bookworm-updates main
-deb \[trusted=1] <local-repository-url> bookworm main
+deb [trusted=1] <local-repository-url> bookworm main
 ```
 
 ## Thumb Rule
@@ -219,9 +219,9 @@ bookworm = Debian 12 codename
 main = repository component
 
 Local repo:
-deb \[trusted=1] <local-repository-url> bookworm main
+deb [trusted=1] <local-repository-url> bookworm main
 
-\[trusted=1] is used to trust the local repository.
+[trusted=1] is used to trust the local repository.
 
 Thumb Rule:
 After every change in sources.list, run:
@@ -289,38 +289,91 @@ Output: 0
 - No direct access to the external network or Internet.
 - Useful for isolated lab environments.
 
-\---
+---
 
-## 🔐 Hashing (Quick Reference)
+## Hashing (Quick Reference)
 
 **Hashing** = One-way conversion of data into fixed-length "garbage" form that **cannot be reversed** (unlike encryption).
 
 ### Common Hashing Algorithms
 
-| Algorithm   | Status         | Use Case                   |
-| ----------- | -------------- | -------------------------- |
-| **MD5**     | ❌ Broken      | File checksums only        |
-| **SHA-1**   | ❌ Broken      | Deprecated                 |
-| **SHA-256** | ✅ Secure      | Passwords, TLS, Blockchain |
-| **SHA-512** | ✅ Secure      | High-security apps         |
-| **SHA-3**   | ✅ Most modern | Future-proof apps          |
+| Algorithm   | Status      | Use Case                   |
+| ----------- | ----------- | -------------------------- |
+| **MD5**     | Broken      | File checksums only        |
+| **SHA-1**   | Broken      | Deprecated                 |
+| **SHA-256** | Secure      | Passwords, TLS, Blockchain |
+| **SHA-512** | Secure      | High-security apps         |
+| **SHA-3**   | Most modern | Future-proof apps          |
 
 ### Key Points
 
-- **One-way** → Cannot reverse to original data
-- **Fixed output** → Same length regardless of input size
-- **Deterministic** → Same input = same hash
-- **Fast** → Computationally efficient
+- **One-way** -> Cannot reverse to original data
+- **Fixed output** -> Same length regardless of input size
+- **Deterministic** -> Same input = same hash
+- **Fast** -> Computationally efficient
 
 ### Best Practices (2026)
 
-- ✅ **For passwords:** Use **Argon2** or **bcrypt** + **salting**
-- ✅ **For data integrity:** Use **SHA-256** or **SHA-512**
-- ❌ **Avoid:** MD5, SHA-1 (vulnerable)
+- Use **Argon2** or **bcrypt** + **salting** for passwords
+- Use **SHA-256** or **SHA-512** for data integrity
+- Avoid MD5 and SHA-1 because they are vulnerable
 
-\---
+---
 
 ## `127.0.0.1` vs `localhost`
 
 - `127.0.0.1` is the IPv4 loopback address.
 - `localhost` is a hostname that usually resolves to `127.0.0.1` or `::1` depending on the system.
+
+# UAC - User Account Control (Windows)
+
+> **Tag:** OS Security · Windows · Privilege Control
+
+---
+
+## What is UAC?
+
+Windows security feature that **blocks unauthorized system changes** by prompting for consent or admin credentials before any elevated action runs.
+Introduced in **Windows Vista** - present in all versions since.
+
+---
+
+## How it Works
+
+```text
+App requests elevated action
+          |
+          v
+    UAC Intercepts
+    +-------------+
+    v             v
+ Admin User   Std User
+ "Allow?"     "Enter admin
+               password"
+    |            |
+    +------------+
+          v
+   Elevated Process runs
+```
+
+---
+
+## UAC Levels
+
+| Level                             | Behaviour                            |
+| --------------------------------- | ------------------------------------ |
+| Always notify                     | Prompt for everything - most secure  |
+| **Notify when apps make changes** | **Default**                          |
+| Notify (no dim screen)            | Same, no secure desktop              |
+| Never notify                      | UAC off - dangerous                  |
+
+---
+
+## Key Concepts
+
+| Concept               | Meaning                                                           |
+| --------------------- | ----------------------------------------------------------------- |
+| **Split Token**       | Admin gets 2 tokens - standard (always) + elevated (UAC approved) |
+| **Secure Desktop**    | Screen dims on prompt - stops malware auto-clicking Yes           |
+| **Consent Prompt**    | Admin user - just click Allow                                     |
+| **Credential Prompt** | Standard user - must type admin password                          |
