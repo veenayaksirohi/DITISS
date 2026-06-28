@@ -322,3 +322,80 @@ md5sum filename.txt
 | SHA-512   | 512-bit                | ✅ Strongest              |
 
 > **Interview point:** Hashing ≠ Encryption. Hashing is one-way; encryption is two-way.
+
+snort on the linux
+
+install dependinsies
+
+sudo apt-get update
+
+sudo apt-get install -y \
+ bison \
+ ca-certificates \
+ flex \
+ g++ \
+ gcc \
+ libdumbnet-dev \
+ libluajit-5.1-dev \
+ libnghttp2-dev \
+ libpcap-dev \
+ libpcre3-dev \
+ make \
+ openssl \
+ wget \
+ zlib1g-**dev**
+
+instll data acizioation library (daq)
+ldconfig
+ldconfig -p | grep daq
+
+install snort
+
+run snort
+packet capturing mode
+Sniffer Mode
+
+createh soft link
+
+ln -s /user/include/tripc/netconfig.h /usr/include/
+
+/user src / snort \_src
+
+congif
+make
+mke insTALL
+
+sudo garoupadd snort
+sud USERA add snprt -r -s /user/sbin/nologin -csnort_ide -g snort
+
+sudo mkdir -P /etc/smort /rules
+sudo mkdir /var/log/snort
+sudo mkdir /usr/llcal/lib/snort_dynamicrules
+
+sudo cp /user/serc/snprt*src/snort=2.9.20/etc/*.conf* /etc/snort
+sudo cp /user/serc/snprt_src/snort=2.9.20/etc/*.map\_ /etc/snort
+
+sudo touch /etc/snort/rules/white_list.rules
+sudo touch /etc/snort/rules/black_list.rules
+sudo touch /etc/snort/rules/local.rules
+
+sudp chmod -R 5775 /etc/snort
+chmod -R 5775 /var/log/snort
+
+sudo chmod -R 5775 /usr/local/lib/snort_dynamicrules/
+chown -R snort:snort /etc/snort
+chown -R snort:snort /var/log/snort
+chown -R snort:snort /usr/local/lib/snort_dynamicrules
+
+etc/snort/snort.conf
+
+var white_list_path /etc/snort/rules
+var black_list_pat /etc/snort/rules
+
+## --
+
+## =-
+
+sudo snort
+
+sudo snort -i ens33 -u snort -g snort -c /etc/snort/snort.conf -A console
