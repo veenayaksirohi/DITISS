@@ -17,6 +17,8 @@
 - Permission notation: symbolic (`rwx`) and octal (`755`, `644`)
 - `chmod`, `chown`, `chgrp` — syntax and recursive use
 - Special bits: **SUID** (4), **SGID** (2), **Sticky bit** (1) — use cases and risks
+- Sticky bit on shared directories like `/tmp` — only file owner/root can delete or rename files
+- `umask` — default permission mask for newly created files/directories; `umask 022` is a common default
 - ACL (`setfacl`, `getfacl`) vs traditional permissions — when ACL is needed
 - `mask` entry in ACL — effective permission limiter
 - World-writable files (`777`) — exploitation risk, `find / -perm -o+w`
@@ -328,7 +330,7 @@ Header always set X-Frame-Options "DENY"
 
 | Session | Topics |
 |---------|--------|
-| 1–2 | Linux intro, filesystem hierarchy, core commands, permissions, ACLs, network commands |
+| 1–2 | Linux intro, filesystem hierarchy, core commands, hard/soft links, permissions, sticky bit, `umask`, ACLs, network commands |
 | 3–4 | Installation, boot process, GRUB, initramfs, runlevels/targets, RPM & DEB package management |
 | 5 | Kickstart unattended install, user administration |
 | 6 | IPv4/IPv6 network config, SSH, VNC, network authentication |
