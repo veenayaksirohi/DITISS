@@ -1,0 +1,181 @@
+By default, the adb.exe file for Android Studio on Windows is located at:
+C:\Users\<Your-Username>\AppData\Local\Android\Sdk\platform-tools\
+
+You can easily copy and paste %LOCALAPPDATA%\Android\Sdk\platform-tools into your Windows File Explorer address bar to jump straight to the folder.
+-----------------------------------------------------------------------------------
+
+Step-by-Step Guide to Root an AVD with rootAVD
+
+1. Set up Android Studio and AVD:
+	- Install Android Studio.
+	- Open Device Manager (Tools → Device Manager) and create/start an AVD (preferably x86_64 with Google Play Store APIs).
+	- Ensure Android SDK Platform-Tools (for adb) is installed via SDK Manager.
+
+2. Download rootAVD:
+
+git clone https://gitlab.com/newbit/rootAVD.git
+cd rootAVD/
+
+3. List available AVD images:
+
+./rootAVD.sh ListAllAVDs   # Linux/macOS
+# or
+rootAVD.bat ListAllAVDs    # Windows
+
+This shows the exact path to your AVD's ramdisk.img (or ramdisk-qemu.img for some images).
+
+4. Root the running AVD:
+
+ - Keep the emulator running.
+ - Run the command for your specific image (example for API 33/34 x86_64):
+ 	rootAVD.bat system-images/android-33/google_apis_playstore/x86_64/ramdisk.img
+The script will:
+- Download/install a Magisk version (you can choose Stable/Canary/Alpha).
+- Patch the ramdisk.
+- Optionally install apps from the Apps/ folder.
+- Create backups of original files.
+
+5. Restart the emulator:	
+ - Close the emulator completely.
+ - In Android Studio Device Manager, select Cold Boot (important for the patches to take effect).
+
+6. Verify root:
+ - Open Magisk app in the emulator (it should be pre-installed).
+ - Run adb shell and type su — you should get root shell (# prompt). 
+
+
+
+
+root the emulater devise
+
+visit and download 
+
+vist:https://gitllabs.com/newbit/rootAVD
+
+dowenlid the zip file 
+
+uzip it 
+
+
+
+cd rootAVD-master 
+
+./rootAVD.bat listallavds (give the cmd to to rooting accordin the the api level)
+
+run the first cmd 
+
+like ./rootADV 
+
+
+after this u will the new application called majist
+
+
+open this 
+
+like on ok 
+
+
+
+after 2nd rebot 
+
+open magisk
+
+go to settings 
+
+enable option - zygisk 
+
+
+reboot the device 
+
+
+
+run the cmd 
+
+adv device
+
+adv shell
+
+su -
+
+in devide click the grant 
+
+
+
+application reverseencgring 
+```````````````````````````````
+
+GitHub.com/skylot/jadx
+
+
+
+go to relises ,  install the latest (jadx-gui-with-jre-win)
+
+
+
+run as admin 
+
+
+
+
+
+vulnerability
+```````````````
+
+sensitive info leak leads to pii personaly identitying info 
+
+
+
+hardcoded creds/api/token
+
+
+1) google map api leak:
+```````````````````````
+low
+
+search for it  
+1 downlaod apk from the mobile device
+2 open apk in the jxgui
+3 go to resources 
+4 go to resourese.arsc
+5 go to res 
+6 go to values 
+7  go to strings.xml file 
+
+search for the google_api_key
+
+
+https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=2500x2500&maptype=roadmap&key=YOUR_API_KEY
+
+
+2) firebase database leak:
+``````````````````````````
+criticical 
+
+
+some times api keys are hardcoded in the AndroidManifest.xml  file in metadata tag 
+
+
+go to resourse -> resource.arsc -> res -> values -> strings.xml [search for firebaseio]
+
+
+put ./json after the url of firebase
+
+https:/app_name.firebase.io/.json
+
+
+
+	
+````````````
+read firebase database
+`````````````````
+curl -ks "https://firebaseProjectName.firebaseio.com/.json"
+
+
+````````````
+write in the firebase database
+``````````````````````````````
+
+vim data.json(wite all the data in this file)
+
+
+curl -ks "https://firebaseProjectName.firebaseio.com/.json" -X PUT -d '@data.json'

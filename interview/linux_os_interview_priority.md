@@ -177,6 +177,18 @@ Header always set X-Frame-Options "DENY"
 
 ---
 
+### 12. Interprocess Communication (IPC)
+- IPC meaning: processes sharing data and synchronizing their actions
+- Pipes and named pipes (FIFO) — one-way communication between processes
+- Signals — `kill`, `pkill`, `SIGTERM`, `SIGKILL`, `SIGINT`, `SIGCHLD`
+- Shared memory — fast data exchange, needs synchronization
+- Semaphores — mutual exclusion and coordination
+- Message queues — structured messaging between processes
+- Sockets — local and network-based communication
+- `ps`, `ipcs`, `ipcrm`, `lsof` — useful IPC/process inspection commands
+
+---
+
 ## 🟠 PRIORITY 2 — IMPORTANT (Frequently Asked)
 
 ### 12. Patch & Update Management
@@ -339,19 +351,20 @@ Header always set X-Frame-Options "DENY"
 | 9 | Network implementation, print services (CUPS) |
 | 10 | Service management (`systemctl`), key system config files, NIS |
 | 11 | Patch management, system tuning, X server config |
-| 12 | DNS configuration (BIND9, named, zone files) |
-| 13 | NFS server, FTP server (`vsftpd`) |
-| 14 | Samba, DHCP server, DNS server combined |
-| 15 | Apache web server, virtual hosting, Squid proxy |
-| 16 | Postfix (SMTP), Dovecot (IMAP/POP3), SquirrelMail |
-| 17 | Performance tuning, troubleshooting, Linux threat model |
-| 18 | Basic service security, logging (`rsyslog`), NTP, BIND security |
-| 19 | LDAP, NIS, Apache clustering, load balancing, NTP server |
-| 20 | VM management, VM network configuration |
-| 21–22 | Bash scripting — CLI, control structures, loops, variables, regex |
-| 23 | Bash automation, security patch scripting |
-| 24 | Logging & monitoring via bash scripts |
-| 25 | Case studies, forensic log analysis, automation as attack vector |
+| 12 | IPC — pipes, signals, shared memory, semaphores, message queues, sockets |
+| 13 | DNS configuration (BIND9, named, zone files) |
+| 14 | NFS server, FTP server (`vsftpd`) |
+| 15 | Samba, DHCP server, DNS server combined |
+| 16 | Apache web server, virtual hosting, Squid proxy |
+| 17 | Postfix (SMTP), Dovecot (IMAP/POP3), SquirrelMail |
+| 18 | Performance tuning, troubleshooting, Linux threat model |
+| 19 | Basic service security, logging (`rsyslog`), NTP, BIND security |
+| 20 | LDAP, NIS, Apache clustering, load balancing, NTP server |
+| 21 | VM management, VM network configuration |
+| 22–23 | Bash scripting — CLI, control structures, loops, variables, regex |
+| 24 | Bash automation, security patch scripting |
+| 25 | Logging & monitoring via bash scripts |
+| 26 | Case studies, forensic log analysis, automation as attack vector |
 
 ---
 
