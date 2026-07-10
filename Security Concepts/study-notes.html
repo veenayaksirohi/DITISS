@@ -50,10 +50,20 @@ body {
   min-height: 100vh;
 }
 #progress-bar {
-  position: fixed; top: 0; left: 0; height: 2px;
+  position: fixed; top: 0; left: 0; height: 4px;
   background: var(--accent);
   width: 0%; z-index: 9999;
-  transition: width 0.1s linear;
+  transition: width 0.15s linear;
+}
+#progress-label {
+  position: fixed; top: 6px; right: 14px; z-index: 9999;
+  font-family: var(--font-code); font-size: 0.65rem;
+  color: var(--accent); background: var(--paper);
+  border: 1px solid var(--accent-bd); border-radius: 20px;
+  padding: 2px 9px; letter-spacing: .04em;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 #sidebar {
   position: fixed; top: 0; left: 0;
@@ -381,6 +391,7 @@ mark {
 </head>
 <body>
 <div id="progress-bar"></div>
+<div id="progress-label">0% Read</div>
 <button id="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button>
 <nav id="sidebar">
   <div id="sidebar-header">
@@ -12849,11 +12860,18 @@ Conclusion: Malware stealing user data → Report and remove
   // active TOC highlight + progress bar
   const sections = Array.from(document.querySelectorAll('#main section[id]'));
   const tocItems = Array.from(document.querySelectorAll('.toc-item'));
+  const progressLabel = document.getElementById('progress-label');
+  let labelTimer = null;
   function onScroll() {
     const doc = document.documentElement;
     const scrollTop = doc.scrollTop || document.body.scrollTop;
     const scrollHeight = (doc.scrollHeight || document.body.scrollHeight) - doc.clientHeight;
-    document.getElementById('progress-bar').style.width = (scrollHeight > 0 ? (scrollTop/scrollHeight*100) : 0) + '%';
+    const pct = scrollHeight > 0 ? Math.round(scrollTop / scrollHeight * 100) : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+    progressLabel.textContent = pct + '% Read';
+    progressLabel.style.opacity = '1';
+    clearTimeout(labelTimer);
+    labelTimer = setTimeout(() => { progressLabel.style.opacity = '0'; }, 1800);
     let current = null;
     for (const sec of sections) {
       const rect = sec.getBoundingClientRect();
