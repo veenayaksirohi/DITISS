@@ -1,0 +1,193 @@
+{
+  "main": {
+    "id": "1ba03547c298a5be",
+    "type": "split",
+    "children": [
+      {
+        "id": "d8f206c0440b535e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "da83830aad4758ea",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "interview/Cybersecurity Interview Questions.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Cybersecurity Interview Questions"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "8451232e7f6adee5",
+    "type": "split",
+    "children": [
+      {
+        "id": "b475464e30c4c9b3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "806ab84a2819f727",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "60ff4f1152bf3f13",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "f00aa437d03d4eba",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "480352fdaaee7e84",
+    "type": "split",
+    "children": [
+      {
+        "id": "03d7b8ae046b8ca0",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f78c72de32a4ab83",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "interview/Cybersecurity Interview Questions.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Cybersecurity Interview Questions"
+            }
+          },
+          {
+            "id": "2d91862f5602576e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "interview/Cybersecurity Interview Questions.pdf",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Cybersecurity Interview Questions"
+            }
+          },
+          {
+            "id": "55cd92295665a141",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "9ec890061b66d2d6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "edc12ad328be8285",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "interview/Cybersecurity Interview Questions.pdf",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Cybersecurity Interview Questions"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "da83830aad4758ea",
+  "lastOpenFiles": [
+    "interview/Interview_Questions.pdf",
+    "interview/user-kernel-space-notes.md",
+    "interview/tcp-ip.md",
+    "interview/capgemini.pdf",
+    "interview/PG-DITISS-RapidFire.pdf",
+    "interview/Randoem.md"
+  ]
+}
