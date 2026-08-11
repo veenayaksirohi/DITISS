@@ -10,6 +10,7 @@
 
 - [x] FHS layout — `/etc`, `/var`, `/home`, `/proc`, `/tmp`, `/usr`, `/bin`
 - [x] FHS details — `/boot`, `/dev`, `/lib`, `/media`, `/mnt`, `/opt`, `/sbin`, `/srv`, `/usr/local`
+- [ ] Linux file types — regular file, directory, symlink, block device, character device, FIFO, socket
 - [x] `ls`, `cp`, `mv`, `rm`, `cat`, `grep`, `find`, `diff`, `wc`, `sort`, `head`, `tail`
 - [x] Common command flags — `ls -lah`, `cp -rp`, `mv -i`, `rm -rf`, `grep -rn`, `find -type/-name/-size/-mtime/-exec`
 - [x] Archive/compression — `tar -czvf`/`-xzvf`, `gzip`, `gunzip`, `zip`, `unzip`, `zcat`

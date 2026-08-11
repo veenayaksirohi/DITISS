@@ -1,214 +1,62 @@
-# Linux File Hierarchy Structure (FHS) – Easy Notes
+# Linux File Hierarchy Structure (FHS) & File Types — Study Notes
 
-## 1. What is Linux File Hierarchy Structure?
+**Quick Revision Guide for Exam / Viva Prep**
 
-The **Linux File Hierarchy Structure**, also called **FHS (Filesystem Hierarchy Standard)**, defines how files and directories are organized in Linux.
+---
 
-In Linux:
+## 1. What is FHS?
+
+**FHS = Filesystem Hierarchy Standard.** It defines a standard layout for directories and their contents on Linux, so software and users know where to expect things (configs in one place, logs in another, etc.).
+
+Everything starts from the **root directory `/`** — all other directories branch out from it.
 
 ```text
 /
-├── bin
-├── boot
-├── dev
-├── etc
-├── home
-├── lib
-├── media
-├── mnt
-├── opt
-├── sbin
-├── srv
-├── tmp
-├── usr
-└── proc
-```
-
-Everything starts from the **root directory `/`**.
-
----
-
-# 2. `/` – Root Directory
-
-`/` is the topmost directory in Linux.
-
-All other directories exist under it.
-
-Example:
-
-```bash
-/
-├── home
-├── etc
-├── boot
-└── usr
-```
-
-Normally, only the **root user** can modify important files directly inside `/`.
-
-### Easy way to remember
-
-```text
-/ = Starting point of Linux filesystem
+├── bin      ├── lib     ├── proc
+├── boot     ├── media    ├── sbin
+├── dev      ├── mnt      ├── srv
+├── etc      ├── opt      ├── tmp
+├── home     ├── usr      ├── var
 ```
 
 ---
 
-# 3. `/bin` – Essential Commands
+## 2. Core FHS Directories
 
-`/bin` contains important command programs required by users and the system.
+### `/` — Root Directory
 
-Examples:
-
-```bash
-ls
-cp
-ping
-grep
-ps
-kill
-```
-
-These commands can be used by normal users as well.
-
-### Example
-
-```bash
-/bin/ls
-```
-
-### Easy way to remember
+- Topmost directory; everything else lives under it.
+- Only **root user** can normally modify files directly inside `/`.
 
 ```text
-/bin = Basic binary commands
+/ = Starting point of the entire Linux filesystem
 ```
 
 ---
 
-# 4. `/boot` – Boot Files
+### `/etc` — Configuration Files
 
-`/boot` contains files needed to start Linux.
-
-It contains things such as:
-
-- Linux kernel files
-- GRUB bootloader files
-- initrd files
-
-Examples:
+System-wide config files for users, network, services, and applications.
 
 ```text
-vmlinuz
-initrd.img
-grub
-```
-
-### Easy way to remember
-
-```text
-/boot = Files used to boot/start Linux
-```
-
----
-
-# 5. `/dev` – Device Files
-
-`/dev` contains files representing hardware devices.
-
-Linux treats hardware devices like files.
-
-Examples:
-
-```text
-/dev/sda
-/dev/sda1
-/dev/tty1
-```
-
-Devices can include:
-
-- Hard disks
-- USB devices
-- Terminals
-- Speakers
-- Microphones
-
-### Example
-
-```text
-/dev/sda1
-```
-
-may represent a disk partition.
-
-### Easy way to remember
-
-```text
-/dev = Devices
-```
-
----
-
-# 6. `/etc` – Configuration Files
-
-`/etc` contains system-wide configuration files.
-
-It stores configuration for:
-
-- Users
-- Networks
-- Services
-- Applications
-- System settings
-
-Examples:
-
-```text
-/etc/passwd
-/etc/resolv.conf
+/etc/passwd        # user account info
+/etc/resolv.conf   # DNS resolver config
 /etc/logrotate.conf
 ```
 
-### Easy way to remember
-
 ```text
-/etc = System configuration
+/etc = System configuration ("editable text configs")
 ```
 
 ---
 
-# 7. `/home` – User Home Directories
+### `/home` — User Home Directories
 
-`/home` contains personal directories of normal users.
-
-For example, if the username is:
+Personal directories for **normal (non-root) users** — Documents, Downloads, personal settings.
 
 ```text
-veenay
-```
-
-the home directory can be:
-
-```text
-/home/veenay
-```
-
-Users normally store their:
-
-- Documents
-- Downloads
-- Personal files
-- User settings
-
-inside their home directory.
-
-### Example
-
-```bash
 /home/veenay/Documents
 ```
-
-### Easy way to remember
 
 ```text
 /home = Normal users' personal files
@@ -216,20 +64,141 @@ inside their home directory.
 
 ---
 
-# 8. `/lib` – Libraries
+### `/var` — Variable Data
 
-`/lib` contains important shared libraries required by programs.
+Contains data that **changes/grows constantly** while the system runs — the opposite of static config files.
 
-Programs stored in directories such as `/bin` may depend on these libraries.
+| Subdirectory | Contains                                            |
+| ------------ | --------------------------------------------------- |
+| `/var/log`   | System & application log files                      |
+| `/var/spool` | Print/mail queues, cron jobs waiting to run         |
+| `/var/cache` | Cached data from applications                       |
+| `/var/www`   | Web server content (common on many distros)         |
+| `/var/lib`   | Persistent application state/data (e.g., databases) |
 
-Examples:
+```bash
+tail -f /var/log/syslog     # very common real-world command
+```
+
+```text
+/var = Variable — data that keeps changing (logs, mail, cache)
+```
+
+🔴 **Exam Trap:** `/etc` = static configuration (rarely changes), `/var` = dynamic/growing data (changes constantly). Interviewers love this contrast question.
+
+---
+
+### `/proc` — Process & System Information
+
+A **virtual/pseudo filesystem** — not real files stored on disk. It's generated live by the kernel to expose info about running processes, CPU, memory, uptime, etc.
+
+```text
+/proc/1234        # info for process with PID 1234
+/proc/meminfo     # memory info
+/proc/uptime      # system uptime
+/proc/cpuinfo     # CPU details
+```
+
+```text
+/proc = Live process & kernel info (not real disk files)
+```
+
+---
+
+### `/tmp` — Temporary Files
+
+Temporary files created by programs/users. May be **auto-cleared** on reboot.
+
+```text
+/tmp/test.txt
+```
+
+🟠 **Note:** `/tmp` is world-writable by design, but protected by the **Sticky Bit** — only the file's owner (or root) can delete/rename files inside it, even though anyone can create files there.
+
+```text
+/tmp = Temporary, short-lived data
+```
+
+---
+
+### `/usr` — User Programs & Utilities
+
+Holds the bulk of installed programs, libraries, and documentation (despite the name, NOT user home data — that's `/home`).
+
+| Subdirectory | Contains                                                          |
+| ------------ | ----------------------------------------------------------------- |
+| `/usr/bin`   | Most user commands (`awk`, `less`, `scp`)                         |
+| `/usr/sbin`  | Admin commands (`sshd`, `cron`, `useradd`)                        |
+| `/usr/lib`   | Libraries used by `/usr/bin` & `/usr/sbin` programs               |
+| `/usr/local` | Software installed manually/from source (not via package manager) |
+| `/usr/src`   | Kernel source code, headers                                       |
+
+```text
+/usr = User-space applications & utilities (the "big library" of installed software)
+```
+
+🔴 **Exam Trap:** Don't confuse `/usr` (programs) with `/home` (personal user files) — a very common beginner mix-up.
+
+---
+
+### `/bin` — Essential User Commands
+
+Basic commands needed by **all users**, available even in minimal/recovery mode.
+
+```bash
+ls, cp, ping, grep, ps, kill
+```
+
+```text
+/bin = Basic binary commands
+```
+
+> 💡 On modern distros, `/bin` is often just a **symlink** to `/usr/bin` (merged-usr layout).
+
+---
+
+## 3. Other Important FHS Directories
+
+### `/boot` — Boot Files
+
+Files needed to **start Linux** — kernel, bootloader, initial RAM disk.
+
+```text
+vmlinuz      # Linux kernel image
+initrd.img   # Initial RAM disk
+grub/        # GRUB bootloader files
+```
+
+```text
+/boot = Files used to boot/start Linux
+```
+
+---
+
+### `/dev` — Device Files
+
+Linux treats hardware as files. `/dev` holds these device representations.
+
+```text
+/dev/sda      # first hard disk
+/dev/sda1     # first partition on that disk
+/dev/tty1     # terminal
+```
+
+```text
+/dev = Devices (disks, USB, terminals, mic, speakers)
+```
+
+---
+
+### `/lib` — Shared Libraries
+
+Libraries required by programs in `/bin` and `/sbin` to actually run.
 
 ```text
 libncurses.so
 ld-2.11.1.so
 ```
-
-### Easy way to remember
 
 ```text
 /lib = Libraries needed by programs
@@ -237,25 +206,14 @@ ld-2.11.1.so
 
 ---
 
-# 9. `/media` – Removable Media
+### `/media` — Removable Media
 
-`/media` is commonly used to mount removable devices.
-
-Examples:
-
-- CD/DVD
-- USB drive
-- Pen drive
-- Floppy disk
-
-Examples of directories:
+Auto-mount point for **removable devices**: USB, CD/DVD, pen drives.
 
 ```text
 /media/cdrom
 /media/floppy
 ```
-
-### Easy way to remember
 
 ```text
 /media = Removable devices
@@ -263,102 +221,70 @@ Examples of directories:
 
 ---
 
-# 10. `/mnt` – Temporary Mount Point
+### `/mnt` — Temporary Manual Mount Point
 
-`/mnt` is used by administrators to temporarily mount a filesystem or external drive.
-
-Example:
+Used by **admins** to manually/temporarily mount a filesystem.
 
 ```bash
 mount /dev/sdb1 /mnt
 ```
 
-After this, the files on `/dev/sdb1` can be accessed through:
-
 ```text
-/mnt
+/mnt = Manual/temporary mounting
 ```
 
-### Easy way to remember
+### `/media` vs `/mnt`
+
+| Feature    | `/media`                       | `/mnt`                           |
+| ---------- | ------------------------------ | -------------------------------- |
+| Used for   | Removable devices (auto-mount) | Manual/temporary mounts by admin |
+| Who mounts | System (automatically)         | Sysadmin (manually)              |
+
+---
+
+### `/opt` — Optional / Third-Party Software
+
+Software **not part of the default OS install** — usually vendor apps.
 
 ```text
-/mnt = Manual or temporary mounting
+/opt/company-name/application
+```
+
+```text
+/opt = Optional third-party applications
 ```
 
 ---
 
-# 11. `/opt` – Optional Software
+### `/sbin` — System Administration Commands
 
-`/opt` contains third-party or additional software that is not part of the default Linux installation.
-
-Example:
-
-```text
-/opt/application
-```
-
-A vendor can install its application inside:
-
-```text
-/opt/company-name/
-```
-
-### Easy way to remember
-
-```text
-/opt = Optional/third-party applications
-```
-
----
-
-# 12. `/sbin` – System Administration Commands
-
-`/sbin` contains important commands mainly used by system administrators.
-
-Examples:
+Commands mainly used by **root/sysadmins** for system maintenance.
 
 ```bash
-fdisk
-reboot
-iptables
-fsck
-swapon
+fdisk, reboot, iptables, fsck, swapon
 ```
-
-These commands are mainly related to system maintenance.
 
 ### `/bin` vs `/sbin`
 
-```text
-/bin  → Common user commands
-/sbin → System administrator commands
-```
-
-### Easy way to remember
+| Directory | Used By     | Examples                  |
+| --------- | ----------- | ------------------------- |
+| `/bin`    | All users   | `ls`, `cp`, `grep`        |
+| `/sbin`   | Admins/root | `fdisk`, `reboot`, `fsck` |
 
 ```text
-/sbin = System binaries
+/sbin = System binaries (admin-only tools)
 ```
 
 ---
 
-# 13. `/srv` – Service Data
+### `/srv` — Service Data
 
-`/srv` contains data related to services provided by the system.
-
-Examples:
-
-- Web server data
-- FTP server data
-- Version-control repository data
-
-Example:
+Data served by services running on the system (web, FTP, version control).
 
 ```text
 /srv/cvs
+/srv/www
 ```
-
-### Easy way to remember
 
 ```text
 /srv = Server/service data
@@ -366,298 +292,237 @@ Example:
 
 ---
 
-# 14. `/tmp` – Temporary Files
+### `/usr/local` — Manually Installed Software
 
-`/tmp` contains temporary files created by programs and users.
-
-Example:
-
-```text
-/tmp/test.txt
-```
-
-Files inside `/tmp` may be deleted automatically or when the system is restarted.
-
-### Easy way to remember
-
-```text
-/tmp = Temporary files
-```
-
----
-
-# 15. `/usr` – User Programs and Utilities
-
-`/usr` contains many programs, libraries, documentation, and utilities.
-
-Important directories inside `/usr` include:
-
-```text
-/usr/bin
-/usr/sbin
-/usr/lib
-/usr/local
-/usr/src
-```
-
-## `/usr/bin`
-
-Contains many normal user commands.
-
-Examples:
-
-```bash
-awk
-less
-scp
-```
-
-## `/usr/sbin`
-
-Contains system administration commands.
-
-Examples:
-
-```bash
-sshd
-cron
-useradd
-userdel
-```
-
-## `/usr/lib`
-
-Contains libraries used by programs inside `/usr/bin` and `/usr/sbin`.
-
-## `/usr/local`
-
-Contains software installed manually or from source.
-
-Example:
+Part of `/usr`, but called out separately because it's important: holds software **compiled/installed from source**, kept separate from package-manager-installed software to avoid conflicts/overwrites on updates.
 
 ```text
 /usr/local/apache2
+/usr/local/bin
 ```
 
-## `/usr/src`
-
-Contains source code, kernel source, header files, and related documentation.
-
-### Easy way to remember
-
 ```text
-/usr = User applications and utilities
+/usr/local = Manually installed / locally-built software
 ```
 
 ---
 
-# 16. `/proc` – Process and System Information
+## 4. Quick Revision Table — All FHS Directories
 
-`/proc` is a **virtual/pseudo filesystem**.
+| Directory    | Purpose                     | Easy Meaning       |
+| ------------ | --------------------------- | ------------------ |
+| `/`          | Top of filesystem           | Root               |
+| `/bin`       | Essential commands          | Basic binaries     |
+| `/boot`      | Boot files                  | Starts Linux       |
+| `/dev`       | Hardware/device files       | Devices            |
+| `/etc`       | Configuration files         | Settings (static)  |
+| `/home`      | User personal files         | User homes         |
+| `/lib`       | Shared libraries            | Libraries          |
+| `/media`     | Removable device mounts     | USB/CD             |
+| `/mnt`       | Temporary mounts            | Manual mount       |
+| `/opt`       | Third-party software        | Optional software  |
+| `/proc`      | Process/system info         | Live process info  |
+| `/sbin`      | Admin commands              | System binaries    |
+| `/srv`       | Service/server data         | Services           |
+| `/tmp`       | Temporary files             | Temporary data     |
+| `/usr`       | Programs and utilities      | Applications       |
+| `/usr/local` | Manually installed software | Locally-built apps |
+| `/var`       | Variable/changing data      | Logs, mail, cache  |
 
-It does not mainly contain normal files stored on the disk.
+---
 
-Instead, it provides information about:
+## 5. Linux File Types
 
-- Running processes
-- CPU
-- Memory
-- System uptime
-- Other system resources
-
-Each process can have its own directory based on its **PID**.
-
-Example:
-
-```text
-/proc/1234
-```
-
-where `1234` is a process ID.
-
-Important examples:
+Linux is famous for the philosophy **"everything is a file"** — not just documents, but devices, pipes, and sockets too. You can identify a file's type from the **first character** in `ls -l` output.
 
 ```bash
-/proc/meminfo
-/proc/uptime
+ls -l
+-rw-r--r--   1 user user   120 Aug 11 file.txt
+drwxr-xr-x   2 user user  4096 Aug 11 folder/
+lrwxrwxrwx   1 user user     7 Aug 11 link -> target
+brw-rw----   1 root disk    8,  0 Aug 11 sda
+crw-rw-rw-   1 root root  1,   3 Aug 11 null
+prw-r--r--   1 user user     0 Aug 11 mypipe
+srwxr-xr-x   1 user user     0 Aug 11 mysocket
 ```
 
-`/proc/meminfo` gives information about system memory.
+| Symbol (1st char in `ls -l`) | File Type                   | Description                                                                        | Example                 |
+| ---------------------------- | --------------------------- | ---------------------------------------------------------------------------------- | ----------------------- |
+| `-`                          | **Regular file**            | Normal file — text, binary, images, scripts                                        | `file.txt`, `photo.jpg` |
+| `d`                          | **Directory**               | A folder that contains other files/directories                                     | `/home/user/`           |
+| `l`                          | **Symbolic link (symlink)** | Shortcut/pointer to another file's path                                            | `ln -s target link`     |
+| `b`                          | **Block device**            | Hardware device that transfers data in **blocks** (chunks); supports random access | `/dev/sda` (hard disk)  |
+| `c`                          | **Character device**        | Hardware device that transfers data as a **stream of characters**, one at a time   | `/dev/tty`, `/dev/null` |
+| `p`                          | **FIFO (named pipe)**       | Allows one-way communication between two unrelated processes                       | Created via `mkfifo`    |
+| `s`                          | **Socket**                  | Enables communication between processes (often over a network or locally)          | `/var/run/docker.sock`  |
 
-### Easy way to remember
+### 5.1 Quick Explanations with Examples
 
-```text
-/proc = Process and system information
+**Regular file (`-`)**
+
+```bash
+touch myfile.txt
+ls -l myfile.txt
+# -rw-r--r--  ...  myfile.txt
+```
+
+Everyday files: text, scripts, binaries, images.
+
+---
+
+**Directory (`d`)**
+
+```bash
+mkdir myfolder
+ls -ld myfolder
+# drwxr-xr-x ...  myfolder
+```
+
+Container for other files and directories.
+
+---
+
+**Symbolic Link (`l`)**
+
+```bash
+ln -s /etc/passwd mylink
+ls -l mylink
+# lrwxrwxrwx ... mylink -> /etc/passwd
+```
+
+Points to another file by **path**; breaks if target is deleted/moved.
+
+---
+
+**Block Device (`b`)**
+
+```bash
+ls -l /dev/sda
+# brw-rw---- ... /dev/sda
+```
+
+Represents storage hardware (hard disks, SSDs, USB drives). Data is read/written in **fixed-size blocks**, and random access (jumping to any block) is possible.
+
+---
+
+**Character Device (`c`)**
+
+```bash
+ls -l /dev/null
+# crw-rw-rw- ... /dev/null
+```
+
+Represents devices that send/receive data as a continuous **stream**, one character at a time — no random access. Examples: keyboards, mice, terminals, `/dev/null`, `/dev/zero`.
+
+---
+
+**FIFO / Named Pipe (`p`)**
+
+```bash
+mkfifo mypipe
+ls -l mypipe
+# prw-r--r-- ... mypipe
+```
+
+Used for **one-way** inter-process communication (IPC) — one process writes, another reads, in **First-In-First-Out** order. Unlike an anonymous pipe (`|` in bash), a named pipe has an actual path on the filesystem so unrelated processes can use it.
+
+---
+
+**Socket (`s`)**
+
+```bash
+ls -l /var/run/docker.sock
+# srwxr-xr-x ... docker.sock
+```
+
+Enables **bidirectional** communication between processes — locally (Unix domain socket) or across a network. Example: Docker daemon communicates with the Docker CLI via a Unix socket.
+
+---
+
+### 5.2 Comparison Table: Block vs Character Device
+
+| Feature            | Block Device                              | Character Device                                    |
+| ------------------ | ----------------------------------------- | --------------------------------------------------- |
+| Data transfer      | In fixed-size blocks/chunks               | Byte/character stream                               |
+| Random access      | ✅ Yes (can jump to any block)            | ❌ No (sequential only)                             |
+| Buffered by kernel | ✅ Yes                                    | Usually not                                         |
+| Examples           | Hard disks, SSDs, USB drives (`/dev/sda`) | Keyboard, mouse, terminal, `/dev/null`, `/dev/zero` |
+
+---
+
+### 5.3 All File Types — Summary Table
+
+| Type              | `ls -l` symbol | Real-world example                        |
+| ----------------- | -------------- | ----------------------------------------- |
+| Regular file      | `-`            | `.txt`, `.jpg`, `.sh`                     |
+| Directory         | `d`            | `/home/user/`                             |
+| Symbolic link     | `l`            | Shortcut created via `ln -s`              |
+| Block device      | `b`            | `/dev/sda` (disk)                         |
+| Character device  | `c`            | `/dev/null`, `/dev/tty`                   |
+| FIFO (named pipe) | `p`            | Created via `mkfifo`, one-way IPC         |
+| Socket            | `s`            | `/var/run/docker.sock`, bidirectional IPC |
+
+🔴 **Exam Trap:** Command to check any file's type quickly (beyond `ls -l`):
+
+```bash
+file filename    # tells you the type in plain English
+stat filename     # detailed metadata including type
 ```
 
 ---
 
-# Quick Revision Table
+## 6. Quick-Fire Viva Q&A
 
-| Directory | Purpose                    | Easy Meaning      |
-| --------- | -------------------------- | ----------------- |
-| `/`       | Top of filesystem          | Root              |
-| `/bin`    | Essential commands         | Basic binaries    |
-| `/boot`   | Boot files                 | Starts Linux      |
-| `/dev`    | Hardware/device files      | Devices           |
-| `/etc`    | Configuration files        | Settings          |
-| `/home`   | User personal files        | User homes        |
-| `/lib`    | Shared libraries           | Libraries         |
-| `/media`  | Removable device mounts    | USB/CD            |
-| `/mnt`    | Temporary mounts           | Manual mount      |
-| `/opt`    | Third-party software       | Optional software |
-| `/sbin`   | Admin commands             | System binaries   |
-| `/srv`    | Service/server data        | Services          |
-| `/tmp`    | Temporary files            | Temporary data    |
-| `/usr`    | Programs and utilities     | Applications      |
-| `/proc`   | Process/system information | Process info      |
-
-# Important Interview Questions
-
-## Q1. What is FHS?
-
-**FHS stands for Filesystem Hierarchy Standard.**
-
-It defines how files and directories are organized in Linux.
+| Question                                                 | Answer                                                                                                        |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| What does FHS stand for?                                 | Filesystem Hierarchy Standard                                                                                 |
+| Difference between `/etc` and `/var`?                    | `/etc` = static config files; `/var` = dynamic/growing data (logs, cache, mail)                               |
+| Difference between `/usr` and `/home`?                   | `/usr` = installed programs/utilities; `/home` = personal user files                                          |
+| Difference between `/media` and `/mnt`?                  | `/media` = auto-mount for removable devices; `/mnt` = manual/temporary mount by admin                         |
+| Difference between `/bin` and `/sbin`?                   | `/bin` = commands for all users; `/sbin` = admin-only commands                                                |
+| What is `/proc`?                                         | A virtual filesystem showing live process & kernel info, not real disk files                                  |
+| Where does manually-installed (from source) software go? | `/usr/local`                                                                                                  |
+| What is "everything is a file" in Linux?                 | Even hardware devices, pipes, and sockets are represented and accessed as files                               |
+| Difference between block and character device?           | Block = data in chunks, random access (disks); Character = data as stream, sequential (keyboard, `/dev/null`) |
+| What is a FIFO / named pipe?                             | A special file enabling one-way IPC between unrelated processes, in FIFO order                                |
+| What is a socket file?                                   | Enables two-way communication between processes, locally or over network                                      |
+| How to identify a symlink in `ls -l`?                    | First character is `l`, and it shows `link -> target`                                                         |
+| Command to check a file's type quickly?                  | `file filename` or `stat filename`                                                                            |
 
 ---
 
-## Q2. What is the root directory?
-
-The root directory is:
+## 7. One-Page Memory Trick
 
 ```text
-/
+/       → Root
+/bin    → Commands (everyone)
+/boot   → Boot files
+/dev    → Devices
+/etc    → Config (static)
+/home   → User personal files
+/lib    → Libraries
+/media  → Removable media (auto)
+/mnt    → Manual mount
+/opt    → Optional/3rd-party software
+/proc   → Live process info
+/sbin   → Admin commands
+/srv    → Service data
+/tmp    → Temporary files
+/usr    → Applications/utilities
+/var    → Variable/changing data (logs, cache)
 ```
 
-It is the top-level directory of Linux.
-
----
-
-## Q3. Where are user files stored?
-
-Normal users' personal files are usually stored in:
-
 ```text
-/home
-```
-
-Example:
-
-```text
-/home/veenay
+File types (ls -l 1st char):
+-  → regular file
+d  → directory
+l  → symlink
+b  → block device
+c  → character device
+p  → FIFO/named pipe
+s  → socket
 ```
 
 ---
 
-## Q4. Where are configuration files stored?
-
-System configuration files are mainly stored in:
-
-```text
-/etc
-```
-
----
-
-## Q5. Where are boot files stored?
-
-Boot-related files are stored in:
-
-```text
-/boot
-```
-
----
-
-## Q6. Where are device files stored?
-
-Device files are stored in:
-
-```text
-/dev
-```
-
----
-
-## Q7. Difference between `/media` and `/mnt`?
-
-```text
-/media → Usually used for removable devices
-/mnt   → Usually used for temporary/manual mounting
-```
-
----
-
-## Q8. Difference between `/bin` and `/sbin`?
-
-```text
-/bin
-→ Essential commands used by users.
-
-Examples:
-ls
-cp
-grep
-
-/sbin
-→ System administration commands.
-
-Examples:
-fdisk
-reboot
-fsck
-```
-
----
-
-## Q9. What is `/proc`?
-
-`/proc` is a virtual filesystem containing information about running processes and system resources.
-
-Example:
-
-```text
-/proc/meminfo
-```
-
-shows memory information.
-
----
-
-# One-Line Memory Trick
-
-```text
-/      → Root
-/bin   → Commands
-/boot  → Boot
-/dev   → Devices
-/etc   → Configuration
-/home  → Users
-/lib   → Libraries
-/media → Removable media
-/mnt   → Mount
-/opt   → Optional software
-/sbin  → Admin commands
-/srv   → Services
-/tmp   → Temporary files
-/usr   → Applications
-/proc  → Processes
-```
-
-## Most Important Directories for Interviews
-
-Remember these first:
-
-```text
-/etc   → Configuration
-/home  → User files
-/var   → Variable/changing data
-/bin   → Commands
-/sbin  → Admin commands
-/boot  → Boot files
-/dev   → Devices
-/tmp   → Temporary files
-/proc  → Process information
-/usr   → Programs
-```
+_CDAC DITISS — PGCP-ITISS | Linux OS & Security | FHS + File Types_
