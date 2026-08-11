@@ -6,14 +6,14 @@
 
 ## 🔴 PRIORITY 1 — MUST KNOW (Most Asked in Interviews)
 
-### 1. OSI Model
+### 1. OSI Model ✅
 
 - 7 Layers: Physical, Data Link, Network, Transport, Session, Presentation, Application
 - Role of each layer with real-world examples
 - PDU at each layer (Bits, Frames, Packets, Segments, Data)
 - Encapsulation and De-encapsulation
 
-### 2. TCP/IP Model
+### 2. TCP/IP Model ✅
 
 - 4-layer model vs OSI 7-layer mapping
 - TCP vs UDP — differences, use cases
@@ -21,7 +21,7 @@
 - Three-way handshake (SYN → SYN-ACK → ACK)
 - Four-way termination (FIN → FIN-ACK → FIN → ACK)
 
-### 3. IP Subnetting & VLSM
+### 3. IP Subnetting & VLSM ✅
 
 - IPv4 address classes (A, B, C, D, E)
 - Subnet mask, CIDR notation
@@ -29,7 +29,7 @@
 - Network address, Broadcast address, Host range calculation
 - Practice: 192.168.1.0/24, 10.0.0.0/8, 172.16.0.0/16
 
-### 4. Routing
+### 4. Routing ✅
 
 - Static Routing vs Dynamic Routing
 - Distance Vector (RIP) vs Link State (OSPF)
@@ -37,7 +37,7 @@
 - IGP vs EGP
 - Protocols: RIP, IGRP, EIGRP, OSPF, BGP
 
-### 5. VLANs & Inter-VLAN Routing
+### 5. VLANs & Inter-VLAN Routing ✅
 
 - VLAN concept, benefits, port assignment
 - VLAN tagging — IEEE 802.1Q
@@ -45,14 +45,14 @@
 - Inter-VLAN routing (Router-on-a-stick, Layer 3 switch)
 - VTP modes: Server, Client, Transparent
 
-### 6. NAT (Network Address Translation)
+### 6. NAT (Network Address Translation) ✅
 
 - Static NAT, Dynamic NAT, PAT (Port Address Translation / NAT Overload)
 - Private IP ranges (10.x, 172.16.x, 192.168.x)
 - Why NAT is used — IPv4 exhaustion
 - NAT table concept
 
-### 7. IPv4 vs IPv6
+### 7. IPv4 vs IPv6 ✅
 
 - Address format differences (32-bit vs 128-bit)
 - IPv6 address types: Unicast, Multicast, Anycast
@@ -63,7 +63,7 @@
 
 ## 🟠 PRIORITY 2 — IMPORTANT (Frequently Asked)
 
-### 8. Spanning Tree Protocol (STP)
+### 8. Spanning Tree Protocol (STP) ✅
 
 - Loop problem in Layer 2 networks
 - Root Bridge election — Bridge ID (Priority + MAC)
@@ -71,7 +71,7 @@
 - STP vs RSTP (Rapid STP) — convergence time difference
 - Types: STP (802.1D), RSTP (802.1w), MSTP (802.1s), PVST+
 
-### 9. Infrastructure Security — ACL, AAA
+### 9. Infrastructure Security — ACL, AAA ✅
 
 - Standard ACL vs Extended ACL (numbered and named)
 - ACL placement: Standard — close to destination; Extended — close to source
@@ -88,14 +88,14 @@
 - MPLS vs Traditional WAN
 - VPN fundamentals — site-to-site, remote access
 
-### 11. Layer 2 Switching
+### 11. Layer 2 Switching ✅
 
 - MAC address table, flooding, forwarding
 - Cut-through vs Store-and-forward switching
 - CSMA/CD concept (Ethernet)
 - Half duplex vs Full duplex
 
-### 12. Ethernet & Wireless (IEEE Standards)
+### 12. Ethernet & Wireless (IEEE Standards) ✅
 
 - UTP vs STP cables — categories (CAT5e, CAT6, CAT7)
 - IEEE 802.3 (Ethernet), 802.11 (Wi-Fi), 802.1Q (VLAN)
@@ -106,7 +106,7 @@
 
 ## 🟡 PRIORITY 3 — GOOD TO KNOW (Asked in Advanced Rounds)
 
-### 13. Router IOS & Management
+### 13. Router IOS & Management ✅
 
 - Router boot sequence: POST → Bootstrap → IOS → Config
 - IOS image storage: Flash, NVRAM, RAM, ROM
