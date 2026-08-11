@@ -32,7 +32,8 @@
 
 ### 3. User & Group Management
 
-- [ ] `useradd`, `usermod`, `userdel`, `passwd`, `chage`
+- [ ] `useradd`, `adduser`, `usermod`, `userdel`, `groupadd`, `addgroup`, `groupmod`, `groupdel`, `gpasswd`
+- [ ] `passwd`, `chage`, `id`, `groups`, `who`, `whoami`, `last`
 - [ ] `/etc/passwd` format — `username:x:UID:GID:comment:home:shell`
 - [ ] `/etc/shadow` — hash, aging, `!` = locked
 - [ ] `/etc/group` — `group_name:x:GID:member_list`
