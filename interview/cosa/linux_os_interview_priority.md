@@ -8,19 +8,22 @@
 
 ### 1. Linux Filesystem & Core Commands
 
-- [ ] FHS layout — `/etc`, `/var`, `/home`, `/proc`, `/tmp`, `/usr`, `/bin`
-- [ ] `ls`, `cp`, `mv`, `rm`, `cat`, `grep`, `find`, `diff`, `wc`, `sort`, `head`, `tail`
-- [ ] Archive/compression — `tar -czvf`/`-xzvf`, `gzip`, `gunzip`, `zip`, `unzip`, `zcat`
-- [ ] Process commands — `ps`, `top`, `kill`, `jobs`, `bg`, `fg`, `nohup`
-- [ ] Hard link vs soft link — inode behavior, `ln` vs `ln -s`, cross-filesystem restriction
-- [ ] `man`, `whatis`, `whereis`, `locate` vs `find`
+- [x] FHS layout — `/etc`, `/var`, `/home`, `/proc`, `/tmp`, `/usr`, `/bin`
+- [x] FHS details — `/boot`, `/dev`, `/lib`, `/media`, `/mnt`, `/opt`, `/sbin`, `/srv`, `/usr/local`
+- [x] `ls`, `cp`, `mv`, `rm`, `cat`, `grep`, `find`, `diff`, `wc`, `sort`, `head`, `tail`
+- [x] Common command flags — `ls -lah`, `cp -rp`, `mv -i`, `rm -rf`, `grep -rn`, `find -type/-name/-size/-mtime/-exec`
+- [x] Archive/compression — `tar -czvf`/`-xzvf`, `gzip`, `gunzip`, `zip`, `unzip`, `zcat`
+- [x] Process commands — `ps`, `top`, `kill`, `jobs`, `bg`, `fg`, `nohup`
+- [x] Process extras — `killall`, `htop`, `top` keys for kill/quit
+- [x] Hard link vs soft link — inode behavior, `ln` vs `ln -s`, cross-filesystem restriction
+- [x] `man`, `whatis`, `whereis`, `locate`, `updatedb` vs `find`
 
 ### 2. File Permissions, Ownership & ACLs
 
-- [ ] Symbolic (`rwx`) vs octal (`755`, `644`) notation
-- [ ] `chmod`, `chown`, `chgrp` — syntax + recursive use
-- [ ] SUID (4), SGID (2), Sticky bit (1) — use cases & risks
-- [ ] Sticky bit on `/tmp` — only owner/root can delete/rename
+- [x] Symbolic (`rwx`) vs octal (`755`, `644`) notation
+- [x] `chmod`, `chown`, `chgrp` — syntax + recursive use
+- [x] SUID (4), SGID (2), Sticky bit (1) — use cases & risks
+- [x] Sticky bit on `/tmp` — only owner/root can delete/rename
 - [ ] `umask` — default mask, `umask 022`
 - [ ] ACL — `setfacl`, `getfacl` vs traditional permissions
 - [ ] ACL `mask` entry — effective permission limiter
@@ -33,6 +36,7 @@
 - [ ] `/etc/shadow` — hash, aging, `!` = locked
 - [ ] `/etc/group` — `group_name:x:GID:member_list`
 - [ ] `su` vs `sudo` — target password vs own password
+- [ ] `su -` vs `su` — full login shell vs current environment
 - [ ] `/etc/sudoers` & `visudo` — `%wheel ALL=(ALL) ALL`, `NOPASSWD`
 - [ ] Primary vs supplementary groups — `id`, `groups`, `newgrp`
 
@@ -44,6 +48,7 @@
 - [ ] Runlevels vs systemd targets (0/1/3/5/6 mapping)
 - [ ] `systemctl start/stop/restart/enable/disable/status/is-enabled/daemon-reload`
 - [ ] `start` vs `enable` distinction
+- [ ] Live troubleshooting basics — `journalctl`, `top`, `htop`
 
 ### 5. Package & Repository Management
 
@@ -101,6 +106,7 @@
 - [ ] `logrotate` — `/etc/logrotate.conf`, `rotate`, `compress`, `daily`
 - [ ] NTP (port 123/UDP) — `ntpd` vs `chronyd`
 - [ ] NTP amplification attack (monlist abuse)
+- [ ] `tail -f` for live log monitoring
 - [ ] Delayed breach detection risk — unmonitored logs
 
 ### 11. Bash Scripting & Automation
@@ -182,6 +188,7 @@
 - [ ] NIS commands — `ypbind`, `ypcat`, `ypmatch` (legacy, prefer LDAP)
 - [ ] CUPS — web UI at `localhost:631`
 - [ ] NFSv4 vs NFSv3 — single port 2049, Kerberos support in v4
+- [ ] `locate` index refresh — `updatedb` and why results can lag behind the filesystem
 
 ### 20. Kickstart Unattended Installation
 
