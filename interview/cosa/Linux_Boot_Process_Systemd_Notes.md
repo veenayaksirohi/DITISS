@@ -1,47 +1,48 @@
 # Linux Boot Process & Systemd — Study Notes
+
 **Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
 ## 1. Key Abbreviations
 
-| Abbreviation | Full Form |
-|---------------|-----------|
-| BIOS | Basic Input Output System |
-| UEFI | Unified Extensible Firmware Interface |
-| MBR | Master Boot Record |
-| GPT | GUID Partition Table |
-| GUID | Globally Unique Identifier |
-| GRUB | Grand Unified Bootloader |
-| FHS | Filesystem Hierarchy Standard |
-| LVM | Logical Volume Manager |
-| PV/VG/LV | Physical Volume / Volume Group / Logical Volume |
+| Abbreviation | Full Form                                       |
+| ------------ | ----------------------------------------------- |
+| BIOS         | Basic Input Output System                       |
+| UEFI         | Unified Extensible Firmware Interface           |
+| MBR          | Master Boot Record                              |
+| GPT          | GUID Partition Table                            |
+| GUID         | Globally Unique Identifier                      |
+| GRUB         | Grand Unified Bootloader                        |
+| FHS          | Filesystem Hierarchy Standard                   |
+| LVM          | Logical Volume Manager                          |
+| PV/VG/LV     | Physical Volume / Volume Group / Logical Volume |
 
 ---
 
 ## 2. Core Booting Concepts
 
-| Term | Meaning |
-|------|---------|
-| **Booting** | The process from computer power-on to OS startup |
-| **Bootable device** | A storage device (disk, USB, CD/DVD) whose boot block contains a bootstrap program |
-| **Bootstrap program** | Loads the OS kernel into RAM and starts execution; different per OS/version; located in the **first sector (512 bytes)** of a disk/partition |
-| **Bootloader program** | Shows multiple boot options to the user; based on selection, runs the corresponding bootstrap program |
-| **Firmware** | Set of programs fixed in Base ROM (motherboard) — BIOS or UEFI |
-| **Bootstrap loader** | A program from firmware that finds the bootable device (as per boot device priority in BIOS/UEFI setup) and starts its bootloader |
+| Term                   | Meaning                                                                                                                                      |
+| ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Booting**            | The process from computer power-on to OS startup                                                                                             |
+| **Bootable device**    | A storage device (disk, USB, CD/DVD) whose boot block contains a bootstrap program                                                           |
+| **Bootstrap program**  | Loads the OS kernel into RAM and starts execution; different per OS/version; located in the **first sector (512 bytes)** of a disk/partition |
+| **Bootloader program** | Shows multiple boot options to the user; based on selection, runs the corresponding bootstrap program                                        |
+| **Firmware**           | Set of programs fixed in Base ROM (motherboard) — BIOS or UEFI                                                                               |
+| **Bootstrap loader**   | A program from firmware that finds the bootable device (as per boot device priority in BIOS/UEFI setup) and starts its bootloader            |
 
 ### Well-Known Bootloaders (by OS)
 
-| Bootloader | OS |
-|------------|-----|
-| `ntldr` → `boot.ini` | Windows (before Vista) |
-| `bootmgr` → `bcd` | Windows (Vista onwards); managed via `bcdedit` |
-| **LiLo** (Linux Loader) | Older Linux |
-| **GRUB** → `menu.lst`/`grub.cfg` | Modern Linux |
-| BTX (BooT eXtended) | BSD Unix |
-| SILO (Sparc Interactive Loader) | Solaris |
-| Bootcamp | Mac OS X |
-| uBoot | Embedded Linux |
+| Bootloader                       | OS                                             |
+| -------------------------------- | ---------------------------------------------- |
+| `ntldr` → `boot.ini`             | Windows (before Vista)                         |
+| `bootmgr` → `bcd`                | Windows (Vista onwards); managed via `bcdedit` |
+| **LiLo** (Linux Loader)          | Older Linux                                    |
+| **GRUB** → `menu.lst`/`grub.cfg` | Modern Linux                                   |
+| BTX (BooT eXtended)              | BSD Unix                                       |
+| SILO (Sparc Interactive Loader)  | Solaris                                        |
+| Bootcamp                         | Mac OS X                                       |
+| uBoot                            | Embedded Linux                                 |
 
 🔴 **Exam Trap:** Bootstrap ≠ Bootloader. **Bootstrap program** = fixed, tiny, loads the next stage; **Bootloader program** = the user-facing menu (e.g., GRUB screen) that lets you pick an OS/kernel.
 
@@ -50,6 +51,7 @@
 ## 3. BIOS vs UEFI
 
 ### BIOS (Basic Input Output System)
+
 - Firmware standard stored on the motherboard's ROM chip.
 - Runs on power-on: tests hardware, then runs the bootloader.
 - Has access to basic input device ports (keyboard, mouse).
@@ -58,6 +60,7 @@
 **Functions:** Initialize hardware (CPU, RAM, disk) → Perform **POST** (Power-On Self Test) → Load bootloader from disk.
 
 ### UEFI (Unified Extensible Firmware Interface)
+
 - Modern replacement for BIOS.
 - Runs **faster**, supports more memory, larger storage drives, more hardware types, and better security.
 - Most modern motherboards/PCs ship with UEFI by default.
@@ -68,15 +71,15 @@
 
 ### Comparison Table
 
-| Feature | BIOS | UEFI |
-|---------|------|------|
-| Age | Older (legacy) | Modern replacement |
-| Speed | Slower | Faster |
-| Max disk size supported | ~2TB (MBR limit) | Much larger (GPT) |
-| Security | Basic | **Secure Boot** support |
-| Partition table used | MBR | GPT |
-| Boot storage | Boot sector (512B) | EFI partition (`/boot/efi`) |
-| Network boot | Limited | ✅ Supported |
+| Feature                 | BIOS               | UEFI                        |
+| ----------------------- | ------------------ | --------------------------- |
+| Age                     | Older (legacy)     | Modern replacement          |
+| Speed                   | Slower             | Faster                      |
+| Max disk size supported | ~2TB (MBR limit)   | Much larger (GPT)           |
+| Security                | Basic              | **Secure Boot** support     |
+| Partition table used    | MBR                | GPT                         |
+| Boot storage            | Boot sector (512B) | EFI partition (`/boot/efi`) |
+| Network boot            | Limited            | ✅ Supported                |
 
 🔴 **Exam Trap:** UEFI's **Secure Boot** feature verifies that only digitally-signed/trusted bootloaders and kernels can run — protects against bootkit malware. Classic security interview question.
 
@@ -84,21 +87,23 @@
 
 ## 4. GRUB / GRUB2 — Boot Loader Deep Dive
 
-GRUB (**GR**and **U**nified **B**ootloader) works in **stages**, loading the OS progressively:
+GRUB (**GR**and **U**nified **B**ootloader) loads in **stages**, each one small enough to be loaded by the previous (very limited) stage, progressively gaining enough capability to find and load the OS kernel:
 
-| Stage | Component | Function |
-|-------|-----------|----------|
-| 1 | **Boot sector program** | Fixed 512-byte program loaded by firmware on startup; loads the second-stage bootloader (can also load another sector or a kernel directly) |
-| 2 | **Second-stage boot loader** | Loads the operating system; contains a **kernel loader** |
-| 3 | **Boot loader installer** | Controls installation of drive sectors; only runs when booting from a drive; coordinates boot sector + boot loader activities |
+| Stage         | Component                     | Function                                                                                                                                                                               |
+| ------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Stage 1**   | **Boot sector program (MBR)** | Fixed 512-byte program loaded directly by firmware on startup. Too small to understand filesystems — its only job is to locate and load Stage 1.5 (or Stage 2 directly on some setups) |
+| **Stage 1.5** | **Intermediate loader**       | Sits in the small gap right after the MBR; contains just enough filesystem drivers to locate and load Stage 2 from `/boot`                                                             |
+| **Stage 2**   | **Second-stage boot loader**  | The actual GRUB menu/environment; reads `grub.cfg`, understands filesystems, loads the selected **kernel** + `initramfs` into RAM, and hands off control                               |
+
+🟠 **Note:** Some older or simplified references (e.g. distro installers) collapse this into just "boot loader installer" — the utility (`grub-install`) that writes Stage 1/1.5 into the MBR and Stage 2 into `/boot/grub`. That's an **installation-time tool**, not a fourth boot-time stage — don't confuse the two when answering "how many GRUB stages are there?" (Answer: **3** — Stage 1, Stage 1.5, Stage 2.)
 
 ### GRUB2 Configuration
 
-| Item | Detail |
-|------|--------|
+| Item                 | Detail                                                                        |
+| -------------------- | ----------------------------------------------------------------------------- |
 | Config file location | `/boot/grub2/grub.cfg` (RHEL/CentOS) or `/boot/grub/grub.cfg` (Debian/Ubuntu) |
-| Template/source file | `/etc/default/grub` (edit this, NOT `grub.cfg` directly) |
-| Regenerate config | `grub2-mkconfig -o /boot/grub2/grub.cfg` (RHEL) or `update-grub` (Debian) |
+| Template/source file | `/etc/default/grub` (edit this, NOT `grub.cfg` directly)                      |
+| Regenerate config    | `grub2-mkconfig -o /boot/grub2/grub.cfg` (RHEL) or `update-grub` (Debian)     |
 
 ```bash
 # /etc/default/grub — common settings
@@ -132,16 +137,16 @@ grub rescue> normal
 BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target → Login
 ```
 
-| Stage | What happens |
-|-------|----------------|
-| **BIOS/UEFI** | Firmware initializes hardware, runs POST, finds bootable device |
-| **MBR/GPT** | Partition table read; boot sector/EFI partition located |
-| **GRUB2** | Bootloader shows menu, loads selected kernel + initramfs into RAM |
-| **Kernel** | Linux kernel starts executing, initializes CPU/memory/devices |
+| Stage         | What happens                                                                             |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| **BIOS/UEFI** | Firmware initializes hardware, runs POST, finds bootable device                          |
+| **MBR/GPT**   | Partition table read; boot sector/EFI partition located                                  |
+| **GRUB2**     | Bootloader shows menu, loads selected kernel + initramfs into RAM                        |
+| **Kernel**    | Linux kernel starts executing, initializes CPU/memory/devices                            |
 | **initramfs** | Temporary root filesystem in RAM; loads drivers needed to mount the REAL root filesystem |
-| **systemd** | First real process (PID 1) starts; brings system to a target state |
-| **Target** | Final desired state reached (e.g., multi-user, graphical) |
-| **Login** | Login prompt (CLI or GUI) appears; system ready for use |
+| **systemd**   | First real process (PID 1) starts; brings system to a target state                       |
+| **Target**    | Final desired state reached (e.g., multi-user, graphical)                                |
+| **Login**     | Login prompt (CLI or GUI) appears; system ready for use                                  |
 
 ---
 
@@ -151,7 +156,7 @@ BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target 
 
 ### Why does `initramfs` exist?
 
-The kernel needs **drivers** (e.g., for disk controllers, RAID, LVM, encrypted volumes) to mount the **real** root filesystem — but those drivers themselves might live *on* that real root filesystem. `initramfs` breaks this deadlock by providing just enough of a minimal environment (with the needed kernel modules) to:
+The kernel needs **drivers** (e.g., for disk controllers, RAID, LVM, encrypted volumes) to mount the **real** root filesystem — but those drivers themselves might live _on_ that real root filesystem. `initramfs` breaks this deadlock by providing just enough of a minimal environment (with the needed kernel modules) to:
 
 1. Detect and load necessary drivers/modules (disk controller, filesystem type, LVM, RAID, etc.)
 2. Locate and mount the **actual** root filesystem
@@ -159,9 +164,9 @@ The kernel needs **drivers** (e.g., for disk controllers, RAID, LVM, encrypted v
 
 ### Key Tools
 
-| Tool | Purpose |
-|------|---------|
-| `dracut` | Modern tool used to **generate/build** the `initramfs` image on RHEL/Fedora-based systems |
+| Tool         | Purpose                                                                                                                 |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `dracut`     | Modern tool used to **generate/build** the `initramfs` image on RHEL/Fedora-based systems                               |
 | `pivot_root` | System call/command used to **switch** from the temporary initramfs root to the real root filesystem, once it's mounted |
 
 ```bash
@@ -169,7 +174,7 @@ dracut --force                  # rebuild initramfs for the current kernel
 lsinitrd /boot/initramfs-*.img  # inspect contents of an initramfs image
 ```
 
-🔴 **Exam Trap (very common Viva Q):** *"Why can't the kernel just mount the real root filesystem directly?"*
+🔴 **Exam Trap (very common Viva Q):** _"Why can't the kernel just mount the real root filesystem directly?"_
 → Because the drivers needed to access the real root disk (e.g., a RAID controller driver, or LVM logical volume mapping) might not be built into the kernel itself and instead live as modules on that very disk. `initramfs` provides a minimal RAM-based environment with just enough drivers to bootstrap access to the real filesystem — solving the chicken-and-egg problem.
 
 🟠 **Note:** `pivot_root` is conceptually similar to `chroot`, but specifically designed for the boot-time handoff from a temporary root (initramfs) to the permanent one — it also properly unmounts/cleans up the old root.
@@ -188,13 +193,13 @@ Linux kernel → accesses root filesystem → systemd/init (PID = 1) executes
 
 ### `systemd` vs legacy `init` (SysV)
 
-| Feature | SysV `init` | `systemd` |
-|---------|--------------|-------------|
-| Service startup | **Sequential** (one at a time) | **Parallel** (much faster boot) |
-| Config style | Shell scripts in `/etc/rc.d/rcX.d/` | Declarative unit files |
-| PID | 1 | 1 |
-| Speed | Slower | Faster |
-| Dependency handling | Manual/ordered scripts | Automatic dependency resolution |
+| Feature             | SysV `init`                         | `systemd`                       |
+| ------------------- | ----------------------------------- | ------------------------------- |
+| Service startup     | **Sequential** (one at a time)      | **Parallel** (much faster boot) |
+| Config style        | Shell scripts in `/etc/rc.d/rcX.d/` | Declarative unit files          |
+| PID                 | 1                                   | 1                               |
+| Speed               | Slower                              | Faster                          |
+| Dependency handling | Manual/ordered scripts              | Automatic dependency resolution |
 
 ---
 
@@ -202,17 +207,19 @@ Linux kernel → accesses root filesystem → systemd/init (PID = 1) executes
 
 Traditional **SysV init** used numbered **runlevels**; modern **systemd** uses named **targets**. Both represent a "state" the system boots into.
 
-| Runlevel | systemd Target | Description |
-|----------|------------------|--------------|
-| **0** | `poweroff.target` | Shutdown / Halt the system |
-| **1** | `rescue.target` | Single-user mode — failsafe/rescue, minimal services |
-| **2** | (no exact systemd equivalent; roughly `multi-user.target`) | Multi-user mode, user login enabled, files accessible |
-| **3** | `multi-user.target` | Multi-user, **networking**, CLI only (no GUI) |
-| **4** | (unused/reserved) | Reserved — custom use only |
-| **5** | `graphical.target` | Multi-user, networking, **GUI** |
-| **6** | `reboot.target` | Reboot the system |
+| Runlevel | systemd Target                                | Description                                          |
+| -------- | --------------------------------------------- | ---------------------------------------------------- |
+| **0**    | `poweroff.target`                             | Shutdown / Halt the system                           |
+| **1**    | `rescue.target`                               | Single-user mode — failsafe/rescue, minimal services |
+| **2**    | `multi-user.target` (no exact 1:1 equivalent) | Multi-user mode, login enabled, **no networking**    |
+| **3**    | `multi-user.target`                           | Multi-user, **networking**, CLI only (no GUI)        |
+| **4**    | _(unused/reserved)_                           | Reserved — custom use only                           |
+| **5**    | `graphical.target`                            | Multi-user, networking, **GUI**                      |
+| **6**    | `reboot.target`                               | Reboot the system                                    |
 
 🔴 **Exam Trap:** Runlevel **4 is reserved/unused** by convention — a classic trick question ("what does runlevel 4 do?" → nothing by default, it's reserved for custom/site-specific configuration).
+
+🔴 **Exam Trap:** systemd collapses runlevels 2, 3, and 4 into the **same** `multi-user.target` — systemd doesn't distinguish "networking vs no networking" the way SysV runlevels 2/3 did. Don't expect a separate named target for runlevel 2.
 
 ### Legacy Runlevel Commands
 
@@ -236,65 +243,309 @@ systemctl isolate rescue.target                # go to rescue/single-user mode
 
 ### Comparison Table: Legacy vs Modern Commands
 
-| Task | SysV (legacy) | systemd (modern) |
-|------|-----------------|----------------------|
-| Show current level/target | `runlevel` | `systemctl get-default` |
-| Shutdown | `init 0` | `systemctl poweroff` |
-| Reboot | `init 6` | `systemctl reboot` |
-| Switch to CLI multi-user | `init 3` | `systemctl isolate multi-user.target` |
-| Switch to GUI | `init 5` | `systemctl isolate graphical.target` |
-| Set default boot target | Edit `/etc/inittab` | `systemctl set-default <target>` |
+| Task                      | SysV (legacy)       | systemd (modern)                      |
+| ------------------------- | ------------------- | ------------------------------------- |
+| Show current level/target | `runlevel`          | `systemctl get-default`               |
+| Shutdown                  | `init 0`            | `systemctl poweroff`                  |
+| Reboot                    | `init 6`            | `systemctl reboot`                    |
+| Switch to CLI multi-user  | `init 3`            | `systemctl isolate multi-user.target` |
+| Switch to GUI             | `init 5`            | `systemctl isolate graphical.target`  |
+| Set default boot target   | Edit `/etc/inittab` | `systemctl set-default <target>`      |
 
 ---
 
-## 9. SysV init — Boot Process (Step-by-Step)
+## Linux Booting Process
 
-1. **Power ON** — BIOS/UEFI runs, hardware initialized.
-2. **Bootloader executes** — GRUB loads the Linux kernel into memory.
-3. **Kernel initialization** — CPU, memory, devices initialized; kernel starts the `init` process.
-4. **Init starts (PID = 1)** — kernel executes `/sbin/init`.
-5. **Read config file** — `init` reads `/etc/inittab` for the default runlevel and what to execute.
-6. **Determine default runlevel** — e.g., `id:3:initdefault:` → system enters **runlevel 3**.
-7. **Execute startup scripts** — based on runlevel, `init` runs scripts from `/etc/rc.d/rcX.d/` (X = runlevel number).
-8. **Script execution order** — scripts run **sequentially**, named by convention:
-   - `S10network` (Start, priority 10, network service)
-   - `S20ssh` (Start, priority 20, SSH service)
-   - `K10httpd` (Kill/stop, priority 10, httpd service)
-9. **Start services** — one by one, **no parallel execution** (network, SSH, database, etc.).
-10. **System ready** — after all scripts run, login prompt appears.
+Linux booting means **starting the computer and loading the Linux operating system into memory**.
 
-💡 **Naming convention:** `S` prefix = **Start** this service when entering the runlevel; `K` prefix = **Kill** (stop) this service when leaving the runlevel. The number controls execution **order**.
+### Main Steps
+
+```text
+Power ON
+   ↓
+BIOS / UEFI
+   ↓
+Bootloader (GRUB)
+   ↓
+Linux Kernel
+   ↓
+initramfs
+   ↓
+systemd / init
+   ↓
+Services start
+   ↓
+Login Screen / Shell / GUI
+```
+
+### 1. Power ON
+
+When you switch on the computer, the CPU starts executing firmware code stored on the motherboard.
 
 ---
 
-## 10. systemd — Boot Process (Step-by-Step)
+### 2. BIOS / UEFI
 
-1. **Power ON** — BIOS/UEFI starts, hardware initialized.
-2. **Bootloader executes** — GRUB loads the Linux kernel into memory.
-3. **Kernel initialization** — CPU, memory, devices initialized; kernel starts **systemd**.
-4. **systemd starts (PID = 1)** — kernel executes `/usr/lib/systemd/systemd`, the **first user-space process**.
-5. **Load default target** — systemd reads the default target from `/etc/systemd/system/default.target` (a symlink to the actual target).
-6. **Identify target** — e.g., `multi-user.target` → equivalent to runlevel 3 (CLI mode).
-7. **Load unit files** — systemd loads unit definitions from `/etc/systemd/system/` and `/lib/systemd/system/`.
-8. **Resolve dependencies** — systemd determines which services depend on others, and which can run **in parallel**.
-9. **Parallel service startup** — unlike SysV, systemd starts independent services **simultaneously** → faster boot, more efficient resource usage.
-10. **Activate required units** — types include:
-    - `.service` → services (daemons)
-    - `.mount` → filesystem mounts
-    - `.socket` → communication sockets
-11. **Mount filesystems** — systemd auto-mounts required filesystems, using `/etc/fstab`.
-12. **Start system services** — e.g., network, SSH, logging.
-13. **System ready** — target reached; login prompt (or GUI) appears.
+BIOS or UEFI initializes the hardware.
+
+It checks things like:
+
+- CPU
+- RAM
+- Keyboard
+- Disk
+- Other devices
+
+This hardware check is called **POST**.
+
+```text
+POST = Power-On Self-Test
+```
+
+Then BIOS/UEFI looks for a bootable device.
+
+For example:
+
+```text
+SSD
+HDD
+USB
+Network
+```
+
+---
+
+### 3. Bootloader
+
+After finding the boot device, the system starts the **bootloader**.
+
+The most common Linux bootloader is:
+
+```text
+GRUB = GRand Unified Bootloader
+```
+
+Older Linux systems may use:
+
+```text
+LILO = Linux Loader
+```
+
+GRUB can show a menu such as:
+
+```text
+Ubuntu
+Ubuntu Advanced Options
+Windows
+```
+
+Its main job is to load:
+
+```text
+Linux Kernel
++
+initramfs
+```
+
+into RAM.
+
+---
+
+### 4. Linux Kernel Loads
+
+The **kernel is the core of Linux**.
+
+The bootloader loads the kernel into memory and gives control to it.
+
+The kernel starts managing:
+
+- CPU
+- RAM
+- Processes
+- Devices
+- Drivers
+- File systems
+
+```text
+GRUB
+  ↓
+Kernel
+  ↓
+Hardware management starts
+```
+
+---
+
+### 5. initramfs
+
+**initramfs = Initial RAM File System**
+
+It is a small temporary filesystem loaded into RAM during boot.
+
+It contains important drivers and tools needed before the real root filesystem can be mounted.
+
+For example:
+
+```text
+Disk driver
+Filesystem driver
+LVM support
+RAID support
+```
+
+Flow:
+
+```text
+Kernel
+   ↓
+initramfs
+   ↓
+Find real root filesystem
+   ↓
+Mount /
+```
+
+---
+
+### 6. Root Filesystem Mounts
+
+Linux finds and mounts the root filesystem:
+
+```text
+/
+```
+
+After this, directories such as these become available:
+
+```text
+/etc
+/home
+/usr
+/var
+```
+
+---
+
+### 7. systemd / init Starts
+
+The kernel starts the first user-space process.
+
+On most modern Linux systems, it is:
+
+```text
+systemd
+```
+
+It normally has:
+
+```text
+PID = 1
+```
+
+Older Linux systems used:
+
+```text
+init
+```
+
+So:
+
+```text
+Kernel
+   ↓
+systemd (PID 1)
+```
+
+---
+
+### 8. Services Start
+
+`systemd` starts required services.
+
+Examples:
+
+```text
+Network service
+SSH service
+Cron
+Logging
+Database services
+Web server
+```
+
+For example:
+
+```bash
+systemctl start ssh
+```
+
+---
+
+### 9. Login Screen / Shell / GUI
+
+Finally, Linux provides a login interface.
+
+It may show:
+
+```text
+CLI Login
+```
+
+or:
+
+```text
+GUI Login
+```
+
+After login:
+
+```text
+User
+ ↓
+Shell such as Bash
+ ↓
+Linux ready to use
+```
+
+## BIOS vs UEFI Boot
+
+### Legacy BIOS
+
+```text
+Power ON
+ ↓
+BIOS
+ ↓
+MBR
+ ↓
+GRUB
+ ↓
+Kernel
+```
+
+### Modern UEFI
+
+```text
+Power ON
+ ↓
+UEFI
+ ↓
+EFI System Partition
+ ↓
+GRUB / EFI Bootloader
+ ↓
+Kernel
+```
 
 ### SysV vs systemd Boot — Side-by-Side
 
-| Step | SysV init | systemd |
-|------|-----------|---------|
-| PID 1 process | `/sbin/init` | `/usr/lib/systemd/systemd` |
-| Config source | `/etc/inittab` | `/etc/systemd/system/default.target` |
+| Step                | SysV init                          | systemd                                      |
+| ------------------- | ---------------------------------- | -------------------------------------------- |
+| PID 1 process       | `/sbin/init`                       | `/usr/lib/systemd/systemd`                   |
+| Config source       | `/etc/inittab`                     | `/etc/systemd/system/default.target`         |
 | Service definitions | Shell scripts (`/etc/rc.d/rcX.d/`) | Unit files (`.service`, `.mount`, `.socket`) |
-| Execution style | Sequential | Parallel (dependency-resolved) |
-| Speed | Slower | Faster |
+| Execution style     | Sequential                         | Parallel (dependency-resolved)               |
+| Speed               | Slower                             | Faster                                       |
 
 ---
 
@@ -302,16 +553,16 @@ systemctl isolate rescue.target                # go to rescue/single-user mode
 
 `systemctl` is the primary tool to **manage services (units)** under systemd.
 
-| Command | Purpose |
-|---------|---------|
-| `systemctl start <service>` | Start a service **NOW** (this session only) |
-| `systemctl stop <service>` | Stop a running service |
-| `systemctl restart <service>` | Stop + start again (full restart) |
-| `systemctl enable <service>` | Configure service to **start automatically on every boot** (does NOT start it now) |
-| `systemctl disable <service>` | Remove service from auto-start at boot (does NOT stop it now if running) |
-| `systemctl status <service>` | Show current status — running/stopped, recent logs, PID |
-| `systemctl is-enabled <service>` | Check if a service is set to auto-start at boot (`enabled`/`disabled`) |
-| `systemctl daemon-reload` | Reload systemd's unit file configuration after editing/adding a `.service` file |
+| Command                          | Purpose                                                                            |
+| -------------------------------- | ---------------------------------------------------------------------------------- |
+| `systemctl start <service>`      | Start a service **NOW** (this session only)                                        |
+| `systemctl stop <service>`       | Stop a running service                                                             |
+| `systemctl restart <service>`    | Stop + start again (full restart)                                                  |
+| `systemctl enable <service>`     | Configure service to **start automatically on every boot** (does NOT start it now) |
+| `systemctl disable <service>`    | Remove service from auto-start at boot (does NOT stop it now if running)           |
+| `systemctl status <service>`     | Show current status — running/stopped, recent logs, PID                            |
+| `systemctl is-enabled <service>` | Check if a service is set to auto-start at boot (`enabled`/`disabled`)             |
+| `systemctl daemon-reload`        | Reload systemd's unit file configuration after editing/adding a `.service` file    |
 
 ```bash
 systemctl start nginx           # start nginx now
@@ -323,13 +574,13 @@ systemctl daemon-reload         # after editing a .service unit file, reload sys
 
 ### `start` vs `enable` — The Critical Distinction
 
-| Command | Effect NOW | Effect on next REBOOT |
-|---------|-------------|---------------------------|
-| `systemctl start` | ✅ Starts immediately | ❌ Does nothing for future boots |
-| `systemctl enable` | ❌ Does NOT start now | ✅ Will auto-start on every future boot |
-| `systemctl enable --now` | ✅ Starts immediately | ✅ AND auto-starts on future boots |
+| Command                  | Effect NOW            | Effect on next REBOOT                   |
+| ------------------------ | --------------------- | --------------------------------------- |
+| `systemctl start`        | ✅ Starts immediately | ❌ Does nothing for future boots        |
+| `systemctl enable`       | ❌ Does NOT start now | ✅ Will auto-start on every future boot |
+| `systemctl enable --now` | ✅ Starts immediately | ✅ AND auto-starts on future boots      |
 
-🔴 **Exam Trap (extremely common Viva Q):** *"I ran `systemctl enable nginx` but nginx isn't running. Why?"*
+🔴 **Exam Trap (extremely common Viva Q):** _"I ran `systemctl enable nginx` but nginx isn't running. Why?"_
 → `enable` only creates the **symlinks** that tell systemd to start the service **on the next boot** — it does **NOT** start the service in the current session. You must also run `systemctl start nginx`, or combine both with `systemctl enable --now nginx`.
 
 💡 **Memory trick:** `start` = "now"; `enable` = "forever (from next boot onward)". They are **independent** — you can start without enabling (temporary, won't survive reboot) or enable without starting (won't run until next reboot).
@@ -368,14 +619,14 @@ journalctl -k                        # kernel messages only (like dmesg)
 journalctl --disk-usage              # how much disk space journal logs are using
 ```
 
-| Flag | Meaning |
-|------|---------|
-| `-u` | Filter by unit/service name |
-| `-f` | Follow (live tail) |
-| `--since` / `--until` | Time range filtering |
-| `-p` | Filter by priority (emerg, alert, crit, err, warning, notice, info, debug) |
-| `-b` | Filter by boot session |
-| `-k` | Kernel messages only |
+| Flag                  | Meaning                                                                    |
+| --------------------- | -------------------------------------------------------------------------- |
+| `-u`                  | Filter by unit/service name                                                |
+| `-f`                  | Follow (live tail)                                                         |
+| `--since` / `--until` | Time range filtering                                                       |
+| `-p`                  | Filter by priority (emerg, alert, crit, err, warning, notice, info, debug) |
+| `-b`                  | Filter by boot session                                                     |
+| `-k`                  | Kernel messages only                                                       |
 
 🔴 **Exam Trap:** `journalctl -u sshd -f` is the go-to command to **live-debug why a service failed to start** — extremely common real-world/interview scenario.
 
@@ -386,6 +637,7 @@ journalctl --disk-usage              # how much disk space journal logs are usin
 ```bash
 top
 ```
+
 - Shows real-time CPU/memory usage per process, updates every few seconds by default.
 - Inside `top`: press `k` to kill a process, `q` to quit, `M` to sort by memory, `P` to sort by CPU.
 
@@ -394,18 +646,19 @@ top
 ```bash
 htop
 ```
+
 - Color-coded, scrollable, mouse-supported version of `top`.
 - Not installed by default on most distros — needs `yum install htop` / `apt install htop`.
 - Allows easily killing processes, filtering, and tree-view of parent/child processes.
 
 ### Comparison Table: `top` vs `htop`
 
-| Feature | `top` | `htop` |
-|---------|--------|---------|
-| Pre-installed | ✅ Yes (almost always) | ❌ No (needs install) |
-| Interface | Plain text, keyboard-only | Color, mouse-supported, scrollable |
-| Process tree view | ❌ Limited | ✅ Yes |
-| Ease of killing processes | Press `k`, type PID | Select with arrow keys, press `F9` |
+| Feature                   | `top`                     | `htop`                             |
+| ------------------------- | ------------------------- | ---------------------------------- |
+| Pre-installed             | ✅ Yes (almost always)    | ❌ No (needs install)              |
+| Interface                 | Plain text, keyboard-only | Color, mouse-supported, scrollable |
+| Process tree view         | ❌ Limited                | ✅ Yes                             |
+| Ease of killing processes | Press `k`, type PID       | Select with arrow keys, press `F9` |
 
 💡 **Quick troubleshooting combo:** `systemctl status <service>` (is it running?) → `journalctl -u <service> -f` (why did it fail?) → `top`/`htop` (is something hogging CPU/RAM?).
 
@@ -413,25 +666,26 @@ htop
 
 ## 13. Quick-Fire Viva Q&A
 
-| Question | Answer |
-|----------|--------|
-| Difference between bootstrap program and bootloader program? | Bootstrap = fixed 512-byte program that loads the next stage; Bootloader = user-facing menu program (e.g., GRUB) offering OS choices |
-| What is POST? | Power-On Self Test — hardware check performed by BIOS/UEFI at startup |
-| Difference between BIOS and UEFI? | UEFI is faster, supports larger disks (GPT), more hardware, and Secure Boot; BIOS is legacy, limited to MBR/2TB |
-| Where should you edit GRUB settings? | `/etc/default/grub`, then regenerate `grub.cfg` — never edit `grub.cfg` directly |
-| Why does `initramfs` exist? | To provide drivers needed to mount the real root filesystem, before the real root is accessible |
-| Tool used to build initramfs? | `dracut` |
-| What does `pivot_root` do? | Switches from the temporary initramfs root to the real root filesystem during boot |
-| What is systemd's PID? | 1 (first user-space process) |
-| Which runlevel is reserved/unused? | Runlevel 4 |
-| systemd equivalent of runlevel 5? | `graphical.target` |
-| systemd equivalent of runlevel 3? | `multi-user.target` |
-| Difference between `systemctl start` and `systemctl enable`? | `start` runs it now (not persistent); `enable` makes it auto-start on future boots (doesn't start now) |
-| How to both start AND enable a service in one command? | `systemctl enable --now servicename` |
-| When do you need `systemctl daemon-reload`? | After creating/editing/deleting a `.service` unit file |
-| Command to live-tail logs for a specific service? | `journalctl -u servicename -f` |
-| Difference between SysV init and systemd service startup? | SysV = sequential; systemd = parallel, dependency-resolved (faster boot) |
-| Naming convention `S10network` in SysV — what does it mean? | `S` = Start this service, `10` = execution order/priority |
+| Question                                                     | Answer                                                                                                                                |
+| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Difference between bootstrap program and bootloader program? | Bootstrap = fixed 512-byte program that loads the next stage; Bootloader = user-facing menu program (e.g., GRUB) offering OS choices  |
+| What is POST?                                                | Power-On Self Test — hardware check performed by BIOS/UEFI at startup                                                                 |
+| Difference between BIOS and UEFI?                            | UEFI is faster, supports larger disks (GPT), more hardware, and Secure Boot; BIOS is legacy, limited to MBR/2TB                       |
+| Where should you edit GRUB settings?                         | `/etc/default/grub`, then regenerate `grub.cfg` — never edit `grub.cfg` directly                                                      |
+| How many stages does GRUB have, and what does each do?       | 3 — Stage 1 (MBR, loads Stage 1.5), Stage 1.5 (filesystem drivers, loads Stage 2), Stage 2 (full GRUB menu, loads kernel + initramfs) |
+| Why does `initramfs` exist?                                  | To provide drivers needed to mount the real root filesystem, before the real root is accessible                                       |
+| Tool used to build initramfs?                                | `dracut`                                                                                                                              |
+| What does `pivot_root` do?                                   | Switches from the temporary initramfs root to the real root filesystem during boot                                                    |
+| What is systemd's PID?                                       | 1 (first user-space process)                                                                                                          |
+| Which runlevel is reserved/unused?                           | Runlevel 4                                                                                                                            |
+| systemd equivalent of runlevel 5?                            | `graphical.target`                                                                                                                    |
+| systemd equivalent of runlevel 3?                            | `multi-user.target`                                                                                                                   |
+| Difference between `systemctl start` and `systemctl enable`? | `start` runs it now (not persistent); `enable` makes it auto-start on future boots (doesn't start now)                                |
+| How to both start AND enable a service in one command?       | `systemctl enable --now servicename`                                                                                                  |
+| When do you need `systemctl daemon-reload`?                  | After creating/editing/deleting a `.service` unit file                                                                                |
+| Command to live-tail logs for a specific service?            | `journalctl -u servicename -f`                                                                                                        |
+| Difference between SysV init and systemd service startup?    | SysV = sequential; systemd = parallel, dependency-resolved (faster boot)                                                              |
+| Naming convention `S10network` in SysV — what does it mean?  | `S` = Start this service, `10` = execution order/priority                                                                             |
 
 ---
 
@@ -441,7 +695,10 @@ htop
 Full Boot Sequence:
 BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target → Login
 
-GRUB2:
+GRUB2 (3 stages):
+  Stage 1   → MBR, 512B, loads Stage 1.5
+  Stage 1.5 → filesystem drivers, loads Stage 2
+  Stage 2   → full menu, loads kernel + initramfs
   Config: /etc/default/grub (edit) → grub.cfg (auto-generated, don't edit)
   GRUB_TIMEOUT = seconds before default boots
   Rescue mode = minimal CLI when GRUB can't find config/boot files
@@ -454,6 +711,7 @@ initramfs:
 Runlevel → systemd Target:
   0 → poweroff.target
   1 → rescue.target
+  2 → multi-user.target (no networking, no separate systemd target)
   3 → multi-user.target
   5 → graphical.target
   6 → reboot.target
@@ -471,4 +729,3 @@ Troubleshooting:
   journalctl -u <svc> -f      → live logs, why did it fail?
   top / htop                  → CPU/memory usage right now
 ```
-
