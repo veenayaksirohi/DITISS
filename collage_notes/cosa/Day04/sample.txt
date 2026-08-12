@@ -1,0 +1,9 @@
+Linux is a powerful operating system.
+Unix is the origin of Linux and many Unix systems are still in use.
+Linux and Unix are both multiuser systems.
+This system is used in servers, and this system is very reliable.
+Many developers prefer Linux because Linux is open source.
+Unix systems were developed earlier than Linux systems.
+This line contains Linux Linux Linux multiple times.
+Unix Unix systems are known for stability.
+The system administrator manages the Linux system.

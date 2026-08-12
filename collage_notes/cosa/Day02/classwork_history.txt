@@ -1,0 +1,124 @@
+echo $SHELL
+echo $HOME
+echo $USER
+echo $PWD
+echo $OLDPWD
+echo $PATH
+env
+echo $$
+ls
+cat file.txt 
+cp file.txt copy.txt
+ls
+cat copy.txt 
+cp file.txt dir1
+ls dir1
+cp file.txt dir1/new.txt
+ls dir1
+ls
+ls dir1
+cp -r dir1 copy
+ls
+ls copy
+ls
+cat file.txt 
+mv file.txt move.txt
+ls
+cat move.txt 
+ls
+mv file2.txt dir2
+ls
+ls dir2
+mv dir1 dir
+ls
+mv dir2 dir
+ls
+ls dir
+ls
+cat numbers.txt
+cat > numbers.txt
+cat -n numbers.txt
+head numbers.txt 
+tail numbers.txt 
+head -5 numbers.txt 
+tail -7 numbers.txt 
+cat numbers.txt 
+cat -r numbers.txt 
+tac numbers.txt 
+rev numbers.txt 
+sort numbers.txt 
+sort -n numbers.txt 
+cat numbers.txt 
+uniq numbers.txt 
+ls
+cat > file1.txt 
+cat  file1.txt 
+cat file3.txt 
+cat > file3.txt 
+cat file3.txt 
+mv file1.txt file3.txt 
+ls
+cat file3.txt 
+cat
+ls
+cat
+cat > catFile.txt
+cat catFile.txt 
+cat < catFile.txt 
+cat < catFile.txt > catOut.txt
+cat catOut.txt 
+rev
+rev > revOut.txt
+cat revOut.txt 
+cat > revIn.txt
+rev < revIn.txt 
+rev < revIn.txt > revOut.txt 
+cat revOut.txt 
+sort numbers.txt 
+sort numbers.txt > sorted.txt
+cat sorted.txt 
+uniq sorted.txt 
+ls -W
+ls -W 2> lsErr.txt
+cat lsErr.txt 
+bc
+cat > input
+bc < input > output 2> error
+cat input 
+cat output 
+cat error 
+ls /home
+ls /home /home/sunbeam
+ls /home /home/sunbea
+ls /home /home/sunbea 1> lsOut.txt
+ls /home /home/sunbea 2> lsErr.txt
+ls /home /home/sunbea > lsOut.txt 2> lsErr.txt
+ls /home /home/sunbea > ls.txt 2> ls.txt
+cat ls.txt 
+ls /home /home/sunbea > ls.txt 2>&1
+cat ls.txt 
+sort numbers.txt | uniq
+head -10 numbers.txt 
+head -10 numbers.txt | tail -5
+tr
+cut
+echo "Hello SunBeam"
+echo "Hello SunBeam" | tr " " "#"
+echo "Hello SunBeam" | tr "a-z" "A-Z"
+echo "Hello SunBeam" | tr "A-Z" "a-z"
+echo "Hello        SunBeam"
+echo "Hello        SunBeam" | tr -s " "
+echo "Hello        SunBeam" | tr -s " l"
+echo "Hello        SunBeam" | tr -s " le"
+echo "itiss esd mc ac bda"
+echo "itiss esd mc ac bda" | cut -d " " -f1
+echo "itiss esd mc ac bda" | cut -d " " -f3
+echo "itiss esd mc ac bda" | cut -d " " -f3,4
+echo "itiss esd mc ac bda" | cut -d " " -f2-4
+echo "itiss esd mc ac bda" | cut -d " " -f4,3
+cat students.csv
+cat > students.csv
+cat students.csv 
+cat students.csv | cut -d "," -f2
+cat students.csv | cut -d "," -f4
+cat students.csv | cut -d "," -f5

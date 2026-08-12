@@ -1,0 +1,15 @@
+- name: install and start apache using variable name
+  hosts: servers
+  become: yes
+  vars:
+    package_name: apache2
+  tasks:
+    - name: install the package
+      apt:
+        name: '{{ package_name }}'
+        state: present
+
+    - name: start the server
+      service:
+        name: '{{ package_name }}'
+        state: started

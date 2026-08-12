@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfig
+data:
+  BACKEND_URL: 'https://mybackend-updated.com/v1/'
+  PARAM1: '50000'

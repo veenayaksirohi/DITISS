@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs2
+  labels:
+    app: rs2
+spec:
+  # desired state
+  replicas: 5
+
+  # select the pods to be managed
+  selector:
+    matchLabels:
+      app: nginx
+
+  # definition of pod
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: container-nginx
+          image: nginx
+          ports:
+            - containerPort: 80

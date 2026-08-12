@@ -1,0 +1,5 @@
+- name: execute command
+  hosts: all
+  tasks:
+    - name: get current date and time
+      command: date

@@ -1,0 +1,9 @@
+- name: execute a single command and shell script
+  hosts: servers
+  become: yes
+  tasks:
+    - name: execute a single command
+      command: df -h
+
+    - name: execute a shell script
+      shell: script.sh

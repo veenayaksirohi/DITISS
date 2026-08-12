@@ -254,7 +254,7 @@ systemctl isolate rescue.target                # go to rescue/single-user mode
 
 ---
 
-## Linux Booting Process
+## 9. Linux Booting Process — Narrative Walkthrough
 
 Linux booting means **starting the computer and loading the Linux operating system into memory**.
 
@@ -278,13 +278,11 @@ Services start
 Login Screen / Shell / GUI
 ```
 
-### 1. Power ON
+### 9.1 Power ON
 
 When you switch on the computer, the CPU starts executing firmware code stored on the motherboard.
 
----
-
-### 2. BIOS / UEFI
+### 9.2 BIOS / UEFI
 
 BIOS or UEFI initializes the hardware.
 
@@ -302,9 +300,7 @@ This hardware check is called **POST**.
 POST = Power-On Self-Test
 ```
 
-Then BIOS/UEFI looks for a bootable device.
-
-For example:
+Then BIOS/UEFI looks for a bootable device, for example:
 
 ```text
 SSD
@@ -313,9 +309,7 @@ USB
 Network
 ```
 
----
-
-### 3. Bootloader
+### 9.3 Bootloader
 
 After finding the boot device, the system starts the **bootloader**.
 
@@ -349,9 +343,7 @@ initramfs
 
 into RAM.
 
----
-
-### 4. Linux Kernel Loads
+### 9.4 Linux Kernel Loads
 
 The **kernel is the core of Linux**.
 
@@ -374,17 +366,13 @@ Kernel
 Hardware management starts
 ```
 
----
-
-### 5. initramfs
+### 9.5 initramfs
 
 **initramfs = Initial RAM File System**
 
 It is a small temporary filesystem loaded into RAM during boot.
 
-It contains important drivers and tools needed before the real root filesystem can be mounted.
-
-For example:
+It contains important drivers and tools needed before the real root filesystem can be mounted, for example:
 
 ```text
 Disk driver
@@ -405,9 +393,7 @@ Find real root filesystem
 Mount /
 ```
 
----
-
-### 6. Root Filesystem Mounts
+### 9.6 Root Filesystem Mounts
 
 Linux finds and mounts the root filesystem:
 
@@ -424,9 +410,7 @@ After this, directories such as these become available:
 /var
 ```
 
----
-
-### 7. systemd / init Starts
+### 9.7 systemd / init Starts
 
 The kernel starts the first user-space process.
 
@@ -456,13 +440,9 @@ Kernel
 systemd (PID 1)
 ```
 
----
+### 9.8 Services Start
 
-### 8. Services Start
-
-`systemd` starts required services.
-
-Examples:
+`systemd` starts required services, for example:
 
 ```text
 Network service
@@ -479,13 +459,9 @@ For example:
 systemctl start ssh
 ```
 
----
+### 9.9 Login Screen / Shell / GUI
 
-### 9. Login Screen / Shell / GUI
-
-Finally, Linux provides a login interface.
-
-It may show:
+Finally, Linux provides a login interface. It may show:
 
 ```text
 CLI Login
@@ -507,7 +483,9 @@ Shell such as Bash
 Linux ready to use
 ```
 
-## BIOS vs UEFI Boot
+---
+
+## 10. BIOS vs UEFI Boot Path, and SysV vs systemd — Side-by-Side
 
 ### Legacy BIOS
 
@@ -629,8 +607,6 @@ journalctl --disk-usage              # how much disk space journal logs are usin
 | `-k`                  | Kernel messages only                                                       |
 
 🔴 **Exam Trap:** `journalctl -u sshd -f` is the go-to command to **live-debug why a service failed to start** — extremely common real-world/interview scenario.
-
----
 
 ### 12.2 `top` — Classic Live Process Monitor
 

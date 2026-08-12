@@ -1,0 +1,465 @@
+Microsoft Windows [Version 10.0.26200.7840]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Admin>MYSQL -U ROOT -P
+MYSQL: [ERROR] MYSQL: option '-P' requires an argument.
+
+C:\Users\Admin>mysql -u root -p
+Enter password: *******
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 150
+Server version: 8.0.45 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| assignment         |
+| clg                |
+| college            |
+| ecommercedb        |
+| information_schema |
+| my_new_db          |
+| mydb               |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+12 rows in set (0.06 sec)
+
+mysql> create database assignment2;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use assignment2;
+Database changed
+mysql> create table SALESPEOPLE(
+    ->     Snum int(4),
+    ->     Sname varchar(10),
+    ->     City varchar(10),
+    ->     Comm float(3,2)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+mysql> Insert into SALESPEOPLE (Snum, Sname, City, Comm) Values
+    -> (1001, 'Peel', 'London', 0.12),
+    -> (1002, 'Serres', 'San Jose', 0.13),
+    -> (1004, 'Motika', 'London', 0.11),
+    -> (1007, 'Rifkin', 'Barcelona', 0.15),
+    -> (1003, 'Axelrod', 'New York', 0.10);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> Create table CUSTOMERS (
+    ->     Cnum int(4),
+    ->     Cname varchar(10),
+    ->     City varchar(10),
+    ->     Rating int(4),
+    ->     Snum int(4)
+    -> );
+Query OK, 0 rows affected, 3 warnings (0.02 sec)
+
+mysql> Insert into CUSTOMERS (Cnum, Cname, City, Rating, Snum) Values
+    -> (2001, 'Hoffman', 'London', 100, 1001),
+    -> (2002, 'Giovanni', 'Rome', 200, 1003),
+    -> (2003, 'Liu', 'San Jose', 200, 1002),
+    -> (2004, 'Grass', 'Berlin', 300, 1002),
+    -> (2006, 'Clemens', 'London', 100, 1001),
+    -> (2008, 'Cisneros', 'San Jose', 300, 1007),
+    -> (2007, 'Pereira', 'Rome', 100, 1004);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Create table ORDERS (
+    ->     Onum int(4),
+    ->     Amt float(7,2),
+    ->     Odate date,
+    ->     Cnum int(4),
+    ->     Snum int(4)
+    -> );
+Query OK, 0 rows affected, 4 warnings (0.02 sec)
+
+mysql> 1 / 3
+    -> MySQL_Assignment1.md
+    -> Insert into ORDERS (Onum, Amt, Odate, Cnum, Snum) Values
+    -> (3001, 18.69, '1990-10-03', 2008, 1007),
+    -> (3003, 767.19, '1990-10-03', 2001, 1001),
+    -> (3002, 1900.10, '1990-10-03', 2007, 1004),
+    -> (3005, 5160.45, '1990-10-03', 2003, 1002),
+    -> (3006, 1098.16, '1990-10-03', 2008, 1007),
+    -> (3009, 1713.23, '1990-10-04', 2002, 1003),
+    -> (3007, 75.75, '1990-10-04', 2004, 1002),
+    -> (3008, 4723.00, '1990-10-05', 2006, 1001),
+    -> (3010, 1309.95, '1990-10-06', 2004, 1002),
+    -> (3011, 9891.88, '1990-10-06', 2006, 1001);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1 / 3
+MySQL_Assignment1.md
+Insert into ORDERS (Onum, Amt, Odate, Cnum, Snum) Val' at line 1
+mysql> Create table ORDERS (
+    ->     Onum int(4),
+    ->     Amt float(7,2),
+    ->     Odate date,
+    ->     Cnum int(4),
+    ->     Snum int(4)
+    -> );
+ERROR 1050 (42S01): Table 'orders' already exists
+mysql> Insert into ORDERS (Onum, Amt, Odate, Cnum, Snum) Values
+    -> (3001, 18.69, '1990-10-03', 2008, 1007),
+    -> (3003, 767.19, '1990-10-03', 2001, 1001),
+    -> (3002, 1900.10, '1990-10-03', 2007, 1004),
+    -> (3005, 5160.45, '1990-10-03', 2003, 1002),
+    -> (3006, 1098.16, '1990-10-03', 2008, 1007),
+    -> (3009, 1713.23, '1990-10-04', 2002, 1003),
+    -> (3007, 75.75, '1990-10-04', 2004, 1002),
+    -> (3008, 4723.00, '1990-10-05', 2006, 1001),
+    -> (3010, 1309.95, '1990-10-06', 2004, 1002),
+    -> (3011, 9891.88, '1990-10-06', 2006, 1001);
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-----------------------+
+| Tables_in_assignment2 |
++-----------------------+
+| customers             |
+| orders                |
+| salespeople           |
++-----------------------+
+3 rows in set (0.01 sec)
+
+mysql> select * from salespeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from orders;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select Onum,amt, odate from orders;
++------+---------+------------+
+| Onum | amt     | odate      |
++------+---------+------------+
+| 3001 |   18.69 | 1990-10-03 |
+| 3003 |  767.19 | 1990-10-03 |
+| 3002 | 1900.10 | 1990-10-03 |
+| 3005 | 5160.45 | 1990-10-03 |
+| 3006 | 1098.16 | 1990-10-03 |
+| 3009 | 1713.23 | 1990-10-04 |
+| 3007 |   75.75 | 1990-10-04 |
+| 3008 | 4723.00 | 1990-10-05 |
+| 3010 | 1309.95 | 1990-10-06 |
+| 3011 | 9891.88 | 1990-10-06 |
++------+---------+------------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customers where snum = 1001;
++------+---------+--------+--------+------+
+| Cnum | Cname   | City   | Rating | Snum |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London |    100 | 1001 |
+| 2006 | Clemens | London |    100 | 1001 |
++------+---------+--------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> ^C
+mysql> select city, sname, snum, comm from salespeople;
++-----------+---------+------+------+
+| city      | sname   | snum | comm |
++-----------+---------+------+------+
+| London    | Peel    | 1001 | 0.12 |
+| San Jose  | Serres  | 1002 | 0.13 |
+| London    | Motika  | 1004 | 0.11 |
+| Barcelona | Rifkin  | 1007 | 0.15 |
+| New York  | Axelrod | 1003 | 0.10 |
++-----------+---------+------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customers whare column rating cnum = 2003;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'column rating cnum = 2003' at line 1
+mysql> select * from customers whare cnum = 2003;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'cnum = 2003' at line 1
+mysql> SELECT rating, cname
+    -> FROM Customers
+    -> WHERE city = 'San Jose';
++--------+----------+
+| rating | cname    |
++--------+----------+
+|    200 | Liu      |
+|    300 | Cisneros |
++--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * frome table where amt > 1000;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'frome table where amt > 1000' at line 1
+mysql> select * from orders where amt > 1000;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select sname, city from salesperson where city = 'london'
+    -> ;
+ERROR 1146 (42S02): Table 'assignment2.salesperson' doesn't exist
+mysql> select sname, city from salesperson where city = 'london' AND comm > 0.10;
+ERROR 1146 (42S02): Table 'assignment2.salesperson' doesn't exist
+mysql> select sname, city from salespeople where city = 'london' AND comm > 0.10;
++--------+--------+
+| sname  | city   |
++--------+--------+
+| Peel   | London |
+| Motika | London |
++--------+--------+
+2 rows in set (0.00 sec)
+
+mysql> select * from customers where rating <= 100;
++------+---------+--------+--------+------+
+| Cnum | Cname   | City   | Rating | Snum |
++------+---------+--------+--------+------+
+| 2001 | Hoffman | London |    100 | 1001 |
+| 2006 | Clemens | London |    100 | 1001 |
+| 2007 | Pereira | Rome   |    100 | 1004 |
++------+---------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customers where rating <= 100 AND city = rome;
+ERROR 1054 (42S22): Unknown column 'rome' in 'where clause'
+mysql> select * from customers where rating <= 100 AND city = 'rome';
++------+---------+------+--------+------+
+| Cnum | Cname   | City | Rating | Snum |
++------+---------+------+--------+------+
+| 2007 | Pereira | Rome |    100 | 1004 |
++------+---------+------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from customers where rating > 100 AND city = 'rome';
++------+----------+------+--------+------+
+| Cnum | Cname    | City | Rating | Snum |
++------+----------+------+--------+------+
+| 2002 | Giovanni | Rome |    200 | 1003 |
++------+----------+------+--------+------+
+1 row in set (0.00 sec)
+
+mysql> select * from orders where odate = '1990-10-03' or odate = '1990-10-04';
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
++------+---------+------------+------+------+
+7 rows in set (0.01 sec)
+
+mysql> select * from orders where odate in ('1990-10-03', '1990-10-04');
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers where sname 'A' between 'g':
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''A' between 'g':' at line 1
+mysql> select * from customers where sname 'A' between 'g';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''A' between 'g'' at line 1
+mysql> select * from customers where sname 'A' between 'g';^C
+mysql> select * from customers where sname between 'A' and 'g';
+ERROR 1054 (42S22): Unknown column 'sname' in 'where clause'
+mysql> select * from customers where 'sname' between 'A' and 'g';
+Empty set (0.00 sec)
+
+mysql> select * from customers where sname between 'A' and 'g';
+ERROR 1054 (42S22): Unknown column 'sname' in 'where clause'
+mysql> select * from customers where cname between 'A' and 'g';
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.00 sec)
+
+mysql> select * from orders where amt != 0;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from orders where amt != 0 is not null;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from orders order by amt asc;
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3008 | 4723.00 | 1990-10-05 | 2006 | 1001 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3011 | 9891.88 | 1990-10-06 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customers order by rating desc;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from salespeople order by cname asc;
+ERROR 1054 (42S22): Unknown column 'cname' in 'order clause'
+mysql> select * from salespeople order by 'cname' asc;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.12 |
+| 1002 | Serres  | San Jose  | 0.13 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1003 | Axelrod | New York  | 0.10 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from salespeople order by sname asc;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1003 | Axelrod | New York  | 0.10 |
+| 1004 | Motika  | London    | 0.11 |
+| 1001 | Peel    | London    | 0.12 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
+| 1002 | Serres  | San Jose  | 0.13 |
++------+---------+-----------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from orders where odate in (1990-10-03 , 1990-10-04);
+Empty set, 2 warnings (0.00 sec)
+
+mysql> select * from orders where odate in ('1990-10-03' , '1990-10-04');
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
++------+---------+------------+------+------+
+7 rows in set (0.00 sec)
+
+mysql> select * from customers where city in ('london', 'rome','berlin');
++------+----------+--------+--------+------+
+| Cnum | Cname    | City   | Rating | Snum |
++------+----------+--------+--------+------+
+| 2001 | Hoffman  | London |    100 | 1001 |
+| 2002 | Giovanni | Rome   |    200 | 1003 |
+| 2004 | Grass    | Berlin |    300 | 1002 |
+| 2006 | Clemens  | London |    100 | 1001 |
+| 2007 | Pereira  | Rome   |    100 | 1004 |
++------+----------+--------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql>

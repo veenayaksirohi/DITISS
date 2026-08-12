@@ -1,0 +1,10 @@
+- name: create user
+  hosts: all
+  become: yes
+  tasks:
+    - name: create john user
+      user:
+        name: john
+        comment: john doe
+        state: present
+        create_home: yes

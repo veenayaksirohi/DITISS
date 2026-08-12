@@ -1,0 +1,13 @@
+- name: install multiple packages
+  hosts: servers
+  become: yes
+  tasks:
+    - name: install git, curl, unzip, htop
+      apt:
+        name: '{{ item }}'
+        state: present
+      loop:
+        - git
+        - curl
+        - unzip
+        - htop

@@ -1,0 +1,18 @@
+- name: install and start apache2 and host my index.htm
+  hosts: servers
+  become: yes
+  tasks:
+    - name: install apache2
+      apt:
+        name: apache2
+        state: present
+
+    - name: start apache2
+      service:
+        name: apache2
+        state: started
+
+    - name: host a single page website
+      copy:
+        src: ./index.html
+        dest: /var/www/html/index.html

@@ -1,0 +1,18 @@
+# Multi machine setup
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu24"
+
+  # Configuration for 1st machine 
+  config.vm.define "master" do |master|
+    # To change the hostname of VM
+    master.vm.hostname = "master"
+  end
+
+  # Configuration for 2nd machine 
+  config.vm.define "worker" do |worker|
+    # To change the hostname of VM
+    worker.vm.hostname = "worker"
+  end
+
+end

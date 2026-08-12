@@ -1,0 +1,19 @@
+# Shell provisioning
+# Run the shell script while creating the VM
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+  
+  config.vm.provision "shell", path: "script.sh"
+
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+    master.vm.network "private_network", ip: "192.168.56.10"
+  end
+
+  config.vm.define "worker" do |worker|
+    worker.vm.hostname = "worker"
+    worker.vm.network "private_network", ip: "192.168.56.20"
+  end
+
+end

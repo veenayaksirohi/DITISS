@@ -1,0 +1,226 @@
+ps
+ps -e
+ps -e -o pid,cmd
+ps -e -o pid,ppid,cmd
+ls | wc
+ls -W | wc
+ls
+cat revIn.txt revOut.txt 
+cat revIn.txt file3.txt 
+ls | wc > out.txt
+cat out.txt 
+ls > ls.txt | wc > out.txt
+cat ls.txt 
+cat out.txt 
+ls
+ls -s
+ls -l
+ls -i
+ls -l
+ls -l 
+ls -l /boot/vmlinuz
+mkfifo fifo
+ls -l fifo 
+ls -l /dev
+ls
+mv file3.txt file.txt 
+ls -l file.txt 
+chmod +x file.txt 
+ls -l file.txt 
+chmod -x file.txt 
+ls -l file.txt 
+chmod -r file.txt 
+ls -l file.txt 
+chmod +r file.txt 
+ls -l file.txt 
+chmod u+x file.txt 
+ls -l file.txt 
+chmod u-x file.txt 
+ls -l file.txt 
+chmod g-rw file.txt 
+ls -l file.txt 
+chmod g+rw file.txt 
+ls -l file.txt 
+chmod u+x g-w file.txt 
+chmod 744 file.txt 
+ls -l file.txt 
+chmod 664 file.txt 
+ls -l file.txt 
+chown root file.txt 
+sudo chown root file.txt 
+ls -l file.txt 
+sudo chown :root file.txt 
+ls -l file.txt 
+sudo chown sunbeam:sunbeam file.txt 
+ls -l file.txt 
+chmod 0007 file.txt 
+ls -l file.txt 
+cat file.txt 
+cat > file.txt 
+chmod 0664 file.txt 
+ls -l file.txt 
+ls
+ls -l dir
+ls -l 
+stat file.txt 
+stat dir
+man stat
+stat -c "%A" file.txt 
+stat -c "access = %A" file.txt 
+stat -c "file = %n access = %A" file.txt 
+stat -c "%n : %F (%A)" file.txt 
+stat -c "%n : %U %G" file.txt 
+stat -c "%n : %A" dir
+ls dir
+chmod u-r dir
+stat -c "%n : %A" dir
+ls dir
+touch dir/file.xtx
+tree dir
+chmod u+r dir
+stat -c "%n : %A" dir
+chmod u-w dir
+stat -c "%n : %A" dir
+ls dir
+touch dir/test.txt
+rm dir/file.xtx 
+chmod u+w dir
+stat -c "%n : %A" dir
+cd dir
+ls
+cd ..
+chmod u-x dir
+stat -c "%n : %A" dir
+cd dir
+ls dir
+touch dir/test.txt
+cat dir/file.txt 
+chmod u+x dir
+man find
+find -name file.txt 
+find ~/feb2026 -name file.txt 
+find ~/feb2026 -name dir
+find -type f
+find -type d
+find -type p
+find /boot -type l
+ls -l
+ls -lh
+find -size 4
+find -size 4k
+find -size -4k
+find -size +4k
+find ../esd -size +4k
+find ../desd -size +4k
+ls -l
+find -size 100
+find -size 100c
+find -size -100c
+ls -l
+find -size +100c
+find -mtime 1
+ls
+find .. -mtime 1
+ls ..
+cat > taste.txt
+cat taste.txt 
+grep "good" taste.txt 
+grep "cake" taste.txt 
+grep "is" taste.txt 
+grep -w "is" taste.txt 
+grep -n "is" taste.txt 
+grep -v "is" taste.txt 
+grep -c "is" taste.txt 
+grep -c "Is" taste.txt 
+grep "Is" taste.txt 
+grep -i "Is" taste.txt 
+grep "is" taste.txt 
+grep "^is" taste.txt 
+grep "is$" taste.txt 
+grep "^is$" taste.txt 
+cat > select.txt
+grep "bg" select.txt 
+grep "bag" select.txt 
+grep "big" select.txt 
+grep "bug" select.txt 
+grep "b[aiu]g" select.txt 
+grep "b[^aiu]g" select.txt 
+grep "b.g" select.txt 
+grep "b*g" select.txt 
+grep "b\*g" select.txt 
+grep "b[*]g" select.txt 
+grep -F "b*g" select.txt 
+fgrep "b*g" select.txt 
+cat > repeat.txt
+grep "ww" repeat.txt 
+grep "wow" repeat.txt 
+grep "wo*w" repeat.txt 
+grep "wo?w" repeat.txt 
+grep -E "wo?w" repeat.txt 
+egrep "wo?w" repeat.txt 
+egrep "wo+w" repeat.txt 
+egrep "wo{2}w" repeat.txt 
+egrep "wo{5}w" repeat.txt 
+egrep "wo{2,5}w" repeat.txt 
+egrep "wo{,5}w" repeat.txt 
+egrep "wo{2,}w" repeat.txt 
+egrep "w[oo]w" repeat.txt 
+egrep "w(oo)w" repeat.txt 
+egrep "w[oo]{2}w" repeat.txt 
+egrep "w[oo]{4}w" repeat.txt 
+egrep "w(oo){2}w" repeat.txt 
+egrep "w(oo){4}w" repeat.txt 
+grep "cake|good" taste.txt 
+egrep "cake|good" taste.txt 
+sed 's/Linux/OS/' sample.txt 
+cat sample.txt 
+sed 's/Linux/OS/2' sample.txt 
+sed 's/Linux/OS/g' sample.txt 
+sed 's/Linux/OS/2g' sample.txt 
+sed 's/linux/OS/g' sample.txt 
+sed 's/linux/OS/gi' sample.txt 
+sed '=' sample.txt 
+sed '5 s/Linux/OS/g' sample.txt 
+sed '5,7 s/Linux/OS/g' sample.txt 
+sed '5,$ s/Linux/OS/g' sample.txt 
+sed 's/Linux/OS/' sample.txt 
+sed 's/Linux/OS/p' sample.txt 
+sed 's/Linux/OS/' sample.txt 
+sed -n 's/Linux/OS/' sample.txt 
+cat sample.txt 
+sed '' sample.txt 
+cat sample.txt 
+cat -n sample.txt 
+sed '5d' sample.txt 
+sed '$d' sample.txt 
+sed '5,7d' sample.txt 
+sed '5,$d' sample.txt 
+cat sample.txt 
+sed '/system/d' sample.txt 
+cat sample.txt 
+sed 's/Linux/OS1/g' 's/Unix/OS2/' sample.txt 
+sed 's/Linux/OS1/g ; s/Unix/OS2/g' sample.txt 
+pwd ls
+ls pwd
+ls ; pwd
+sed -e 's/Linux/OS1/g' -e 's/Unix/OS2/' sample.txt 
+cat > script.sed
+cat script.sed 
+sed -f script.sed sample.txt 
+cat sample.txt 
+sed 's/Linux/OS/g' sample.txt 
+cat sample.txt 
+sed -i 's/Linux/OS/g' sample.txt 
+cat sample.txt 
+sed 's/OS/Linux/g' sample.txt 
+sed 's/Linux/OS/g' sample.txt 
+sed 's/^Linux/OS/g' sample.txt 
+sed 's/system.$/OS/g' sample.txt 
+cat sample.txt 
+sed 's/L[a-zA-Z0-9]*/OS/g' sample.txt 
+sed 's/Linux|Unix/OS/g' sample.txt 
+sed 's/Linux\|Unix/OS/g' sample.txt 
+sed -r 's/Linux|Unix/OS/g' sample.txt 
+sed -E 's/Linux|Unix/OS/g' sample.txt 
+sed '3i\This is a new line' sample.txt 
+sed '3a\This is a new line' sample.txt 

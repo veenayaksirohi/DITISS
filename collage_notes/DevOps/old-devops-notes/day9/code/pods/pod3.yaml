@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod3
+  labels:
+    app: httpd
+spec:
+  containers:
+    - name: container1
+      image: httpd
+      ports:
+        - containerPort: 80
+          protocol: TCP
+
+    - name: container2
+      image: mysql
+      ports:
+        - containerPort: 3306
+      env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: root

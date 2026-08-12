@@ -1,0 +1,20 @@
+# Static IP setup
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu24"
+
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+    # To attach a host only adapater and set static IP 
+    # give the IP in 192.168.56.0/24 network.
+    master.vm.network "private_network", ip: "192.168.56.10"
+  end
+
+  config.vm.define "worker" do |worker|
+    worker.vm.hostname = "worker"
+    # To attach a host only adapater and set static IP 
+    # give the IP in 192.168.56.0/24 network.
+    worker.vm.network "private_network", ip: "192.168.56.20"
+  end
+
+end

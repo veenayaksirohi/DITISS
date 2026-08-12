@@ -1,0 +1,15 @@
+services:
+  user-service:
+    build: ./user-service
+    ports:
+      - 4002:4000
+
+  order-service:
+    build: ./order-service
+    ports:
+      - 4001:4000
+
+  product-service:
+    build: ./product-service
+    ports:
+      - 4003:4000

@@ -1,0 +1,19 @@
+- name: install and configure apache2
+  hosts: all
+  become: yes
+  tasks:
+    - name: install apache
+      apt:
+        name: apache2
+        state: present
+
+    - name: copy virtual host config file
+      copy:
+        src: ./virtual-host.conf
+        dest: /etc/apache2/sites-enabled
+
+    - name: start apache
+      service:
+        name: apache2
+        state: restarted
+        enabled: yes

@@ -1,0 +1,27 @@
+# name of the playbook
+- name: playbook to install and start apache server
+
+# name of the playbook
+- name: playbook to install apache server
+
+# name of the playbook
+- name: playbook to install apache server
+
+  # selection of managed nodes (servers is a group created in inventory.ini file)
+  hosts: servers
+
+  # execute the instructions using root (sudo) privileges
+  become: yes
+
+  # list of tasks
+  tasks:
+    # task name
+    - name: install apache2
+
+      # module name
+      apt:
+        # package name
+        name: apache2
+
+        # action to be taken
+        state: present

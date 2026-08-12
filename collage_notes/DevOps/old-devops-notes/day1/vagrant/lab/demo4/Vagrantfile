@@ -1,0 +1,15 @@
+# Shell provisioning
+# Run the shell script while creating the VM
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu24"
+  
+  config.vm.define "master" do |master|
+    master.vm.hostname = "master"
+    master.vm.network "private_network", ip: "192.168.56.10"
+
+    # Give the path of shell script.
+    master.vm.provision "shell", path: "main.sh"
+  end
+
+end

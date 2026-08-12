@@ -1,0 +1,29 @@
+- name: configure web server
+  hosts: web
+  become: yes
+  tasks:
+  - name: install apache2
+    apt:
+      name: apache2
+      state: present
+  - name: start apache2 service
+    service:
+      name: apache2
+      state: started
+  - name: copy my website
+    copy:
+      src: ./index.html
+      dest: /var/www/html/index.html
+
+- name: configure database
+  hosts: db
+  become: yes
+  tasks:
+  - name: install mysql server
+    apt:
+      name: mysql-server
+      state: present
+  - name: start mysql server
+    service:
+      name: mysql
+      state: started

@@ -1,0 +1,8 @@
+# Single machine setup
+
+Vagrant.configure("2") do |config|
+  # config.vm.box = "base"
+  # change the name from "base" to the box which is present
+  # in your machine. // vagrant box list
+  config.vm.box = "ubuntu24"
+end

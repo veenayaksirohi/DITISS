@@ -1,0 +1,8 @@
+- name: copy a file from controller to managed node
+  hosts: all
+  tasks:
+    - name: copy a file
+      copy:
+        src: ./virtual-host.conf
+        # dest: /etc/apache2/sites-enabled
+        dest: /tmp/

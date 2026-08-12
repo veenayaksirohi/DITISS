@@ -1,0 +1,63 @@
+pwd
+ls
+cd feb2026
+pwd
+ls
+mkdir itiss
+cd itiss
+pwd
+mkdir dir
+ls
+mkdir dir1 dir2 dir3
+ls
+mkdir -p d1/d2/d3/d4
+ls
+ls d1
+ls d1/d2
+ls d1/d2/d3
+ls d1/d2/d3/d4
+ls -R d1
+tree d1
+sudo apt-get install tree
+tree d1
+man mkdir
+mkdir -v test
+man ls
+man man
+man ls
+man scanf
+man mkdir
+man 2 mkdir
+man chdir
+man printf
+man 3 printf
+ls
+rmdir test
+ls
+pwd
+cd ~
+pwd
+cd -
+cd ..
+cd .
+touch file.txt
+touch file1.txt file2.txt file3.txt
+ls
+ls -s *.txt
+cat > file.txt
+cat file.txt
+cat >> file.txt
+cat file.txt
+ls
+rm file.txt 
+ls
+cd itiss/
+ls
+cd dir
+ls
+touch file.txt
+ls
+cd ..
+rmdir dir
+rm -r dir
+history

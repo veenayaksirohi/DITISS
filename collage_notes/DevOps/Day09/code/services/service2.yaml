@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service2
+spec:
+  # type of service
+  type: NodePort
+
+  # criteria to select the pods
+  selector:
+    app: httpd
+
+  # port configuration
+  ports:
+    - port: 80
+      targetPort: 80

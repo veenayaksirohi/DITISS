@@ -1,0 +1,6 @@
+- name: directory management
+  hosts: all
+  tasks:
+    - file:
+        path: /tmp/directory-created-by-controller
+        state: directory

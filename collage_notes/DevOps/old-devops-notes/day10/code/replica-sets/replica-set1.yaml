@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-httpd
+  labels:
+    app: rs-httpd
+spec:
+  # no of replicas (desired count)
+  replicas: 4
+
+  # select the pods to be managed
+  selector:
+    matchLabels:
+      app: httpd
+
+  # this template will help RS to create the pods
+  template:
+    metadata:
+      labels:
+        app: httpd
+    spec:
+      containers:
+        - name: container-httpd
+          image: httpd
+          ports:
+            - containerPort: 80

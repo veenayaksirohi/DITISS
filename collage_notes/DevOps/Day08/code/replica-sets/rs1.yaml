@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs1
+spec:
+  # how many pods to be managed
+  replicas: 3
+
+  # first check there are any pods running with required label
+  selector:
+    matchLabels:
+      app: frontend
+
+  # if not found, create new pod(s) using following template
+  template:
+    # metadata of pod
+    metadata:
+      labels:
+        app: frontend
+
+    # specification of pod
+    spec:
+      containers:
+        - name: container1
+          image: httpd
+          ports:
+            - containerPort: 80

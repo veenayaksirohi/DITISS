@@ -1,0 +1,9 @@
+101 John Doe Manager 75000
+102 Alice Smith Developer 60000
+103 Bob Johnson Tester 45000
+104 Carol White Developer 65000
+105 David Brown Manager 80000
+106 Emma Davis HR 50000
+107 Frank Miller Developer 62000
+108 Grace Wilson Tester 47000
+

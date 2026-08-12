@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod3
+spec:
+  containers:
+    - name: container1
+      image: httpd
+      ports:
+        # this port is the port exposed from Dockerfile
+        - containerPort: 80
+          protocol: TCP
