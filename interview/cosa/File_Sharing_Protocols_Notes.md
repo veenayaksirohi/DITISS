@@ -1,4 +1,5 @@
 # File Sharing Protocols — FTP, NFS, Samba/SMB, TFTP
+
 ### Exam-Ready Notes (CDAC DITISS — Linux OS & Security / Networking)
 
 ---
@@ -9,10 +10,10 @@
 
 FTP is used to transfer files between a client and a server. It uses **two separate connections**, not one.
 
-| Port | Purpose |
-|------|---------|
+| Port   | Purpose                                                                |
+| ------ | ---------------------------------------------------------------------- |
 | **21** | Control port — commands & replies (login, LIST, RETR, PORT, PASV etc.) |
-| **20** | Data port (used traditionally in Active mode) |
+| **20** | Data port (used traditionally in Active mode)                          |
 
 - Daemon: `vsftpd` (Very Secure FTP Daemon) — same package/service name on RHEL and Ubuntu.
 - Control connection stays open for the whole session; data connection opens/closes per transfer.
@@ -22,7 +23,7 @@ Control port (21) → commands, login, replies
 Data port    (20) → actual file/data transfer
 ```
 
-> **Exam trap:** Students often think FTP uses only port 21. Remember — port 21 is for *control*, actual data moves on a **separate** connection (port 20 in active mode, or a dynamic high port in passive mode).
+> **Exam trap:** Students often think FTP uses only port 21. Remember — port 21 is for _control_, actual data moves on a **separate** connection (port 20 in active mode, or a dynamic high port in passive mode).
 
 FTP has two modes of operation: **Active FTP** and **Passive FTP**. The difference is entirely about **who initiates the data connection**.
 
@@ -36,15 +37,15 @@ FTP has two modes of operation: **Active FTP** and **Passive FTP**. The differen
 Client IP: 192.168.1.10        Server IP: 203.0.113.10
 ```
 
-| Step | Action |
-|------|--------|
-| 1 | Client opens control connection: `Client:50000 → Server:21` |
-| 2 | Client logs in: `USER veenayak`, `PASS ****` → Server replies `230 Login successful` |
-| 3 | Client picks a data port (e.g. 50001) and tells server using `PORT` command |
-| 4 | Client sends a data request: `LIST` or `RETR file.txt` |
-| 5 | **Server initiates** the data connection: `Server:20 → Client:50001` |
-| 6 | Data (file/listing) is transferred |
-| 7 | Data connection closes; control connection (21) may stay open |
+| Step | Action                                                                               |
+| ---- | ------------------------------------------------------------------------------------ |
+| 1    | Client opens control connection: `Client:50000 → Server:21`                          |
+| 2    | Client logs in: `USER veenayak`, `PASS ****` → Server replies `230 Login successful` |
+| 3    | Client picks a data port (e.g. 50001) and tells server using `PORT` command          |
+| 4    | Client sends a data request: `LIST` or `RETR file.txt`                               |
+| 5    | **Server initiates** the data connection: `Server:20 → Client:50001`                 |
+| 6    | Data (file/listing) is transferred                                                   |
+| 7    | Data connection closes; control connection (21) may stay open                        |
 
 ```text
 CLIENT                                   FTP SERVER
@@ -62,7 +63,7 @@ The server tries to make a **new inbound connection** to the client.
 Internet → Client Firewall/NAT → Client
 ```
 
-This inbound connection is commonly **blocked** by client-side firewalls/NAT (home routers, corporate firewalls) — because from the firewall's point of view, it's an *unsolicited incoming connection*.
+This inbound connection is commonly **blocked** by client-side firewalls/NAT (home routers, corporate firewalls) — because from the firewall's point of view, it's an _unsolicited incoming connection_.
 
 ---
 
@@ -70,16 +71,16 @@ This inbound connection is commonly **blocked** by client-side firewalls/NAT (ho
 
 **Key idea: The CLIENT initiates BOTH connections.**
 
-| Step | Action |
-|------|--------|
-| 1 | Client opens control connection: `Client:50000 → Server:21` |
-| 2 | Client logs in (same as active) |
-| 3 | Client sends `PASV` command ("give me a port to connect to") |
-| 4 | Server picks a data port (e.g. 45000) and tells the client |
-| 5 | **Client initiates** the data connection: `Client:50001 → Server:45000` |
-| 6 | Client sends `LIST` / `RETR file.txt` |
-| 7 | Data transferred over `Client:50001 ↔ Server:45000` |
-| 8 | Data connection closes; control connection may stay open |
+| Step | Action                                                                  |
+| ---- | ----------------------------------------------------------------------- |
+| 1    | Client opens control connection: `Client:50000 → Server:21`             |
+| 2    | Client logs in (same as active)                                         |
+| 3    | Client sends `PASV` command ("give me a port to connect to")            |
+| 4    | Server picks a data port (e.g. 45000) and tells the client              |
+| 5    | **Client initiates** the data connection: `Client:50001 → Server:45000` |
+| 6    | Client sends `LIST` / `RETR file.txt`                                   |
+| 7    | Data transferred over `Client:50001 ↔ Server:45000`                     |
+| 8    | Data connection closes; control connection may stay open                |
 
 ```text
 CLIENT                                   FTP SERVER
@@ -103,17 +104,18 @@ Client starts connection → Allow outgoing → Allow related return traffic
 
 ### 1.4 Active vs Passive — Comparison Table
 
-| Feature | Active FTP | Passive FTP |
-|---|---|---|
-| Control connection | Client → Server:21 | Client → Server:21 |
-| Data port selected by | Client | Server |
-| FTP command used | `PORT` | `PASV` |
-| Data connection initiated by | **Server** | **Client** |
-| Traditional data port | 20 | Dynamic high port |
-| Firewall/NAT friendly | ❌ Less | ✅ More |
-| Common today | Rare | Widely preferred |
+| Feature                      | Active FTP         | Passive FTP        |
+| ---------------------------- | ------------------ | ------------------ |
+| Control connection           | Client → Server:21 | Client → Server:21 |
+| Data port selected by        | Client             | Server             |
+| FTP command used             | `PORT`             | `PASV`             |
+| Data connection initiated by | **Server**         | **Client**         |
+| Traditional data port        | 20                 | Dynamic high port  |
+| Firewall/NAT friendly        | ❌ Less            | ✅ More            |
+| Common today                 | Rare               | Widely preferred   |
 
 **Easiest memory trick:**
+
 ```text
 ACTIVE:   Control → Client initiates | Data → SERVER initiates
 PASSIVE:  Control → Client initiates | Data → CLIENT initiates
@@ -137,6 +139,7 @@ NFS Client ────Network──── NFS Server
 ```
 
 Example:
+
 ```bash
 sudo mount 192.168.1.10:/data /mnt/data
 ls /mnt/data      # shows files physically stored on 192.168.1.10
@@ -144,27 +147,30 @@ ls /mnt/data      # shows files physically stored on 192.168.1.10
 
 ### 2.2 NFS vs Windows File Sharing
 
-| OS Family | Protocol |
-|---|---|
-| Linux/Unix | NFS |
-| Windows | SMB/CIFS |
+| OS Family  | Protocol |
+| ---------- | -------- |
+| Linux/Unix | NFS      |
+| Windows    | SMB/CIFS |
 
 ### 2.3 Client–Server Roles
 
-| Role | Responsibility |
-|---|---|
+| Role       | Responsibility                                                                            |
+| ---------- | ----------------------------------------------------------------------------------------- |
 | **Server** | Stores files, decides which directories are shared (**exported**), controls client access |
-| **Client** | Requests the shared directory, **mounts** it locally, reads/writes per permissions |
+| **Client** | Requests the shared directory, **mounts** it locally, reads/writes per permissions        |
 
 ### 2.4 Key Terms
 
 **Export** — making a server directory available to other machines. Configured in `/etc/exports`.
+
 ```text
 /data 192.168.1.0/24(rw,sync)
 ```
+
 Meaning: share `/data` with the `192.168.1.0/24` subnet, allow read+write, write synchronously.
 
 **Mount** — attaching a remote (or local) filesystem to a local directory.
+
 ```bash
 sudo mount serverA:/home /mnt/nfs
 ```
@@ -172,32 +178,36 @@ sudo mount serverA:/home /mnt/nfs
 > **Exam/practical trap:** Never mount a remote share directly onto an existing important directory like `/home` — it can **hide** the client's existing local content while mounted. Use a safe empty mount point like `/mnt/nfs`.
 
 **Internal flow when reading a file over NFS:**
+
 ```text
 Application → Linux filesystem → NFS client → Network → NFS server → Server filesystem → file.txt
 ```
+
 The application doesn't handle network packets itself — the OS/NFS layer does it transparently.
 
 ### 2.5 RPC (Remote Procedure Call)
 
 RPC lets one computer request a function/service from another over the network.
+
 ```text
 Client: "Server, perform this operation for me."  →  Server: "Here's the result."
 ```
+
 Older NFS versions depend on several RPC-based helper services: `rpcbind`, `mountd`, `statd`, `lockd`.
 
 ### 2.6 NFS Versions
 
-| Feature | NFSv2 | NFSv3 | NFSv4 |
-|---|---|---|---|
-| Age | Very old | Improved v2 | Modern |
-| Transport | TCP/UDP | TCP/UDP | Primarily TCP |
-| Main port | — | 2049 (+ RPC helpers) | **2049** |
-| RPC helper services needed | Yes | Yes (mountd, rpcbind, lockd, statd) | Mostly not needed |
-| File size limits | Yes | Larger support | Large |
-| Firewall friendliness | Poor | More complex | **Easier (single port)** |
-| Kerberos/security | — | Limited | **Strong integration** |
-| ACL support | — | Limited | **Improved** |
-| Recommended today | ❌ | Older systems | ✅ Preferred |
+| Feature                    | NFSv2    | NFSv3                               | NFSv4                    |
+| -------------------------- | -------- | ----------------------------------- | ------------------------ |
+| Age                        | Very old | Improved v2                         | Modern                   |
+| Transport                  | TCP/UDP  | TCP/UDP                             | Primarily TCP            |
+| Main port                  | —        | 2049 (+ RPC helpers)                | **2049**                 |
+| RPC helper services needed | Yes      | Yes (mountd, rpcbind, lockd, statd) | Mostly not needed        |
+| File size limits           | Yes      | Larger support                      | Large                    |
+| Firewall friendliness      | Poor     | More complex                        | **Easier (single port)** |
+| Kerberos/security          | —        | Limited                             | **Strong integration**   |
+| ACL support                | —        | Limited                             | **Improved**             |
+| Recommended today          | ❌       | Older systems                       | ✅ Preferred             |
 
 ```text
 NFSv3: Client → [rpcbind, mountd, NFS, lock, status services] → Server   (complex firewall rules)
@@ -208,27 +218,28 @@ NFSv4: Client → TCP 2049 → Server                                       (sim
 
 ### 2.7 Server Configuration (RHEL/Rocky/Alma family)
 
-| Step | Command |
-|---|---|
-| 1. Install | `sudo dnf install nfs-utils -y` |
-| 2. Create shared dir | `sudo mkdir -p /nfs/share` |
-| 3. Edit exports | `sudo vim /etc/exports` → add `/nfs/share 192.168.1.0/24(rw,sync)` |
-| 4. Apply exports | `sudo exportfs -a` (apply) / `sudo exportfs -v` (view active exports) |
-| 5. Start service | `sudo systemctl enable --now nfs-server` |
-| 6. Check status | `systemctl status nfs-server` |
+| Step                 | Command                                                               |
+| -------------------- | --------------------------------------------------------------------- |
+| 1. Install           | `sudo dnf install nfs-utils -y`                                       |
+| 2. Create shared dir | `sudo mkdir -p /nfs/share`                                            |
+| 3. Edit exports      | `sudo vim /etc/exports` → add `/nfs/share 192.168.1.0/24(rw,sync)`    |
+| 4. Apply exports     | `sudo exportfs -a` (apply) / `sudo exportfs -v` (view active exports) |
+| 5. Start service     | `sudo systemctl enable --now nfs-server`                              |
+| 6. Check status      | `systemctl status nfs-server`                                         |
 
 ### 2.8 Common `/etc/exports` Options
 
-| Option | Meaning |
-|---|---|
-| `ro` | Read-only |
-| `rw` | Read and write |
-| `sync` | Write changes synchronously (safer) |
-| `async` | Faster but risk of data loss on failure |
-| `root_squash` | Remote root user is **not** treated as local root (safer, default) |
-| `no_root_squash` | Remote root keeps root privileges on server — **risky** |
+| Option           | Meaning                                                            |
+| ---------------- | ------------------------------------------------------------------ |
+| `ro`             | Read-only                                                          |
+| `rw`             | Read and write                                                     |
+| `sync`           | Write changes synchronously (safer)                                |
+| `async`          | Faster but risk of data loss on failure                            |
+| `root_squash`    | Remote root user is **not** treated as local root (safer, default) |
+| `no_root_squash` | Remote root keeps root privileges on server — **risky**            |
 
 Safe example:
+
 ```text
 /nfs/share 192.168.1.0/24(rw,sync,root_squash)
 ```
@@ -271,27 +282,27 @@ Windows PC → \\192.168.1.10\share → Samba Server → /var/smb/share
 
 ### 3.3 Samba Services / Daemons
 
-| Daemon | Role |
-|---|---|
+| Daemon | Role                                                                  |
+| ------ | --------------------------------------------------------------------- |
 | `smbd` | Handles file sharing, printer sharing, SMB connections (main service) |
-| `nmbd` | Historically handled NetBIOS name services (older setups) |
+| `nmbd` | Historically handled NetBIOS name services (older setups)             |
 
 ### 3.4 Authentication Methods in Samba
 
-| Method | Description |
-|---|---|
-| **Local Samba users** | Create a Linux user + a separate Samba password: `sudo useradd veenayak` → `sudo smbpasswd -a veenayak` |
-| **PAM + Domain Controller** | PAM (Pluggable Authentication Modules) is Linux's auth framework; can integrate with a Windows domain for centralized credentials |
-| **Samba as AD Domain Controller** | Samba can act as an **Active Directory DC**, so Windows PCs authenticate against a Linux server (users, passwords, groups, policies) |
-| **LDAP Backend** | LDAP (Lightweight Directory Access Protocol) can store centralized users/groups/passwords. *Modern Samba AD DC deployments typically use Samba's own built-in directory rather than plain LDAP as a password store.* |
+| Method                            | Description                                                                                                                                                                                                          |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Local Samba users**             | Create a Linux user + a separate Samba password: `sudo useradd veenayak` → `sudo smbpasswd -a veenayak`                                                                                                              |
+| **PAM + Domain Controller**       | PAM (Pluggable Authentication Modules) is Linux's auth framework; can integrate with a Windows domain for centralized credentials                                                                                    |
+| **Samba as AD Domain Controller** | Samba can act as an **Active Directory DC**, so Windows PCs authenticate against a Linux server (users, passwords, groups, policies)                                                                                 |
+| **LDAP Backend**                  | LDAP (Lightweight Directory Access Protocol) can store centralized users/groups/passwords. _Modern Samba AD DC deployments typically use Samba's own built-in directory rather than plain LDAP as a password store._ |
 
 ### 3.5 NFS vs Samba
 
-| NFS | Samba |
-|---|---|
+| NFS                                        | Samba                            |
+| ------------------------------------------ | -------------------------------- |
 | Common in Linux/Unix-to-Linux environments | Common between Windows and Linux |
-| Uses NFS protocol | Uses SMB/CIFS protocol |
-| Default port: **2049** | Default port: **TCP 445** |
+| Uses NFS protocol                          | Uses SMB/CIFS protocol           |
+| Default port: **2049**                     | Default port: **TCP 445**        |
 
 ---
 
@@ -299,13 +310,13 @@ Windows PC → \\192.168.1.10\share → Samba Server → /var/smb/share
 
 ### 4.1 Overview
 
-| Property | Detail |
-|---|---|
-| Transport | **UDP** |
-| Default port | **69** |
-| Authentication | ❌ None (no username/password) |
-| Directory browsing | ❌ Not supported |
-| Complexity | Very simple/lightweight |
+| Property           | Detail                         |
+| ------------------ | ------------------------------ |
+| Transport          | **UDP**                        |
+| Default port       | **69**                         |
+| Authentication     | ❌ None (no username/password) |
+| Directory browsing | ❌ Not supported               |
+| Complexity         | Very simple/lightweight        |
 
 ```text
 Client → Request file (must know exact filename) → TFTP Server
@@ -325,23 +336,27 @@ PXE Client → TFTP Server → bootloader / kernel file
 
 ### 4.3 FTP vs TFTP
 
-| Feature | FTP | TFTP |
-|---|---|---|
-| Full name | File Transfer Protocol | Trivial File Transfer Protocol |
-| Transport | TCP | UDP |
-| Port | 21 (control) + 20/dynamic (data) | 69 |
-| Login/auth | ✅ Username/password | ❌ None |
-| Directory listing | ✅ Supported | ❌ Not supported |
-| Feature set | Rich | Minimal |
-| Typical use | General-purpose file transfer | Boot files, firmware, config backup |
+| Feature           | FTP                              | TFTP                                |
+| ----------------- | -------------------------------- | ----------------------------------- |
+| Full name         | File Transfer Protocol           | Trivial File Transfer Protocol      |
+| Transport         | TCP                              | UDP                                 |
+| Port              | 21 (control) + 20/dynamic (data) | 69                                  |
+| Login/auth        | ✅ Username/password             | ❌ None                             |
+| Directory listing | ✅ Supported                     | ❌ Not supported                    |
+| Feature set       | Rich                             | Minimal                             |
+| Typical use       | General-purpose file transfer    | Boot files, firmware, config backup |
 
 **Directory listing — explained simply:**
+
 ```text
 FTP:   Client → "Show me files"         → Server → file1.txt, file2.txt, docs/
 TFTP:  Client → "Give me boot.img"      → Server → sends boot.img (must already know the name)
 ```
 
+> **FTP supports browsing/listing files. TFTP requires you to know the file name beforehand.**
+
 **Easy memory:**
+
 ```text
 FTP  = Full-featured file transfer
 TFTP = Tiny/simple file transfer
@@ -351,24 +366,24 @@ TFTP = Tiny/simple file transfer
 
 ## 5. Quick Reference — Packages, Daemons & Services
 
-| Service | RHEL/Rocky/Alma Package | Ubuntu/Debian Package | Main Daemon | Common systemd Service |
-|---|---|---|---|---|
-| **SMB/Samba** | `samba` | `samba` | `smbd`, `nmbd` | RHEL: `smb`, `nmb` • Ubuntu: `smbd`, `nmbd` |
-| **NFS** | `nfs-utils` | `nfs-kernel-server` | `nfsd` | RHEL: `nfs-server` • Ubuntu: `nfs-kernel-server` |
-| **FTP** | `vsftpd` | `vsftpd` | `vsftpd` | `vsftpd` |
-| **TFTP** | `tftp-server` | `tftpd-hpa` | `in.tftpd` | often `tftp`/`tftpd-hpa` or socket-activated |
+| Service       | RHEL/Rocky/Alma Package | Ubuntu/Debian Package | Main Daemon    | Common systemd Service                           |
+| ------------- | ----------------------- | --------------------- | -------------- | ------------------------------------------------ |
+| **SMB/Samba** | `samba`                 | `samba`               | `smbd`, `nmbd` | RHEL: `smb`, `nmb` • Ubuntu: `smbd`, `nmbd`      |
+| **NFS**       | `nfs-utils`             | `nfs-kernel-server`   | `nfsd`         | RHEL: `nfs-server` • Ubuntu: `nfs-kernel-server` |
+| **FTP**       | `vsftpd`                | `vsftpd`              | `vsftpd`       | `vsftpd`                                         |
+| **TFTP**      | `tftp-server`           | `tftpd-hpa`           | `in.tftpd`     | often `tftp`/`tftpd-hpa` or socket-activated     |
 
 ### Port Cheat Sheet
 
-| Protocol | Port(s) | Transport |
-|---|---|---|
-| FTP (control) | 21 | TCP |
-| FTP (data, active) | 20 | TCP |
-| FTP (data, passive) | Dynamic high port | TCP |
-| SSH/SFTP | 22 | TCP |
-| TFTP | 69 | UDP |
-| NFS (v3/v4) | 2049 | TCP/UDP |
-| SMB | 445 | TCP |
+| Protocol            | Port(s)           | Transport |
+| ------------------- | ----------------- | --------- |
+| FTP (control)       | 21                | TCP       |
+| FTP (data, active)  | 20                | TCP       |
+| FTP (data, passive) | Dynamic high port | TCP       |
+| SSH/SFTP            | 22                | TCP       |
+| TFTP                | 69                | UDP       |
+| NFS (v3/v4)         | 2049              | TCP/UDP   |
+| SMB                 | 445               | TCP       |
 
 ---
 
