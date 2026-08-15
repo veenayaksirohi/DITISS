@@ -4,6 +4,38 @@
 
 ---
 
+## Completion Checklist
+
+### Priority 1 — Must Know
+
+- [x] 1. OSI Model — [Notes](OSI_Model_Notes.md)
+- [x] 2. TCP/IP Model — [Notes](tcp-ip.md)
+- [x] 3. IP Subnetting & VLSM — [Notes](IPv4-IPv6-Subnetting-VLSM-NDP-Notes.md)
+- [x] 4. Routing — [Notes](Routing_Complete_Notes.md)
+- [x] 5. VLANs & Inter-VLAN Routing — [Notes](VLAN_Complete_Notes.md)
+- [x] 6. NAT (Network Address Translation) — [Notes](NAT_Complete_Notes.md)
+- [x] 7. IPv4 vs IPv6 — [Notes](IPv4-IPv6-Subnetting-VLSM-NDP-Notes.md)
+
+### Priority 2 — Important
+
+- [x] 8. Spanning Tree Protocol (STP) — [Notes](STP_Spanning_Tree_Protocol_Notes.md)
+- [x] 9. Infrastructure Security — ACL, AAA — [Notes](Port_Security_AAA_ACL_Notes.md)
+- [ ] 10. PPP and WAN Technologies
+- [x] 11. Layer 2 Switching — [Notes](Switching-Types-Ethernet-Forwarding-L2-Notes.md)
+- [x] 12. Ethernet and Wireless (IEEE Standards) — [Notes](Switching-Types-Ethernet-Forwarding-L2-Notes.md)
+
+### Priority 3 — Good to Know
+
+- [x] 13. Router IOS and Management — [Notes](Router_Fundamentals_Boot_Memory_SSH_Notes.md)
+- [ ] 14. SDN — Software Defined Networking
+- [ ] 15. OpenFlow and OpenDaylight
+- [ ] 16. Virtual Networking
+- [ ] 17. Advanced SDN / OpenDaylight Topics
+
+**Progress:** 12 of 17 topics complete (71%).
+
+---
+
 ## 🔴 PRIORITY 1 — MUST KNOW (Most Asked in Interviews)
 
 ### 1. OSI Model ✅

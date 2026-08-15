@@ -11,12 +11,10 @@
             "id": "da83830aad4758ea",
             "type": "leaf",
             "state": {
-              "type": "pdf",
-              "state": {
-                "file": "interview/Cybersecurity Interview Questions.pdf"
-              },
-              "icon": "lucide-file-text",
-              "title": "Cybersecurity Interview Questions"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
