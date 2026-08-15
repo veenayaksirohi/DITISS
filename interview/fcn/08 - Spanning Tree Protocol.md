@@ -1,3 +1,15 @@
+---
+title: "Spanning Tree Protocol"
+aliases:
+  - "Spanning Tree Protocol (STP)"
+  - "STP Spanning Tree Protocol Notes"
+tags:
+  - computer-networks
+  - stp
+  - switching
+  - layer-2
+---
+
 # Spanning Tree Protocol (STP)
 
 ---
@@ -328,3 +340,11 @@ RPVST+  = Cisco, 1 tree per VLAN, based on 802.1w (fastest, most resource-heavy)
 
 ---
 *STP Reference Notes*
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[11 - Layer 2 Switching and Ethernet Forwarding]]
+- [[05 - VLANs and Inter-VLAN Routing]]

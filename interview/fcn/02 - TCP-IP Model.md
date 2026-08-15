@@ -1,3 +1,16 @@
+---
+title: "TCP-IP Model"
+aliases:
+  - "TCP-IP Model and Transport Protocols"
+  - "TCP/IP Model — Study Notes"
+  - "TCP-IP Model"
+  - "TCP vs UDP"
+tags:
+  - computer-networks
+  - tcp-ip
+  - transport-layer
+---
+
 # TCP/IP Model — Study Notes
 
 > CDAC DITISS | Computer Networks | Interview-Oriented
@@ -437,3 +450,12 @@ This is why UDP is called **"fire and forget"** — it has no recovery mechanism
 
 > **Interview Trap — Does UDP use a checksum?**
 > Yes — UDP does have a checksum field in its 8-byte header. But it only **detects** corruption; it cannot **recover** from it. A corrupted UDP datagram is simply dropped with no follow-up. The checksum in UDP is also technically optional in IPv4 (though almost always used in practice), but mandatory in IPv6.
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[01 - OSI Model]]
+- [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[A1 - HTTP Evolution and TLS]]

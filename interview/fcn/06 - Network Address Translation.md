@@ -1,3 +1,15 @@
+---
+title: "Network Address Translation"
+aliases:
+  - "📡 Module 6: NAT (Network Address Translation) — Complete Notes"
+  - "NAT Complete Notes"
+tags:
+  - computer-networks
+  - nat
+  - ip-addressing
+  - network-security
+---
+
 # 📡 Module 6: NAT (Network Address Translation) — Complete Notes
 
 ---
@@ -301,3 +313,11 @@ There are **4 main types**:
 * What is NAT64 used for? → Allowing **IPv6-only hosts** to reach **IPv4-only servers**
 * What is the NAT64 prefix? → `64:ff9b::/96`
 * Difference between Stateful and Stateless NAT64? → Many-to-1 (like PAT) vs strict 1-to-1
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[09 - Infrastructure Security ACL AAA and Port Security]]

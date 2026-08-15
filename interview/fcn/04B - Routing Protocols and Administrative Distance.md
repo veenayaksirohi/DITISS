@@ -1,3 +1,15 @@
+---
+title: "Routing Protocols and Administrative Distance"
+aliases:
+  - "📡 Module 4: Routing — Complete Notes"
+  - "Routing Complete Notes"
+tags:
+  - computer-networks
+  - routing-protocols
+  - administrative-distance
+  - cisco
+---
+
 # 📡 Module 4: Routing — Complete Notes
 
 ---
@@ -516,3 +528,11 @@ Connected(0) → Static(1) → EIGRP Summary(5) → eBGP(20) → EIGRP(90) → O
 * **Static routing** → Best for small/stub networks, most secure, no overhead
 * **Dynamic routing** → Best for large networks, self-healing, more overhead
 * **AD decides between different protocols; Metric decides within the same protocol**
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[13 - Router IOS and Management]]
+- [[04A - Network Routing Fundamentals]]

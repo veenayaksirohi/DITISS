@@ -1,3 +1,14 @@
+---
+title: "OSI Model"
+aliases:
+  - "OSI Model — Complete Study Notes"
+  - "OSI Model Notes"
+tags:
+  - computer-networks
+  - osi-model
+  - networking-fundamentals
+---
+
 # OSI Model — Complete Study Notes
 > CDAC DITISS | Computer Networks | Interview-Oriented
 
@@ -1320,3 +1331,12 @@ Examples:
 | **L2 — Data Link** | Add MAC header + CRC/FCS trailer | Frame | Check MAC + CRC, strip both |
 | **L1 — Physical** | Convert frame → bits → transmit | Bits | Receive bits → reconstruct frame |
 
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[02 - TCP-IP Model]]
+- [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[04A - Network Routing Fundamentals]]
+- [[11 - Layer 2 Switching and Ethernet Forwarding]]

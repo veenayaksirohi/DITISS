@@ -1,3 +1,16 @@
+---
+title: "Layer 2 Switching and Ethernet Forwarding"
+aliases:
+  - "Network Switching and Ethernet Forwarding"
+  - "Switching Types, Ethernet Forwarding & Layer 2 Switching"
+  - "Switching Types Ethernet Forwarding L2 Notes"
+tags:
+  - computer-networks
+  - switching
+  - ethernet
+  - layer-2
+---
+
 # Switching Types, Ethernet Forwarding & Layer 2 Switching
 
 This document covers three related but distinct layers of "switching":
@@ -21,7 +34,7 @@ This document covers three related but distinct layers of "switching":
 
 ---
 
-# PART A — Network Switching Types
+## PART A — Network Switching Types
 
 These describe the fundamental ways data can travel through a network of intermediate nodes. This is general networking theory — separate from how an individual Ethernet switch behaves internally, which is covered in Part B.
 
@@ -151,7 +164,7 @@ A **logical path** (the virtual circuit) is set up **before** data transfer begi
 
 ---
 
-# PART B — Ethernet Forwarding Methods
+## PART B — Ethernet Forwarding Methods
 
 Part A described how data moves *across a network*. Part B zooms into a single Ethernet switch and asks: once a frame starts arriving on a port, **when does the switch begin forwarding it out the other side?**
 
@@ -265,7 +278,7 @@ A **runt** is a very small, incomplete frame left over on the wire after a **col
 
 ---
 
-# PART C — Layer 2 Switching Fundamentals
+## PART C — Layer 2 Switching Fundamentals
 
 Part B explained *when* a switch starts forwarding a frame. Part C covers the bigger picture of day-to-day switch operation: how it learns where devices are, what it does when it doesn't know, and how the underlying link (half- vs full-duplex) affects all of it.
 
@@ -455,3 +468,13 @@ DUPLEX (Part C)
 
 ---
 *Switching Types, Ethernet Forwarding & Layer 2 Switching — Reference Notes*
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[01 - OSI Model]]
+- [[08 - Spanning Tree Protocol]]
+- [[05 - VLANs and Inter-VLAN Routing]]
+- [[09 - Infrastructure Security ACL AAA and Port Security]]

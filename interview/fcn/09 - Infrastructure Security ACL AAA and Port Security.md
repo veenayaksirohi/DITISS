@@ -1,3 +1,16 @@
+---
+title: "Infrastructure Security ACL AAA and Port Security"
+aliases:
+  - "Port Security AAA and ACLs"
+  - "Port Security, AAA & Access Control Lists (ACLs)"
+  - "Port Security AAA ACL Notes"
+tags:
+  - computer-networks
+  - port-security
+  - aaa
+  - access-control-lists
+---
+
 # Port Security, AAA & Access Control Lists (ACLs)
 
 ---
@@ -31,7 +44,7 @@
 
 ---
 
-# PART A — Port Security
+## PART A — Port Security
 
 ## 1. What Is Port Security?
 
@@ -216,7 +229,7 @@ Aging timers control **how long** a dynamically learned secure MAC address stays
 
 ---
 
-# PART B — AAA Framework (Authentication, Authorization, Accounting)
+## PART B — AAA Framework (Authentication, Authorization, Accounting)
 
 ## 6. What Is AAA?
 
@@ -303,7 +316,7 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 
 ---
 
-# PART C — Access Control Lists (ACLs)
+## PART C — Access Control Lists (ACLs)
 
 ## 10. ACL Types
 
@@ -444,3 +457,13 @@ ACLs
 
 ---
 *Port Security, AAA & ACL Reference Notes*
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[04A - Network Routing Fundamentals]]
+- [[11 - Layer 2 Switching and Ethernet Forwarding]]
+- [[05 - VLANs and Inter-VLAN Routing]]
+- [[06 - Network Address Translation]]

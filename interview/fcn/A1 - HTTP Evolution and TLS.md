@@ -1,3 +1,15 @@
+---
+title: "HTTP Evolution and TLS"
+aliases:
+  - "HTTP Evolution — Interview Notes (0.9 → 1.0 → 1.1 → 2 → 3)"
+  - "HTTP Evolution Interview Notes"
+tags:
+  - computer-networks
+  - http
+  - tls
+  - application-layer
+---
+
 # HTTP Evolution — Interview Notes (0.9 → 1.0 → 1.1 → 2 → 3)
 
 ## What is HTTP?
@@ -915,3 +927,11 @@ graph LR
 - HTTP Archive / HPBN.co — High Performance Browser Networking
 - RFC 1945, RFC 2068, RFC 2616, RFC 7540, RFC 9000, RFC 9001, RFC 9110, RFC 9112, RFC 9114
 - RFC 8446 (TLS 1.3), RFC 5246 (TLS 1.2), RFC 8996 (deprecating TLS 1.0/1.1)
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[01 - OSI Model]]
+- [[02 - TCP-IP Model]]

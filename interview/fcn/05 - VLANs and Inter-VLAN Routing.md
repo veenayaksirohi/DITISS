@@ -1,3 +1,15 @@
+---
+title: "VLANs and Inter-VLAN Routing"
+aliases:
+  - "📡 VLAN — Complete Notes"
+  - "VLAN Complete Notes"
+tags:
+  - computer-networks
+  - vlans
+  - inter-vlan-routing
+  - switching
+---
+
 # 📡 VLAN — Complete Notes
 
 ---
@@ -308,3 +320,13 @@ To avoid accidentally overwriting the domain's VLAN database:
 * 3 VTP modes and their differences? → Server / Client / Transparent (see table above)
 * What determines which VTP update is accepted? → **Highest revision number**
 * Why is VTP risky when adding new switches? → A switch with higher revision number can overwrite existing VLAN database
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[04A - Network Routing Fundamentals]]
+- [[11 - Layer 2 Switching and Ethernet Forwarding]]
+- [[08 - Spanning Tree Protocol]]
+- [[09 - Infrastructure Security ACL AAA and Port Security]]

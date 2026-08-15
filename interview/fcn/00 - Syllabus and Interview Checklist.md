@@ -1,3 +1,16 @@
+---
+title: "Syllabus and Interview Checklist"
+aliases:
+  - "Computer Networks Syllabus and Interview Checklist"
+  - "Computer Networks — CDAC DITISS Syllabus"
+  - "CN Syllabus Topics Interview Priority"
+tags:
+  - computer-networks
+  - syllabus
+  - interview-preparation
+  - moc
+---
+
 # Computer Networks — CDAC DITISS Syllabus
 
 ## Topics, Interview Priority & Important Ports/Protocols
@@ -8,29 +21,29 @@
 
 ### Priority 1 — Must Know
 
-- [x] 1. OSI Model — [Notes](OSI_Model_Notes.md)
-- [x] 2. TCP/IP Model — [Notes](tcp-ip.md)
-- [x] 3. IP Subnetting & VLSM — [Notes](IPv4-IPv6-Subnetting-VLSM-NDP-Notes.md)
-- [x] 4. Routing — [Notes](Routing_Complete_Notes.md)
-- [x] 5. VLANs & Inter-VLAN Routing — [Notes](VLAN_Complete_Notes.md)
-- [x] 6. NAT (Network Address Translation) — [Notes](NAT_Complete_Notes.md)
-- [x] 7. IPv4 vs IPv6 — [Notes](IPv4-IPv6-Subnetting-VLSM-NDP-Notes.md)
+- [x] 1. OSI Model — [[01 - OSI Model|Notes]]
+- [x] 2. TCP/IP Model — [[02 - TCP-IP Model|Notes]]
+- [x] 3. IP Subnetting & VLSM — [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP|Notes]]
+- [x] 4. Routing — [[04A - Network Routing Fundamentals|Fundamentals]] · [[04B - Routing Protocols and Administrative Distance|Protocols]]
+- [x] 5. VLANs & Inter-VLAN Routing — [[05 - VLANs and Inter-VLAN Routing|Notes]]
+- [x] 6. NAT (Network Address Translation) — [[06 - Network Address Translation|Notes]]
+- [x] 7. IPv4 vs IPv6 — [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP|Notes]]
 
 ### Priority 2 — Important
 
-- [x] 8. Spanning Tree Protocol (STP) — [Notes](STP_Spanning_Tree_Protocol_Notes.md)
-- [x] 9. Infrastructure Security — ACL, AAA — [Notes](Port_Security_AAA_ACL_Notes.md)
-- [ ] 10. PPP and WAN Technologies
-- [x] 11. Layer 2 Switching — [Notes](Switching-Types-Ethernet-Forwarding-L2-Notes.md)
-- [x] 12. Ethernet and Wireless (IEEE Standards) — [Notes](Switching-Types-Ethernet-Forwarding-L2-Notes.md)
+- [x] 8. Spanning Tree Protocol (STP) — [[08 - Spanning Tree Protocol|Notes]]
+- [x] 9. Infrastructure Security — ACL, AAA — [[09 - Infrastructure Security ACL AAA and Port Security|Notes]]
+- [ ] 10. PPP and WAN Technologies — Partial coverage only: [[01 - OSI Model|PPP/PPPoE]] · [[04A - Network Routing Fundamentals|WAN link references]]
+- [x] 11. Layer 2 Switching — [[11 - Layer 2 Switching and Ethernet Forwarding|Notes]]
+- [x] 12. Ethernet and Wireless (IEEE Standards) — Distributed coverage: [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]] · [[01 - OSI Model|Wireless]]
 
 ### Priority 3 — Good to Know
 
-- [x] 13. Router IOS and Management — [Notes](Router_Fundamentals_Boot_Memory_SSH_Notes.md)
-- [ ] 14. SDN — Software Defined Networking
-- [ ] 15. OpenFlow and OpenDaylight
-- [ ] 16. Virtual Networking
-- [ ] 17. Advanced SDN / OpenDaylight Topics
+- [x] 13. Router IOS and Management — [[13 - Router IOS and Management|Notes]]
+- [ ] 14. SDN — Software Defined Networking — No dedicated note provided
+- [ ] 15. OpenFlow and OpenDaylight — No dedicated note provided
+- [ ] 16. Virtual Networking — No dedicated note provided
+- [ ] 17. Advanced SDN / OpenDaylight Topics — No dedicated note provided
 
 **Progress:** 12 of 17 topics complete (71%).
 
@@ -343,3 +356,21 @@
 
 _CDAC DITISS — PGCP-ITISS | Fundamentals of Computer Networks | Feb 2026_
 _Total: 40T + 40L + 40SL = 120 hrs_
+
+---
+
+## Related Notes
+
+- [[Index|Computer Networks Index]]
+- [[01 - OSI Model]]
+- [[02 - TCP-IP Model]]
+- [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[04A - Network Routing Fundamentals]]
+- [[04B - Routing Protocols and Administrative Distance]]
+- [[05 - VLANs and Inter-VLAN Routing]]
+- [[06 - Network Address Translation]]
+- [[08 - Spanning Tree Protocol]]
+- [[09 - Infrastructure Security ACL AAA and Port Security]]
+- [[11 - Layer 2 Switching and Ethernet Forwarding]]
+- [[13 - Router IOS and Management]]
+- [[A1 - HTTP Evolution and TLS]]

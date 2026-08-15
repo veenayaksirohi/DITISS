@@ -11,10 +11,14 @@
             "id": "da83830aad4758ea",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "interview/fcn/02 - TCP-IP Model.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "02 - TCP-IP Model"
             }
           }
         ]
@@ -181,11 +185,35 @@
   },
   "active": "da83830aad4758ea",
   "lastOpenFiles": [
+    "interview/fcn/01 - OSI Model.md",
+    "interview/fcn/Index.md",
+    "interview/fcn/00 - Computer Networks Syllabus and Interview Checklist.md",
+    "interview/fcn/A1 - HTTP Evolution and TLS.md",
+    "interview/fcn/13 - Router IOS and Management.md",
+    "interview/fcn/11 - Layer 2 Switching and Ethernet Forwarding.md",
+    "interview/fcn/09 - Infrastructure Security ACL AAA and Port Security.md",
+    "interview/fcn/06 - Network Address Translation.md",
+    "interview/fcn/05 - VLANs and Inter-VLAN Routing.md",
+    "interview/fcn/04B - Routing Protocols and Administrative Distance.md",
+    "interview/fcn/04A - Network Routing Fundamentals.md",
+    "interview/fcn/03 - IP Subnetting VLSM IPv4 IPv6 and NDP.md",
+    "interview/fcn/02 - TCP-IP Model.md",
+    "interview/fcn/00 - Syllabus and Interview Checklist.md",
+    "interview/fcn/Prompt.txt",
+    "interview/fcn/12 - HTTP Evolution and TLS.md",
+    "interview/fcn/11 - Port Security AAA and ACLs.md",
+    "interview/fcn/10 - Network Address Translation.md",
+    "interview/fcn/09 - VLANs and Inter-VLAN Routing.md",
+    "interview/fcn/08 - Spanning Tree Protocol.md",
+    "interview/fcn/07 - Network Switching and Ethernet Forwarding.md",
+    "interview/fcn/06 - Routing Protocols and Administrative Distance.md",
+    "interview/fcn/05 - Network Routing Fundamentals.md",
+    "interview/fcn/04 - Cisco Router Fundamentals and IOS.md",
+    "interview/fcn/03 - IP Addressing Subnetting VLSM and NDP.md",
+    "interview/fcn/02 - TCP-IP Model and Transport Protocols.md",
     "interview/Interview_Questions.pdf",
     "interview/user-kernel-space-notes.md",
-    "interview/tcp-ip.md",
     "interview/capgemini.pdf",
-    "interview/PG-DITISS-RapidFire.pdf",
-    "interview/Randoem.md"
+    "interview/PG-DITISS-RapidFire.pdf"
   ]
 }

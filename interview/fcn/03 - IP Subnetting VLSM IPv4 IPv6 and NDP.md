@@ -1,3 +1,16 @@
+---
+title: "IP Subnetting VLSM IPv4 IPv6 and NDP"
+aliases:
+  - "IP Addressing Subnetting VLSM and NDP"
+  - "IPv4 & IPv6 Addressing, Subnetting, VLSM, and NDP"
+  - "IPv4 IPv6 Subnetting VLSM NDP Notes"
+tags:
+  - computer-networks
+  - ip-addressing
+  - subnetting
+  - ipv6
+---
+
 # IPv4 & IPv6 Addressing, Subnetting, VLSM, and NDP
 
 ---
@@ -645,3 +658,13 @@ Resolution    : IPv4 uses ARP (broadcast) | IPv6 uses NDP (multicast)
 
 ---
 *FCN PG-DITISS – IACSD Reference Notes*
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[01 - OSI Model]]
+- [[02 - TCP-IP Model]]
+- [[04A - Network Routing Fundamentals]]
+- [[06 - Network Address Translation]]

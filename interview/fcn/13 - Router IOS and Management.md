@@ -1,3 +1,16 @@
+---
+title: "Router IOS and Management"
+aliases:
+  - "Cisco Router Fundamentals and IOS"
+  - "Router Fundamentals: IOS, Boot Process, Memory, CLI Modes, Remote Access, Password Recovery & Troubleshooting"
+  - "Router Fundamentals Boot Memory SSH Notes"
+tags:
+  - computer-networks
+  - cisco-ios
+  - routers
+  - troubleshooting
+---
+
 # Router Fundamentals: IOS, Boot Process, Memory, CLI Modes, Remote Access, Password Recovery & Troubleshooting
 
 ---
@@ -22,7 +35,7 @@
 
 ---
 
-# PART A — What Is Cisco IOS?
+## PART A — What Is Cisco IOS?
 
 **Cisco IOS** is the operating system that runs on Cisco routers and switches. It is responsible for:
 
@@ -33,7 +46,7 @@
 
 ---
 
-# PART B — Router Hardware Components (The "Big 5")
+## PART B — Router Hardware Components (The "Big 5")
 
 | Component | Role                                                                                                  |
 | --------- | ----------------------------------------------------------------------------------------------------- |
@@ -66,7 +79,7 @@
 
 ---
 
-# PART C — Cisco IOS CLI Modes
+## PART C — Cisco IOS CLI Modes
 
 | Mode                           | Purpose                                                                             | Prompt                 | How to Enter                          |
 | ------------------------------ | ----------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- |
@@ -129,7 +142,7 @@ NVRAM (startup-config)
 
 ---
 
-# PART D — Router Boot Sequence
+## PART D — Router Boot Sequence
 
 ## 1. Boot Sequence Overview
 
@@ -217,7 +230,7 @@ Search startup-config
 
 ---
 
-# PART E — Telnet vs SSH (Remote Access Security)
+## PART E — Telnet vs SSH (Remote Access Security)
 
 Both protocols allow **remote CLI access** to a router/switch through **VTY lines**, but they differ fundamentally in security.
 
@@ -295,7 +308,7 @@ Step 4 — Configure the VTY lines to use SSH + local login:
 
 ---
 
-# PART F — Ways to Access the Cisco IOS CLI
+## PART F — Ways to Access the Cisco IOS CLI
 
 There are four common ways an administrator can reach the CLI of a router:
 
@@ -349,7 +362,7 @@ Some Cisco routers have an **AUX (Auxiliary) port**, traditionally connected to 
 
 ---
 
-# PART G — Configuration Registers
+## PART G — Configuration Registers
 
 ## What Is the Configuration Register?
 
@@ -389,7 +402,7 @@ Router(config)# config-register 0x2142
 
 ---
 
-# PART H — Cisco IOS Password Recovery (Full Procedure)
+## PART H — Cisco IOS Password Recovery (Full Procedure)
 
 If you forget a Cisco router's password, you can recover access using **ROMmon mode**, since physical/console access effectively lets you bypass password protection by controlling the boot process.
 
@@ -523,7 +536,7 @@ copy running-config startup-config
 
 ---
 
-# PART I — Debugging & Logging
+## PART I — Debugging & Logging
 
 ## Why Debugging and Logging Matter
 
@@ -589,7 +602,7 @@ Router# undebug all      ← or "u all" — disables ALL active debug output
 
 ---
 
-# PART J — Master Quick Revision
+## PART J — Master Quick Revision
 
 ```text
 CISCO IOS
@@ -653,3 +666,11 @@ DEBUGGING & LOGGING
 ---
 
 _Router Fundamentals Reference Notes — CDAC Exam Prep_
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[04A - Network Routing Fundamentals]]
+- [[04B - Routing Protocols and Administrative Distance]]

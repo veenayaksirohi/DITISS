@@ -1,3 +1,15 @@
+---
+title: "Network Routing Fundamentals"
+aliases:
+  - "Network Routing — Detailed Study Notes"
+  - "Routing Notes"
+tags:
+  - computer-networks
+  - routing
+  - routing-table
+  - cisco
+---
+
 # Network Routing — Detailed Study Notes
 
 > **Administrative Distance (AD)** — A number that tells a router how much it **trusts a route source**. Lower AD = more trusted. When two sources advertise the same destination, the router picks the one with the lower AD. Range: 0 (most trusted) to 255 (never used).
@@ -201,7 +213,7 @@ If a router does not have a route for a destination, it sends the packet to the 
 When a router learns the same destination from different routing sources, it uses **administrative distance** to choose the more trusted source. Lower AD means higher trust.
 
 ```md
-# Administrative Distance (AD) Table
+## Administrative Distance (AD) Table
 
 **AD = Administrative Distance**  
 **Lower AD = More Trusted Route**
@@ -1440,3 +1452,15 @@ Mental shortcut:
 - **RIP** → Simple, slow, small networks only. Hop count is the only metric. Good for learning; rarely used in production today.
 - **OSPF** → Open standard, cost-based metric, scales well with areas. The most common choice in real-world networks.
 - **EIGRP** → Cisco-focused, fastest convergence via DUAL, flexible load balancing with `variance`. Best in Cisco-only environments.
+
+---
+
+## Related Notes
+
+- [[00 - Syllabus and Interview Checklist]]
+- [[01 - OSI Model]]
+- [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[13 - Router IOS and Management]]
+- [[04B - Routing Protocols and Administrative Distance]]
+- [[05 - VLANs and Inter-VLAN Routing]]
+- [[09 - Infrastructure Security ACL AAA and Port Security]]

@@ -1,0 +1,102 @@
+Convert the provided notes into a clean, well-organized **Obsidian notes format**.
+
+## Requirements
+
+1. Do not rewrite, summarize, delete, or change the original content of any note.
+
+2. Preserve all explanations, commands, examples, and technical information exactly as provided.
+
+3. Only improve the Markdown formatting by using:
+
+   * Headings and subheadings
+   * Bullet points and numbered lists
+   * Tables
+   * Code blocks
+   * Blockquotes
+   * Horizontal separators
+
+4. Rename every file according to its actual topic or content.
+
+5. Use the topics listed in **`Syllabus and Interview Checklist`** as the main reference for naming and organizing the notes.
+
+6. When a note matches a topic in **`Syllabus and Interview Checklist`**, use that topic’s clear and standardized name as the filename.
+
+7. Update the **`Syllabus and Interview Checklist`** file by:
+
+   * Adding Obsidian links to the corresponding notes
+   * Updating references to renamed files
+   * Keeping the original syllabus and checklist content unchanged
+   * Clearly connecting every available topic to its related note
+   * Marking or identifying topics for which notes are not available, without adding new technical content
+
+8. Arrange all files in a logical learning order based on the sequence of topics in **`Syllabus and Interview Checklist`**.
+
+9. Add Obsidian internal links between related notes, for example:
+
+   ```markdown
+   [[Linux Boot Process]]
+   ```
+
+10. Update every existing internal link whenever a file is renamed.
+
+11. Add suitable YAML front matter to every note. Use a structure similar to:
+
+```yaml
+---
+title: Linux Boot Process
+aliases:
+  - Linux Booting Process
+tags:
+  - linux
+  - boot-process
+  - interview-preparation
+---
+```
+
+12. If a file contains multiple topics:
+
+* Keep all original content unchanged.
+* Divide it into separate notes only when necessary.
+* Name the separated files according to the relevant topics in **`Syllabus and Interview Checklist`**.
+* Ensure that no information, command, example, or explanation is lost.
+* Add internal links between the separated notes to maintain continuity.
+
+13. Create an **`Index.md`** or **Map of Content (MOC)** containing links to all notes in the recommended learning sequence.
+
+14. The reading order in `Index.md` must follow the topic order given in **`Syllabus and Interview Checklist`**.
+
+15. Do not add new technical information unless it is required for navigation, file organization, internal linking, or learning continuity.
+
+16. Verify that:
+
+* Every note has a meaningful topic-based filename.
+* Every renamed file is correctly linked.
+* No internal link is broken.
+* Every note is included in `Index.md`.
+* Relevant notes are linked from `Syllabus and Interview Checklist`.
+* No original technical content has been changed or removed.
+
+## Final Output
+
+At the end, provide:
+
+1. A table containing:
+
+   * Old filename
+   * New filename
+   * Main topic
+   * Reason for renaming
+
+2. The final folder structure.
+
+3. The recommended reading order.
+
+4. A complete list of internal links added.
+
+5. A list of topics from **`Syllabus and Interview Checklist`** for which notes were not provided.
+
+6. A confirmation that no original content was rewritten, summarized, deleted, or technically modified.
+
+## Main Goal
+
+The main goal is to make the notes fully suitable for Obsidian, use **`Syllabus and Interview Checklist`** as the master guide for file naming and organization, maintain continuity between topics, and preserve every part of the original content.
