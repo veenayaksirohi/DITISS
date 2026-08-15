@@ -18,6 +18,8 @@ syllabus-topic:
 
 # DNS (Domain Name System) — Exam-Ready Notes
 
+> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
+
 ### CDAC DITISS — Networking / Linux OS & Security
 
 ---

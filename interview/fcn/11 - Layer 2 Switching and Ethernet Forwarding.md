@@ -1,5 +1,5 @@
 ---
-title: "Layer 2 Switching and Ethernet Forwarding"
+title: "11 - Layer 2 Switching and Ethernet Forwarding"
 aliases:
   - "Network Switching and Ethernet Forwarding"
   - "Switching Types, Ethernet Forwarding & Layer 2 Switching"
@@ -9,6 +9,9 @@ tags:
   - switching
   - ethernet
   - layer-2
+syllabus-topic:
+  - 11
+  - 12
 ---
 
 # Switching Types, Ethernet Forwarding & Layer 2 Switching
@@ -474,6 +477,7 @@ DUPLEX (Part C)
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[01 - OSI Model]]
 - [[08 - Spanning Tree Protocol]]
 - [[05 - VLANs and Inter-VLAN Routing]]

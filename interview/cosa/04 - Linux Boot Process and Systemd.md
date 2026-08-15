@@ -18,6 +18,8 @@ syllabus-topic:
 
 # Linux Boot Process & Systemd — Study Notes
 
+> Related: [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]]
+
 **Quick Revision Guide for Exam / Viva Prep**
 
 ---

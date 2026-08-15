@@ -1,5 +1,5 @@
 ---
-title: "HTTP Evolution and TLS"
+title: "A1 - HTTP Evolution and TLS"
 aliases:
   - "HTTP Evolution — Interview Notes (0.9 → 1.0 → 1.1 → 2 → 3)"
   - "HTTP Evolution Interview Notes"
@@ -8,6 +8,7 @@ tags:
   - http
   - tls
   - application-layer
+syllabus-topic: []
 ---
 
 # HTTP Evolution — Interview Notes (0.9 → 1.0 → 1.1 → 2 → 3)
@@ -933,5 +934,6 @@ graph LR
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[01 - OSI Model]]
 - [[02 - TCP-IP Model]]

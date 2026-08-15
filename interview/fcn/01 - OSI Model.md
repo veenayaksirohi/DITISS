@@ -1,5 +1,5 @@
 ---
-title: "OSI Model"
+title: "01 - OSI Model"
 aliases:
   - "OSI Model — Complete Study Notes"
   - "OSI Model Notes"
@@ -7,6 +7,10 @@ tags:
   - computer-networks
   - osi-model
   - networking-fundamentals
+syllabus-topic:
+  - 1
+  - 10
+  - 12
 ---
 
 # OSI Model — Complete Study Notes
@@ -1336,7 +1340,9 @@ Examples:
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[02 - TCP-IP Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[04A - Network Routing Fundamentals]]
 - [[11 - Layer 2 Switching and Ethernet Forwarding]]
+- [[A1 - HTTP Evolution and TLS]]

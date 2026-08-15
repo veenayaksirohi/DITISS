@@ -1,5 +1,5 @@
 ---
-title: "Router IOS and Management"
+title: "13 - Router IOS and Management"
 aliases:
   - "Cisco Router Fundamentals and IOS"
   - "Router Fundamentals: IOS, Boot Process, Memory, CLI Modes, Remote Access, Password Recovery & Troubleshooting"
@@ -9,6 +9,8 @@ tags:
   - cisco-ios
   - routers
   - troubleshooting
+syllabus-topic:
+  - 13
 ---
 
 # Router Fundamentals: IOS, Boot Process, Memory, CLI Modes, Remote Access, Password Recovery & Troubleshooting
@@ -672,5 +674,6 @@ _Router Fundamentals Reference Notes — CDAC Exam Prep_
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[04A - Network Routing Fundamentals]]
 - [[04B - Routing Protocols and Administrative Distance]]

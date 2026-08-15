@@ -1,5 +1,5 @@
 ---
-title: "VLANs and Inter-VLAN Routing"
+title: "05 - VLANs and Inter-VLAN Routing"
 aliases:
   - "📡 VLAN — Complete Notes"
   - "VLAN Complete Notes"
@@ -8,6 +8,8 @@ tags:
   - vlans
   - inter-vlan-routing
   - switching
+syllabus-topic:
+  - 5
 ---
 
 # 📡 VLAN — Complete Notes
@@ -326,6 +328,7 @@ To avoid accidentally overwriting the domain's VLAN database:
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[04A - Network Routing Fundamentals]]
 - [[11 - Layer 2 Switching and Ethernet Forwarding]]
 - [[08 - Spanning Tree Protocol]]

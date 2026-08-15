@@ -1,5 +1,5 @@
 ---
-title: "Network Address Translation"
+title: "06 - Network Address Translation"
 aliases:
   - "📡 Module 6: NAT (Network Address Translation) — Complete Notes"
   - "NAT Complete Notes"
@@ -8,6 +8,8 @@ tags:
   - nat
   - ip-addressing
   - network-security
+syllabus-topic:
+  - 6
 ---
 
 # 📡 Module 6: NAT (Network Address Translation) — Complete Notes
@@ -319,5 +321,6 @@ There are **4 main types**:
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[09 - Infrastructure Security ACL AAA and Port Security]]

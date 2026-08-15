@@ -1,5 +1,5 @@
 ---
-title: "Syllabus and Interview Checklist"
+title: "00 - Syllabus and Interview Checklist"
 aliases:
   - "Computer Networks Syllabus and Interview Checklist"
   - "Computer Networks — CDAC DITISS Syllabus"
@@ -9,6 +9,7 @@ tags:
   - syllabus
   - interview-preparation
   - moc
+syllabus-topic: []
 ---
 
 # Computer Networks — CDAC DITISS Syllabus

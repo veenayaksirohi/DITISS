@@ -1,5 +1,5 @@
 ---
-title: "Infrastructure Security ACL AAA and Port Security"
+title: "09 - Infrastructure Security ACL AAA and Port Security"
 aliases:
   - "Port Security AAA and ACLs"
   - "Port Security, AAA & Access Control Lists (ACLs)"
@@ -9,6 +9,8 @@ tags:
   - port-security
   - aaa
   - access-control-lists
+syllabus-topic:
+  - 9
 ---
 
 # Port Security, AAA & Access Control Lists (ACLs)
@@ -463,6 +465,7 @@ ACLs
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[04A - Network Routing Fundamentals]]
 - [[11 - Layer 2 Switching and Ethernet Forwarding]]
 - [[05 - VLANs and Inter-VLAN Routing]]

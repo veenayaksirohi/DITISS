@@ -1,5 +1,5 @@
 ---
-title: "Network Routing Fundamentals"
+title: "04A - Network Routing Fundamentals"
 aliases:
   - "Network Routing — Detailed Study Notes"
   - "Routing Notes"
@@ -8,6 +8,9 @@ tags:
   - routing
   - routing-table
   - cisco
+syllabus-topic:
+  - 4
+  - 10
 ---
 
 # Network Routing — Detailed Study Notes
@@ -1458,6 +1461,7 @@ Mental shortcut:
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[01 - OSI Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[13 - Router IOS and Management]]

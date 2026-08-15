@@ -1,5 +1,5 @@
 ---
-title: "TCP-IP Model"
+title: "02 - TCP-IP Model"
 aliases:
   - "TCP-IP Model and Transport Protocols"
   - "TCP/IP Model — Study Notes"
@@ -9,6 +9,8 @@ tags:
   - computer-networks
   - tcp-ip
   - transport-layer
+syllabus-topic:
+  - 2
 ---
 
 # TCP/IP Model — Study Notes
@@ -456,6 +458,7 @@ This is why UDP is called **"fire and forget"** — it has no recovery mechanism
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[01 - OSI Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[A1 - HTTP Evolution and TLS]]

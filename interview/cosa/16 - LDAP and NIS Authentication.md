@@ -18,6 +18,8 @@ syllabus-topic:
 > Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[03 - User and Group Management|User and Group Management]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]]
 
 # NIS & LDAP — Directory Services — Exam-Ready Notes
+> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
+
 ### CDAC DITISS — Networking / Linux OS & Security
 
 ---

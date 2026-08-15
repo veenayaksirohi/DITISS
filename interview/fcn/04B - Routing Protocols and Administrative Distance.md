@@ -1,5 +1,5 @@
 ---
-title: "Routing Protocols and Administrative Distance"
+title: "04B - Routing Protocols and Administrative Distance"
 aliases:
   - "📡 Module 4: Routing — Complete Notes"
   - "Routing Complete Notes"
@@ -8,6 +8,8 @@ tags:
   - routing-protocols
   - administrative-distance
   - cisco
+syllabus-topic:
+  - 4
 ---
 
 # 📡 Module 4: Routing — Complete Notes
@@ -534,5 +536,6 @@ Connected(0) → Static(1) → EIGRP Summary(5) → eBGP(20) → EIGRP(90) → O
 ## Related Notes
 
 - [[00 - Syllabus and Interview Checklist]]
+- [[Index|Computer Networks Index]]
 - [[13 - Router IOS and Management]]
 - [[04A - Network Routing Fundamentals]]
