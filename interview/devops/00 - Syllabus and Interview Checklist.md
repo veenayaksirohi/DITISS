@@ -1,3 +1,15 @@
+---
+title: 00 - Syllabus and Interview Checklist
+aliases:
+  - IT Infrastructure Management & DevOps - CDAC DITISS Syllabus
+  - devops-it-infrastructure-interview-notes
+tags:
+  - devops
+  - syllabus
+  - interview-preparation
+syllabus-topic: []
+---
+
 # IT Infrastructure Management & DevOps - CDAC DITISS Syllabus
 
 ## Topics, Interview Priority & Important Commands/Tools
@@ -321,3 +333,34 @@
 
 *CDAC DITISS - PGCP-ITISS | IT Infrastructure Management & DevOps | Feb 2026*
 *Total: 40T + 40L + 27SL (DevOps section) + Data Center session*
+
+---
+
+## Obsidian Topic Coverage and Navigation
+
+> This section adds navigation and coverage labels only. The original syllabus and checklist above remain unchanged.
+
+| Topic | Syllabus topic | Coverage | Related note or status |
+|---:|---|---|---|
+| 1 | Docker | Unavailable | No dedicated note provided. |
+| 2 | Kubernetes / Container Orchestration | Partial | [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
+| 3 | Git & GitHub | Unavailable | No dedicated note provided. |
+| 4 | Jenkins (CI/CD) | Unavailable | No dedicated note provided. |
+| 5 | AWS Core Services | Partial | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
+| 6 | Ansible | Distributed | [[06 - Ansible YAML and Configuration Management|Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
+| 7 | Terraform (IaC) | Distributed | [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]]; [[06 - Ansible YAML and Configuration Management|Ansible YAML and Configuration Management]] |
+| 8 | Virtualization | Partial | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
+| 9 | Cloud Computing | Partial | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
+| 10 | Prometheus & Monitoring | Unavailable | No dedicated note provided. |
+| 11 | Chef & Puppet (Configuration Management) | Distributed | [[06 - Ansible YAML and Configuration Management|Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
+| 12 | Storage Area Network (SAN) | Unavailable | No dedicated note provided. |
+| 13 | Data Center Management | Partial | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
+| 14 | Agile & DevOps Culture | Unavailable | No dedicated note provided. |
+| 15 | Docker Swarm (Orchestration Alternative) | Unavailable | No dedicated note provided. |
+
+### Vault Navigation
+
+- [[Index|Vault Index and Reading Order]]
+- [[05 - AWS Cloud Computing Virtualization and Data Center]]
+- [[06 - Ansible YAML and Configuration Management]]
+- [[07 - Terraform and Infrastructure as Code]]
