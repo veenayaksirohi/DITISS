@@ -1,3 +1,20 @@
+---
+title: 01B - Linux Core Commands
+aliases:
+  - Linux Core Commands
+  - Linux_Commands_Notes
+  - Linux Commands
+tags:
+  - linux
+  - commands
+  - interview-preparation
+syllabus-topic:
+  - 1
+  - 19
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[01C - Linux File Links|Linux File Links]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
+
 # Linux Commands — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**
 
@@ -441,4 +458,3 @@ find / -name "httpd.conf" 2>/dev/null
 | Process mgmt | `ps`, `top`, `kill`, `jobs`, `bg`, `fg`, `nohup` |
 | Links | `ln` (hard), `ln -s` (soft) |
 | Lookup/Help | `man`, `whatis`, `whereis`, `locate`, `find` |
-

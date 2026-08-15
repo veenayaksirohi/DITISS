@@ -1,0 +1,284 @@
+# Convert Notes into an Organized Obsidian Vault
+
+Convert the provided notes into a clean, well-organized **Obsidian notes format**.
+
+## Requirements
+
+1. Do not rewrite, summarize, delete, or change the original content of any note.
+
+2. Preserve all explanations, commands, examples, tables, and technical information exactly as provided.
+
+3. Only improve the Markdown formatting by using:
+
+   * Headings and subheadings
+   * Bullet points and numbered lists
+   * Tables
+   * Code blocks
+   * Blockquotes
+   * Horizontal separators
+
+4. Rename every file according to its actual topic or content.
+
+5. Use the topics listed in **`Syllabus and Interview Checklist`** as the main reference for naming, numbering, and organizing the notes.
+
+6. When a note matches a topic in **`Syllabus and Interview Checklist`**, use that topic’s clear and standardized name as the filename.
+
+## Filename Numbering Rules
+
+7. Every syllabus-related filename must begin with the corresponding topic number from **`Syllabus and Interview Checklist`**.
+
+8. Use two-digit numbering to keep the files correctly ordered in Obsidian.
+
+   Examples:
+
+   ```text
+   01 - OSI Model.md
+   02 - TCP-IP Model.md
+   03 - IP Addressing and Subnetting.md
+   ```
+
+9. The number in the filename must match the topic number in the syllabus. Do not assign numbers based only on the current file order.
+
+10. Name the master syllabus file:
+
+```text
+00 - Syllabus and Interview Checklist.md
+```
+
+11. If multiple notes belong to the same syllabus topic, use alphabetical suffixes after the topic number.
+
+Example:
+
+```text
+04A - Network Routing Fundamentals.md
+04B - Routing Protocols.md
+```
+
+12. If one note covers multiple syllabus topics:
+
+* Keep its original content unchanged.
+* Use the number of its main or earliest syllabus topic as the filename prefix.
+* Link the same note from every syllabus topic that it covers.
+* Clearly mention its complete topic coverage in the YAML, syllabus checklist, and `Index.md`.
+
+Example:
+
+```text
+03 - IP Subnetting VLSM IPv4 IPv6 and NDP.md
+```
+
+This file may be linked from both topic 3 and topic 7 if it covers both topics.
+
+13. If no dedicated note exists for a syllabus topic, keep that number intentionally unused. Do not renumber later files to remove the gap.
+
+14. Show the unavailable topic in both the syllabus checklist and `Index.md` using an organizational label such as:
+
+```text
+No dedicated note provided.
+```
+
+15. Notes that do not belong to any numbered syllabus topic must not receive a false syllabus number. Place them in a separate **Supplemental Notes** section and use a separate prefix such as:
+
+```text
+A1 - HTTP Evolution and TLS.md
+A2 - Additional Networking Concepts.md
+```
+
+## Syllabus and Checklist Updates
+
+16. Update **`00 - Syllabus and Interview Checklist.md`** by:
+
+* Adding Obsidian links to the corresponding notes
+* Updating references to renamed files
+* Keeping the original syllabus and checklist content unchanged
+* Clearly connecting every available topic to its related note
+* Linking combined notes from every syllabus topic they cover
+* Linking multiple notes when one topic has more than one note
+* Identifying topics for which notes are unavailable
+* Distinguishing complete, partial, and distributed topic coverage without adding new technical information
+
+17. Arrange all files in the same learning order as the topics listed in **`Syllabus and Interview Checklist`**.
+
+18. Numeric gaps must remain visible when no dedicated note exists for a syllabus topic.
+
+## Internal Links
+
+19. Add Obsidian internal links between related notes.
+
+Example:
+
+```markdown
+[[01 - OSI Model]]
+```
+
+20. Update every existing internal link whenever a file is renamed.
+
+21. Ensure navigation is bidirectional:
+
+* The syllabus and `Index.md` must link to each note.
+* Every note must link back to the syllabus and `Index.md`.
+* Related notes must link to one another where appropriate.
+
+22. Use display labels when needed to make links easier to read.
+
+Example:
+
+```markdown
+[[04A - Network Routing Fundamentals|Routing Fundamentals]]
+```
+
+## YAML Front Matter
+
+23. Add suitable YAML front matter to every note.
+
+Use a structure similar to:
+
+```yaml
+---
+title: 01 - OSI Model
+aliases:
+  - OSI Model
+  - OSI Model Notes
+tags:
+  - networking
+  - osi
+  - interview-preparation
+syllabus-topic:
+  - 1
+---
+```
+
+24. YAML requirements:
+
+* The `title` must match the final filename without the `.md` extension.
+* Preserve the original title and filename as aliases where appropriate.
+* Add the corresponding syllabus topic number.
+* For combined notes, list every syllabus topic covered.
+* Use relevant tags without adding new technical content.
+
+Example for a combined note:
+
+```yaml
+---
+title: 03 - IP Subnetting VLSM IPv4 IPv6 and NDP
+aliases:
+  - IPv4 IPv6 Subnetting VLSM NDP Notes
+tags:
+  - networking
+  - ip-addressing
+  - subnetting
+  - interview-preparation
+syllabus-topic:
+  - 3
+  - 7
+---
+```
+
+## Notes Containing Multiple Topics
+
+25. If a file contains multiple topics:
+
+* Keep all original content unchanged.
+* Divide it into separate notes only when necessary.
+* Name separated files according to their corresponding syllabus topic numbers.
+* Ensure that no information, command, example, table, or explanation is lost.
+* Add internal links between the separated notes to maintain continuity.
+* If the file is not divided, link it from every relevant syllabus topic.
+
+## Index and Reading Order
+
+26. Create an **`Index.md`** or **Map of Content (MOC)** containing links to all notes.
+
+27. The reading order in `Index.md` must follow the exact topic-number order given in **`Syllabus and Interview Checklist`**.
+
+28. Show all syllabus topics in `Index.md`, including topics without dedicated notes.
+
+29. Do not silently omit missing topics.
+
+30. Under each syllabus topic, show:
+
+* The syllabus topic number and name
+* Links to the matching note or notes
+* Whether the coverage is complete, partial, distributed, or unavailable
+
+31. Place all non-syllabus notes in a separate **Supplemental Notes** section after the final syllabus topic.
+
+## Content Protection
+
+32. Do not add new technical information unless it is required for:
+
+* Navigation
+* File organization
+* Internal linking
+* Coverage labels
+* Learning continuity
+
+33. Keep one top-level `#` heading in each note.
+
+34. Preserve all existing:
+
+* Code blocks
+* Commands
+* Tables
+* Examples
+* Lists
+* Blockquotes
+* Separators
+* Technical explanations
+
+## Verification
+
+35. Verify that:
+
+* Every note has a meaningful topic-based filename.
+* Every syllabus-related filename contains the correct syllabus topic number.
+* The numbering matches **`Syllabus and Interview Checklist`**.
+* Multiple notes under one topic correctly use suffixes such as `A` and `B`.
+* Combined notes are linked from every topic they cover.
+* Missing topic numbers remain intentionally unused.
+* Supplemental notes do not receive false syllabus numbers.
+* Every renamed file is correctly linked.
+* No internal link is broken.
+* No old or intermediate filename reference remains.
+* Every note is included in `Index.md`.
+* Relevant notes are linked from the syllabus checklist.
+* Every Markdown file has valid YAML.
+* Every note has exactly one H1 heading.
+* All code fences are balanced.
+* No original technical content has been changed or removed.
+
+## Final Output
+
+At the end, provide:
+
+1. A table containing:
+
+   * Original filename
+   * Final numbered filename
+   * Syllabus topic number
+   * Main topic
+   * Reason for renaming
+
+2. The final folder structure.
+
+3. The recommended reading order based on the syllabus topic numbering.
+
+4. A complete list of internal links added.
+
+5. A list of notes covering multiple syllabus topics.
+
+6. A list of syllabus topics for which notes were not provided.
+
+7. A list of topics with partial or distributed coverage.
+
+8. A list of supplemental notes that are not part of the numbered syllabus.
+
+9. Confirmation that:
+
+   * Filenames follow the syllabus topic numbering.
+   * All links resolve correctly.
+   * No original content was rewritten, summarized, deleted, or technically modified.
+
+## Main Goal
+
+The main goal is to make the notes fully suitable for Obsidian, use **`Syllabus and Interview Checklist`** as the authoritative guide for filenames, topic numbers, organization, and reading order, maintain continuity between related topics, and preserve every part of the original technical content.

@@ -1,3 +1,20 @@
+---
+title: 02A - File Permissions Ownership and ACLs
+aliases:
+  - File Permissions Ownership and ACLs
+  - Linux_Permissions_ACL_Notes
+  - Linux File Permissions and ACLs
+tags:
+  - linux
+  - permissions
+  - acl
+  - interview-preparation
+syllabus-topic:
+  - 2
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[02B - Special Permission Bits|Special Permission Bits]] · [[03 - User and Group Management|User and Group Management]]
+
 # Linux File Permissions & ACLs — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**
 
@@ -312,4 +329,3 @@ chmod o-w file.txt        # remove write access for others
 | View ACL | `getfacl file` | Shows all entries + effective perms |
 | ACL cap | `mask::rwx` | Limits effective perms of named users/groups |
 | Security risk | `find / -perm -o+w` | World-writable = injection/escalation risk |
-

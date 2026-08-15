@@ -1,3 +1,20 @@
+---
+title: 02B - Special Permission Bits
+aliases:
+  - Special Permission Bits
+  - Special_Bits_SUID_SGID_Sticky
+  - SUID SGID and Sticky Bit
+tags:
+  - linux
+  - permissions
+  - security
+  - interview-preparation
+syllabus-topic:
+  - 2
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]]
+
 # Special Permission Bits in Linux — SUID, SGID, Sticky Bit
 
 ## 1. Overview

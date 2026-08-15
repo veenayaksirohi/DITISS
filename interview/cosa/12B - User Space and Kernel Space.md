@@ -1,3 +1,20 @@
+---
+title: 12B - User Space and Kernel Space
+aliases:
+  - User Space and Kernel Space
+  - user-kernel-space-notes
+  - User Mode and Kernel Mode
+tags:
+  - linux
+  - kernel
+  - processes
+  - interview-preparation
+syllabus-topic:
+  - 12
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]]
+
 # User Mode, Kernel Mode, User Space & Kernel Space
 
 > **Core idea:** The OS divides the world into two zones — a privileged zone (kernel) that controls everything, and a restricted zone (user) where your programs run safely. The CPU hardware enforces this split.

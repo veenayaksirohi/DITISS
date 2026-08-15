@@ -1,3 +1,21 @@
+---
+title: 08A - Core Infrastructure Services - DNS
+aliases:
+  - Core Infrastructure Services - DNS
+  - DNS_Notes
+  - DNS
+  - Domain Name System
+tags:
+  - linux
+  - dns
+  - infrastructure-services
+  - interview-preparation
+syllabus-topic:
+  - 8
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08B - Core Infrastructure Services - DHCP|DHCP]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]]
+
 # DNS (Domain Name System) — Exam-Ready Notes
 
 ### CDAC DITISS — Networking / Linux OS & Security

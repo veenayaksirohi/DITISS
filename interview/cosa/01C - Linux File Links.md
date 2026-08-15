@@ -1,3 +1,19 @@
+---
+title: 01C - Linux File Links
+aliases:
+  - Linux File Links
+  - hard_soft_links
+  - Hard Link vs Soft Link
+tags:
+  - linux
+  - file-links
+  - interview-preparation
+syllabus-topic:
+  - 1
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[01B - Linux Core Commands|Linux Core Commands]]
+
 # Linux File Links — Hard Link vs Soft Link
 
 ---

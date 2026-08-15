@@ -1,3 +1,21 @@
+---
+title: 08B - Core Infrastructure Services - DHCP
+aliases:
+  - Core Infrastructure Services - DHCP
+  - DHCP_Notes
+  - DHCP
+  - Dynamic Host Configuration Protocol
+tags:
+  - linux
+  - dhcp
+  - infrastructure-services
+  - interview-preparation
+syllabus-topic:
+  - 8
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08A - Core Infrastructure Services - DNS|DNS]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]]
+
 # DHCP (Dynamic Host Configuration Protocol) — Exam-Ready Notes
 ### CDAC DITISS — Networking / Linux OS & Security
 

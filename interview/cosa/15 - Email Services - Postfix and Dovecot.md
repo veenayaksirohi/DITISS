@@ -1,3 +1,21 @@
+---
+title: 15 - Email Services - Postfix and Dovecot
+aliases:
+  - Email Services - Postfix and Dovecot
+  - Mail_Services_Notes
+  - Mail Services
+tags:
+  - linux
+  - email-services
+  - postfix
+  - dovecot
+  - interview-preparation
+syllabus-topic:
+  - 15
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08A - Core Infrastructure Services - DNS|DNS]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
+
 # Mail Services — Exam-Ready Notes
 ### CDAC DITISS — Networking / Linux OS & Security
 

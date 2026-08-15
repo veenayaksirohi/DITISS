@@ -1,3 +1,20 @@
+---
+title: 12A - Interprocess Communication and Process Internals
+aliases:
+  - Interprocess Communication and Process Internals
+  - Process_Internals_Redirection_Pipes_Notes
+  - Process Internals Redirection and Pipes
+tags:
+  - linux
+  - ipc
+  - processes
+  - interview-preparation
+syllabus-topic:
+  - 12
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[12B - User Space and Kernel Space|User Space and Kernel Space]] · [[01B - Linux Core Commands|Linux Core Commands]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]]
+
 # Process Internals, Shell Execution, Redirection & Pipes — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**
 
@@ -503,4 +520,3 @@ Pipe:
   cmd1 | cmd2   → cmd1's stdout feeds cmd2's stdin, via kernel circular buffer
   Unidirectional IPC mechanism
 ```
-

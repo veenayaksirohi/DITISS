@@ -1,3 +1,21 @@
+---
+title: 04 - Linux Boot Process and Systemd
+aliases:
+  - Linux Boot Process and Systemd
+  - Linux_Boot_Process_Systemd_Notes
+  - Linux Booting Process
+tags:
+  - linux
+  - boot-process
+  - systemd
+  - interview-preparation
+syllabus-topic:
+  - 4
+  - 14
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[12B - User Space and Kernel Space|User Space and Kernel Space]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
+
 # Linux Boot Process & Systemd — Study Notes
 
 **Quick Revision Guide for Exam / Viva Prep**

@@ -1,9 +1,28 @@
+---
+title: 16 - LDAP and NIS Authentication
+aliases:
+  - LDAP and NIS Authentication
+  - NIS_LDAP_Notes
+  - NIS and LDAP Directory Services
+tags:
+  - linux
+  - ldap
+  - nis
+  - authentication
+  - interview-preparation
+syllabus-topic:
+  - 16
+  - 19
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[03 - User and Group Management|User and Group Management]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]]
+
 # NIS & LDAP — Directory Services — Exam-Ready Notes
 ### CDAC DITISS — Networking / Linux OS & Security
 
 ---
 
-# PART A — NIS (Network Information Service)
+## PART A — NIS (Network Information Service)
 
 ## 1. What is NIS?
 
@@ -172,7 +191,7 @@ LDAP → Modern flexible directory protocol (hierarchical)
 
 ---
 
-# PART B — LDAP (Lightweight Directory Access Protocol)
+## PART B — LDAP (Lightweight Directory Access Protocol)
 
 ## 8. What is LDAP?
 

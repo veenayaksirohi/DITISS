@@ -1,3 +1,20 @@
+---
+title: 03 - User and Group Management
+aliases:
+  - User and Group Management
+  - Linux_User_Group_Management_Notes
+  - Linux User and Group Management
+tags:
+  - linux
+  - users
+  - groups
+  - interview-preparation
+syllabus-topic:
+  - 3
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
+
 # Linux User & Group Management — Study Notes
 
 **Quick Revision Guide for Exam / Viva Prep**

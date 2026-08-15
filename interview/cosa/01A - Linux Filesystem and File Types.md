@@ -1,3 +1,20 @@
+---
+title: 01A - Linux Filesystem and File Types
+aliases:
+  - Linux Filesystem and File Types
+  - Linux_Filesystem
+  - Linux File Hierarchy Structure
+  - FHS and File Types
+tags:
+  - linux
+  - filesystem
+  - interview-preparation
+syllabus-topic:
+  - 1
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[01C - Linux File Links|Linux File Links]] · [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]]
+
 # Linux File Hierarchy Structure (FHS) & File Types — Study Notes
 
 **Quick Revision Guide for Exam / Viva Prep**

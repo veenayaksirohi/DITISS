@@ -1,3 +1,20 @@
+---
+title: 07 - Disk Management and Filesystem Partition Layout
+aliases:
+  - Disk Management and Filesystem Partition Layout
+  - Filesystem_Partition_Layout_Notes
+  - Filesystem Partition Layout
+tags:
+  - linux
+  - disk-management
+  - filesystem
+  - interview-preparation
+syllabus-topic:
+  - 7
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]]
+
 # Filesystem Partition Layout — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**
 
@@ -156,4 +173,3 @@ Each inode/FCB:
   - Points to: 1 or more data blocks holding actual content
   - Does NOT store: the filename (that's in the directory entry)
 ```
-

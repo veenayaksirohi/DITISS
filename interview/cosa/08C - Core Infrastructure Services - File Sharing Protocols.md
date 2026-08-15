@@ -1,3 +1,22 @@
+---
+title: 08C - Core Infrastructure Services - File Sharing Protocols
+aliases:
+  - Core Infrastructure Services - File Sharing Protocols
+  - File_Sharing_Protocols_Notes
+  - File Sharing Protocols
+  - FTP NFS Samba SMB and TFTP
+tags:
+  - linux
+  - file-sharing
+  - infrastructure-services
+  - interview-preparation
+syllabus-topic:
+  - 8
+  - 19
+---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08A - Core Infrastructure Services - DNS|DNS]] · [[08B - Core Infrastructure Services - DHCP|DHCP]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
+
 # File Sharing Protocols — FTP, NFS, Samba/SMB, TFTP
 
 ### Exam-Ready Notes (CDAC DITISS — Linux OS & Security / Networking)
