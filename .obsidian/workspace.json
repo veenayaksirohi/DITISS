@@ -11,10 +11,14 @@
             "id": "da83830aad4758ea",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "interview/fcn/03 - IP Subnetting VLSM IPv4 IPv6 and NDP.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "03 - IP Subnetting VLSM IPv4 IPv6 and NDP"
             }
           }
         ]
@@ -37,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -74,7 +80,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "480352fdaaee7e84",
@@ -90,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "interview/Cybersecurity Interview Questions.pdf",
+                "file": "interview/fcn/03 - IP Subnetting VLSM IPv4 IPv6 and NDP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +107,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Cybersecurity Interview Questions"
+              "title": "Backlinks"
             }
           },
           {
@@ -181,6 +188,10 @@
   },
   "active": "da83830aad4758ea",
   "lastOpenFiles": [
+    "interview/fcn/02 - TCP-IP Model.md",
+    "interview/fcn/01 - OSI Model.md",
+    "interview/fcn/short.md",
+    "interview/fcn/00 - Syllabus and Interview Checklist.md",
     "interview/project/project.md",
     "interview/pki/09 - Public Key Infrastructure Syllabus and Interview Checklist.md",
     "interview/programming/03 - Programming Concepts Syllabus and Interview Checklist.md",
@@ -209,10 +220,6 @@
     "interview/project/intro.md",
     "interview/project",
     "interview/devops/Index.md",
-    "interview/devops/07 - Terraform and Infrastructure as Code.md",
-    "interview/devops/05 - AWS Cloud Computing Virtualization and Data Center.md",
-    "interview/devops/06 - Ansible YAML and Configuration Management.md",
-    "interview/devops/00 - Syllabus and Interview Checklist.md",
     "Untitled.canvas",
     "interview/Prompt.txt",
     "interview/fcn/Prompt.txt",
