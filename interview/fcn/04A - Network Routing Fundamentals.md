@@ -25,9 +25,9 @@ Routing is the process of choosing the best path for data packets to travel from
 
 In simple words, routing decides:
 
-* **Where a packet should go next**
-* **Which path is best**
-* **How to get data across different networks efficiently**
+- **Where a packet should go next**
+- **Which path is best**
+- **How to get data across different networks efficiently**
 
 Routing is very important in packet-switched networks such as the **Internet**, where data is broken into packets and sent independently.
 
@@ -39,15 +39,15 @@ A **router** is a Layer 3 device that connects different networks and forwards p
 
 ### Main functions of a router
 
-* Receives packets from one network
-* Reads the destination IP address
-* Checks the routing table
-* Chooses the best next hop
-* Forwards the packet toward the destination
+- Receives packets from one network
+- Reads the destination IP address
+- Checks the routing table
+- Chooses the best next hop
+- Forwards the packet toward the destination
 
 ### OSI Layer
 
-* **Layer 3: Network Layer**
+- **Layer 3: Network Layer**
 
 ---
 
@@ -65,12 +65,11 @@ Routing works hop by hop. A packet does not usually go directly from sender to d
 
 ### Important point
 
-* Each router along the path is called a **hop**.
-* If a packet crosses too many hops, it may be dropped.
-* To prevent packets from looping forever, IP packets have a **TTL (Time To Live)** value.
-
-  * TTL decreases by 1 at each hop.
-  * When TTL becomes 0, the packet is discarded.
+- Each router along the path is called a **hop**.
+- If a packet crosses too many hops, it may be dropped.
+- To prevent packets from looping forever, IP packets have a **TTL (Time To Live)** value.
+  - TTL decreases by 1 at each hop.
+  - When TTL becomes 0, the packet is discarded.
 
 ---
 
@@ -109,11 +108,11 @@ A **routing table** is a database stored in a router that contains information a
 
 ### A routing table usually contains:
 
-* Destination network
-* Next hop
-* Metric / cost
-* Route source
-* Interface to use
+- Destination network
+- Next hop
+- Metric / cost
+- Route source
+- Interface to use
 
 ### Why it matters
 
@@ -125,40 +124,41 @@ The router uses the routing table to decide where to send a packet next.
 
 Routing is mainly of **three types**.
 
-| Type             | Meaning                                             | What Router Learns / Uses                                                           |  Best For                        |  Advantages                                  |  Disadvantages                                                        |
-|------------------|-----------------------------------------------------|-------------------------------------------------------------------------------------|----------------------------------|----------------------------------------------|-----------------------------------------------------------------------|
-| Static Routing   | Manually configured routes                          | Nothing learned automatically; routes are manually entered (destination + next hop) | Small, simple networks           | Simple, predictable, no protocol overhead    | Not scalable, no automatic failover                                   |
-| Dynamic Routing  | Routes learned automatically using protocols        | Destination networks, next-hop addresses, and metrics via RIP, OSPF, BGP            | Large and changing networks      | Scalable, adapts to failures automatically   | Complex, uses CPU, memory, and bandwidth                              |
-| Default Routing  | Uses a predefined route when no other route matches | Uses a single default path (default gateway) when no other route is available       | Networks with a single exit path | Easy to configure, reduces routing table     | Can cause inefficient routing in complex networks                     |
+| Type            | Meaning                                             | What Router Learns / Uses                                                           | Best For                         | Advantages                                 | Disadvantages                                     |
+| --------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------ | ------------------------------------------------- |
+| Static Routing  | Manually configured routes                          | Nothing learned automatically; routes are manually entered (destination + next hop) | Small, simple networks           | Simple, predictable, no protocol overhead  | Not scalable, no automatic failover               |
+| Dynamic Routing | Routes learned automatically using protocols        | Destination networks, next-hop addresses, and metrics via RIP, OSPF, BGP            | Large and changing networks      | Scalable, adapts to failures automatically | Complex, uses CPU, memory, and bandwidth          |
+| Default Routing | Uses a predefined route when no other route matches | Uses a single default path (default gateway) when no other route is available       | Networks with a single exit path | Easy to configure, reduces routing table   | Can cause inefficient routing in complex networks |
 
 ---
 
 ### 6.1 Static Routing
+
 Static routing means the network administrator manually enters the route into the router.
 
 In static routing, routing entries are added manually in the routing table and typically include:
 
-* Destination IP address
-* Next-hop address (or exit interface)
+- Destination IP address
+- Next-hop address (or exit interface)
 
 #### Features
 
-* Routes are configured by hand
-* Does not change automatically
-* Very simple and predictable
-* Uses no routing protocol
+- Routes are configured by hand
+- Does not change automatically
+- Very simple and predictable
+- Uses no routing protocol
 
 #### Advantages
 
-* Full control over the path
-* More secure in small networks
-* Low CPU and bandwidth usage
+- Full control over the path
+- More secure in small networks
+- Low CPU and bandwidth usage
 
 #### Disadvantages
 
-* Hard to manage in large networks
-* No automatic failover
-* Not suitable when links change often
+- Hard to manage in large networks
+- No automatic failover
+- Not suitable when links change often
 
 ---
 
@@ -168,26 +168,26 @@ Dynamic routing means routers automatically learn routes and update them when th
 
 #### Features
 
-* Routes are discovered automatically
-* Routers exchange information
-* Adapts to failures and new paths
+- Routes are discovered automatically
+- Routers exchange information
+- Adapts to failures and new paths
 
 #### Advantages
 
-* Easier to manage in large networks
-* Automatically reacts to network changes
-* Scales better than static routing
+- Easier to manage in large networks
+- Automatically reacts to network changes
+- Scales better than static routing
 
 #### Disadvantages
 
-* Uses more CPU, memory, and bandwidth
-* More complex than static routing
-* Routing loops and convergence delays may occur
+- Uses more CPU, memory, and bandwidth
+- More complex than static routing
+- Routing loops and convergence delays may occur
 
-| Issue               | Meaning                                                                   | Why It Happens in Dynamic Routing                              | Impact on Network                               | How It Is Reduced                                      |
-|---------------------|-------------------------------------------------------------------------- |----------------------------------------------------------------|-----------------------------------------------  |--------------------------------------------------------|
-| Routing Loops       | Packets circulate repeatedly between routers without reaching destination | Temporary inconsistent routing information between routers     | Wastes bandwidth, increases delay, packet loss  | Split horizon, route poisoning, hold-down timers       |
-| Convergence Delays  | Time taken for all routers to update and agree on new network topology    | Routers need time to exchange updates and recalculate routes   | Temporary routing errors, packet drops          | Faster protocols like OSPF/EIGRP, efficient updates    |
+| Issue              | Meaning                                                                   | Why It Happens in Dynamic Routing                            | Impact on Network                              | How It Is Reduced                                   |
+| ------------------ | ------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------- | --------------------------------------------------- |
+| Routing Loops      | Packets circulate repeatedly between routers without reaching destination | Temporary inconsistent routing information between routers   | Wastes bandwidth, increases delay, packet loss | Split horizon, route poisoning, hold-down timers    |
+| Convergence Delays | Time taken for all routers to update and agree on new network topology    | Routers need time to exchange updates and recalculate routes | Temporary routing errors, packet drops         | Faster protocols like OSPF/EIGRP, efficient updates |
 
 ---
 
@@ -197,13 +197,13 @@ Default routing is used when the router does not know a more specific route.
 
 #### Default route
 
-* **0.0.0.0/0** in IPv4
-* Means "send packets to this gateway if no other route matches"
+- **0.0.0.0/0** in IPv4
+- Means "send packets to this gateway if no other route matches"
 
 #### Used when
 
-* A network has only one way out
-* A small branch office sends all unknown traffic to the main router or ISP
+- A network has only one way out
+- A small branch office sends all unknown traffic to the main router or ISP
 
 #### Example
 
@@ -215,25 +215,24 @@ If a router does not have a route for a destination, it sends the packet to the 
 
 When a router learns the same destination from different routing sources, it uses **administrative distance** to choose the more trusted source. Lower AD means higher trust.
 
-```md
 ## Administrative Distance (AD) Table
 
 **AD = Administrative Distance**  
 **Lower AD = More Trusted Route**
 
-| Route Source        | AD (Administrative Distance) | Meaning |
-|---------------------|-----------------------------|---------|
-| Connected (Directly Connected) | 0   | Networks directly attached to router interfaces |
-| Static Route        | 1   | Manually configured routes |
-| eBGP                | 20  | Routes learned via External BGP |
-| EIGRP Internal      | 90  | Routes learned via EIGRP within same AS |
-| IGRP                | 100 | Routes learned via IGRP protocol |
-| OSPF                | 110 | Routes learned via OSPF protocol |
-| IS-IS               | 115 | Routes learned via IS-IS protocol |
-| RIP                 | 120 | Routes learned via RIP protocol |
-| EIGRP External      | 170 | Routes redistributed into EIGRP |
-| iBGP                | 200 | Routes learned via Internal BGP |
-| Unknown             | 255 | Untrusted / unusable route (ignored) |
+| Route Source                   | AD (Administrative Distance) | Meaning                                         |
+| ------------------------------ | ---------------------------- | ----------------------------------------------- |
+| Connected (Directly Connected) | 0                            | Networks directly attached to router interfaces |
+| Static Route                   | 1                            | Manually configured routes                      |
+| eBGP                           | 20                           | Routes learned via External BGP                 |
+| EIGRP Internal                 | 90                           | Routes learned via EIGRP within same AS         |
+| IGRP                           | 100                          | Routes learned via IGRP protocol                |
+| OSPF                           | 110                          | Routes learned via OSPF protocol                |
+| IS-IS                          | 115                          | Routes learned via IS-IS protocol               |
+| RIP                            | 120                          | Routes learned via RIP protocol                 |
+| EIGRP External                 | 170                          | Routes redistributed into EIGRP                 |
+| iBGP                           | 200                          | Routes learned via Internal BGP                 |
+| Unknown                        | 255                          | Untrusted / unusable route (ignored)            |
 
 ---
 
@@ -247,14 +246,9 @@ When a router learns the same destination from different routing sources, it use
 
 ## Quick Memory Order (Low → High AD)
 
-```
-
 Connected → Static → eBGP → EIGRP → IGRP → OSPF → IS-IS → RIP → EIGRP External → iBGP → Unknown
 
 0 → 1 → 20 → 90 → 100 → 110 → 115 → 120 → 170 → 200 → 255
-
-
-
 
 Note - Default Routing != Directly connected
 
@@ -266,11 +260,11 @@ EIGRP internal routes are preferred over OSPF and RIP because their default admi
 
 Routing protocols are rules used by routers to learn networks and choose the best path for packets. They are usually grouped into **distance vector**, **link-state**, and **hybrid** protocols. These are mainly **intradomain routing** protocols, meaning they are used inside an autonomous system rather than between different organizations or ISPs.
 
-| Category | Main idea | Example protocols | Typical use |
-|---|---|---|---|
-| Distance vector | Learns routes from neighbors only | RIP, IGRP | Small or simple networks |
-| Link-state | Builds a full topology map | OSPF, IS-IS | Medium to large networks |
-| Hybrid | Combines features of both | EIGRP | Enterprise and mixed-size networks |
+| Category        | Main idea                         | Example protocols | Typical use                        |
+| --------------- | --------------------------------- | ----------------- | ---------------------------------- |
+| Distance vector | Learns routes from neighbors only | RIP, IGRP         | Small or simple networks           |
+| Link-state      | Builds a full topology map        | OSPF, IS-IS       | Medium to large networks           |
+| Hybrid          | Combines features of both         | EIGRP             | Enterprise and mixed-size networks |
 
 ---
 
@@ -321,14 +315,14 @@ Distance vector routing protocols choose routes based mainly on what their **nei
 
 ### Distance vector vs link-state
 
-| Feature | Distance Vector | Link-State |
-|---|---|---|
-| Network view | Neighbor-based | Full topology-based |
-| Updates | Periodic | Triggered + incremental |
-| Algorithm | Bellman-Ford | Dijkstra SPF |
-| Convergence | Slower | Faster |
-| Loop issues | More common | Much less common |
-| Example | RIP | OSPF, IS-IS |
+| Feature      | Distance Vector | Link-State              |
+| ------------ | --------------- | ----------------------- |
+| Network view | Neighbor-based  | Full topology-based     |
+| Updates      | Periodic        | Triggered + incremental |
+| Algorithm    | Bellman-Ford    | Dijkstra SPF            |
+| Convergence  | Slower          | Faster                  |
+| Loop issues  | More common     | Much less common        |
+| Example      | RIP             | OSPF, IS-IS             |
 
 ---
 
@@ -347,6 +341,7 @@ The **Routing Information Protocol (RIP)** is a dynamic routing protocol used by
 Hop count is the number of routers a packet must cross to reach a destination. In RIP, every router crossed adds **1 hop**, so the path with fewer routers is considered better. RIP allows a maximum hop count of **15**; a hop count of **16** means the destination is unreachable.
 
 Why this matters:
+
 - It prevents routes from circling forever in loops.
 - It also limits RIP's usable network size.
 - A path with better bandwidth is still ignored if it has more hops, because RIP does **not** consider bandwidth or delay.
@@ -373,11 +368,11 @@ RIP uses the **distance-vector** method, which means each router knows only what
 
 ### RIP versions
 
-| Version | IP type | Update method | Subnet mask support | Authentication |
-|---|---|---|---|---|
-| RIPv1 | IPv4 | Broadcast to 255.255.255.255 | No, classful only | No |
-| RIPv2 | IPv4 | Multicast to 224.0.0.9 | Yes, classless | Yes |
-| RIPng | IPv6 | Multicast to FF02::9 | Yes, classless | Supports IPv6 security mechanisms; not the same as classic RIPv2 auth |
+| Version | IP type | Update method                | Subnet mask support | Authentication                                                        |
+| ------- | ------- | ---------------------------- | ------------------- | --------------------------------------------------------------------- |
+| RIPv1   | IPv4    | Broadcast to 255.255.255.255 | No, classful only   | No                                                                    |
+| RIPv2   | IPv4    | Multicast to 224.0.0.9       | Yes, classless      | Yes                                                                   |
+| RIPng   | IPv6    | Multicast to FF02::9         | Yes, classless      | Supports IPv6 security mechanisms; not the same as classic RIPv2 auth |
 
 ### RIP timers
 
@@ -417,6 +412,7 @@ RIP is weak in security because updates are easy to intercept and manipulate if 
 ### Why RIP is considered old
 
 RIP is often called "dead" in modern networks because it:
+
 - uses only hop count, not bandwidth-aware metrics,
 - sends updates frequently,
 - supports only 15 hops,
@@ -438,11 +434,11 @@ Link-state routing protocols give each router a much more complete view of the n
 
 ### Tables used in link-state
 
-| Table | Purpose |
-|---|---|
-| Neighbor table | Stores directly adjacent routers and adjacency status |
+| Table                 | Purpose                                                      |
+| --------------------- | ------------------------------------------------------------ |
+| Neighbor table        | Stores directly adjacent routers and adjacency status        |
 | Topology table / LSDB | Stores the full network map and all learned link information |
-| Routing table | Stores the best routes selected from the SPF calculation |
+| Routing table         | Stores the best routes selected from the SPF calculation     |
 
 ### Advantages
 
@@ -472,15 +468,15 @@ OSPF (Open Shortest Path First) is a **link-state routing protocol** used inside
 
 ### Key OSPF terms
 
-| Term | Meaning |
-|---|---|
-| Router ID | A unique 32-bit number used to identify an OSPF router. |
-| Hello packet | A packet used to find neighbors and keep the OSPF relationship alive. |
-| Area ID | A number that identifies which OSPF area an interface belongs to. Routers in the same area exchange OSPF information with each other. |
-| DR | Designated Router. It reduces the number of OSPF adjacencies on multi-access networks. |
-| BDR | Backup Designated Router. It takes over if the DR fails. |
-| LSA | Link-State Advertisement. This is the message OSPF uses to share network topology details. |
-| LSDB | Link-State Database. This is the table where a router stores all received LSAs. |
+| Term         | Meaning                                                                                                                               |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Router ID    | A unique 32-bit number used to identify an OSPF router.                                                                               |
+| Hello packet | A packet used to find neighbors and keep the OSPF relationship alive.                                                                 |
+| Area ID      | A number that identifies which OSPF area an interface belongs to. Routers in the same area exchange OSPF information with each other. |
+| DR           | Designated Router. It reduces the number of OSPF adjacencies on multi-access networks.                                                |
+| BDR          | Backup Designated Router. It takes over if the DR fails.                                                                              |
+| LSA          | Link-State Advertisement. This is the message OSPF uses to share network topology details.                                            |
+| LSDB         | Link-State Database. This is the table where a router stores all received LSAs.                                                       |
 
 ### Router ID
 
@@ -516,10 +512,10 @@ If a router stops receiving Hello packets for the dead interval, it assumes the 
 
 OSPF does not use broadcast to send updates. Instead, it uses **multicast** so only OSPF-enabled routers receive the packets, not every device on the network.
 
-| Address | Who receives it | Used for |
-|---|---|---|
+| Address       | Who receives it  | Used for                                                                           |
+| ------------- | ---------------- | ---------------------------------------------------------------------------------- |
 | **224.0.0.5** | All OSPF routers | General Hello packets and LSU flooding — every OSPF router listens on this address |
-| **224.0.0.6** | DR and BDR only | DROTHERs send updates to this address so only the DR and BDR process them |
+| **224.0.0.6** | DR and BDR only  | DROTHERs send updates to this address so only the DR and BDR process them          |
 
 #### How it works on a LAN segment
 
@@ -588,12 +584,12 @@ OSPF uses two main things to decide which router becomes DR and which becomes BD
 
 OSPF behaves differently depending on the **network type** of an interface. The network type controls two things: whether a **DR/BDR is elected**, and how **neighbors are discovered**.
 
-| Network Type | DR/BDR Elected? | Neighbor Discovery | Typical Use |
-|---|---|---|---|
-| **Broadcast** | Yes | Automatic (multicast) | Ethernet (LAN) |
-| **Point-to-Point** | No | Automatic (multicast) | Serial links, PPP, HDLC |
-| **NBMA** | Yes | Manual (unicast) | Frame Relay, ATM |
-| **Point-to-Multipoint** | No | Automatic (multicast) | Frame Relay hub-and-spoke |
+| Network Type            | DR/BDR Elected? | Neighbor Discovery    | Typical Use               |
+| ----------------------- | --------------- | --------------------- | ------------------------- |
+| **Broadcast**           | Yes             | Automatic (multicast) | Ethernet (LAN)            |
+| **Point-to-Point**      | No              | Automatic (multicast) | Serial links, PPP, HDLC   |
+| **NBMA**                | Yes             | Manual (unicast)      | Frame Relay, ATM          |
+| **Point-to-Multipoint** | No              | Automatic (multicast) | Frame Relay hub-and-spoke |
 
 #### Broadcast
 
@@ -663,15 +659,15 @@ Think of the LSDB as OSPF's **network map**. Every router in the same area keeps
 
 When two routers start talking OSPF, they do not become fully connected immediately. They move through a set of states step by step until they finally reach **Full**, which means their databases are synchronized.
 
-| State | Meaning |
-|---|---|
-| Down | No Hello packet has been received yet. OSPF has not started forming a relationship. |
-| Init | A Hello packet was received, but the router has not yet seen its own Router ID in the neighbor's Hello packet. |
-| Two-Way | Both routers can see each other in Hello packets, so bidirectional communication is confirmed. |
-| ExStart | The routers decide who will be **master** and who will be **slave** for database exchange. |
-| Exchange | Routers exchange **DBD** packets, which contain summaries of their LSDB contents. |
-| Loading | Routers request missing LSAs using **LSR** packets and receive them using **LSU** packets. |
-| Full | The LSDBs are synchronized. At this point, the OSPF adjacency is complete. |
+| State    | Meaning                                                                                                        |
+| -------- | -------------------------------------------------------------------------------------------------------------- |
+| Down     | No Hello packet has been received yet. OSPF has not started forming a relationship.                            |
+| Init     | A Hello packet was received, but the router has not yet seen its own Router ID in the neighbor's Hello packet. |
+| Two-Way  | Both routers can see each other in Hello packets, so bidirectional communication is confirmed.                 |
+| ExStart  | The routers decide who will be **master** and who will be **slave** for database exchange.                     |
+| Exchange | Routers exchange **DBD** packets, which contain summaries of their LSDB contents.                              |
+| Loading  | Routers request missing LSAs using **LSR** packets and receive them using **LSU** packets.                     |
+| Full     | The LSDBs are synchronized. At this point, the OSPF adjacency is complete.                                     |
 
 #### What the states really mean
 
@@ -702,6 +698,7 @@ On broadcast networks like Ethernet, OSPF uses the **DR/BDR** mechanism to reduc
 ### Why adjacency can fail
 
 OSPF may stop before Full if some values do not match. Common problems include:
+
 - Area ID mismatch.
 - Hello/dead timer mismatch.
 - Authentication mismatch.
@@ -778,11 +775,11 @@ $$\text{Cost} = \frac{\text{Reference Bandwidth}}{\text{Interface Bandwidth}}$$
 
 #### Example values (Cisco default)
 
-| Link type | Bandwidth | Formula (100 Mbps / BW) | Cost |
-|---|---|---|---|
-| 10 Mbps Ethernet | 10 Mbps | 100 / 10 | 10 |
-| 100 Mbps FastEthernet | 100 Mbps | 100 / 100 | 1 |
-| 1 Gbps GigabitEthernet | 1 Gbps | 100 / 1000 | 1 (since cost is rounded to integer, any value < 1 becomes 1) |
+| Link type              | Bandwidth | Formula (100 Mbps / BW) | Cost                                                          |
+| ---------------------- | --------- | ----------------------- | ------------------------------------------------------------- |
+| 10 Mbps Ethernet       | 10 Mbps   | 100 / 10                | 10                                                            |
+| 100 Mbps FastEthernet  | 100 Mbps  | 100 / 100               | 1                                                             |
+| 1 Gbps GigabitEthernet | 1 Gbps    | 100 / 1000              | 1 (since cost is rounded to integer, any value < 1 becomes 1) |
 
 #### How OSPF uses cost
 
@@ -917,12 +914,12 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
 
 ### OSPFv2 vs OSPFv3
 
-| Feature | OSPFv2 | OSPFv3 |
-|---|---|---|
-| IP version | IPv4 | IPv6 |
-| Addressing | IP addresses | Link-local addresses for neighbor relationships |
-| Security | Traditionally plain text or MD5 | Uses IPv6 security mechanisms such as IPsec support |
-| Scope | Area and AS scope | Adds more flexible flooding scopes |
+| Feature    | OSPFv2                          | OSPFv3                                              |
+| ---------- | ------------------------------- | --------------------------------------------------- |
+| IP version | IPv4                            | IPv6                                                |
+| Addressing | IP addresses                    | Link-local addresses for neighbor relationships     |
+| Security   | Traditionally plain text or MD5 | Uses IPv6 security mechanisms such as IPsec support |
+| Scope      | Area and AS scope               | Adds more flexible flooding scopes                  |
 
 ---
 
@@ -939,11 +936,11 @@ Hybrid routing combines ideas from distance vector and link-state routing. EIGRP
 
 ### EIGRP terms
 
-| Term | Meaning |
-|---|---|
-| Successor | Best route to the destination, installed in the routing table |
-| Feasible successor | Backup route that can replace the successor immediately if needed |
-| Feasibility condition | Rule used to ensure the backup route is loop-free |
+| Term                  | Meaning                                                           |
+| --------------------- | ----------------------------------------------------------------- |
+| Successor             | Best route to the destination, installed in the routing table     |
+| Feasible successor    | Backup route that can replace the successor immediately if needed |
+| Feasibility condition | Rule used to ensure the backup route is loop-free                 |
 
 ### Advantages
 
@@ -971,11 +968,11 @@ Hybrid routing combines ideas from distance vector and link-state routing. EIGRP
 
 Administrative Distance (AD) tells the router **how much it trusts a route**. Lower AD = more trusted.
 
-| Type | AD Value |
-|---|---|
-| EIGRP summary routes | 5 |
-| EIGRP internal routes | 90 |
-| EIGRP external routes (redistributed) | 170 |
+| Type                                  | AD Value |
+| ------------------------------------- | -------- |
+| EIGRP summary routes                  | 5        |
+| EIGRP internal routes                 | 90       |
+| EIGRP external routes (redistributed) | 170      |
 
 - So, **EIGRP internal routes** are trusted more than most other IGPs (for example, OSPF = 110, RIP = 120).
 
@@ -983,16 +980,17 @@ Administrative Distance (AD) tells the router **how much it trusts a route**. Lo
 
 EIGRP uses several message types, sent as **multicast (224.0.0.10)** or **unicast**, depending on purpose.
 
-| Message | Purpose |
-|---|---|
-| **Hello** | Neighbor discovery and keep-alive. Sent every **5 seconds** by default. If no Hello arrives within **15 seconds (Dead/hold time)**, the neighbor is declared down. |
-| **Update** | After adjacency, routers send **full updates** (all routes). On topology changes, **partial updates** (only changed routes) are sent. |
-| **Query** | When a route disappears and there is no backup, EIGRP **queries** neighbors for a new path (multicast). |
-| **Reply** | Sent in **response to a Query**, giving alternative route info. |
-| **Ack** | A **Hello-like packet with no data**, used to acknowledge **Updates, Queries, and Replies** (these are reliable messages). |
-| **NULL Update** | Used internally for measuring **SRTT (Smooth Round Trip Time)** and **RTO (retransmission timeout)**. |
+| Message         | Purpose                                                                                                                                                            |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Hello**       | Neighbor discovery and keep-alive. Sent every **5 seconds** by default. If no Hello arrives within **15 seconds (Dead/hold time)**, the neighbor is declared down. |
+| **Update**      | After adjacency, routers send **full updates** (all routes). On topology changes, **partial updates** (only changed routes) are sent.                              |
+| **Query**       | When a route disappears and there is no backup, EIGRP **queries** neighbors for a new path (multicast).                                                            |
+| **Reply**       | Sent in **response to a Query**, giving alternative route info.                                                                                                    |
+| **Ack**         | A **Hello-like packet with no data**, used to acknowledge **Updates, Queries, and Replies** (these are reliable messages).                                         |
+| **NULL Update** | Used internally for measuring **SRTT (Smooth Round Trip Time)** and **RTO (retransmission timeout)**.                                                              |
 
 > **Reliability note**:
+>
 > - **Hello and Ack** are **not** reliable (no separate acknowledgment).
 > - **Update, Query, Reply** are **reliable** and must be acknowledged.
 
@@ -1000,10 +998,10 @@ EIGRP uses several message types, sent as **multicast (224.0.0.10)** or **unicas
 
 EIGRP does **not** use broadcast. It uses **multicast** for most messages, and switches to **unicast** in specific situations.
 
-| Address / Type | Used for |
-|---|---|
-| **224.0.0.10** (multicast) | Hello packets, Updates, Queries sent to all EIGRP neighbors on the segment |
-| **Unicast** | Retransmissions of reliable messages if a neighbor does not acknowledge; also used on NBMA links where multicast is not supported |
+| Address / Type             | Used for                                                                                                                          |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| **224.0.0.10** (multicast) | Hello packets, Updates, Queries sent to all EIGRP neighbors on the segment                                                        |
+| **Unicast**                | Retransmissions of reliable messages if a neighbor does not acknowledge; also used on NBMA links where multicast is not supported |
 
 #### Why multicast instead of broadcast?
 
@@ -1053,10 +1051,10 @@ If any of these differ, the routers **will not form a neighbor relationship**, e
 
 ### EIGRP timers
 
-| Timer | LAN (Ethernet) Default | WAN / Slow-link Default | Purpose |
-|---|---|---|---|
-| **Hello Timer** | **5 seconds** | **60 seconds** | Interval between Hello packets. |
-| **Dead / Hold Time** | **15 seconds** | **180 seconds** | If no Hello is received for this time, the neighbor is declared dead. |
+| Timer                | LAN (Ethernet) Default | WAN / Slow-link Default | Purpose                                                               |
+| -------------------- | ---------------------- | ----------------------- | --------------------------------------------------------------------- |
+| **Hello Timer**      | **5 seconds**          | **60 seconds**          | Interval between Hello packets.                                       |
+| **Dead / Hold Time** | **15 seconds**         | **180 seconds**         | If no Hello is received for this time, the neighbor is declared dead. |
 
 > **Important:** The 5s/15s values are the defaults on **LAN (Ethernet)** interfaces. On **WAN or slow-speed links** (T1 speed and below), EIGRP defaults to **60 seconds Hello / 180 seconds Hold**. Hello and Hold timers **must match** between neighbors — a mismatch will prevent the neighbor relationship from forming.
 
@@ -1081,12 +1079,13 @@ DUAL is the **core of EIGRP's loop-free convergence**. It uses:
 
 Before understanding DUAL, you need to know two distance values EIGRP uses:
 
-| Term | Short form | Meaning |
-|---|---|---|
-| **Reported Distance** | RD | The metric a **neighbor** reports for reaching the destination — it is the neighbor's own cost to get there. Also called Advertised Distance (AD). |
-| **Feasible Distance** | FD | The **total metric** from the **local router** to the destination through a specific neighbor. It equals the link cost to the neighbor plus the neighbor's RD. |
+| Term                  | Short form | Meaning                                                                                                                                                        |
+| --------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Reported Distance** | RD         | The metric a **neighbor** reports for reaching the destination — it is the neighbor's own cost to get there. Also called Advertised Distance (AD).             |
+| **Feasible Distance** | FD         | The **total metric** from the **local router** to the destination through a specific neighbor. It equals the link cost to the neighbor plus the neighbor's RD. |
 
 Simple way to remember:
+
 - **RD** = what your neighbor tells you its cost is.
 - **FD** = your total cost = (your link to neighbor) + (neighbor's RD).
 
@@ -1118,11 +1117,11 @@ This is why EIGRP is often said to support an **"immediate backup"**, unlike OSP
 
 ### EIGRP tables
 
-| Table | Purpose |
-|---|---|
-| **Neighbor table** | Stores EIGRP neighbors and their metrics (like RTT, SRTT, RTO). |
-| **Topology table** | Stores **all routes** advertised by neighbors, including feasible successors. |
-| **Routing table (RIB)** | Contains the **best routes** (successors) selected by DUAL. |
+| Table                   | Purpose                                                                       |
+| ----------------------- | ----------------------------------------------------------------------------- |
+| **Neighbor table**      | Stores EIGRP neighbors and their metrics (like RTT, SRTT, RTO).               |
+| **Topology table**      | Stores **all routes** advertised by neighbors, including feasible successors. |
+| **Routing table (RIB)** | Contains the **best routes** (successors) selected by DUAL.                   |
 
 OSPF style: **LSDB → SPF → routing table**.
 EIGRP style: **Topology table → DUAL → routing table**.
@@ -1195,6 +1194,7 @@ show ip route eigrp              → EIGRP routes in routing table
 ## 13) Loop Prevention Techniques
 
 A **routing loop** happens when a packet goes in circles between routers instead of reaching the destination.
+
 - Wastes **bandwidth**.
 - Can cause **black-holes** and slow convergence.
 - Common in **distance-vector** protocols (like RIP, EIGRP) if loop-prevention rules are missing.
@@ -1208,6 +1208,7 @@ The goal of all these techniques is: **Stop packets from looping endlessly** and
 - When **TTL = 0**, the packet is **dropped** and not forwarded.
 
 **Purpose**
+
 - **Last-resort safety net**: even if a loop exists, the packet dies after a limited number of hops.
 - Does **not fix** the routing bug; it just limits the damage.
 
@@ -1216,10 +1217,12 @@ The goal of all these techniques is: **Stop packets from looping endlessly** and
 In distance-vector protocols, a router **does not advertise a route back out the same interface** it learned it on.
 
 > Example:
+
 - Router A tells B about network X.
 - Router B will **not** tell A again about X.
 
 **Why it helps**
+
 - Prevents **back-loops** between two neighboring routers.
 - Basic rule in **RIP, EIGRP**, and similar protocols.
 
@@ -1228,11 +1231,13 @@ In distance-vector protocols, a router **does not advertise a route back out the
 When a route fails (link goes down), the router **adverts it with "infinite" metric**, i.e., unreachable.
 
 > Example:
+
 - Network X goes down.
 - Router sends: "Distance to X = ∞" (16 for RIP).
 - Neighbors immediately mark it as **unreachable**.
 
 **Purpose**
+
 - Faster convergence than waiting for hop-count to slowly increase.
 - Prevents **count-to-infinity** and routing loops.
 
@@ -1243,10 +1248,12 @@ A **stronger version** of Split Horizon.
 - Instead of just **not advertising** the route, the router **explicitly advertises it as unreachable** back to the neighbor.
 
 > Example:
+
 - Router A tells B about X.
 - When X goes down, B **replies to A** with: "Distance to X = ∞".
 
 **Why it helps**
+
 - Neighbor knows **for sure** this path is bad, not just silent.
 - More aggressive at preventing loops; used in **RIP with poison-reverse** and EIGRP.
 
@@ -1255,10 +1262,12 @@ A **stronger version** of Split Horizon.
 When a route disappears, routers **temporarily ignore** new updates for that destination unless the new route comes from the same source or is clearly better.
 
 **What it prevents**
+
 - **Flapping** (route going up and down).
 - Accepting **old/wrong** info from a late-arriving update.
 
 **Trade-off**
+
 - Slower convergence in some cases, but safer against instability.
 
 ### 6. Triggered (Flash) Updates
@@ -1266,6 +1275,7 @@ When a route disappears, routers **temporarily ignore** new updates for that des
 Instead of waiting for **periodic updates** every 30 seconds (RIP style), a router **immediately sends an update** when a route changes.
 
 **Purpose**
+
 - **Faster convergence**: neighbors learn topology changes quickly.
 - Reduces chance that others still use an old path, which could cause loops.
 
@@ -1277,6 +1287,7 @@ Some protocols attach a **version number** to each route or message.
 - Older numbers are discarded.
 
 **Loop-prevention benefit**
+
 - Prevents **stale** information from being used after a failure or change.
 - Avoids using old routes that might have created loops.
 
@@ -1288,6 +1299,7 @@ In **link-state protocols (OSPF, IS-IS)**:
 - All routers run **Dijkstra's SPF algorithm** on the same topology to find the best path.
 
 **Why loops are less likely**
+
 - Routers do **not guess** routes from neighbors alone.
 - Every router independently computes **loop-free shortest paths** from the shared map.
 
@@ -1298,25 +1310,27 @@ In **BGP**, each route carries a **full path list** (list of AS numbers or route
 - When a router sees **its own ID** (AS number) in the path, it **rejects** that route.
 
 **Example**
+
 - Router R1 advertises a route via AS1 → AS2 → AS3.
 - If AS2 tries to send it back to AS1, AS1 sees **its own AS** in the path and **drops** it.
 
 **Purpose**
+
 - Straight-forward **loop detection**: no router can import a path that includes itself.
 
 ### Quick conceptual summary
 
-| Technique | Main idea | Where it's used |
-|---|---|---|
-| **TTL** | Eventually kill looping packets | All IP networks |
-| **Split Horizon** | Do not advertise back the way you learned it | Distance-vector (RIP, EIGRP) |
-| **Route Poisoning** | Mark failed routes as unreachable immediately | Distance-vector |
-| **Poison Reverse** | Tell neighbor "this route is dead" | Distance-vector |
-| **Hold-down Timer** | Wait before accepting new updates for a failed route | Distance-vector |
-| **Triggered Updates** | Send updates immediately on change | Distance-vector |
-| **Sequence Numbers** | Use version numbers so only newer routes are accepted | Some protocols |
-| **Link-State (OSPF)** | Build global map and use Dijkstra for loop-free paths | OSPF, IS-IS |
-| **Path-Vector (BGP)** | Check path; if it includes me → reject | BGP |
+| Technique             | Main idea                                             | Where it's used              |
+| --------------------- | ----------------------------------------------------- | ---------------------------- |
+| **TTL**               | Eventually kill looping packets                       | All IP networks              |
+| **Split Horizon**     | Do not advertise back the way you learned it          | Distance-vector (RIP, EIGRP) |
+| **Route Poisoning**   | Mark failed routes as unreachable immediately         | Distance-vector              |
+| **Poison Reverse**    | Tell neighbor "this route is dead"                    | Distance-vector              |
+| **Hold-down Timer**   | Wait before accepting new updates for a failed route  | Distance-vector              |
+| **Triggered Updates** | Send updates immediately on change                    | Distance-vector              |
+| **Sequence Numbers**  | Use version numbers so only newer routes are accepted | Some protocols               |
+| **Link-State (OSPF)** | Build global map and use Dijkstra for loop-free paths | OSPF, IS-IS                  |
+| **Path-Vector (BGP)** | Check path; if it includes me → reject                | BGP                          |
 
 ### Simple way to remember
 
@@ -1393,7 +1407,7 @@ router eigrp 100
 - Here, EIGRP will use:
   - The best path (metric M), and
   - Any feasible successors with metric ≤ 2 × M,
-  for **unequal-cost load sharing**.
+    for **unequal-cost load sharing**.
 
 Important:
 
@@ -1411,11 +1425,11 @@ Example:
 
 Suppose three paths have metrics of 100, 200, and 500:
 
-| Path | Metric | Inverse (1/metric) | Traffic share (simplified) |
-|---|---|---|---|
-| Path A (successor) | 100 | 1/100 = 10 | 10 parts |
-| Path B (feasible successor) | 200 | 1/200 = 5 | 5 parts |
-| Path C (feasible successor) | 500 | 1/500 = 2 | 2 parts |
+| Path                        | Metric | Inverse (1/metric) | Traffic share (simplified) |
+| --------------------------- | ------ | ------------------ | -------------------------- |
+| Path A (successor)          | 100    | 1/100 = 10         | 10 parts                   |
+| Path B (feasible successor) | 200    | 1/200 = 5          | 5 parts                    |
+| Path C (feasible successor) | 500    | 1/500 = 2          | 2 parts                    |
 
 So the ratio is **10 : 5 : 2** — Path A carries roughly 10 packets for every 5 sent via Path B and 2 via Path C.
 
@@ -1423,11 +1437,11 @@ This is called **proportional load sharing** — faster/better paths carry more 
 
 ### Quick comparison
 
-| Feature | OSPF | EIGRP |
-|---|---|---|
-| Metric | Cost (bandwidth-based) | Composite (bandwidth, delay, etc.) |
-| Equal-cost load balancing | Yes (ECMP, `maximum-paths`) | Yes (`maximum-paths`) |
-| Unequal-cost load balancing | No (classic OSPF) | Yes (`variance` with feasible successors) |
+| Feature                     | OSPF                        | EIGRP                                     |
+| --------------------------- | --------------------------- | ----------------------------------------- |
+| Metric                      | Cost (bandwidth-based)      | Composite (bandwidth, delay, etc.)        |
+| Equal-cost load balancing   | Yes (ECMP, `maximum-paths`) | Yes (`maximum-paths`)                     |
+| Unequal-cost load balancing | No (classic OSPF)           | Yes (`variance` with feasible successors) |
 
 Mental shortcut:
 
@@ -1438,17 +1452,17 @@ Mental shortcut:
 
 ## 15) RIP vs OSPF vs EIGRP — Quick Comparison
 
-| Feature | RIP | OSPF | EIGRP |
-|---|---|---|---|
-| **Protocol type** | Distance vector | Link-state | Hybrid (advanced distance vector) |
-| **Metric** | Hop count (max 15) | Cost (based on bandwidth) | Composite (bandwidth + delay by default) |
-| **Administrative Distance** | 120 | 110 | 90 (internal) / 170 (external) |
-| **Convergence speed** | Slow | Fast | Very fast (DUAL + feasible successors) |
-| **Max hops / scale** | 15 hops hard limit; not suitable for large networks | No hop limit; scales well using areas | No hop limit; scales to large enterprise networks |
-| **Authentication** | RIPv2 supports MD5; RIPv1 has none | MD5 (OSPFv2); OSPFv3 uses IPsec | MD5 |
-| **Update type** | Periodic full-table every 30 seconds | Triggered partial updates on change | Triggered partial updates on change |
-| **Open standard** | Yes (RFC 1058 / RFC 2453) | Yes (RFC 2328) | Cisco proprietary (later published as RFC 7868) |
-| **Load balancing** | Equal-cost only | Equal-cost only (ECMP) | Equal-cost and unequal-cost (via `variance`) |
+| Feature                     | RIP                                                 | OSPF                                  | EIGRP                                             |
+| --------------------------- | --------------------------------------------------- | ------------------------------------- | ------------------------------------------------- |
+| **Protocol type**           | Distance vector                                     | Link-state                            | Hybrid (advanced distance vector)                 |
+| **Metric**                  | Hop count (max 15)                                  | Cost (based on bandwidth)             | Composite (bandwidth + delay by default)          |
+| **Administrative Distance** | 120                                                 | 110                                   | 90 (internal) / 170 (external)                    |
+| **Convergence speed**       | Slow                                                | Fast                                  | Very fast (DUAL + feasible successors)            |
+| **Max hops / scale**        | 15 hops hard limit; not suitable for large networks | No hop limit; scales well using areas | No hop limit; scales to large enterprise networks |
+| **Authentication**          | RIPv2 supports MD5; RIPv1 has none                  | MD5 (OSPFv2); OSPFv3 uses IPsec       | MD5                                               |
+| **Update type**             | Periodic full-table every 30 seconds                | Triggered partial updates on change   | Triggered partial updates on change               |
+| **Open standard**           | Yes (RFC 1058 / RFC 2453)                           | Yes (RFC 2328)                        | Cisco proprietary (later published as RFC 7868)   |
+| **Load balancing**          | Equal-cost only                                     | Equal-cost only (ECMP)                | Equal-cost and unequal-cost (via `variance`)      |
 
 ### Simple memory shortcut
 

@@ -333,11 +333,11 @@ A **wildcard mask** is the *inverse* of a subnet mask. It's used in **ACLs (Acce
 
 ### 7.1 IPv6 Address Types
 
-| Type | Delivered To | Notes |
-|------|----------------|-------|
-| **Unicast** | One specific interface | Standard one-to-one delivery. |
-| **Multicast** | All interfaces in a group | Replaces IPv4 broadcast; devices join a group to receive it. |
-| **Anycast** | The nearest interface in a group | Same address *format* as unicast — the only difference is that the address is assigned to multiple devices, and routing sends traffic to whichever one is closest. A common real-world use is DNS root servers: many physical servers share one anycast address, and each client reaches the nearest one. |
+| Type          | Delivered To                     | Notes                                                                                                                                                                                                                                                                                                     |
+| ------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Unicast**   | One specific interface           | Standard one-to-one delivery.                                                                                                                                                                                                                                                                             |
+| **Multicast** | All interfaces in a group        | Replaces IPv4 broadcast; devices join a group to receive it.                                                                                                                                                                                                                                              |
+| **Anycast**   | The nearest interface in a group | Same address *format* as unicast — the only difference is that the address is assigned to multiple devices, and routing sends traffic to whichever one is closest. A common real-world use is DNS root servers: many physical servers share one anycast address, and each client reaches the nearest one. |
 
 ### 7.2 Writing IPv6 Addresses
 
@@ -358,10 +358,10 @@ Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 
 **Special addresses:**
 
-| Address | Meaning |
-|---------|---------|
-| `::1` | Loopback (full: `0:0:0:0:0:0:0:1`) |
-| `::` | Unspecified address (full: `0:0:0:0:0:0:0:0`) |
+| Address | Meaning                                       |
+| ------- | --------------------------------------------- |
+| `::1`   | Loopback (full: `0:0:0:0:0:0:0:1`)            |
+| `::`    | Unspecified address (full: `0:0:0:0:0:0:0:0`) |
 
 ### 7.3 Structure of an IPv6 Address: Network ID + Interface ID
 
@@ -484,12 +484,12 @@ An older private-addressing scheme, similar in intent to IPv4's private ranges, 
 
 ULA is what **replaced** Site-Local as IPv6's version of a "private" address. Example: `FD12:3456:789A:1::10`.
 
-| | IPv4 Private | IPv6 ULA |
-|---|---|---|
-| Range | 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | `fc00::/7` (usually `fd00::/8`) |
-| Routable on the public Internet? | ❌ No | ❌ No |
-| Routable within an org/site? | ✅ Yes | ✅ Yes |
-| Globally unique? | No — ranges can clash if networks merge | ✅ Yes — a randomly generated **Global ID** makes collisions very unlikely even after a merger |
+|                                  | IPv4 Private                              | IPv6 ULA                                                                                      |
+| -------------------------------- | ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Range                            | 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | `fc00::/7` (usually `fd00::/8`)                                                               |
+| Routable on the public Internet? | ❌ No                                      | ❌ No                                                                                          |
+| Routable within an org/site?     | ✅ Yes                                     | ✅ Yes                                                                                         |
+| Globally unique?                 | No — ranges can clash if networks merge   | ✅ Yes — a randomly generated **Global ID** makes collisions very unlikely even after a merger |
 
 ```
  ULA structure:
@@ -574,12 +574,12 @@ This is why IPv6 is often described as "**NAT-free**" — the normal design give
 
 ## 10. IPv6 Enhancements Over IPv4
 
-| Function | IPv4 Approach | IPv6 Approach |
-|----------|-----------------|-----------------|
-| **Subnetting** | Manual subnetting required to divide networks | Vast 128-bit space mostly avoids complex subnetting; a simple hierarchical `/64` prefix is the norm |
-| **Address Resolution** | **ARP** — maps IP→MAC using broadcast | **NDP** — resolves addresses, detects duplicates, and discovers routers, using multicast instead of broadcast |
-| **Address Assignment** | **DHCP** — server assigns IPs | **SLAAC** — device self-configures from the advertised network prefix; **DHCPv6** available for stateful cases |
-| **Network Booting** | **BOOTP** — bootstrap + IP assignment | Largely unnecessary — SLAAC (and DHCPv6 where needed) covers this |
+| Function               | IPv4 Approach                                 | IPv6 Approach                                                                                                  |
+| ---------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Subnetting**         | Manual subnetting required to divide networks | Vast 128-bit space mostly avoids complex subnetting; a simple hierarchical `/64` prefix is the norm            |
+| **Address Resolution** | **ARP** — maps IP→MAC using broadcast         | **NDP** — resolves addresses, detects duplicates, and discovers routers, using multicast instead of broadcast  |
+| **Address Assignment** | **DHCP** — server assigns IPs                 | **SLAAC** — device self-configures from the advertised network prefix; **DHCPv6** available for stateful cases |
+| **Network Booting**    | **BOOTP** — bootstrap + IP assignment         | Largely unnecessary — SLAAC (and DHCPv6 where needed) covers this                                              |
 
 **In short:** IPv6 folds ARP, DHCP, and BOOTP's responsibilities into more efficient, integrated mechanisms (NDP, SLAAC), and its enormous address space removes most of the pressure to subnet carefully.
 
