@@ -157,7 +157,7 @@ Application / Database Servers
 
 ---
 
-## NAT, Port Forwarding & pfSense
+## NAT & Port Forwarding
 
 - [ ] NAT
 - [ ] SNAT
@@ -179,19 +179,6 @@ DNAT
    ↓
 192.168.1.10:80
 ```
-
-### pfSense
-
-- [ ] What is pfSense?
-- [ ] WAN interface
-- [ ] LAN interface
-- [ ] DMZ interface
-- [ ] Firewall rules
-- [ ] NAT
-- [ ] Routing
-- [ ] Port forwarding
-- [ ] VPN
-- [ ] Access control
 
 ---
 
@@ -1495,7 +1482,7 @@ Check:
 
 ---
 
-## NAT / Port Forwarding / pfSense — Scenarios
+## NAT / Port Forwarding — Scenarios
 
 - [ ] **An internal web server is `192.168.1.10:80`, but Internet users need to access it through the firewall's public IP. What would you configure?**
 
@@ -1516,45 +1503,6 @@ Explain:
 - SNAT
 - PAT
 - MASQUERADE when appropriate
-
-- [ ] **pfSense connects `192.168.1.0/24` and `192.168.2.0/24`, but hosts cannot communicate. What would you check?**
-
-Check:
-
-- Interface IPs
-- Default gateways
-- Firewall rules
-- Routing
-- Return route
-- NAT if applicable
-
-- [ ] **Port forwarding works when traffic reaches the server, but the response never reaches the client. What might be wrong?**
-
-Check:
-
-- Return routing
-- Default gateway
-- NAT
-- Firewall rules
-- Asymmetric routing
-
-- [ ] **Explain your pfSense lab configuration from start to finish.**
-
-Prepare:
-
-```text
-Interfaces
-   ↓
-IP Addressing
-   ↓
-Firewall Rules
-   ↓
-Routing
-   ↓
-NAT
-   ↓
-Testing
-```
 
 ---
 
@@ -2255,20 +2203,6 @@ Service Quality ↓
 
 # 🧪 Practical / Lab Scenario Questions
 
-## pfSense Lab
-
-- [ ] Explain how you installed and configured pfSense.
-- [ ] Explain WAN and LAN interface configuration.
-- [ ] Explain your firewall rules.
-- [ ] Explain your pfSense routing configuration.
-- [ ] Explain NAT and port forwarding.
-- [ ] Explain how you configured a DMZ.
-- [ ] Explain how you tested communication.
-- [ ] Two subnets cannot communicate through pfSense. How would you troubleshoot?
-- [ ] Port forwarding is configured but server is unreachable. What would you check?
-
----
-
 ## iptables Lab
 
 - [ ] How would you allow SSH from one IP only?
@@ -2508,45 +2442,45 @@ Scenario:
 
 5. **Internal systems share one public IP — explain SNAT/PAT/MASQUERADE.**
 
-6. **Two pfSense networks cannot communicate — troubleshoot routing and firewall rules.**
+6. **Company wants alert-only detection — IDS or IPS?**
 
-7. **Company wants alert-only detection — IDS or IPS?**
+7. **Company wants automatic blocking — IDS or IPS?**
 
-8. **Company wants automatic blocking — IDS or IPS?**
+8. **When would you use NIDS vs HIDS?**
 
-9. **When would you use NIDS vs HIDS?**
+9. **Explain False Positive vs False Negative with a scenario.**
 
-10. **Explain False Positive vs False Negative with a scenario.**
+10. **Signature-based IDS misses a new attack — what can help?**
 
-11. **Signature-based IDS misses a new attack — what can help?**
+11. **Two offices need secure connectivity — design a site-to-site VPN.**
 
-12. **Two offices need secure connectivity — design a site-to-site VPN.**
+12. **Employee works from home — Remote Access VPN scenario.**
 
-13. **Employee works from home — Remote Access VPN scenario.**
+13. **Full Tunnel vs Split Tunnel scenario.**
 
-14. **Full Tunnel vs Split Tunnel scenario.**
+14. **IPsec AH vs ESP scenario.**
 
-15. **IPsec AH vs ESP scenario.**
+15. **IPsec Tunnel Mode vs Transport Mode scenario.**
 
-16. **IPsec Tunnel Mode vs Transport Mode scenario.**
+16. **Website is slow — troubleshoot using Wireshark.**
 
-17. **Website is slow — troubleshoot using Wireshark.**
+17. **Thousands of SYN packets — identify SYN flood.**
 
-18. **Thousands of SYN packets — identify SYN flood.**
+18. **Website receives traffic from thousands of IPs — DDoS mitigation.**
 
-19. **Website receives traffic from thousands of IPs — DDoS mitigation.**
+19. **Nginx in front of backend servers — explain reverse proxy.**
 
-20. **Nginx in front of backend servers — explain reverse proxy.**
+20. **One backend fails — how should load balancer react?**
 
-21. **One backend fails — how should load balancer react?**
+21. **Firewall + IDS + Linux alerts from same IP — explain SIEM correlation.**
 
-22. **Firewall + IDS + Linux alerts from same IP — explain SIEM correlation.**
+22. **Suspicious login detected — explain SOC triage.**
 
-23. **Suspicious login detected — explain SOC triage.**
+23. **Critical server compromised — explain incident response.**
 
-24. **Critical server compromised — explain incident response.**
+24. **Nagios vs IDS vs SIEM — which tool would you use for different situations?**
 
-25. **Nagios vs IDS vs SIEM — which tool would you use for different situations?**
+25. **A vulnerability exists but there is no easy way to exploit it — explain likelihood vs impact.**
 
 ---
 
@@ -2559,33 +2493,32 @@ Scenario:
 4. DMZ
 5. iptables
 6. NAT / SNAT / DNAT / Port Forwarding
-7. pfSense
-8. IDS vs IPS
-9. NIDS vs HIDS
-10. Signature vs Anomaly Detection
-11. Snort
-12. Suricata
-13. OSSEC
-14. VPN
-15. IPsec
-16. AH vs ESP
-17. Tunnel vs Transport Mode
-18. Full Tunnel vs Split Tunnel
-19. Wireshark
-20. tcpdump
-21. DoS / DDoS
-22. DDoS Mitigation
-23. Reverse Proxy
-24. Nginx
-25. Fail2ban
-26. SIEM
-27. Log Correlation
-28. ELK
-29. Threat Hunting
-30. SOC Workflow
-31. Incident Response
-32. MITRE ATT&CK
-33. Nagios
+7. IDS vs IPS
+8. NIDS vs HIDS
+9. Signature vs Anomaly Detection
+10. Snort
+11. Suricata
+12. OSSEC
+13. VPN
+14. IPsec
+15. AH vs ESP
+16. Tunnel vs Transport Mode
+17. Full Tunnel vs Split Tunnel
+18. Wireshark
+19. tcpdump
+20. DoS / DDoS
+21. DDoS Mitigation
+22. Reverse Proxy
+23. Nginx
+24. Fail2ban
+25. SIEM
+26. Log Correlation
+27. ELK
+28. Threat Hunting
+29. SOC Workflow
+30. Incident Response
+31. MITRE ATT&CK
+32. Nagios
 ```
 
 ---
@@ -2602,8 +2535,6 @@ DMZ
 iptables
    ↓
 NAT
-   ↓
-pfSense
    ↓
 IDS / IPS
    ↓
