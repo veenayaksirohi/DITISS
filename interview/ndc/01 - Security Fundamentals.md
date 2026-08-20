@@ -534,6 +534,8 @@ After hardening:
 
 Attack surface is reduced.
 
+> This "hardening" step is a full practice on its own — see **Section 13.1 Server Hardening** below.
+
 ---
 
 # 9. Attack Vector vs Attack Surface
@@ -847,6 +849,150 @@ Restore Backup
 
 ---
 
+## 13.1 Server Hardening
+
+### Meaning
+
+**Server Hardening** is:
+
+> The process of reducing a server's attack surface and vulnerabilities by removing unnecessary services, closing unused ports, applying secure configurations, enforcing least privilege, and keeping the system patched.
+
+It is the practical, hands-on application of the **Preventive Control** and **"reduce attack surface"** ideas above — turning a default, loosely-configured server into a locked-down one.
+
+```text
+Default Server (many open doors)
+        ↓
+   Server Hardening
+        ↓
+Minimal Server (only required doors open)
+```
+
+### Why It Matters
+
+A freshly installed OS is configured for **convenience, not security** — extra services run by default, default accounts/passwords may exist, and unnecessary ports are open. Hardening closes these gaps before attackers can use them.
+
+### Areas of Server Hardening
+
+**1. OS Hardening**
+
+- Remove/disable unused software and services
+- Disable unused default accounts (e.g. guest)
+- Apply latest OS patches and security updates
+- Enable and configure host-based firewall (iptables/firewalld/ufw)
+- Set strong password policy + account lockout thresholds
+
+**2. Network Hardening**
+
+- Close all ports except those required
+- Use SSH key authentication instead of passwords
+- Change default SSH port (optional, security-through-obscurity)
+- Restrict access using firewall rules / security groups (allow only trusted IPs)
+- Disable unused network protocols
+
+**3. Account & Access Hardening**
+
+- Apply principle of least privilege
+- Disable root/administrator direct login where possible
+- Use `sudo` with logging instead of shared root access
+- Enforce MFA for privileged accounts
+- Remove/rotate default credentials
+
+**4. Application & Service Hardening**
+
+- Run services with least-privileged (non-root) service accounts
+- Disable directory listing, verbose error messages, default banners
+- Remove sample/default files and admin panels
+- Keep application dependencies patched
+
+**5. File System Hardening**
+
+- Set correct file and directory permissions
+- Enable file integrity monitoring
+- Encrypt sensitive data at rest
+- Set up regular, tested backups
+
+**6. Logging & Monitoring Hardening**
+
+- Enable centralized logging (auth logs, system logs)
+- Forward logs to a SIEM
+- Set up alerts for failed logins / privilege escalation
+- Enable auditd (Linux) for detailed system auditing
+
+### Example — Hardening a Linux SSH Server
+
+```text
+Before Hardening
+------------------
+Root login        → Enabled
+Password login     → Enabled
+SSH Port            → 22 (open to 0.0.0.0/0)
+Unused services      → Running (ftp, telnet)
+Firewall             → Disabled
+
+After Hardening
+------------------
+Root login          → Disabled
+Password login       → Disabled (SSH keys only)
+SSH Port              → Restricted to trusted IPs via firewall
+Unused services         → Removed/disabled
+Firewall                 → Enabled (deny all, allow required)
+Fail2ban                  → Enabled
+```
+
+### Pros and Cons
+
+**Pros**
+
+- Significantly reduces attack surface
+- Prevents many common automated attacks (brute force, worms)
+- Often required for compliance (CIS Benchmarks, PCI-DSS, ISO 27001)
+
+**Cons**
+
+- Can break functionality if done without testing
+- Needs ongoing maintenance (new patches, new services)
+- Requires documentation so legitimate admins aren't locked out
+
+### Use Cases
+
+- Hardening a new EC2/VM instance before deployment
+- Hardening a Kubernetes node or container base image
+- Preparing a server for a compliance audit (CIS Benchmark scoring)
+- Post-incident hardening after a breach
+
+### Real-Life Example
+
+```text
+New Linux Server Deployed on AWS EC2
+            ↓
+   Default: 22, 80, 443, 3306, 21 all open
+            ↓
+Hardening Applied:
+  - Close 21 (ftp) and 3306 (restrict to internal only)
+  - SSH key-only login, no root login
+  - Security Group allows 22 only from office IP
+  - OS patched, Fail2ban + auditd enabled
+            ↓
+   Result: Attack Surface reduced from 5 ports to 2
+```
+
+### Interview Definition
+
+> Server Hardening is the process of securing a server by reducing its attack surface — removing unnecessary services, closing unused ports, enforcing least privilege, applying patches, and configuring secure defaults — so there are fewer ways for an attacker to gain access.
+
+### Interview Q&A
+
+**Q: How is server hardening different from a firewall?**
+A: A firewall is _one_ preventive control (network-level). Server hardening is a broader, ongoing process that includes firewall configuration plus OS, account, application, file system, and logging hardening.
+
+**Q: What's the first thing you'd check when hardening a new server?**
+A: Identify what's running by default — open ports, running services, default accounts — then disable/remove anything not explicitly required, following least privilege.
+
+**Q: Name a few CIS Benchmark-style hardening checks for Linux.**
+A: Disable root SSH login, disable password authentication in favor of keys, enable a host firewall, ensure automatic security updates, restrict `cron`/`sudoers` access, and enable auditd logging.
+
+---
+
 # 14. Defence in Depth
 
 ### Meaning
@@ -1038,6 +1184,8 @@ Fail2ban
 Monitoring
 ```
 
+> Note: Every one of these countermeasures is also part of standard **Server Hardening** (Section 13.1).
+
 ---
 
 # 19. Interview Scenario
@@ -1065,6 +1213,7 @@ This answer shows:
 - Vulnerability understanding
 - Risk management
 - Countermeasure selection
+- Server hardening
 - Defence in depth
 
 ---
@@ -1108,6 +1257,9 @@ Risk Management
 Security Controls
 → Preventive → Detective → Corrective.
 
+Server Hardening
+→ Reducing attack surface via secure OS/network/account/app configuration.
+
 Defence in Depth
 → Multiple layers of security.
 ```
@@ -1147,5 +1299,5 @@ Risk
 
 Firewall + SSH Keys + MFA + Fail2ban + SIEM
       ↓
-Countermeasures / Defence in Depth
+Countermeasures / Defence in Depth / Server Hardening
 ```
