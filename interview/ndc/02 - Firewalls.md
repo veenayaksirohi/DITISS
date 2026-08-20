@@ -83,9 +83,7 @@ A firewall can be placed in different locations.
 
 ## Network Firewall
 
-Placed between networks.
-
-Example:
+Placed between networks. It protects multiple systems.
 
 ```text
 Internet
@@ -95,8 +93,6 @@ Network Firewall
 Company LAN
 ```
 
-It protects multiple systems.
-
 Examples:
 
 - pfSense
@@ -104,13 +100,9 @@ Examples:
 - Palo Alto
 - FortiGate
 
----
-
 ## Host-Based Firewall
 
 Installed directly on a computer or server.
-
-Example:
 
 ```text
 Internet
@@ -126,6 +118,7 @@ Examples:
 - iptables
 - nftables
 - UFW
+- firewalld
 
 ---
 
@@ -185,15 +178,7 @@ Rule 2:
 Block TCP 22 from everyone else
 ```
 
-The packet comes from:
-
-```text
-10.10.10.5
-```
-
-It does not match Rule 1.
-
-It matches Rule 2.
+The packet comes from `10.10.10.5`. It does not match Rule 1. It matches Rule 2.
 
 Result:
 
@@ -228,9 +213,7 @@ Port:        22
 Action:      ALLOW
 ```
 
-Meaning:
-
-> Allow `192.168.1.50` to connect to SSH port 22 on `192.168.1.100`.
+Meaning: Allow `192.168.1.50` to connect to SSH port 22 on `192.168.1.100`.
 
 ---
 
@@ -238,41 +221,17 @@ Meaning:
 
 ## Source IP
 
-Where the traffic comes from.
-
-Example:
-
-```text
-192.168.1.10
-```
-
----
+Where the traffic comes from. Example: `192.168.1.10`
 
 ## Destination IP
 
-Where the traffic is going.
-
-Example:
-
-```text
-10.0.0.20
-```
-
----
+Where the traffic is going. Example: `10.0.0.20`
 
 ## Protocol
 
-Firewall may filter using protocols such as:
-
-- TCP
-- UDP
-- ICMP
-
----
+Firewall may filter using protocols such as: TCP, UDP, ICMP
 
 ## Port
-
-Example:
 
 ```text
 22   → SSH
@@ -281,8 +240,6 @@ Example:
 3306 → MySQL
 5432 → PostgreSQL
 ```
-
----
 
 ## Action
 
@@ -298,13 +255,11 @@ Packet → Firewall → ACCEPT → Destination
 
 ### DROP
 
-Silently discard the packet.
+Silently discard the packet. No response is normally sent.
 
 ```text
 Packet → Firewall → DROP
 ```
-
-No response is normally sent.
 
 ### REJECT
 
@@ -318,13 +273,7 @@ Packet → Firewall → REJECT → Error Response
 
 # 8. Firewall Rule Example
 
-Suppose a web server has IP:
-
-```text
-192.168.10.20
-```
-
-We want users to access only HTTPS.
+Suppose a web server has IP `192.168.10.20`. We want users to access only HTTPS.
 
 Rules:
 
@@ -334,13 +283,11 @@ DROP TCP 80   → 192.168.10.20
 DROP ALL OTHER UNNECESSARY TRAFFIC
 ```
 
-This follows the principle:
-
-> Allow only what is required.
+This follows the principle: **Allow only what is required.**
 
 ---
 
-# 9. Default Allow vs Default Deny
+# 9. Default Allow vs Default Deny (Basic Concept)
 
 ## Default Allow
 
@@ -352,9 +299,7 @@ Allow Everything
 Block Selected Traffic
 ```
 
-This is generally less secure.
-
----
+This is generally less secure. If you forget to block a service (SSH, Database, RDP, Admin Panel), it may remain accessible, increasing the attack surface.
 
 ## Default Deny
 
@@ -366,7 +311,7 @@ Block Everything
 Allow Required Traffic
 ```
 
-This is generally more secure.
+This is generally more secure and follows the principle of **least privilege**.
 
 ### Example
 
@@ -379,11 +324,25 @@ Allow TCP 443 from Internet
 
 Everything else stays blocked.
 
+### Comparison Table
+
+| Default Allow                        | Default Deny                      |
+| ------------------------------------ | --------------------------------- |
+| Everything allowed unless blocked    | Everything blocked unless allowed |
+| Easier initially                     | More secure                       |
+| Higher chance of accidental exposure | Lower attack surface              |
+| Block bad traffic                    | Allow only required traffic       |
+| Less restrictive                     | Least-privilege approach          |
+
+### Interview Recommendation
+
+For security-sensitive systems: **Default Deny is generally preferred.**
+
 ---
 
 # 10. Rule Order
 
-Firewall rules are usually processed in order.
+Firewall rules are usually processed in order (top to bottom, first match applies).
 
 Example:
 
@@ -392,9 +351,7 @@ Rule 1: ALLOW TCP 22 from ANY
 Rule 2: DROP TCP 22 from 10.10.10.5
 ```
 
-The packet from `10.10.10.5` may already match Rule 1 first.
-
-So Rule 2 may never be reached.
+The packet from `10.10.10.5` may already match Rule 1 first, so Rule 2 may never be reached.
 
 Correct order:
 
@@ -409,7 +366,7 @@ Rule 2: ALLOW TCP 22 from trusted network
 
 ---
 
-# 11. Inbound and Outbound Traffic
+# 11. Inbound and Outbound Traffic (Basic Concept)
 
 ## Inbound Traffic
 
@@ -419,13 +376,7 @@ Traffic coming **into** a system/network.
 Internet → Server
 ```
 
-Example:
-
-```text
-Internet → HTTPS 443 → Web Server
-```
-
----
+Example: `Internet → HTTPS 443 → Web Server`
 
 ## Outbound Traffic
 
@@ -435,13 +386,9 @@ Traffic leaving a system/network.
 Server → Internet
 ```
 
-Example:
+Example: `Internal Server → DNS Server`
 
-```text
-Internal Server → DNS Server
-```
-
-A firewall can control both inbound and outbound traffic.
+A firewall can control both inbound and outbound traffic. Detailed rules, examples, and the "perspective" nuance are covered in Section 36–43.
 
 ---
 
@@ -456,8 +403,6 @@ It commonly checks:
 - Source port
 - Destination port
 - Protocol
-
-Example:
 
 ```text
 Packet
@@ -498,24 +443,9 @@ Protocol: TCP
 Port: 443
 ```
 
-Result:
+Result: `ALLOW`
 
-```text
-ALLOW
-```
-
-Another packet:
-
-```text
-Protocol: TCP
-Port: 22
-```
-
-If no allow rule exists:
-
-```text
-DROP
-```
+Another packet with `Port: 22` and no matching allow rule → `DROP`
 
 ---
 
@@ -538,29 +468,17 @@ Traditional/simple packet filtering may not understand:
 - Packet content
 - Complete connection context
 
-For example:
-
-```text
-TCP 80 allowed
-```
-
-The firewall may know that it is TCP port 80, but may not deeply understand whether the HTTP request itself is malicious.
+For example, `TCP 80 allowed` — the firewall may know it is TCP port 80, but may not deeply understand whether the HTTP request itself is malicious.
 
 ---
 
 # 16. Stateless Firewall
 
-A **Stateless Firewall** checks each packet independently.
-
-It does **not remember previous packets or connection state**.
-
-Example:
+A **Stateless Firewall** checks each packet independently. It does **not remember previous packets or connection state**.
 
 ```text
 Packet 1 → Check Rule → Allow/Drop
-
 Packet 2 → Check Rule → Allow/Drop
-
 Packet 3 → Check Rule → Allow/Drop
 ```
 
@@ -577,14 +495,7 @@ Client → Server
 TCP SYN
 ```
 
-Stateless firewall checks:
-
-```text
-Source IP
-Destination IP
-Port
-Protocol
-```
+Stateless firewall checks: Source IP, Destination IP, Port, Protocol.
 
 Then the server replies:
 
@@ -593,37 +504,17 @@ Server → Client
 SYN-ACK
 ```
 
-The firewall again checks the reply as a completely separate packet.
-
-It does not automatically know:
-
-> This SYN-ACK is part of the connection that the client started.
+The firewall again checks the reply as a completely separate packet. It does not automatically know that this SYN-ACK is part of the connection the client started.
 
 ---
 
 # 18. Stateless Firewall Example
 
-Rule:
+Rule: `ALLOW outgoing TCP 443`
 
-```text
-ALLOW outgoing TCP 443
-```
+The client sends `Client → Website:443` — Allowed.
 
-The client sends:
-
-```text
-Client → Website:443
-```
-
-Allowed.
-
-But when the reply comes:
-
-```text
-Website → Client
-```
-
-A stateless firewall may require another rule to explicitly allow the return traffic.
+But when the reply comes (`Website → Client`), a stateless firewall may require another explicit rule to allow the return traffic.
 
 ---
 
@@ -649,11 +540,7 @@ A stateless firewall may require another rule to explicitly allow the return tra
 
 # 21. Stateful Firewall
 
-A **Stateful Firewall** remembers active network connections.
-
-It maintains a **state table** or **connection table**.
-
-It can track states such as:
+A **Stateful Firewall** remembers active network connections. It maintains a **state table** (connection table) and can track states such as:
 
 ```text
 NEW
@@ -676,42 +563,36 @@ Check State Table
 Allow / Drop
 ```
 
+More complete flow:
+
+```text
+Packet Arrives
+     ↓
+Check State Table
+     ↓
+Existing / Related Connection?
+    /                \
+  Yes                No
+   ↓                  ↓
+Check Policy        Check New
+   ↓                Connection Rule
+   └──────────┬───────────┘
+              ↓
+         Allow / Drop
+```
+
 ---
 
 # 22. How Stateful Firewall Works
 
-Suppose:
-
-```text
-Client → Web Server:443
-```
-
-Client sends:
-
-```text
-SYN
-```
-
-Firewall allows it and creates an entry:
+Suppose `Client → Web Server:443`. Client sends `SYN`. Firewall allows it and creates an entry:
 
 ```text
 Client:50000 → Server:443
 State = NEW
 ```
 
-Server responds:
-
-```text
-SYN-ACK
-```
-
-Firewall recognizes:
-
-> This packet belongs to an existing connection.
-
-Then it allows it.
-
-When the TCP handshake completes:
+Server responds `SYN-ACK`. Firewall recognizes this packet belongs to an existing connection, so it allows it. When the TCP handshake completes:
 
 ```text
 State = ESTABLISHED
@@ -740,21 +621,7 @@ Protocol:    TCP
 State:       ESTABLISHED
 ```
 
-When reply traffic comes:
-
-```text
-8.8.8.8:443 → 192.168.1.10:50000
-```
-
-Firewall checks the table.
-
-It sees that the connection already exists.
-
-Result:
-
-```text
-ALLOW
-```
+When reply traffic comes (`8.8.8.8:443 → 192.168.1.10:50000`), firewall checks the table, sees the connection already exists, and the result is `ALLOW`.
 
 ---
 
@@ -778,41 +645,19 @@ This allows the firewall to make better decisions.
 
 ## NEW
 
-A new connection is starting.
-
-Example:
-
-```text
-Client → SYN → Server
-```
-
----
+A new connection is starting. Example: `Client → SYN → Server`
 
 ## ESTABLISHED
 
-Connection already exists.
-
-Example:
-
-```text
-Client ↔ Server
-```
-
-Data is already being exchanged.
-
----
+Connection already exists and data is already being exchanged. Example: `Client ↔ Server`
 
 ## RELATED
 
 A new connection is related to an existing connection.
 
----
-
 ## INVALID
 
-Packet cannot be associated correctly with a valid connection.
-
-It may be dropped.
+Packet cannot be associated correctly with a valid connection. It may be dropped.
 
 ---
 
@@ -852,144 +697,22 @@ This is a very important interview comparison.
 | Configuration              | Simple                             | More advanced                     |
 | Example use                | Basic ACL/packet filtering         | Modern firewall/session filtering |
 
----
-
-# 29. Easy Example — Stateless vs Stateful
-
-Suppose:
-
-```text
-PC → Google HTTPS
-```
-
-Client sends:
-
-```text
-PC:50000 → Google:443
-```
-
-## Stateless Firewall
-
-Checks:
-
-```text
-Is this packet allowed?
-```
-
-Then the reply comes:
-
-```text
-Google:443 → PC:50000
-```
-
-Again:
-
-```text
-Is this packet allowed?
-```
-
-It does not remember the previous packet.
-
----
-
-## Stateful Firewall
-
-Client sends:
-
-```text
-PC:50000 → Google:443
-```
-
-Firewall records:
-
-```text
-HTTPS connection started
-```
-
-Reply:
-
-```text
-Google:443 → PC:50000
-```
-
-Firewall says:
-
-```text
-This belongs to the existing HTTPS connection
-→ ALLOW
-```
-
----
-
-# 30. Visual Comparison
+### Easy Memory Aid
 
 ```text
 STATELESS
+"What does this packet look like?"
 
-Packet 1
-   ↓
-Check Rules
-   ↓
-Allow/Drop
-
-Packet 2
-   ↓
-Check Rules
-   ↓
-Allow/Drop
-
-No connection memory
-```
-
-```text
 STATEFUL
-
-Packet
-   ↓
-Check Rules
-   ↓
-Check State Table
-   ↓
-Is it part of a valid connection?
-   ↓
-Allow/Drop
+"What does this packet look like,
+and does it belong to a valid connection?"
 ```
 
 ---
 
-# 31. Packet Filtering vs Stateless Firewall
+# 30. Real-Life Scenario — Stateful Firewall in Action
 
-These terms are related, but not exactly the same in all contexts.
-
-A simple traditional packet-filtering firewall is often **stateless**.
-
-It looks mainly at:
-
-```text
-IP
-Port
-Protocol
-```
-
-But modern firewalls can perform packet filtering while also tracking state.
-
-So remember:
-
-> **Packet filtering describes what fields are inspected. Stateless/stateful describes whether connection state is remembered.**
-
----
-
-# 32. Real-Life Scenario
-
-## Scenario
-
-A user inside the company opens:
-
-```text
-https://example.com
-```
-
-The connection is:
+A user inside the company opens `https://example.com`. The connection is:
 
 ```text
 192.168.1.20:51000
@@ -1001,67 +724,37 @@ Firewall
 
 ### Stateful Firewall
 
-The firewall allows outbound HTTPS.
-
-It records:
+The firewall allows outbound HTTPS and records:
 
 ```text
 192.168.1.20:51000 ↔ 93.184.216.34:443
 ```
 
-The web server sends the response.
+The web server sends the response. Firewall sees an `ESTABLISHED connection` and allows the reply.
 
-Firewall sees:
-
-```text
-ESTABLISHED connection
-```
-
-and allows the reply.
-
-But if an unknown Internet host suddenly sends:
-
-```text
-Unknown IP → 192.168.1.20:51000
-```
-
-with no matching connection state, the firewall can block it.
+But if an unknown Internet host suddenly sends `Unknown IP → 192.168.1.20:51000` with no matching connection state, the firewall can block it.
 
 ---
 
-# 33. Scenario-Based Interview Questions
+# 31. Scenario-Based Interview Questions (Basic Firewall Concepts)
 
 ## Scenario 1
 
 **Your organization wants internal users to browse the Internet, but Internet users should not initiate connections to internal computers. What type of firewall behavior helps?**
 
-Answer:
-
-Use a **stateful firewall**.
-
-It allows internal users to start connections and permits valid response traffic while blocking unsolicited inbound connections.
-
----
+Answer: Use a **stateful firewall**. It allows internal users to start connections and permits valid response traffic while blocking unsolicited inbound connections.
 
 ## Scenario 2
 
 **A firewall allows packets only based on source IP, destination IP, protocol, and port. It does not remember sessions. What kind of firewall is this?**
 
-Answer:
-
-**Stateless packet-filtering firewall.**
-
----
+Answer: **Stateless packet-filtering firewall.**
 
 ## Scenario 3
 
 **A packet comes from a web server as a reply to a connection started by an internal user. How does a stateful firewall know it is legitimate?**
 
-Answer:
-
-It checks its **connection/state table** and confirms the packet belongs to an existing established session.
-
----
+Answer: It checks its **connection/state table** and confirms the packet belongs to an existing established session.
 
 ## Scenario 4
 
@@ -1077,13 +770,9 @@ Default Deny
 Allow Required Services Only
 ```
 
----
-
 ## Scenario 5
 
 **Only the administrator at `192.168.1.50` should access SSH on a server. What firewall rule would you use?**
-
-Conceptually:
 
 ```text
 ALLOW:
@@ -1093,15 +782,11 @@ Protocol    = TCP
 Port        = 22
 ```
 
-Then:
-
-```text
-DROP other TCP 22 traffic
-```
+Then: `DROP other TCP 22 traffic`
 
 ---
 
-# 34. Common Interview Questions
+# 32. Common Interview Questions (Basic Firewall Concepts)
 
 ### What is a firewall?
 
@@ -1109,16 +794,7 @@ DROP other TCP 22 traffic
 
 ### What does a firewall check?
 
-Usually:
-
-- Source IP
-- Destination IP
-- Port
-- Protocol
-- Direction
-- Connection state
-
-Advanced firewalls may also inspect applications and content.
+Usually: Source IP, Destination IP, Port, Protocol, Direction, Connection state. Advanced firewalls may also inspect applications and content.
 
 ### What is a firewall rule?
 
@@ -1138,77 +814,15 @@ Advanced firewalls may also inspect applications and content.
 
 ---
 
-# 35. Quick Revision
-
-```text
-Firewall
-→ Controls network traffic according to security rules.
-
-Firewall Rule
-→ Defines which traffic is allowed or blocked.
-
-Packet Filtering
-→ Checks IP, port and protocol.
-
-Stateless Firewall
-→ Checks every packet separately.
-→ Does not remember connections.
-
-Stateful Firewall
-→ Tracks active connections.
-→ Maintains a state table.
-→ Recognizes legitimate return traffic.
-```
-
-### Best Difference to Remember
-
-```text
-Stateless:
-"Is this packet allowed?"
-
-Stateful:
-"Is this packet allowed, and does it belong to a valid connection?"
-```
-
-### Core Flow
-
-```text
-Packet
-  ↓
-Firewall
-  ↓
-Check IP / Port / Protocol
-  ↓
-Check Rules
-  ↓
-Check Connection State
-  ↓
-ALLOW / DROP / REJECT
-```
-
-### Interview Priority
-
-For these firewall topics, be especially strong in:
-
-**Firewall → Firewall Rules → Default Deny → Packet Filtering → Stateful vs Stateless → Connection Tracking → ACCEPT/DROP/REJECT → real scenario.**
-
 # Advanced Firewall Concepts — Detailed Notes
 
-# 1. Next Generation Firewall (NGFW)
+# 34. Next Generation Firewall (NGFW)
 
 ## Meaning
 
 A **Next Generation Firewall (NGFW)** is an advanced firewall that does more than basic IP address, port, and protocol filtering.
 
-A traditional firewall mainly checks:
-
-```text
-Source IP
-Destination IP
-Port
-Protocol
-Connection State
-```
+A traditional firewall mainly checks: Source IP, Destination IP, Port, Protocol, Connection State.
 
 An NGFW can also understand:
 
@@ -1224,43 +838,13 @@ An NGFW can also understand:
 
 ---
 
-# 2. Why Do We Need NGFW?
+# 35. Why Do We Need NGFW?
 
-Traditional firewalls mainly make decisions using:
+Traditional firewalls mainly make decisions using `IP + Port + Protocol`. But modern applications do not always use fixed ports.
 
-```text
-IP + Port + Protocol
-```
+For example, YouTube, Facebook, Gmail, Google Drive, and WhatsApp Web may all use `TCP 443`.
 
-But modern applications do not always use fixed ports.
-
-For example:
-
-```text
-YouTube
-Facebook
-Gmail
-Google Drive
-WhatsApp Web
-```
-
-may all use:
-
-```text
-TCP 443
-```
-
-A traditional firewall may only see:
-
-```text
-HTTPS traffic on port 443
-```
-
-It may not know which application is inside that HTTPS traffic.
-
-An NGFW can identify applications more accurately.
-
-Example:
+A traditional firewall may only see "HTTPS traffic on port 443" and may not know which application is inside that HTTPS traffic. An NGFW can identify applications more accurately.
 
 ```text
 Traffic → TCP 443
@@ -1278,26 +862,15 @@ Blocked
 
 ---
 
-# 3. Main Features of NGFW
+# 36. Main Features of NGFW
 
-## 3.1 Traditional Firewall Functions
+## 36.1 Traditional Firewall Functions
 
-An NGFW still provides:
+An NGFW still provides: IP filtering, Port filtering, Protocol filtering, Stateful inspection, NAT, Firewall rules.
 
-- IP filtering
-- Port filtering
-- Protocol filtering
-- Stateful inspection
-- NAT
-- Firewall rules
-
----
-
-## 3.2 Application Awareness
+## 36.2 Application Awareness
 
 An NGFW can identify applications.
-
-Example:
 
 ```text
 Port 443
@@ -1309,13 +882,7 @@ Facebook
 Office 365
 ```
 
-So instead of writing only:
-
-```text
-Block TCP 443
-```
-
-you can create a rule like:
+So instead of writing only `Block TCP 443`, you can create a rule like:
 
 ```text
 Allow Office 365
@@ -1327,11 +894,9 @@ without blocking all HTTPS traffic.
 
 ---
 
-# 4. Application Control
+# 37. Application Control
 
 **Application Control** means creating security policies based on the application instead of only the port.
-
-Example:
 
 ```text
 Employees:
@@ -1345,30 +910,15 @@ This gives much more control than a traditional firewall.
 
 ---
 
-# 5. Deep Packet Inspection — DPI
+# 38. Deep Packet Inspection — DPI
 
 ## Meaning
 
 **Deep Packet Inspection (DPI)** means inspecting more than just basic packet header information.
 
-A normal packet-filtering firewall may inspect:
+A normal packet-filtering firewall may inspect: Source IP, Destination IP, Source Port, Destination Port, Protocol.
 
-```text
-Source IP
-Destination IP
-Source Port
-Destination Port
-Protocol
-```
-
-DPI can inspect deeper information related to:
-
-- Application traffic
-- Protocol behavior
-- Content patterns
-- Security signatures
-
-Conceptually:
+DPI can inspect deeper information related to: Application traffic, Protocol behavior, Content patterns, Security signatures.
 
 ```text
 Packet
@@ -1386,23 +936,16 @@ Encrypted HTTPS traffic cannot simply be read as plaintext by a firewall. Some o
 
 ---
 
-# 6. IDS/IPS Integration in NGFW
+# 39. IDS/IPS Integration in NGFW
 
-Many NGFWs include or integrate:
-
-- IDS
-- IPS
+Many NGFWs include or integrate IDS and IPS.
 
 ### IDS
 
 Detects suspicious traffic.
 
 ```text
-Attack
-  ↓
-IDS
-  ↓
-Alert
+Attack → IDS → Alert
 ```
 
 ### IPS
@@ -1410,14 +953,10 @@ Alert
 Detects and blocks suspicious traffic.
 
 ```text
-Attack
-  ↓
-IPS
-  ↓
-DROP
+Attack → IPS → DROP
 ```
 
-NGFW:
+NGFW combined flow:
 
 ```text
 Packet
@@ -1433,21 +972,12 @@ Allow / Block
 
 ---
 
-# 7. User-Based Policies
+# 40. User-Based Policies
 
-An NGFW may integrate with identity systems.
-
-Instead of:
-
-```text
-Allow 192.168.1.20
-```
-
-you may configure:
+An NGFW may integrate with identity systems. Instead of `Allow 192.168.1.20`, you may configure:
 
 ```text
 Allow Finance Users → Banking Website
-
 Block Guest Users → Internal Applications
 ```
 
@@ -1455,20 +985,9 @@ This is called **user-aware security policy**.
 
 ---
 
-# 8. URL Filtering
+# 41. URL Filtering
 
-An NGFW can also restrict access based on websites or categories.
-
-Example categories:
-
-- Social media
-- Gambling
-- Malware
-- Adult content
-- File sharing
-- Shopping
-
-Example:
+An NGFW can also restrict access based on websites or categories, e.g.: Social media, Gambling, Malware, Adult content, File sharing, Shopping.
 
 ```text
 Employee
@@ -1482,14 +1001,9 @@ Blocked
 
 ---
 
-# 9. Malware / Threat Protection
+# 42. Malware / Threat Protection
 
-Depending on the product and configuration, an NGFW may inspect traffic for:
-
-- Known malware
-- Exploit signatures
-- Command-and-control communication
-- Suspicious downloads
+Depending on the product and configuration, an NGFW may inspect traffic for: Known malware, Exploit signatures, Command-and-control communication, Suspicious downloads.
 
 This is often combined with:
 
@@ -1505,7 +1019,7 @@ Malware Analysis
 
 ---
 
-# 10. NGFW Example
+# 43. NGFW Example
 
 Suppose an employee tries to use BitTorrent.
 
@@ -1533,7 +1047,7 @@ Blocked
 
 ---
 
-# 11. Common NGFW Features
+# 44. Common NGFW Features
 
 - Stateful firewall
 - Application identification
@@ -1548,19 +1062,11 @@ Blocked
 - Logging and reporting
 - Malware/threat protection
 
-Examples of NGFW vendors include:
-
-- Palo Alto Networks
-- Fortinet FortiGate
-- Cisco Secure Firewall
-- Check Point
-- Sophos Firewall
+Examples of NGFW vendors: Palo Alto Networks, Fortinet FortiGate, Cisco Secure Firewall, Check Point, Sophos Firewall.
 
 ---
 
-# 12. Traditional Firewall vs NGFW
-
-This is a very common interview question.
+# 45. Traditional Firewall vs NGFW
 
 | Feature                   | Traditional Firewall | NGFW             |
 | ------------------------- | -------------------- | ---------------- |
@@ -1578,39 +1084,13 @@ This is a very common interview question.
 | Threat Intelligence       | Limited              | Common           |
 | Advanced Threat Detection | Limited              | Better support   |
 
----
+### Easy Example
 
-# 13. Easy Traditional vs NGFW Example
+Suppose YouTube, Online Banking, and Microsoft Teams all use `TCP 443`.
 
-Suppose:
+**Traditional Firewall:** if 443 is allowed, all three (YouTube, Banking, Teams) → Allowed.
 
-```text
-YouTube → TCP 443
-Online Banking → TCP 443
-Microsoft Teams → TCP 443
-```
-
-## Traditional Firewall
-
-It may see:
-
-```text
-TCP 443
-```
-
-If 443 is allowed:
-
-```text
-YouTube → Allowed
-Banking → Allowed
-Teams → Allowed
-```
-
----
-
-## NGFW
-
-It can identify applications:
+**NGFW:** can identify applications:
 
 ```text
 TCP 443
@@ -1624,23 +1104,17 @@ Teams → ALLOW
 
 This is one of the main advantages of an NGFW.
 
----
-
-# 14. Interview Answer — Traditional Firewall vs NGFW
+### Interview Answer
 
 > A traditional firewall mainly controls traffic using IP addresses, ports, protocols, and connection state. An NGFW adds advanced capabilities such as application awareness, deep packet inspection, IDS/IPS, URL filtering, user-based policies, and threat intelligence.
 
 ---
 
-# 15. Proxy Firewall
+# 46. Proxy Firewall
 
 ## Meaning
 
-A **Proxy Firewall** acts as an intermediary between a client and the destination server.
-
-The client does not directly communicate with the destination.
-
-Instead:
+A **Proxy Firewall** acts as an intermediary between a client and the destination server. The client does not directly communicate with the destination; the proxy creates another connection to the destination on behalf of the client.
 
 ```text
 Client
@@ -1650,23 +1124,13 @@ Proxy Firewall
 Internet Server
 ```
 
-The proxy creates another connection to the destination on behalf of the client.
-
 ---
 
-# 16. How Proxy Firewall Works
+# 47. How Proxy Firewall Works
 
-Suppose a user wants to access:
+Suppose a user wants to access `example.com`.
 
-```text
-example.com
-```
-
-Without proxy:
-
-```text
-Client → example.com
-```
+Without proxy: `Client → example.com`
 
 With proxy firewall:
 
@@ -1686,23 +1150,13 @@ The server may see the proxy's address rather than the client's direct connectio
 
 ---
 
-# 17. Why is a Proxy Firewall Secure?
+# 48. Why is a Proxy Firewall Secure?
 
-Because the client and destination server do not necessarily communicate directly.
-
-The proxy can inspect:
-
-- Application request
-- URL
-- Headers
-- Protocol behavior
-- Content, where technically possible
-- User identity
-- Security policy
+Because the client and destination server do not necessarily communicate directly. The proxy can inspect: Application request, URL, Headers, Protocol behavior, Content (where technically possible), User identity, Security policy.
 
 ---
 
-# 18. Proxy Firewall Example
+# 49. Proxy Firewall Example
 
 Company policy:
 
@@ -1732,19 +1186,9 @@ Forward Block
 
 ---
 
-# 19. Application-Level Proxy
+# 50. Application-Level Proxy
 
-A proxy firewall often operates at the **Application Layer**.
-
-Examples:
-
-- HTTP proxy
-- FTP proxy
-- SMTP proxy
-
-The proxy understands the specific application protocol.
-
-Example:
+A proxy firewall often operates at the **Application Layer**. Examples: HTTP proxy, FTP proxy, SMTP proxy. The proxy understands the specific application protocol.
 
 ```text
 HTTP Request
@@ -1758,7 +1202,9 @@ Forward / Block
 
 ---
 
-# 20. Advantages of Proxy Firewall
+# 51. Advantages and Disadvantages of Proxy Firewall
+
+### Advantages
 
 - Hides internal clients
 - Application-level control
@@ -1768,9 +1214,7 @@ Forward / Block
 - Logging
 - Can reduce direct exposure
 
----
-
-# 21. Disadvantages of Proxy Firewall
+### Disadvantages
 
 - More processing overhead
 - Can add latency
@@ -1779,7 +1223,7 @@ Forward / Block
 
 ---
 
-# 22. Forward Proxy vs Proxy Firewall
+# 52. Forward Proxy vs Proxy Firewall
 
 A forward proxy represents clients.
 
@@ -1791,31 +1235,17 @@ Forward Proxy
 Internet
 ```
 
-Common purposes:
+Common purposes: Internet access control, URL filtering, Caching, Hide internal client addresses, Logging.
 
-- Internet access control
-- URL filtering
-- Caching
-- Hide internal client addresses
-- Logging
-
-Example tool:
-
-```text
-Squid
-```
+Example tool: `Squid`
 
 ---
 
-# 23. Host Firewall
+# 53. Host Firewall
 
 ## Meaning
 
-A **Host Firewall** runs directly on an individual computer or server.
-
-It protects that particular host.
-
-Example:
+A **Host Firewall** runs directly on an individual computer or server and protects that particular host.
 
 ```text
 Internet
@@ -1835,34 +1265,14 @@ Windows Server
 Windows Defender Firewall
 ```
 
----
+### Examples
 
-# 24. Host Firewall Examples
+- Linux: iptables, nftables, UFW, firewalld
+- Windows: Windows Defender Firewall
 
-Linux:
+### What Can Host Firewall Control?
 
-- iptables
-- nftables
-- UFW
-- firewalld
-
-Windows:
-
-- Windows Defender Firewall
-
----
-
-# 25. What Can Host Firewall Control?
-
-It can control:
-
-- Incoming connections
-- Outgoing connections
-- Ports
-- Protocols
-- Source IPs
-- Destination IPs
-- Local applications, depending on firewall
+It can control: Incoming connections, Outgoing connections, Ports, Protocols, Source IPs, Destination IPs, Local applications (depending on firewall).
 
 Example:
 
@@ -1881,13 +1291,11 @@ Everything else
 
 ---
 
-# 26. Network Firewall
+# 54. Network Firewall
 
 ## Meaning
 
-A **Network Firewall** is placed between networks and protects multiple devices.
-
-Example:
+A **Network Firewall** is placed between networks and protects multiple devices, filtering traffic passing between networks rather than protecting only one machine.
 
 ```text
              Internet
@@ -1899,13 +1307,7 @@ Example:
    Server 1  Server 2    PC
 ```
 
-Instead of protecting only one machine, it filters traffic passing between networks.
-
----
-
-# 27. Network Firewall Placement
-
-Common locations:
+### Common Placement Locations
 
 ```text
 Internet
@@ -1931,7 +1333,7 @@ Internal Network
 
 ---
 
-# 28. Host Firewall vs Network Firewall
+# 55. Host Firewall vs Network Firewall
 
 | Feature                     | Host Firewall        | Network Firewall          |
 | --------------------------- | -------------------- | ------------------------- |
@@ -1943,41 +1345,13 @@ Internal Network
 | Protects host from same LAN | Can                  | Not always                |
 | Central management          | Depends              | Often centralized         |
 
----
+### Example — Host vs Network Firewall
 
-# 29. Example — Host vs Network Firewall
+Suppose `PC1 → PC2`, both on the same local network.
 
-Suppose:
+If this traffic does not pass through the network firewall (`PC1 ───→ PC2`), the perimeter firewall may not inspect it. But if PC2 has a host firewall (`PC1 → Host Firewall on PC2 → PC2 Application`), the host firewall can still block it.
 
-```text
-PC1 → PC2
-```
-
-Both devices are on the same local network.
-
-If this traffic does not pass through the network firewall:
-
-```text
-PC1 ─────────→ PC2
-```
-
-the perimeter firewall may not inspect it.
-
-But if PC2 has a host firewall:
-
-```text
-PC1
- ↓
-Host Firewall on PC2
- ↓
-PC2 Application
-```
-
-the host firewall can still block it.
-
----
-
-# 30. Why Use Both Host and Network Firewalls?
+### Why Use Both Host and Network Firewalls?
 
 This is **Defence in Depth**.
 
@@ -1997,15 +1371,11 @@ If one layer fails, the other still provides protection.
 
 ---
 
-# 31. Default Allow
+# 56. Default Allow (Detailed)
 
 ## Meaning
 
-**Default Allow** means:
-
-> Traffic is allowed unless there is a specific rule to block it.
-
-Example:
+**Default Allow** means traffic is allowed unless there is a specific rule to block it.
 
 ```text
 Default:
@@ -2017,34 +1387,17 @@ BLOCK 10.10.10.5
 
 Everything is allowed except traffic specifically denied.
 
----
+### Problem with Default Allow
 
-# 32. Problem with Default Allow
-
-If you forget to block a service:
-
-```text
-SSH
-Database
-RDP
-Admin Panel
-```
-
-it may remain accessible.
-
-This can increase the attack surface.
+If you forget to block a service (SSH, Database, RDP, Admin Panel), it may remain accessible, increasing the attack surface.
 
 ---
 
-# 33. Default Deny
+# 57. Default Deny (Detailed)
 
 ## Meaning
 
-**Default Deny** means:
-
-> Traffic is blocked unless it is explicitly allowed.
-
-Example:
+**Default Deny** means traffic is blocked unless it is explicitly allowed.
 
 ```text
 Default Policy:
@@ -2056,9 +1409,7 @@ Allow SSH from Admin IP
 
 Everything else stays blocked.
 
----
-
-# 34. Default Deny Example
+### Default Deny Example
 
 Server requirements:
 
@@ -2080,35 +1431,15 @@ ALLOW TCP 3306 from 10.0.2.10
 DEFAULT DROP
 ```
 
-This follows the principle of **least privilege**.
+This follows the principle of **least privilege**. (See Section 9 for the Default Allow vs Default Deny comparison table.)
 
 ---
 
-# 35. Default Allow vs Default Deny
-
-| Default Allow                        | Default Deny                      |
-| ------------------------------------ | --------------------------------- |
-| Everything allowed unless blocked    | Everything blocked unless allowed |
-| Easier initially                     | More secure                       |
-| Higher chance of accidental exposure | Lower attack surface              |
-| Block bad traffic                    | Allow only required traffic       |
-| Less restrictive                     | Least-privilege approach          |
-
-### Interview Recommendation
-
-For security-sensitive systems:
-
-> **Default Deny is generally preferred.**
-
----
-
-# 36. Inbound Traffic
+# 58. Inbound Traffic (Detailed)
 
 ## Meaning
 
 **Inbound traffic** is traffic coming **into** a device or network.
-
-Example:
 
 ```text
 Internet
@@ -2116,27 +1447,13 @@ Internet
 Web Server
 ```
 
-Request:
+Request: `User → Web Server:443` — this is inbound traffic from the server's perspective.
 
-```text
-User → Web Server:443
-```
-
-This is inbound traffic from the server's perspective.
-
----
-
-# 37. Inbound Rule
+### Inbound Rule
 
 An inbound rule controls connections coming into the system.
 
-Example:
-
-```text
-ALLOW inbound TCP 443
-```
-
-means:
+Example: `ALLOW inbound TCP 443` means:
 
 ```text
 Internet
@@ -2148,22 +1465,9 @@ Web Server
 
 Allowed.
 
----
+### Inbound Rule Example
 
-# 38. Inbound Rule Example
-
-Server:
-
-```text
-192.168.1.10
-```
-
-Requirements:
-
-- HTTPS available publicly
-- SSH only from admin
-
-Rules:
+Server `192.168.1.10`. Requirements: HTTPS available publicly; SSH only from admin.
 
 ```text
 Inbound:
@@ -2177,13 +1481,11 @@ DROP everything else
 
 ---
 
-# 39. Outbound Traffic
+# 59. Outbound Traffic (Detailed)
 
 ## Meaning
 
 **Outbound traffic** is traffic generated by the local system/network going outside.
-
-Example:
 
 ```text
 Internal Server
@@ -2191,66 +1493,25 @@ Internal Server
 Internet
 ```
 
-Examples:
+Examples: `Server → DNS Server`, `Server → Software Repository`, `Server → API`, `Server → Email Server`.
 
-```text
-Server → DNS Server
-Server → Software Repository
-Server → API
-Server → Email Server
-```
+### Outbound Rule
 
----
+An outbound rule controls traffic leaving the system. Example: `ALLOW outbound TCP 443` means the server may initiate HTTPS connections.
 
-# 40. Outbound Rule
+### Why Control Outbound Traffic?
 
-An outbound rule controls traffic leaving the system.
+Some people think only inbound traffic needs protection, but outbound filtering is also important.
 
-Example:
+Suppose malware infects a server and tries: `Compromised Server → Attacker Command-and-Control Server`.
 
-```text
-ALLOW outbound TCP 443
-```
+If outbound traffic is unrestricted: `Malware → Internet → Allowed`.
 
-means the server may initiate HTTPS connections.
+With controlled outbound rules: `Malware → Unknown Destination → Firewall → Blocked`.
 
 ---
 
-# 41. Why Control Outbound Traffic?
-
-Some people think only inbound traffic needs protection.
-
-Outbound filtering is also important.
-
-Suppose malware infects a server.
-
-It tries:
-
-```text
-Compromised Server
-      ↓
-Attacker Command-and-Control Server
-```
-
-If outbound traffic is unrestricted:
-
-```text
-Malware → Internet → Allowed
-```
-
-With controlled outbound rules:
-
-```text
-Malware → Unknown Destination
-       ↓
-Firewall
-       ↓
-Blocked
-```
-
----
-
-# 42. Inbound vs Outbound Rules
+# 60. Inbound vs Outbound Rules
 
 | Inbound                                        | Outbound                        |
 | ---------------------------------------------- | ------------------------------- |
@@ -2259,173 +1520,19 @@ Blocked
 | Example: allow HTTPS 443                       | Example: allow DNS 53           |
 | Internet → Server                              | Server → Internet               |
 
----
+### Inbound/Outbound Depends on Perspective
 
-# 43. Inbound/Outbound Depends on Perspective
+This is important. Suppose `PC → Web Server`.
 
-This is important.
+For the PC: Request = Outbound, Response = Inbound.
 
-Suppose:
-
-```text
-PC → Web Server
-```
-
-For the PC:
-
-```text
-Request = Outbound
-Response = Inbound
-```
-
-For the Web Server:
-
-```text
-Request = Inbound
-Response = Outbound
-```
+For the Web Server: Request = Inbound, Response = Outbound.
 
 So inbound/outbound is always relative to the device or firewall being discussed.
 
 ---
 
-# 44. Stateless Firewall Flow
-
-Your original flow:
-
-```text
-Packet
-   ↓
-Check IP / Port / Protocol
-   ↓
-Firewall Rule
-   ↓
-Allow / Drop
-```
-
-A stateless firewall checks each packet independently.
-
-Example:
-
-```text
-Packet 1
- ↓
-Check
- ↓
-Allow
-
-Packet 2
- ↓
-Check Again
- ↓
-Allow / Drop
-```
-
-It does **not remember** the previous packet.
-
----
-
-# 45. Stateful Firewall Flow
-
-Your flow:
-
-```text
-Packet
-   ↓
-Check Connection State
-   ↓
-Check Firewall Rules
-   ↓
-Allow / Drop
-```
-
-More complete:
-
-```text
-Packet Arrives
-     ↓
-Check State Table
-     ↓
-Existing / Related Connection?
-    /                \
-  Yes                No
-   ↓                  ↓
-Check Policy        Check New
-   ↓                Connection Rule
-   └──────────┬───────────┘
-              ↓
-         Allow / Drop
-```
-
----
-
-# 46. Stateful Example
-
-Internal user visits:
-
-```text
-https://example.com
-```
-
-Client sends:
-
-```text
-192.168.1.20:51000
-        ↓
-Firewall
-        ↓
-93.184.216.34:443
-```
-
-Firewall records:
-
-```text
-Connection:
-192.168.1.20:51000 ↔ 93.184.216.34:443
-
-State:
-ESTABLISHED
-```
-
-Response:
-
-```text
-93.184.216.34:443
-        ↓
-Firewall
-        ↓
-192.168.1.20:51000
-```
-
-Firewall says:
-
-```text
-This is part of an existing connection
-→ ALLOW
-```
-
----
-
-# 47. Stateless vs Stateful — Easy Memory
-
-```text
-STATELESS
-
-"What does this packet look like?"
-```
-
-versus:
-
-```text
-STATEFUL
-
-"What does this packet look like,
-and does it belong to a valid connection?"
-```
-
----
-
-# 48. Complete Firewall Evolution
+# 61. Complete Firewall Evolution
 
 You can remember firewalls like this:
 
@@ -2453,17 +1560,13 @@ Application Awareness
 
 ---
 
-# 49. Scenario-Based Interview Questions
+# 62. Scenario-Based Interview Questions (Advanced Firewall Concepts)
 
 ## Scenario 1 — NGFW
 
 **Question:** Employees need Microsoft Teams, but management wants to block YouTube. Both use HTTPS port 443. How can you do this?
 
-### Answer
-
-A simple port-based firewall cannot easily distinguish them because both can use 443.
-
-Use an **NGFW with application control**:
+**Answer:** A simple port-based firewall cannot easily distinguish them because both can use 443. Use an **NGFW with application control**:
 
 ```text
 TCP 443
@@ -2476,33 +1579,17 @@ Teams   → ALLOW
 YouTube → BLOCK
 ```
 
----
-
-# 50. Scenario 2 — Traditional vs NGFW
+## Scenario 2 — Traditional vs NGFW
 
 **Question:** Your firewall allows TCP 443, but users are using unwanted applications over HTTPS. What is the problem?
 
-### Answer
+**Answer:** The firewall is relying mainly on ports. An NGFW can provide: Application identification, Application control, URL filtering, DPI, IDS/IPS.
 
-The firewall is relying mainly on ports.
-
-An NGFW can provide:
-
-- Application identification
-- Application control
-- URL filtering
-- DPI
-- IDS/IPS
-
----
-
-# 51. Scenario 3 — Proxy Firewall
+## Scenario 3 — Proxy Firewall
 
 **Question:** A company wants employees' web requests to pass through a central system where URLs can be checked before Internet access.
 
-### Answer
-
-Use a **proxy firewall / forward proxy**.
+**Answer:** Use a **proxy firewall / forward proxy**.
 
 ```text
 Employee
@@ -2514,15 +1601,11 @@ URL / Policy Check
 Internet
 ```
 
----
-
-# 52. Scenario 4 — Host vs Network Firewall
+## Scenario 4 — Host vs Network Firewall
 
 **Question:** Two compromised PCs are communicating inside the same LAN without passing through the perimeter firewall. What additional control can help?
 
-### Answer
-
-Use **host-based firewalls** on the endpoints.
+**Answer:** Use **host-based firewalls** on the endpoints.
 
 ```text
 PC1
@@ -2534,31 +1617,17 @@ PC2
 
 Also consider network segmentation.
 
----
-
-# 53. Scenario 5 — Default Allow vs Deny
+## Scenario 5 — Default Allow vs Deny
 
 **Question:** A company firewall permits all traffic except a few explicitly blocked ports. Is this a good security design?
 
-### Answer
+**Answer:** It is a **default allow** approach and can lead to accidental exposure. A safer model is usually: `Default Deny + Explicitly Allow Required Traffic`.
 
-It is a **default allow** approach and can lead to accidental exposure.
-
-A safer model is usually:
-
-```text
-Default Deny
-+
-Explicitly Allow Required Traffic
-```
-
----
-
-# 54. Scenario 6 — Inbound Rule
+## Scenario 6 — Inbound Rule
 
 **Question:** You have a public web server. Users must access HTTPS, but SSH should be available only to the administrator.
 
-### Rules
+**Rules:**
 
 ```text
 Inbound:
@@ -2570,15 +1639,11 @@ ALLOW TCP 22 from Admin IP
 DEFAULT DROP
 ```
 
----
-
-# 55. Scenario 7 — Outbound Rule
+## Scenario 7 — Outbound Rule
 
 **Question:** A database server only needs to communicate with an internal application server. It should not connect freely to the Internet.
 
-### Solution
-
-Restrict outbound traffic:
+**Solution:** Restrict outbound traffic:
 
 ```text
 Database
@@ -2592,15 +1657,11 @@ DENY unnecessary outbound traffic
 
 This can reduce malware command-and-control or data-exfiltration opportunities.
 
----
-
-# 56. Scenario 8 — Stateful Firewall
+## Scenario 8 — Stateful Firewall
 
 **Question:** An internal employee opens an HTTPS website. Why can the website's reply enter even though random inbound Internet traffic is blocked?
 
-### Answer
-
-Because a **stateful firewall** remembers that the internal user initiated the connection.
+**Answer:** Because a **stateful firewall** remembers that the internal user initiated the connection.
 
 ```text
 Internal Client
@@ -2620,7 +1681,7 @@ Random unsolicited inbound traffic does not match the state table and can be blo
 
 ---
 
-# 57. Quick Revision Table
+# 63. Quick Revision Table — Advanced Concepts
 
 | Topic                | Simple Meaning                                               |
 | -------------------- | ------------------------------------------------------------ |
@@ -2640,38 +1701,58 @@ Random unsolicited inbound traffic does not match the state table and can be blo
 
 ---
 
-# 58. Most Important Interview Questions
+# 64. Most Important Interview Questions (Master List)
 
-1. What is an NGFW?
-2. Why do we need NGFW?
-3. Traditional firewall vs NGFW?
-4. What is application awareness?
-5. What is application control?
-6. What is Deep Packet Inspection?
-7. How can an NGFW identify applications using the same port?
-8. What is a proxy firewall?
-9. How does a proxy firewall work?
-10. Forward proxy vs firewall?
-11. What is a host firewall?
-12. What is a network firewall?
-13. Host firewall vs network firewall?
-14. Why use both network and host firewalls?
-15. What is Default Allow?
-16. What is Default Deny?
-17. Which one is more secure?
-18. What is an inbound firewall rule?
-19. What is an outbound firewall rule?
-20. Why should outbound traffic be filtered?
-21. How does a stateless firewall work?
-22. How does a stateful firewall work?
-23. Why does a stateful firewall allow return traffic?
-24. What is a connection/state table?
+1. What is a firewall?
+2. What does a firewall check?
+3. What is a firewall rule?
+4. What is packet filtering?
+5. What is a stateless firewall?
+6. What is a stateful firewall?
+7. Why does a stateful firewall allow return traffic?
+8. What is a connection/state table?
+9. What is an NGFW?
+10. Why do we need NGFW?
+11. Traditional firewall vs NGFW?
+12. What is application awareness?
+13. What is application control?
+14. What is Deep Packet Inspection?
+15. How can an NGFW identify applications using the same port?
+16. What is a proxy firewall?
+17. How does a proxy firewall work?
+18. Forward proxy vs firewall?
+19. What is a host firewall?
+20. What is a network firewall?
+21. Host firewall vs network firewall?
+22. Why use both network and host firewalls?
+23. What is Default Allow?
+24. What is Default Deny?
+25. Which one is more secure?
+26. What is an inbound firewall rule?
+27. What is an outbound firewall rule?
+28. Why should outbound traffic be filtered?
 
 ---
 
-# 59. One-Line Interview Revision
+# 65. One-Line Interview Revision (Master Summary)
 
 ```text
+Firewall
+→ Controls network traffic according to security rules.
+
+Firewall Rule
+→ Defines which traffic is allowed or blocked.
+
+Packet Filtering
+→ Checks IP, port and protocol.
+
+Stateless Firewall
+→ Checks every packet separately, does not remember connections.
+
+Stateful Firewall
+→ Tracks active connections, maintains a state table,
+   recognizes legitimate return traffic.
+
 NGFW
 → Traditional firewall + application awareness + advanced security inspection.
 
@@ -2698,15 +1779,9 @@ Inbound Rule
 
 Outbound Rule
 → Controls traffic leaving a system/network.
-
-Stateless Firewall
-→ Checks packets independently.
-
-Stateful Firewall
-→ Tracks connections and recognizes valid return traffic.
 ```
 
-## Best flow to remember
+## Best Flow to Remember
 
 ```text
 Traditional Firewall
