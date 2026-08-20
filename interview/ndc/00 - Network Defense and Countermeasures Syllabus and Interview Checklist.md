@@ -27,11 +27,156 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 
 ## Completion Checklist
 
-- [ ] 🔴 Priority 1 — Must Know
-- [ ] 🟠 Priority 2 — Important
-- [ ] 🟡 Priority 3 — Good to Know
-- [ ] 🎯 Scenario-Based Questions
-- [ ] 🧪 Practical/Lab Questions
+### Notes Written
+
+- [x] Security Fundamentals (`01 - Security Fundamentals.md`)
+- [x] Firewalls (`02 - Firewalls.md`)
+- [x] DMZ (`03 - DMZ.md`)
+- [x] iptables + NAT + Fail2ban + GeoIP (`04 - iptables.md`)
+- [ ] IDS / IPS / Snort / Suricata / OSSEC
+- [ ] VPN / IPsec / OpenVPN
+- [ ] Wireshark / tcpdump
+- [ ] DoS / DDoS
+- [ ] Reverse Proxy / Load Balancing / Nginx
+- [ ] SIEM / SOC / ELK / Syslog / Nagios
+- [ ] Incident Response / Threat Hunting / MITRE ATT&CK
+
+### Topic Revision (tick when you can explain each from memory)
+
+#### 🔴 Priority 1
+
+- [x] Information Security — meaning and purpose
+- [x] CIA Triad — Confidentiality, Integrity, Availability
+- [x] Security vs Privacy
+- [x] Vulnerability / Threat / Risk — definitions and relationship
+- [x] Attack Vector / Attack Surface / Exposure
+- [x] Countermeasure / Risk Management
+- [x] Security Controls — Preventive / Detective / Corrective
+- [x] Server Hardening
+- [x] Defence in Depth
+- [x] Firewall — what, how, rules
+- [x] Packet Filtering Firewall
+- [x] Stateless Firewall
+- [x] Stateful Firewall + connection tracking
+- [x] Stateful vs Stateless
+- [x] NGFW + DPI + Application Control
+- [x] Traditional Firewall vs NGFW
+- [x] Proxy Firewall
+- [x] Host Firewall vs Network Firewall
+- [x] Default Allow vs Default Deny
+- [x] Inbound vs Outbound rules
+- [x] DMZ — what, why, placement
+- [x] Web server in DMZ
+- [x] Database should not be directly exposed
+- [x] Internet → DMZ rules
+- [x] DMZ → Internal rules
+- [x] Internal → DMZ rules
+- [x] iptables — what, Netfilter, basic structure
+- [x] Tables — filter / nat / mangle / raw / security
+- [x] Chains — INPUT / OUTPUT / FORWARD / PREROUTING / POSTROUTING
+- [x] Rules — match conditions + targets
+- [x] Targets — ACCEPT / DROP / REJECT
+- [x] Rule processing order + default policy
+- [x] Connection tracking — NEW / ESTABLISHED / RELATED / INVALID
+- [x] NAT — SNAT / DNAT / PAT / MASQUERADE
+- [x] Port Forwarding
+- [x] IP Forwarding
+- [x] Fail2ban — jails / maxretry / findtime / bantime
+- [x] Fail2ban firewall integration
+- [x] GeoIP Blocking — Xtables-Addons, limitations
+- [ ] IDS / IPS — what, how, passive vs inline
+- [ ] IDS vs IPS
+- [ ] NIDS vs HIDS
+- [ ] Signature-based vs Anomaly-based detection
+- [ ] False Positive vs False Negative
+- [ ] Snort — NIDS mode, rule structure
+- [ ] Suricata — IDS/IPS modes, multi-threading
+- [ ] VPN — encryption, tunneling, auth
+- [ ] Remote Access VPN vs Site-to-Site VPN
+- [ ] Full Tunnel vs Split Tunnel
+- [ ] IPsec — AH vs ESP
+- [ ] IPsec — Tunnel Mode vs Transport Mode
+- [ ] OpenVPN — certificates, client/server model
+- [ ] Wireshark — capture/display filters, protocol analysis
+- [ ] TCP Three-Way Handshake
+- [ ] tcpdump — interface capture, filters, .pcap
+- [ ] DoS vs DDoS — types, SYN Flood, HTTP Flood
+- [ ] DDoS Mitigation — layers 3/4/7, CDN, scrubbing
+- [ ] Reverse Proxy — Nginx, hide backends, TLS termination
+- [ ] Forward Proxy vs Reverse Proxy
+- [ ] Load Balancer — health checks, high availability
+- [ ] SIEM — collection, normalization, correlation, alerts
+- [ ] SOC Workflow — triage → investigation → containment
+- [ ] Security Logs — firewall / IDS / auth / system / web / VPN
+- [ ] Incident Response — 6 phases
+- [ ] Threat Hunting — hypothesis → collect → investigate → detect
+- [ ] MITRE ATT&CK — tactics and techniques
+
+#### 🟠 Priority 2
+
+- [ ] Security Event vs Alert vs Incident
+- [ ] QoS — bandwidth / latency / jitter / packet loss
+- [ ] Blast Radius / Network Segmentation / Three-Tier Architecture
+- [ ] UTM vs NGFW
+- [ ] IPv6 firewall rules / ip6tables
+- [ ] Rate Limiting
+- [ ] VPN Protocols — PPTP / SSTP / L2TP / RRAS
+- [ ] VPN Attacks and Misconfiguration
+- [ ] IDS Architecture — sensor / agent / manager
+- [ ] Intruder Types — Masquerader / Misfeasor / Clandestine
+- [ ] Traditional vs Distributed Attacks
+- [ ] SSL/TLS Termination / Server Farming
+- [ ] WAF vs Firewall
+- [ ] ELK Stack — Elasticsearch / Logstash / Kibana
+- [ ] Syslog — centralized logging and forwarding
+- [ ] Nagios — infrastructure monitoring vs SIEM vs IDS
+
+#### 🟡 Priority 3
+
+- [ ] NIST Cybersecurity Framework
+- [ ] OWASP Top 10 — risk perspective
+- [ ] Security Breach Case Study analysis
+- [ ] Firewall Misconfiguration examples
+- [ ] Firewall Automation — risks and benefits
+- [ ] Kerberos / TLS packet analysis
+- [ ] Suspicious packet patterns
+- [ ] Honeypot vs Honeynet
+- [ ] IDS Evasion techniques and mitigations
+- [ ] Security Event Severity levels
+- [ ] Threat Intelligence — IOC / IOA
+- [ ] QoS + DDoS impact analysis
+
+#### 🎯 Scenarios
+
+- [x] Security Fundamentals scenarios
+- [x] Firewall scenarios
+- [x] DMZ scenarios
+- [x] iptables scenarios
+- [x] NAT / Port Forwarding scenarios
+- [x] Fail2ban scenarios
+- [x] GeoIP scenarios
+- [ ] IDS / IPS scenarios
+- [ ] VPN / IPsec scenarios
+- [ ] Wireshark / tcpdump scenarios
+- [ ] DoS / DDoS scenarios
+- [ ] Reverse Proxy / Load Balancer scenarios
+- [ ] SIEM / SOC scenarios
+- [ ] Threat Hunting / MITRE ATT&CK scenarios
+
+#### 🧪 Practical / Lab
+
+- [x] iptables lab questions
+- [ ] Wireshark lab
+- [ ] tcpdump lab
+- [ ] Fail2ban lab *(covered in notes)*
+- [ ] Nginx / Squid lab
+- [ ] OpenVPN lab
+- [ ] Snort lab
+- [ ] Suricata lab
+- [ ] OSSEC lab
+- [ ] ELK lab
+- [ ] Syslog / SIEM lab
+- [ ] Nagios lab
 
 ---
 
