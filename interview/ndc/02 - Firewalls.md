@@ -444,7 +444,9 @@ Inspecting more than basic packet headers. A normal packet-filtering firewall in
 Packet → Header + Payload/Application Info → Deep Inspection
 ```
 
-> Encrypted HTTPS traffic can't simply be read as plaintext; some organizations use controlled TLS inspection where legally and operationally appropriate.
+> **In simple terms:** DPI opens the envelope and actually looks at the content — the real data being sent, what app it belongs to, and whether it matches known attack patterns. That's why it's called "deep" — it goes deeper than just the header.
+
+> Encrypted HTTPS traffic can't simply be read as plaintext; some organizations use controlled TLS inspection where legally and operationally appropriate. Most web traffic today (HTTPS) is encrypted — scrambled so nobody in the middle can read it, including the firewall — so DPI normally can't just peek inside HTTPS traffic like it's plain text.
 
 ## 9.6 IDS/IPS Integration
 
@@ -692,37 +694,33 @@ Reduces malware C2 / data-exfiltration opportunities.
 
 # 17. Most Important Interview Questions (Master List)
 
-1. What is a firewall? 2. What does a firewall check? 3. What is a firewall rule? 4. What is packet filtering? 5. What is a stateless firewall? 6. What is a stateful firewall? 7. Why does a stateful firewall allow return traffic? 8. What is a connection/state table? 9. What is an NGFW? 10. Why do we need NGFW? 11. Traditional firewall vs NGFW? 12. What is application awareness? 13. What is application control? 14. What is Deep Packet Inspection? 15. How can an NGFW identify applications using the same port? 16. What is a proxy firewall? 17. How does a proxy firewall work? 18. Forward proxy vs firewall? 19. What is a host firewall? 20. What is a network firewall? 21. Host firewall vs network firewall? 22. Why use both network and host firewalls? 23. What is Default Allow? 24. What is Default Deny? 25. Which one is more secure? 26. What is an inbound firewall rule? 27. What is an outbound firewall rule? 28. Why should outbound traffic be filtered?
+1. What is a firewall?
+2. What does a firewall check?
+3. What is a firewall rule?
+4. What is packet filtering?
+5. What is a stateless firewall?
+6. What is a stateful firewall?
+7. Why does a stateful firewall allow return traffic?
+8. What is a connection/state table?
+9. What is an NGFW?
+10. Why do we need NGFW?
+11. Traditional firewall vs NGFW?
+12. What is application awareness?
+13. What is application control?
+14. What is Deep Packet Inspection?
+15. How can an NGFW identify applications using the same port?
+16. What is a proxy firewall?
+17. How does a proxy firewall work?
+18. Forward proxy vs firewall?
+19. What is a host firewall?
+20. What is a network firewall?
+21. Host firewall vs network firewall?
+22. Why use both network and host firewalls?
+23. What is Default Allow?
+24. What is Default Deny?
+25. Which one is more secure?
+26. What is an inbound firewall rule?
+27. What is an outbound firewall rule?
+28. Why should outbound traffic be filtered?
 
 ---
-
-# 18. One-Line Interview Revision (Master Summary)
-
-```text
-Firewall → Controls network traffic according to security rules.
-Firewall Rule → Defines which traffic is allowed or blocked.
-Packet Filtering → Checks IP, port and protocol.
-Stateless Firewall → Checks every packet separately, does not remember connections.
-Stateful Firewall → Tracks active connections, maintains a state table, recognizes legitimate return traffic.
-NGFW → Traditional firewall + application awareness + advanced security inspection.
-Traditional Firewall → Mainly checks IP, port, protocol and connection state.
-Proxy Firewall → Acts as an intermediary between client and destination.
-Host Firewall → Protects one computer/server.
-Network Firewall → Protects traffic flowing between networks.
-Default Allow → Everything allowed unless specifically blocked.
-Default Deny → Everything blocked unless specifically allowed.
-Inbound Rule → Controls traffic coming into a system/network.
-Outbound Rule → Controls traffic leaving a system/network.
-```
-
-### Best Flow to Remember
-
-```text
-Traditional Firewall → IP + Port + Protocol + State
-NGFW → Traditional Firewall Features + Application Awareness + DPI + IDS/IPS + User/URL Controls
-```
-
-```text
-Stateless: Packet → Check IP/Port/Protocol → Check Rule → ALLOW/DROP
-Stateful:  Packet → Check Connection State → Check State Table + Rules → ALLOW/DROP
-```
