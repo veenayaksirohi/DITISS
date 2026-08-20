@@ -12,9 +12,6 @@ Information can exist in many forms:
 - Databases
 - Emails
 - Network traffic
-- Paper documents
-- Cloud storage
-- Backup files
 
 The main goal is to keep information **safe, accurate, and available**.
 
@@ -22,15 +19,7 @@ The main goal is to keep information **safe, accurate, and available**.
 
 Information Security protects data from:
 
-- Unauthorized access
-- Data theft
-- Data modification
-- Malware
-- Ransomware
-- Accidental deletion
-- Insider threats
-- Hardware failure
-- Network attacks
+- Unauthorized access, Data theft, Data modification, Malware, Ransomware, Accidental deletion
 
 ### Example
 
@@ -129,22 +118,6 @@ Integrity means:
 
 > Data should remain accurate, complete, and unchanged unless an authorized person modifies it.
 
-### Example
-
-Suppose a bank transaction is:
-
-```text
-₹1,000
-```
-
-An attacker changes it to:
-
-```text
-₹10,000
-```
-
-The integrity of the information has been violated.
-
 ### Controls used for Integrity
 
 - Hashing
@@ -203,31 +176,96 @@ Availability means:
 - DDoS protection
 - Monitoring
 
-### Example
-
-```text
-User
- ↓
-Load Balancer
- ↓
-Server 1
-Server 2
-Server 3
-```
-
-If Server 1 fails, Server 2 or Server 3 can continue providing the service.
-
 ---
 
-# CIA Triad Example
+## 2.4 Security vs Privacy
 
-Suppose an online banking application is running.
+### Meaning
 
-| CIA Component   | Requirement                                  |
-| --------------- | -------------------------------------------- |
-| Confidentiality | Only the customer should see account details |
-| Integrity       | Transaction amounts must not be modified     |
-| Availability    | Banking service should remain accessible     |
+**Security** and **Privacy** are related but different concepts, and this distinction is a very common interview question.
+
+> **Security** is about protecting data and systems from unauthorized access, damage, or disruption — it is the set of controls (technical, physical, administrative) used to keep information and systems safe.
+
+> **Privacy** is about the right of an individual or organization to control how their personal data is collected, used, shared, and stored — it is about _who is allowed to see and use data_, not just how well it is protected.
+
+In simple words:
+
+```text
+Security  → Protects data (the "how")
+Privacy   → Governs use of data (the "who/why")
+```
+
+### Working Relationship
+
+Security is a **means** to achieve Privacy. Without good security, privacy cannot be guaranteed — but strong security alone does not guarantee privacy.
+
+```text
+Strong Security + No Privacy Policy
+        ↓
+Data is well protected
+        ↓
+But data may still be misused, sold, or over-collected
+```
+
+```text
+Weak Security + Strong Privacy Policy
+        ↓
+Good intentions on paper
+        ↓
+But data can still be stolen or leaked
+```
+
+Both are required together.
+
+### Examples
+
+| Scenario                                               | Security Concern                                | Privacy Concern                                   |
+| ------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------- |
+| Hospital database hacked                               | Data was accessed without authorization         | Patient medical history exposed                   |
+| Company sells user data to advertisers without consent | No breach — system was secure                   | User data used without permission                 |
+| Employee views customer records out of curiosity       | Access control worked (employee was authorized) | Unauthorized _use_ of data (no legitimate reason) |
+| Weak encryption on a banking app                       | Data can be intercepted                         | Financial and personal details at risk            |
+
+### Pros and Cons
+
+**Security**
+
+- Pros: Prevents breaches, protects systems, builds trust
+- Cons: Can be costly and complex to implement fully
+
+**Privacy**
+
+- Pros: Protects individual rights, builds regulatory compliance and trust
+- Cons: Requires policy, consent management, and legal awareness — not just technical controls
+
+### Use Cases
+
+- **Security controls**: firewalls, encryption, MFA, access control, IDS/IPS
+- **Privacy controls**: consent forms, data minimization, data retention policies, anonymization, GDPR/DPDP compliance, privacy-by-design
+
+### Common Privacy Principles (used in laws like GDPR / India's DPDP Act)
+
+```text
+1. Data Minimization      → Collect only what is needed
+2. Purpose Limitation     → Use data only for the stated purpose
+3. Consent                → Get user permission before collecting/using data
+4. Right to Access        → User can see what data is held about them
+5. Right to Erasure       → User can request deletion ("right to be forgotten")
+6. Data Retention Limits  → Don't keep data longer than needed
+7. Breach Notification    → Inform users/authorities if data is compromised
+```
+
+### Interview Definition
+
+> Security protects information from unauthorized access and damage using technical and administrative controls, while Privacy governs how personal data is collected, used, and shared with the individual's consent. Security is necessary for privacy, but security alone does not guarantee privacy.
+
+### Interview Q&A
+
+**Q: Can a system be secure but still violate privacy?**
+A: Yes. Example — a company may have excellent encryption and access control (secure), but still sell or misuse customer data without consent (privacy violation).
+
+**Q: Can a system respect privacy but still be insecure?**
+A: Yes. Example — a company may have a strict privacy policy but use weak passwords or outdated software, allowing attackers to steal the very data it promised to protect.
 
 ---
 
@@ -253,14 +291,6 @@ It is a **weakness that may allow an attack**.
 - SQL injection vulnerability
 - Incorrect file permissions
 - Publicly exposed database
-
-### Example
-
-```text
-SSH Server
-   ↓
-Password = admin123
-```
 
 Weak password = **Vulnerability**
 
@@ -290,10 +320,6 @@ Threats can be:
 - Ransomware
 - Insider
 - DDoS attack
-- Fire
-- Flood
-- Power failure
-- Accidental deletion
 
 ### Example
 
@@ -809,6 +835,7 @@ Examples:
 - Malware removal
 - Password reset
 - Rebuilding compromised systems
+- Block attacker IP
 
 ```text
 Attack
@@ -817,30 +844,6 @@ System Compromised
    ↓
 Restore Backup
 ```
-
----
-
-# Security Controls Example
-
-Suppose SSH brute force is happening.
-
-### Preventive
-
-- SSH keys
-- MFA
-- Firewall
-
-### Detective
-
-- Authentication logs
-- IDS
-- SIEM
-
-### Corrective
-
-- Block attacker IP
-- Reset compromised account
-- Patch/harden system
 
 ---
 
@@ -951,116 +954,6 @@ Network Segmentation
 SIEM
 +
 Backups
-```
-
----
-
-# 16. Complete Relationship Between All Concepts
-
-Consider this example:
-
-### System
-
-Linux server with SSH enabled.
-
-### Vulnerability
-
-```text
-Weak Password
-```
-
-### Exposure
-
-```text
-SSH Port 22 open to Internet
-```
-
-### Threat
-
-```text
-Attacker
-```
-
-### Attack Surface
-
-```text
-SSH + Web Server + VPN
-```
-
-### Attack Vector
-
-```text
-SSH Brute Force
-```
-
-### Risk
-
-```text
-Unauthorized Server Access
-```
-
-### Countermeasures
-
-```text
-Strong Password
-+
-SSH Keys
-+
-MFA
-+
-Firewall
-+
-Fail2ban
-```
-
-### Detective Controls
-
-```text
-Authentication Logs
-+
-IDS
-+
-SIEM
-```
-
-### Defence in Depth
-
-All the security controls working together.
-
----
-
-# 17. Must-Know Relationship
-
-```text
-Asset
-  ↓
-Vulnerability
-  +
-Threat
-  ↓
-Risk
-  ↓
-Countermeasure
-```
-
-More complete version:
-
-```text
-Asset
- ↓
-Vulnerability + Exposure
- ↓
-Threat
- ↓
-Attack Vector
- ↓
-Attack
- ↓
-Risk / Impact
- ↓
-Security Controls
- ↓
-Reduced Risk
 ```
 
 ---
@@ -1176,54 +1069,6 @@ This answer shows:
 
 ---
 
-# 20. Quick Revision Table
-
-| Topic                | Simple Meaning                    | Example                     |
-| -------------------- | --------------------------------- | --------------------------- |
-| Information Security | Protect information               | Protect customer database   |
-| Confidentiality      | Prevent unauthorized viewing      | Encryption                  |
-| Integrity            | Prevent unauthorized modification | Hashing                     |
-| Availability         | Keep service accessible           | Load balancing              |
-| Vulnerability        | Weakness                          | Weak password               |
-| Threat               | Something that can cause harm     | Hacker                      |
-| Risk                 | Possible damage                   | Server compromise           |
-| Attack Vector        | Method/path used to attack        | Phishing                    |
-| Attack Surface       | All possible attack points        | SSH + Web + VPN             |
-| Exposure             | How accessible something is       | Public DB                   |
-| Countermeasure       | Protection against risk           | Firewall                    |
-| Risk Management      | Manage security risks             | Identify → Assess → Treat   |
-| Preventive Control   | Stops attack                      | MFA                         |
-| Detective Control    | Detects attack                    | IDS                         |
-| Corrective Control   | Fixes/restores                    | Backup                      |
-| Defence in Depth     | Multiple security layers          | Firewall + IDS + MFA + SIEM |
-
----
-
-# 21. Most Important Interview Questions
-
-1. What is Information Security?
-2. What is CIA Triad?
-3. Explain Confidentiality with an example.
-4. Explain Integrity with an example.
-5. Explain Availability with an example.
-6. What is a vulnerability?
-7. What is a threat?
-8. What is risk?
-9. Difference between vulnerability, threat, and risk?
-10. What is an attack vector?
-11. What is an attack surface?
-12. Attack vector vs attack surface?
-13. What is exposure?
-14. Vulnerability vs exposure?
-15. What is a countermeasure?
-16. What is risk management?
-17. Explain risk mitigation, avoidance, transfer, and acceptance.
-18. What are preventive, detective, and corrective controls?
-19. What is Defence in Depth?
-20. Give a real example of Defence in Depth.
-
----
-
 # 22. One-Line Interview Revision
 
 ```text
@@ -1232,6 +1077,9 @@ Information Security
 
 CIA Triad
 → Confidentiality + Integrity + Availability.
+
+Security vs Privacy
+→ Security protects data; Privacy controls how data is used and shared.
 
 Vulnerability
 → Weakness.
