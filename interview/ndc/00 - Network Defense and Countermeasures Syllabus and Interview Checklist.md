@@ -34,8 +34,8 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] DMZ (`03 - DMZ.md`)
 - [x] iptables + NAT + Fail2ban + GeoIP (`04 - iptables.md`)
 - [x] IDS / IPS / Snort / Suricata / OSSEC
-- [ ] VPN / IPsec / OpenVPN
-- [ ] Wireshark / tcpdump
+- [x] VPN / IPsec / OpenVPN
+- [x] Wireshark / tcpdump
 - [ ] DoS / DDoS
 - [ ] Reverse Proxy / Load Balancing / Nginx
 - [ ] SIEM / SOC / ELK / Syslog / Nagios
@@ -91,15 +91,15 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] False Positive vs False Negative
 - [x] Snort — NIDS mode, rule structure
 - [x] Suricata — IDS/IPS modes, multi-threading
-- [ ] VPN — encryption, tunneling, auth
-- [ ] Remote Access VPN vs Site-to-Site VPN
-- [ ] Full Tunnel vs Split Tunnel
-- [ ] IPsec — AH vs ESP
-- [ ] IPsec — Tunnel Mode vs Transport Mode
+- [x] VPN — encryption, tunneling, auth
+- [x] Remote Access VPN vs Site-to-Site VPN
+- [x] Full Tunnel vs Split Tunnel
+- [x] IPsec — AH vs ESP
+- [x] IPsec — Tunnel Mode vs Transport Mode
 - [ ] OpenVPN — certificates, client/server model
-- [ ] Wireshark — capture/display filters, protocol analysis
-- [ ] TCP Three-Way Handshake
-- [ ] tcpdump — interface capture, filters, .pcap
+- [x] Wireshark — capture/display filters, protocol analysis
+- [x] TCP Three-Way Handshake
+- [x] tcpdump — interface capture, filters, .pcap
 - [ ] DoS vs DDoS — types, SYN Flood, HTTP Flood
 - [ ] DDoS Mitigation — layers 3/4/7, CDN, scrubbing
 - [ ] Reverse Proxy — Nginx, hide backends, TLS termination
@@ -120,11 +120,11 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [ ] UTM vs NGFW
 - [ ] IPv6 firewall rules / ip6tables
 - [ ] Rate Limiting
-- [ ] VPN Protocols — PPTP / SSTP / L2TP / RRAS
-- [ ] VPN Attacks and Misconfiguration
-- [ ] IDS Architecture — sensor / agent / manager
-- [ ] Intruder Types — Masquerader / Misfeasor / Clandestine
-- [ ] Traditional vs Distributed Attacks
+- [x] VPN Protocols — PPTP / SSTP / L2TP / RRAS
+- [x] VPN Attacks and Misconfiguration
+- [x] IDS Architecture — sensor / agent / manager
+- [x] Intruder Types — Masquerader / Misfeasor / Clandestine
+- [x] Traditional vs Distributed Attacks
 - [ ] SSL/TLS Termination / Server Farming
 - [ ] WAF vs Firewall
 - [ ] ELK Stack — Elasticsearch / Logstash / Kibana
@@ -138,8 +138,8 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [ ] Security Breach Case Study analysis
 - [ ] Firewall Misconfiguration examples
 - [ ] Firewall Automation — risks and benefits
-- [ ] Kerberos / TLS packet analysis
-- [ ] Suspicious packet patterns
+- [x] Kerberos / TLS packet analysis
+- [x] Suspicious packet patterns
 - [ ] Honeypot vs Honeynet
 - [ ] IDS Evasion techniques and mitigations
 - [ ] Security Event Severity levels
@@ -156,8 +156,8 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] Fail2ban scenarios
 - [x] GeoIP scenarios
 - [x] IDS / IPS scenarios
-- [ ] VPN / IPsec scenarios
-- [ ] Wireshark / tcpdump scenarios
+- [x] VPN / IPsec scenarios
+- [x] Wireshark / tcpdump scenarios
 - [ ] DoS / DDoS scenarios
 - [ ] Reverse Proxy / Load Balancer scenarios
 - [ ] SIEM / SOC scenarios
@@ -166,14 +166,14 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 #### 🧪 Practical / Lab
 
 - [x] iptables lab questions
-- [ ] Wireshark lab
-- [ ] tcpdump lab
-- [ ] Fail2ban lab *(covered in notes)*
+- [x] Wireshark lab
+- [x] tcpdump lab
+- [x] Fail2ban lab *(covered in notes)*
 - [ ] Nginx / Squid lab
 - [ ] OpenVPN lab
-- [ ] Snort lab
-- [ ] Suricata lab
-- [ ] OSSEC lab
+- [x] Snort lab
+- [x] Suricata lab
+- [x] OSSEC lab
 - [ ] ELK lab
 - [ ] Syslog / SIEM lab
 - [ ] Nagios lab

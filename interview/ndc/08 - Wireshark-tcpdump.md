@@ -147,121 +147,54 @@ dns || icmp                                   → DNS or ICMP packets
 
 ## 4.1 TCP
 
-**TCP** is a reliable, connection-oriented transport protocol. Wireshark can show SYN, SYN-ACK, ACK, FIN, RST, sequence numbers, acknowledgment numbers, window size, and retransmissions.
-
-### TCP Three-Way Handshake
-
-```text
-Client                   Server
-SYN -------------------->
-    <-------------- SYN-ACK
-ACK -------------------->
-Connection Established
-```
-
-In Wireshark this looks like:
-
-```text
-192.168.1.10 → 10.0.0.20   SYN
-10.0.0.20 → 192.168.1.10   SYN, ACK
-192.168.1.10 → 10.0.0.20   ACK
-```
-
-You can check whether the server responded, how long the handshake took, whether a reset occurred, and whether packets were retransmitted.
-
-### TCP RST (Reset)
-
-Immediately terminates or refuses a TCP connection.
+**TCP** is reliable and connection-oriented. Wireshark shows SYN, SYN-ACK, ACK, FIN, RST, sequence/ack numbers, window size, and retransmissions.
 
 ```text
 Client → SYN → Server
-Server → RST → Client
+Client ← SYN-ACK ← Server
+Client → ACK → Server        (Connection Established)
 ```
 
-May mean: port is closed, application rejected the connection, or the connection was forcibly terminated.
+- **RST** — connection refused/terminated (port closed, app rejected, or forced close).
+- **FIN** — normal graceful close (`FIN → ACK` each direction).
+- **Retransmission** — TCP resends unacknowledged data; frequent retransmissions suggest packet loss, congestion, or a bad link.
 
-### TCP FIN (Graceful Close)
+## 4.2 TCP vs UDP
 
-```text
-Client → FIN     Server → ACK
-Server → FIN     Client → ACK
-```
+**UDP** is connectionless — no handshake, just `Client → UDP packet → Server`.
 
-Normal, graceful connection termination.
+| TCP                                  | UDP                                      |
+| ------------------------------------ | ---------------------------------------- |
+| Connection-oriented, 3-way handshake | Connectionless, no handshake             |
+| Reliable, retransmits lost data      | No delivery guarantee, no retransmission |
+| Uses sequence numbers                | No sequence numbers                      |
+| Example: HTTPS                       | Example: traditional DNS                 |
 
-### TCP Retransmission
+## 4.3 HTTP & HTTPS
 
-TCP resends data when packets appear lost or aren't acknowledged in time. Wireshark flags these as `TCP Retransmission`. A large number of retransmissions may indicate packet loss, congestion, wireless problems, a bad network link, or an overloaded device.
-
-## 4.2 UDP & TCP vs UDP
-
-**UDP** is connectionless — no three-way handshake, just `Client → UDP packet → Server`.
-
-| TCP                          | UDP                              |
-| ---------------------------- | -------------------------------- |
-| Connection-oriented          | Connectionless                   |
-| Three-way handshake          | No handshake                     |
-| Reliable delivery mechanisms | No delivery guarantee            |
-| Retransmission               | No built-in retransmission       |
-| Sequence numbers             | No TCP-style sequence numbers    |
-| Example: HTTPS               | Example: traditional DNS queries |
-
-## 4.3 HTTP
-
-**HTTP** is used for web communication, traditionally over `TCP 80`.
-
-```text
-Client → HTTP GET → Web Server → HTTP 200 OK
-```
-
-Display filter: `http` — shows plaintext HTTP traffic, letting you inspect request method, URL/path, headers, status code, response, and content (when unencrypted).
-
-**Common HTTP Methods:** GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH.
-
-**Common HTTP Status Codes:**
-| Code | Meaning |
-|---:|---|
-| 200 | OK |
-| 301 | Permanent redirect |
-| 302 | Temporary redirect |
-| 400 | Bad request |
-| 401 | Unauthorized |
-| 403 | Forbidden |
-| 404 | Not found |
-| 500 | Internal server error |
-| 502 | Bad gateway |
-| 503 | Service unavailable |
-
-### HTTP vs HTTPS in Wireshark
-
-- **HTTP:** `Client → HTTP → Server` — content can usually be read directly.
-- **HTTPS:** `Client → TLS Encryption → Server` — application content is encrypted. Browsing an HTTPS site, Wireshark shows `TCP → TLS → Encrypted Application Data` instead of readable HTTP content.
+**HTTP** (`TCP 80`): `Client → HTTP GET → Server → 200 OK`. Filter: `http`. Methods: GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH.
+Key status codes: `200 OK, 301/302 Redirect, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500/502/503 Server Errors`.
+**HTTPS** = HTTP + TLS encryption — Wireshark shows `TCP → TLS → Encrypted Application Data` instead of readable content.
 
 ## 4.4 TLS
 
-**TLS (Transport Layer Security)** provides encryption for protocols like HTTPS, commonly over `TCP 443` (modern HTTP/3 instead uses QUIC over UDP).
+Encrypts protocols like HTTPS, usually over `TCP 443` (HTTP/3 uses QUIC/UDP instead). Filter: `tls`.
 
 ```text
-Client → TCP Connection → TLS Handshake → Encryption Keys Established → Encrypted Application Data
+Client → TCP Connection → TLS Handshake (Client Hello ↔ Server Hello, Certs) → Keys Established → Encrypted Data
 ```
 
-Display filter: `tls`. You may see Client Hello, Server Hello, Certificates, TLS version, and cipher suite — though not all handshake details remain visible depending on TLS version/configuration.
-
-- **Client Hello:** `Client → Client Hello → Server` — starts negotiation, lists supported TLS options.
-- **Server Hello:** `Server → Server Hello → Client` — negotiation continues from here.
-
-**TLS Troubleshooting:** check `DNS → TCP Handshake → TLS Handshake → Application Traffic` in order. E.g. if DNS and TCP work but TLS fails, the problem is likely certificate/security-negotiation related, not basic connectivity.
+**Troubleshooting order:** `DNS → TCP → TLS → Application`. If DNS/TCP work but TLS fails, suspect a certificate/negotiation issue, not basic connectivity.
 
 ## 4.5 ICMP
 
-**ICMP** is used for network diagnostics and error reporting — e.g. `ping 8.8.8.8` uses ICMP Echo messages (IPv4).
+Used for diagnostics (e.g. `ping`). Filter: `icmp`.
 
 ```text
 Host A → ICMP Echo Request → Host B → ICMP Echo Reply → Host A
 ```
 
-Display filter: `icmp` — shows Echo Request, Echo Reply, Destination Unreachable, Time Exceeded.
-**Ping Analysis:** Echo Request + Echo Reply seen → basic IP connectivity works. Echo Request seen but no reply → possible host unavailable, firewall blocking, routing problem, or ICMP disabled.
+Reply received → basic connectivity works. No reply → host down, firewall blocking, routing issue, or ICMP disabled.
 
 ---
 
@@ -393,58 +326,6 @@ Note: modern HTTP/3 may use QUIC over UDP 443 instead, so a TCP-only filter woul
 
 ---
 
-# 8. Quick Reference Tables
-
-## 8.1 Wireshark Display Filters
-
-| Purpose        | Display Filter            |
-| -------------- | ------------------------- |
-| TCP            | `tcp`                     |
-| UDP            | `udp`                     |
-| DNS            | `dns`                     |
-| HTTP           | `http`                    |
-| TLS            | `tls`                     |
-| ICMP           | `icmp`                    |
-| IPv6 ICMP      | `icmpv6`                  |
-| Specific IP    | `ip.addr == 192.168.1.10` |
-| Source IP      | `ip.src == 192.168.1.10`  |
-| Destination IP | `ip.dst == 192.168.1.10`  |
-| TCP port 443   | `tcp.port == 443`         |
-| TCP reset      | `tcp.flags.reset == 1`    |
-| SYN            | `tcp.flags.syn == 1`      |
-
-## 8.2 Wireshark Capture Filters
-
-| Purpose          | Capture Filter          |
-| ---------------- | ----------------------- |
-| TCP              | `tcp`                   |
-| UDP              | `udp`                   |
-| Specific host    | `host 192.168.1.10`     |
-| Source host      | `src host 192.168.1.10` |
-| Destination host | `dst host 192.168.1.10` |
-| Port 443         | `port 443`              |
-| TCP 443          | `tcp port 443`          |
-| DNS port         | `port 53`               |
-
-## 8.3 tcpdump Command Quick Revision
-
-| Command                             | Purpose                                 |
-| ----------------------------------- | --------------------------------------- |
-| `tcpdump -D`                        | List interfaces                         |
-| `tcpdump -i eth0`                   | Capture eth0                            |
-| `tcpdump -i any`                    | Capture all available interfaces        |
-| `tcpdump -nn -i eth0`               | Capture without name/service resolution |
-| `tcpdump -i eth0 tcp`               | TCP traffic                             |
-| `tcpdump -i eth0 udp`               | UDP traffic                             |
-| `tcpdump -i eth0 icmp`              | ICMP traffic                            |
-| `tcpdump -i eth0 port 53`           | DNS-port traffic                        |
-| `tcpdump -i eth0 host 192.168.1.10` | Specific host                           |
-| `tcpdump -i eth0 -c 100`            | Capture 100 packets                     |
-| `tcpdump -i eth0 -w file.pcap`      | Save capture                            |
-| `tcpdump -r file.pcap`              | Read capture                            |
-
----
-
 # 9. Most Important Interview Questions
 
 1. What is Wireshark? 2. What is packet capture? 3. What is packet analysis? 4. Why is Wireshark used? 5. What is a capture filter? 6. What is a display filter? 7. Capture filter vs display filter? 8. What syntax does a capture filter use? 9. What is `ip.addr == 192.168.1.10`? 10. What does `tcp.port == 443` show? 11. What is a TCP three-way handshake? 12. Explain SYN, SYN-ACK and ACK. 13. What does TCP RST mean? 14. What is TCP retransmission? 15. TCP vs UDP? 16. Does UDP use a handshake? 17. How would you analyze DNS? 18. What is an HTTP packet? 19. HTTP vs HTTPS in Wireshark? 20. Why can't Wireshark normally read HTTPS application data? 21. What is TLS? 22. What is ICMP? 23. How would you troubleshoot failed ping? 24. What is tcpdump? 25. tcpdump vs Wireshark? 26. How do you capture traffic on `eth0`? 27. How do you capture only port 443? 28. How do you save a `.pcap` file? 29. How do you read a `.pcap` file? 30. Why is tcpdump useful on headless servers?
@@ -474,24 +355,6 @@ Note: modern HTTP/3 may use QUIC over UDP 443 instead, so a TCP-only filter woul
 > tcpdump is lightweight and command-line based, so it is ideal for servers and SSH troubleshooting. Wireshark provides a graphical interface and more convenient deep packet analysis. A common workflow is to capture packets with tcpdump on a server and analyze the `.pcap` file later in Wireshark.
 
 ---
-
-# 11. Quick Revision — One-Line Summary
-
-```text
-Wireshark       → GUI packet capture and analysis tool.
-Packet Capture  → Record network packets.
-Packet Analysis → Examine packets to find problems or attacks.
-Capture Filter  → Applied before capture.
-Display Filter  → Applied after capture.
-TCP             → Connection-oriented, uses handshake.
-UDP             → Connectionless, no handshake.
-DNS             → Resolves names to IP addresses.
-HTTP            → Plain web communication.
-TLS             → Encrypts communication such as HTTPS.
-ICMP            → Diagnostics and network error reporting.
-tcpdump         → Command-line packet capture tool.
-PCAP            → Packet capture file.
-```
 
 ### Best Flow to Remember for Web Troubleshooting
 
