@@ -33,7 +33,7 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] Firewalls (`02 - Firewalls.md`)
 - [x] DMZ (`03 - DMZ.md`)
 - [x] iptables + NAT + Fail2ban + GeoIP (`04 - iptables.md`)
-- [ ] IDS / IPS / Snort / Suricata / OSSEC
+- [x] IDS / IPS / Snort / Suricata / OSSEC
 - [ ] VPN / IPsec / OpenVPN
 - [ ] Wireshark / tcpdump
 - [ ] DoS / DDoS
@@ -84,13 +84,13 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] Fail2ban — jails / maxretry / findtime / bantime
 - [x] Fail2ban firewall integration
 - [x] GeoIP Blocking — Xtables-Addons, limitations
-- [ ] IDS / IPS — what, how, passive vs inline
-- [ ] IDS vs IPS
-- [ ] NIDS vs HIDS
-- [ ] Signature-based vs Anomaly-based detection
-- [ ] False Positive vs False Negative
-- [ ] Snort — NIDS mode, rule structure
-- [ ] Suricata — IDS/IPS modes, multi-threading
+- [x] IDS / IPS — what, how, passive vs inline
+- [x] IDS vs IPS
+- [x] NIDS vs HIDS
+- [x] Signature-based vs Anomaly-based detection
+- [x] False Positive vs False Negative
+- [x] Snort — NIDS mode, rule structure
+- [x] Suricata — IDS/IPS modes, multi-threading
 - [ ] VPN — encryption, tunneling, auth
 - [ ] Remote Access VPN vs Site-to-Site VPN
 - [ ] Full Tunnel vs Split Tunnel
@@ -155,7 +155,7 @@ Organized by **interview priority tier**; within each tier, topics are grouped b
 - [x] NAT / Port Forwarding scenarios
 - [x] Fail2ban scenarios
 - [x] GeoIP scenarios
-- [ ] IDS / IPS scenarios
+- [x] IDS / IPS scenarios
 - [ ] VPN / IPsec scenarios
 - [ ] Wireshark / tcpdump scenarios
 - [ ] DoS / DDoS scenarios
