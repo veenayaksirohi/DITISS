@@ -122,7 +122,36 @@ PC in Delhi (10.1.0.10) → Delhi Gateway → Encrypted VPN Tunnel → Pune Gate
 To users, the remote network can behave like another reachable private network.
 **Use cases:** branch office connectivity, data center connectivity, cloud-to-office connectivity, office-to-office connectivity, hybrid cloud networking.
 
-## 2.3 Remote Access VPN vs Site-to-Site VPN
+## 2.3 Commercial (Third-Party) VPN Example
+
+Unlike a company Remote Access VPN (client → own company gateway → own internal server), a **commercial VPN** (e.g. NordVPN, ExpressVPN-style providers) routes the client's traffic through the _provider's_ server before it reaches the public Internet destination — there is no private internal network at the far end, just NAT out to the open Internet.
+
+```text
+Client (192.168.1.10)
+      ↓ Original packet: SRC 192.168.1.10 → DST 11.11.11.11 (destination server)
+Commercial VPN encryption
+      ↓ Outer packet: SRC 192.168.1.10 → DST 203.0.113.10 (VPN Server)
+        [Encrypted inner packet: 192.168.1.10 → 11.11.11.11]
+Home Router NAT
+      ↓ Outer packet: 49.36.20.10 → 203.0.113.10
+Internet
+      ↓
+Commercial VPN Server (203.0.113.10)
+      ↓ Decrypt + Decapsulate
+      ↓ Usually SNAT to VPN exit IP
+      ↓ 203.0.113.10 → 11.11.11.11
+Public Internet
+      ↓
+Destination Firewall (Public IP: 11.11.11.11)
+      ↓ DNAT / Port Forwarding: 11.11.11.11 → 10.10.10.10
+Private LAN
+      ↓
+Destination Server (10.10.10.10)
+```
+
+> Key difference from a company VPN: the **VPN server itself acts as the client's identity on the Internet** — it decrypts the tunnel and then re-sends the traffic (SNAT'd to its own public "exit IP") toward the real destination, rather than delivering it into a private company network. From the destination server's point of view, the traffic appears to come from the VPN provider's exit IP, not the original client.
+
+## 2.4 Remote Access VPN vs Site-to-Site VPN
 
 | Remote Access VPN              | Site-to-Site VPN                     |
 | ------------------------------ | ------------------------------------ |
@@ -257,6 +286,12 @@ Remote User → VPN → MFA → Firewall → Network Segmentation → Internal A
 ## 6.3 VPN Security Risks
 
 Weak passwords, stolen credentials, credential reuse, missing MFA, unpatched VPN gateway, incorrect firewall rules, over-permissive access, misconfigured split tunneling, weak cryptographic configuration, compromised endpoint.
+
+## 6.4 VPN Misconfiguration Example
+
+Bad: `VPN User → Connected → Access to Entire Internal Network`.
+Better: `VPN User → Authentication + MFA → Role-Based Access → Only Required Servers`.
+This follows **Least Privilege**.
 
 ---
 
