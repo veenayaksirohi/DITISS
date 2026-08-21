@@ -157,12 +157,6 @@ Both are required together.
 
 > Security protects information from unauthorized access and damage using technical and administrative controls, while Privacy governs how personal data is collected, used, and shared with the individual's consent. Security is necessary for privacy, but security alone does not guarantee privacy.
 
-### Interview Q&A
-
-**Q: Can a system be secure but still violate privacy?** A: Yes. Example — a company may have excellent encryption and access control (secure), but still sell or misuse customer data without consent (privacy violation).
-**Q: Can a system respect privacy but still be insecure?** A: Yes. Example — a company may have a strict privacy policy but use weak passwords or outdated software, allowing attackers to steal the very data it promised to protect.
-
----
 
 # 3. Vulnerability
 
@@ -487,13 +481,6 @@ Result: Attack Surface reduced from 5 ports to 2
 
 > Server Hardening is the process of securing a server by reducing its attack surface — removing unnecessary services, closing unused ports, enforcing least privilege, applying patches, and configuring secure defaults — so there are fewer ways for an attacker to gain access.
 
-### Interview Q&A
-
-**Q: How is server hardening different from a firewall?** A: A firewall is _one_ preventive control (network-level). Server hardening is a broader, ongoing process that includes firewall configuration plus OS, account, application, file system, and logging hardening.
-**Q: What's the first thing you'd check when hardening a new server?** A: Identify what's running by default — open ports, running services, default accounts — then disable/remove anything not explicitly required, following least privilege.
-**Q: Name a few CIS Benchmark-style hardening checks for Linux.** A: Disable root SSH login, disable password authentication in favor of keys, enable a host firewall, ensure automatic security updates, restrict `cron`/`sudoers` access, and enable auditd logging.
-
----
 
 # 14. Defence in Depth
 
@@ -560,29 +547,6 @@ Firewall Restriction + SSH Key Authentication + Strong Password + MFA + Fail2ban
 
 ---
 
-# 19. Interview Scenario
-
-### Question
-
-**A Linux server has SSH open to the Internet and attackers are continuously trying different passwords. How would you secure it?**
-
-### Answer Approach
-
-```text
-1. Check authentication logs
-2. Identify repeated failed login attempts
-3. Restrict SSH using firewall
-4. Allow only trusted IPs if possible
-5. Use SSH keys
-6. Disable password login where practical
-7. Configure Fail2ban
-8. Use MFA if supported
-9. Monitor using SIEM/IDS
-```
-
-This answer shows: Vulnerability understanding, Risk management, Countermeasure selection, Server hardening, Defence in depth.
-
----
 
 # 22. One-Line Interview Revision
 

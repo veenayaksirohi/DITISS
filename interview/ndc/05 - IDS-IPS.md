@@ -657,51 +657,7 @@ Attack Traffic → IDS/IPS → Signature/Anomaly Detection → Alert → SIEM �
 
 ---
 
-## 12. Scenario-Based Q&A (Interview Practice)
 
-| #   | Scenario                                                      | Answer                                                                                       |
-| --- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| 1   | Detect attacks but never auto-block                           | **IDS**                                                                                      |
-| 2   | Auto-stop SQL exploit before reaching server                  | **IPS** (inline)                                                                             |
-| 3   | Detect network port scanning                                  | **NIDS**                                                                                     |
-| 4   | Detect unauthorized change to `/etc/passwd`                   | **HIDS**                                                                                     |
-| 5   | Alert fired for an authorized scan                            | **False Positive**                                                                           |
-| 6   | Real attack, but no alert generated                           | **False Negative**                                                                           |
-| 7   | Alert triggered because a matching rule exists                | **Signature-based detection**                                                                |
-| 8   | Sudden abnormal 20GB transfer at midnight, no known signature | **Anomaly-based detection**                                                                  |
-| 9   | Block malicious packets before reaching 20 web servers        | **NIPS**                                                                                     |
-| 9b  | Stop malicious process on one critical server                 | **HIPS**                                                                                     |
-| 10  | Snort alerts but attack still reaches server                  | Snort is in **Passive NIDS mode**                                                            |
-| 11  | Suricata detects and immediately drops packet                 | **IPS / Inline mode**                                                                        |
-| 12  | IDS never sees traffic between two internal servers           | Check: SPAN/mirroring config, correct interface, sensor placement, rules enabled, encryption |
-| 13  | Thousands of alerts for normal traffic                        | Likely **too many false positives** — tune rules/thresholds, build proper baseline           |
-| 14  | Brand-new attack technique, no signature exists               | **Anomaly-based detection** has better chance                                                |
-
----
-
-## 13. Interview-Ready Answers (Summary)
-
-**IDS vs IPS:**
-
-> IDS stands for Intrusion Detection System — it monitors traffic/host activity and alerts on suspicious behavior. IPS stands for Intrusion Prevention System — it's usually inline and can automatically block malicious traffic. In short: IDS detects, IPS detects and prevents.
-
-**NIDS vs HIDS:**
-
-> NIDS monitors network packets and detects network-based attacks like port scans. HIDS runs on a host and detects things like unauthorized file changes, suspicious processes, and failed logins.
-
-**NIPS vs HIPS:**
-
-> NIPS protects network traffic and blocks malicious packets before they reach systems. HIPS protects a single host and blocks suspicious activity on that host.
-
-**Signature vs Anomaly:**
-
-> Signature-based detection compares activity to known attack patterns — effective for known attacks. Anomaly-based detection compares activity to normal behavior and can catch unknown attacks, but may cause more false positives.
-
-**False Positive vs False Negative:**
-
-> A false positive is an alert with no real attack. A false negative is a real attack that goes undetected. False negatives are generally more dangerous.
-
----
 
 ## 14. One-Line Super Quick Revision
 

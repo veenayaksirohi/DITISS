@@ -366,39 +366,7 @@ If an unknown Internet host suddenly sends `Unknown IP → 192.168.1.20:51000` w
 
 ---
 
-# 7. Scenario-Based Interview Questions — Basic Firewall Concepts
 
-1. **Internal users should browse the Internet, but Internet users should not initiate connections inward. What firewall behavior helps?**
-   Use a **stateful firewall** — it allows internal users to start connections and permits valid responses, while blocking unsolicited inbound connections.
-
-2. **A firewall filters only by source/destination IP, protocol, and port, with no session memory. What kind of firewall is this?**
-   **Stateless packet-filtering firewall.**
-
-3. **How does a stateful firewall know a reply from a web server is legitimate?**
-   It checks its **connection/state table** and confirms the packet belongs to an existing established session.
-
-4. **A firewall rule says `ALLOW ANY ANY`. Why is this dangerous?**
-   It allows unnecessary traffic and greatly increases the attack surface. Better: `Default Deny + Allow Required Services Only`.
-
-5. **Only admin `192.168.1.50` should access SSH on a server. What rule would you use?**
-
-```text
-ALLOW: Source = 192.168.1.50, Destination = Server, Protocol = TCP, Port = 22
-DROP other TCP 22 traffic
-```
-
----
-
-# 8. Common Interview Questions — Basic Firewall Concepts
-
-- **What is a firewall?** > A security control that monitors and filters incoming and outgoing network traffic according to predefined rules.
-- **What does a firewall check?** Source IP, Destination IP, Port, Protocol, Direction, Connection state; advanced firewalls may also inspect applications and content.
-- **What is a firewall rule?** > Defines what traffic should be allowed or denied based on conditions such as IP address, port, protocol, direction, or connection state.
-- **What is packet filtering?** > Checks packet header information (source/destination IP, ports, protocol) to decide whether traffic should be allowed or blocked.
-- **What is a stateless firewall?** > Examines every packet independently and does not remember previous packets or sessions.
-- **What is a stateful firewall?** > Tracks active connections and uses connection state along with firewall rules to decide whether packets should be allowed.
-
----
 
 # 9. Next Generation Firewall (NGFW)
 
@@ -635,42 +603,6 @@ NGFW → Application Awareness + DPI + IDS/IPS + User Awareness + Threat Intelli
 
 ---
 
-# 15. Scenario-Based Interview Questions — Advanced Firewall Concepts
-
-1. **Employees need Microsoft Teams, but management wants to block YouTube — both use HTTPS 443. How?**
-   A simple port-based firewall can't distinguish them. Use an **NGFW with application control**: `TCP 443 → NGFW → Identify Application → Teams ALLOW, YouTube BLOCK`.
-
-2. **Firewall allows TCP 443, but users are using unwanted applications over HTTPS. What's the problem?**
-   The firewall is relying mainly on ports. An NGFW provides application identification/control, URL filtering, DPI, IDS/IPS.
-
-3. **A company wants employees' web requests checked centrally against URL policy before Internet access.**
-   Use a **proxy firewall / forward proxy**: `Employee → Proxy → URL/Policy Check → Internet`.
-
-4. **Two compromised PCs communicate inside the same LAN without passing through the perimeter firewall. What helps?**
-   Use **host-based firewalls** on the endpoints (`PC1 → Host Firewall on PC2 → PC2`) and consider network segmentation.
-
-5. **A firewall permits all traffic except a few explicitly blocked ports — good design?**
-   This is **default allow** and can lead to accidental exposure. Safer: `Default Deny + Explicitly Allow Required Traffic`.
-
-6. **Public web server: HTTPS for everyone, SSH only for the admin.**
-
-```text
-Inbound: ALLOW TCP 443 from ANY, ALLOW TCP 22 from Admin IP, DEFAULT DROP
-```
-
-7. **A database server should only talk to the internal app server, not the open Internet.**
-
-```text
-ALLOW required internal traffic
-DENY unnecessary outbound traffic
-```
-
-Reduces malware C2 / data-exfiltration opportunities.
-
-8. **An employee opens an HTTPS site — why can the reply enter even though random inbound traffic is blocked?**
-   Because a **stateful firewall** remembers the internal user initiated the connection: `Client starts HTTPS → state stored → Server Response matches ESTABLISHED → ALLOW`. Random unsolicited inbound traffic doesn't match the state table and can be blocked.
-
----
 
 # 16. Quick Revision Table — Advanced Concepts
 
@@ -689,38 +621,5 @@ Reduces malware C2 / data-exfiltration opportunities.
 | Outbound Rule        | Controls traffic leaving                                     |
 | Stateless            | Doesn't remember connections                                 |
 | Stateful             | Tracks connection state                                      |
-
----
-
-# 17. Most Important Interview Questions (Master List)
-
-1. What is a firewall?
-2. What does a firewall check?
-3. What is a firewall rule?
-4. What is packet filtering?
-5. What is a stateless firewall?
-6. What is a stateful firewall?
-7. Why does a stateful firewall allow return traffic?
-8. What is a connection/state table?
-9. What is an NGFW?
-10. Why do we need NGFW?
-11. Traditional firewall vs NGFW?
-12. What is application awareness?
-13. What is application control?
-14. What is Deep Packet Inspection?
-15. How can an NGFW identify applications using the same port?
-16. What is a proxy firewall?
-17. How does a proxy firewall work?
-18. Forward proxy vs firewall?
-19. What is a host firewall?
-20. What is a network firewall?
-21. Host firewall vs network firewall?
-22. Why use both network and host firewalls?
-23. What is Default Allow?
-24. What is Default Deny?
-25. Which one is more secure?
-26. What is an inbound firewall rule?
-27. What is an outbound firewall rule?
-28. Why should outbound traffic be filtered?
 
 ---

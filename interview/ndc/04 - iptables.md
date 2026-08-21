@@ -200,15 +200,6 @@ iptables [table] [operation] [chain] [match conditions] [target]
 | `-p`   | Protocol            | `-s`      | Source address   |
 | `-d`   | Destination address |           |                  |
 
-## 12. Scenario-Based Q&A
-
-1. **Remote SSH into the server — which chain?** `INPUT` (the machine itself is the destination).
-2. **Server connects out to google.com over HTTPS — which chain?** `OUTPUT` (traffic was generated locally).
-3. **Server routes LAN↔Internet traffic — which chain?** `FORWARD`.
-4. **A DROP rule for an IP isn't taking effect — what to check?** Correct table/chain, rule order, source/destination, protocol/port, packet counters, connection state, and especially an earlier `ACCEPT` rule that may be matching first.
-5. **About to set INPUT's default policy to DROP over SSH — what first?** First add an explicit allow rule for your own trusted IP (`iptables -A INPUT -p tcp -s ADMIN_IP --dport 22 -j ACCEPT`), _then_ apply the DROP policy — otherwise you lock yourself out.
-6. **Allow internal users out, block unsolicited inbound — how does conntrack help?** Traffic the internal host initiates gets tracked; replies arrive as `ESTABLISHED`. A rule allowing `ESTABLISHED,RELATED` lets replies through while new unsolicited inbound connections stay blocked.
-7. **Forward public port 8080 to an internal server on port 80 — what's used?** The `nat` table with DNAT/port forwarding, typically on `PREROUTING` (see Part 2).
 
 # Part 2 — NAT & Port Forwarding
 
@@ -362,19 +353,6 @@ Lets a Linux box **route packets between interfaces** (act as router/firewall/NA
 
 NAT relies on conntrack to map translated connections back. Example: `192.168.1.10:50000 ↔ 203.0.113.5:60000` — when a reply arrives on `60000`, the firewall knows (from its tracked NAT state) it belongs to `192.168.1.10:50000`.
 
-## 12. Scenario-Based Q&A
-
-1. **Internal PCs need Internet access.** IP Forwarding + SNAT/PAT or MASQUERADE + FORWARD rules.
-2. **Publish an internal web server (192.168.1.10:80) on public 203.0.113.10:80.** DNAT/port forwarding on PREROUTING, plus a FORWARD allow rule.
-3. **Public :8080 must reach private service on :80.** Port forwarding via DNAT (ports can differ).
-4. **Firewall has a fixed public IP — which source-NAT approach?** SNAT (IP is known/fixed).
-5. **ISP changes the public IP dynamically — which NAT target?** MASQUERADE (auto-uses current interface IP).
-6. **MASQUERADE configured but no Internet.** Check IP forwarding, client default gateway, FORWARD rules, outgoing interface, NAT rule, DNS, and routing.
-7. **DNAT configured but server unreachable from outside.** Check: DNAT rule on PREROUTING, matching FORWARD rule, IP forwarding enabled, destination server is up and listening, no return-path NAT issues.
-8. **100 office PCs share one public IPv4.** PAT / NAT Overload — ports distinguish the connections.
-9. **How does the router know which internal host gets a reply?** Its NAT/connection-tracking table maps the public `IP:port` back to the original private `IP:port`.
-
----
 
 # Part 3 — Fail2ban
 
@@ -476,19 +454,6 @@ Internet → Firewall (restrict who can reach SSH) → SSH Keys → MFA
    → Fail2ban (auth logs) → SIEM / Monitoring
 ```
 
-## 10. Scenario-Based Q&A
-
-1. **Hundreds of failed logins from one IP — what do you do?** Check `auth.log`, identify the source IP, configure Fail2ban to ban it after N failures, and layer on SSH keys, firewall restrictions, and monitoring.
-2. **Admin mistypes their password 5 times and gets blocked — what happened?** Fail2ban hit `maxretry` — a likely false positive; check status/logs, unban the trusted IP, and tune the jail if needed.
-3. **How does Fail2ban know which IP to block?** It parses the source IP out of matching log lines (e.g. "Failed password from 203.0.113.50") and counts failures per IP.
-4. **Attacker switches IP after being banned — then what?** The ban only applies to the detected IP; the new IP is treated separately, so pair Fail2ban with MFA, SSH keys, firewall restrictions, and SIEM monitoring.
-5. **Service is running but nobody gets banned — what to check?** Correct jail enabled? Correct `logpath`? Failures actually appearing in the log? Filter matching? `maxretry`/`findtime` correct? Fail2ban reading the file? Firewall integration working? Is the IP in `ignoreip`? Useful: `fail2ban-client status[, sshd]`.
-6. **IP is banned but SSH still accepts its connections — why?** Firewall action failed, wrong firewall backend/jail, rule not created, traffic using another path/interface, container/namespace issue, or a rule-order/policy conflict.
-7. **Can Fail2ban fully stop brute-force attacks?** No — it reduces attempts from detected IPs but doesn't stop distributed attacks, slow attacks, or credential reuse. Use it as one layer of Defence in Depth.
-
-**Best interview line:** Fail2ban detects from logs; the firewall performs the blocking.
-
----
 
 # Part 4 — GeoIP Blocking
 
@@ -566,14 +531,6 @@ Internet → GeoIP Filtering → Firewall → IDS/IPS → Reverse Proxy/WAF
 - **Fraud reduction:** normal logins from India are allowed; a burst of attempts from a blocked/unexpected region triggers a block or extra verification — best combined with login-behavior analysis, MFA, device info, and SIEM.
 - **Admin server:** rather than "India → SSH → Allow" alone, layer `GeoIP (Allow India) → VPN → Firewall allowlist → SSH keys → MFA → Server`.
 
-## 10. Scenario-Based Q&A
-
-1. **Company serves only India; most brute-force traffic is from elsewhere — what to do?** Use GeoIP blocking as one extra control, not the only one — pair with strong authentication, Fail2ban, IDS/IPS, rate limiting, and monitoring.
-2. **A country is blocked but attacks still arrive "from India" — why?** Attackers can bypass GeoIP via VPNs, proxies, cloud servers, botnets, or compromised local systems — GeoIP reduces exposure but doesn't prove real location.
-3. **An employee traveling abroad suddenly can't reach the company portal — why, and what's the fix?** A GeoIP rule is likely blocking their current country; provide secure VPN access, temporary approved access, or identity-based access with MFA — don't just disable all controls.
-4. **Would you secure SSH with GeoIP alone?** No — combine GeoIP with a trusted-IP/VPN restriction, SSH keys, MFA, Fail2ban, and monitoring.
-5. **Why can a GeoIP rule block the wrong user?** GeoIP databases aren't always accurate — IPs may belong to VPNs, cloud providers, mobile networks, or ISPs with changing allocations, so detected location may not match reality.
-6. **All non-India traffic is blocked — is the network now secure?** No — an attacker can still operate from India, an Indian VPN/cloud server, or a compromised Indian device. Firewall rules, IDS/IPS, authentication, MFA, patching, monitoring, SIEM, and rate limiting are still needed.
 
 ## 11. One-Line Revision
 

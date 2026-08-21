@@ -132,34 +132,6 @@ Private Host A (192.168.1.10) → Original Packet → VPN Gateway A
 
 ---
 
-# 7. Scenario-Based Interview Questions
-
-1. **Two offices need to securely communicate over the Internet — which mode?**
-   **Tunnel Mode** — the gateways need to protect and encapsulate the entire original packet.
-
-2. **You need confidentiality + authentication + integrity — AH or ESP?**
-   **ESP** — AH does not encrypt data.
-
-3. **Two hosts communicate directly via IPsec with no extra outer header needed — which mode?**
-   **Transport Mode.**
-
-4. **An IPsec tunnel won't establish — what would you check?**
-
-```text
-Gateways can reach each other? → UDP 500 allowed? → NAT present (check UDP 4500/NAT-T)?
-→ Same IKE version? → PSK/certificate correct? → Encryption/integrity algorithms match? → Correct subnets?
-```
-
-5. **Tunnel shows UP, but users can't reach the remote network — what would you check?**
-   Local/remote subnet definitions, routing table, firewall rules, NAT exemption, return route, host firewalls, traffic selectors.
-
-6. **An IPsec client is behind a NAT router — what feature is needed?**
-   **NAT-T**, commonly over UDP 4500.
-
-7. **An attacker resends a previously captured valid IPsec packet — what stops it?**
-   **Anti-Replay Protection**, using sequence numbers.
-
----
 
 # 9. One-Line Revision
 

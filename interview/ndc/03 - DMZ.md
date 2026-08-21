@@ -301,57 +301,8 @@ Additional controls: host firewall, MFA, patching, logging, SIEM, EDR, backups.
 
 ---
 
-# 12. Scenario-Based Interview Questions
 
-1. **A company has a public web application and a sensitive database. How would you design the network?**
-   > I would place the public web server or reverse proxy in a DMZ because it needs Internet access. The database would remain in the internal protected network. I would allow only HTTPS from the Internet to the DMZ and only required application traffic from the DMZ toward the internal application server. The database would accept connections only from the required backend server. All other traffic would be denied using least-privilege firewall rules.
 
-```text
-Internet → HTTPS 443 → Firewall → DMZ Web Server → Required App Port → Internal Firewall → Backend Server → PostgreSQL 5432 → Database
-```
-
-2. **The DMZ web server gets compromised. What prevents the attacker from reaching the database?**
-   Controls: internal firewall, network segmentation, default-deny rules, least privilege, no direct web-server-to-database access, IDS/IPS, host firewall, monitoring.
-
-```text
-Attacker → Compromised Web Server → Attempts Database Connection → Internal Firewall → No Allowed Rule → DROP
-```
-
-3. **Which ports would you expose from the Internet to a DMZ web server?**
-   Only ports required by the service — for a normal HTTPS web application, `TCP 443 → ALLOW`, possibly `TCP 80 → ALLOW` if needed (commonly for redirecting to HTTPS). Unnecessary ports stay blocked.
-
-4. **Should Internet users be allowed to connect directly to the database?**
-
-   > Normally no. The database should remain on a private/internal network and accept connections only from authorized application servers. Direct Internet exposure increases the attack surface and risk of unauthorized access.
-
-5. **Your firewall currently contains `DMZ → Internal: ALLOW ANY ANY`. What is wrong?**
-   This gives the DMZ unrestricted access to the internal network — if a public DMZ server is compromised, an attacker could attempt to access many internal systems. Better: `DMZ Web Server → Specific Backend Server → Specific Required Port → ALLOW`, `Everything Else → DENY`.
-
-6. **An administrator needs SSH access to a DMZ server. How would you configure it securely?**
-   Instead of `Internet → SSH → DMZ Server, ALLOW ANY`, allow SSH only from a trusted administration source: `Source: 192.168.10.50, Destination: DMZ Web Server, Port: TCP 22, Action: ALLOW`, then deny other SSH traffic.
-
-7. **A web server needs database access. Should you allow `DMZ → Database ANY`?**
-   No. Allow only a specific source + specific destination + specific port, e.g. `Backend Server → Database Server → TCP 5432`. This follows least privilege.
-
----
-
-# 14. Most Important Interview Questions
-
-1. What is a DMZ? 2. What does DMZ stand for? 3. Why is a DMZ used? 4. Where is a DMZ placed? 5. Which servers can be placed in a DMZ? 6. Why should a web server be placed in a DMZ? 7. Why should a database not normally be in a DMZ? 8. Why should a database not be directly Internet-facing? 9. What rules should exist from Internet → DMZ? 10. What rules should exist from DMZ → Internal? 11. What rules should exist from Internal → DMZ? 12. What happens if a DMZ server is compromised? 13. How does a DMZ reduce blast radius? 14. DMZ vs internal network? 15. DMZ vs firewall? 16. DMZ vs VLAN? 17. Can a DMZ be created using one firewall? 18. How does NAT work with a DMZ? 19. Why is `ALLOW ANY ANY` from DMZ to LAN dangerous? 20. How does DMZ support Defence in Depth?
-
----
-
-# 15. Interview-Ready Answers
-
-### Full Definition
-
-> A DMZ, or Demilitarized Zone, is a separate network segment placed between the Internet and the organization's internal network. Public-facing services such as web servers are placed in the DMZ so that if they are compromised, attackers do not get direct access to sensitive internal systems. Traffic between the Internet, DMZ, and internal network is controlled using strict firewall rules.
-
-### 30-Second Answer
-
-> A DMZ is a separate network zone used for public-facing services such as web servers. It is placed between the Internet and the internal network. For example, I can allow Internet users to access the DMZ web server only on HTTPS port 443, while the internal database remains private. Communication from the DMZ to the internal network should follow least privilege and default-deny rules. This limits lateral movement if the public server is compromised.
-
----
 
 # 16. Best Diagram to Remember
 

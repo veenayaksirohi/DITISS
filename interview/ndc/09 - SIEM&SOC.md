@@ -351,56 +351,8 @@ Event Generated → Log Collected → Log Normalized → Event Correlated → Th
 
 ---
 
-# 9. Scenario-Based Interview Questions
 
-1. **Firewall sees repeated connections, IDS detects a port scan, and Linux reports failed SSH logins — all from the same IP. How can SIEM help?**
-   SIEM can correlate these events using source IP, timestamps, and related activity — instead of treating them as separate events, it identifies possible reconnaissance followed by a brute-force attack and raises a higher-priority alert.
 
-2. **A SIEM generates a high-severity alert. What should a SOC analyst do first?**
-   Start with **triage** — check whether the alert is real, its severity, source/destination, affected asset, related logs, and whether the activity is authorized. Then escalate to investigation if needed.
-
-3. **A server is confirmed compromised. What is containment?**
-   Limiting further damage — e.g. isolate the server, block the malicious IP, disable the compromised account — to stop the attacker from spreading.
-
-4. **You isolated a malware-infected system. Is the incident finished?**
-   No — containment alone isn't enough. You still need **Eradication** (remove malware/root cause) → **Recovery** (restore safely) → **Reporting** (document the incident).
-
-5. **SIEM receives firewall logs but no authentication logs. What problem does this cause?**
-   Incomplete visibility — SIEM can see connection attempts but can't determine whether a login succeeded, which user was targeted, or whether credentials were compromised, reducing correlation quality.
-
-6. **The SOC gets hundreds of alerts every minute. What problems can this cause?**
-   **Alert fatigue** — analysts become overwhelmed and may miss important incidents. Fix by tuning detection rules, reducing false positives, prioritizing high-severity alerts, correlating related events, and removing duplicate/noisy alerts.
-
-7. **A user logs in successfully from an unusual country immediately after many failed logins. What could SIEM detect?**
-   It can correlate `Multiple Failed Logins + Successful Login + Unusual Location → Possible Account Compromise`, prompting the SOC to investigate the session.
-
----
-
-# 10. Most Important Interview Questions
-
-1. What is SIEM? 2. What does SIEM stand for? 3. Why is SIEM used? 4. What is log collection? 5. What is log aggregation? 6. What is log normalization? 7. Why is normalization required? 8. What is correlation? 9. Explain SIEM correlation with an example. 10. What is detection in SIEM? 11. How does SIEM generate alerts? 12. Event vs Alert? 13. What is a SIEM dashboard? 14. Which log sources are commonly sent to SIEM? 15. What's in firewall logs? 16. What's in authentication logs? 17. Why are VPN logs important? 18. What is SOC? 19. SIEM vs SOC? 20. Explain the SOC workflow. 21. What is triage? 22. Triage vs investigation? 23. What is containment? 24. What is eradication? 25. Containment vs eradication? 26. What is recovery? 27. Why is reporting important? 28. What is alert fatigue? 29. What is a false positive? 30. What is a false negative? 31. Why is time synchronization important in SIEM? 32. What happens if important logs are missing? 33. SIEM vs IDS? 34. SIEM vs simple log management? 35. How does SIEM help incident response?
-
----
-
-# 11. Interview-Ready Answers
-
-**What is SIEM?**
-
-> SIEM stands for Security Information and Event Management. It collects and aggregates logs from systems such as firewalls, IDS/IPS, servers, VPNs, and applications. It normalizes and correlates these events, detects suspicious patterns, generates alerts, provides dashboards, and helps SOC analysts investigate security incidents.
-
-**What is Correlation?**
-
-> Correlation means connecting related security events from different sources to identify a larger attack pattern. For example, if a firewall sees repeated connections, an IDS detects a port scan, and Linux records failed SSH logins from the same IP, a SIEM can correlate these events and identify possible reconnaissance followed by brute-force activity.
-
-**SIEM vs SOC?**
-
-> SIEM is a technology used to collect, normalize, correlate, and analyze security logs. SOC is the security operations team or function that monitors alerts, investigates incidents, and responds to threats. In simple terms, SIEM is a tool used by the SOC.
-
-**SOC Workflow?**
-
-> A typical SOC workflow starts with an alert. The analyst performs triage to verify and prioritize it, then investigates the event. If a real incident is confirmed, the team contains the threat, eradicates the root cause, recovers the affected systems, and finally documents the incident and lessons learned.
-
----
 
 # 12. Quick Revision Table
 

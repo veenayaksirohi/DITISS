@@ -347,66 +347,8 @@ Threat hunting often helps **create new SIEM detections** — the two feed each 
 
 ---
 
-# 9. Scenario-Based Interview Questions
 
-1. **A server is communicating with a known malicious IP. What would you do?**
-   Follow the IR process: **Identify** (verify the malicious connection) → **Contain** (isolate server/block IP) → **Eradicate** (remove malware and root cause) → **Recover** (restore safely) → **Lessons Learned** (create detection, improve controls).
 
-2. **A vulnerable server is under active attack, but the business can't shut it down permanently.**
-   **Short-term:** block the attacker IP, isolate risky access. **Long-term:** restrict the service to trusted sources, move the server to an isolated network, deploy compensating firewall/WAF rules, increase monitoring — then prepare the permanent fix.
-
-3. **You removed malware from a server. Is eradication complete?**
-   Not necessarily — you must find **how the malware entered**. If the root cause (e.g. an unpatched web vulnerability) isn't fixed, the attacker can simply compromise the server again.
-
-4. **After removing malware, what should you check before putting the system back into production?**
-   Recovery validation: malware scan clean, vulnerability fixed, credentials reset, security settings validated, applications tested, logging/monitoring working, no suspicious activity remaining.
-
-5. **No alert exists, but you suspect attackers are using stolen privileged accounts at night.**
-   Create a hypothesis (_"Privileged accounts may be used outside normal working hours"_) → collect authentication/VPN logs → search privileged logins → check time/source/host → investigate anomalies → validate → create a SIEM detection → respond if malicious.
-
-6. **An attacker sends a phishing email, executes PowerShell, steals credentials, and moves to another server. Map it to ATT&CK.**
-   `Phishing → Initial Access` | `PowerShell → Execution` | `Credential Theft → Credential Access` | `Move to Other Server → Lateral Movement`.
-
-7. **An attacker creates a scheduled task so malware restarts after every reboot.**
-   Maps to **Persistence** — the attacker is trying to maintain access.
-
-8. **A compromised server periodically connects to an attacker-controlled server to receive commands.**
-   Maps to **Command and Control (C2)**.
-
-9. **An attacker compresses company documents and uploads them to an external cloud server.**
-   `Gather Documents → Collection` then `Upload Outside Organization → Exfiltration`.
-
----
-
-# 10. Most Important Interview Questions
-
-1. What is Incident Response? 2. What are the phases of IR? 3. What happens in Preparation? 4. What happens during Identification? 5. What is containment? 6. Short-term vs long-term containment? 7. What is eradication? 8. Containment vs eradication? 9. What is root-cause analysis? 10. What is recovery? 11. What is recovery validation? 12. What happens during Lessons Learned? 13. What is threat hunting? 14. Why is threat hunting proactive? 15. Proactive vs reactive security? 16. What is a threat-hunting hypothesis? 17. What data is used for threat hunting? 18. What is an IOC? 19. What is an IOA? 20. IOC vs IOA? 21. What happens after a hunt finds malicious behavior? 22. What is MITRE ATT&CK? 23. What does ATT&CK stand for? 24. What is a tactic/technique/procedure? 25. What are TTPs? 26. Name the 12 MITRE tactics. 27. What is Lateral Movement? 28. What is Command and Control? 29. What is Exfiltration? 30. How is MITRE ATT&CK useful for SOC and threat hunting?
-
----
-
-# 11. Interview-Ready Answers
-
-**Incident Response?**
-
-> Incident Response is a structured process for handling cybersecurity incidents. It starts with preparation, followed by identification, containment, eradication, recovery, and lessons learned. The goal is to limit damage, remove the threat, restore systems safely, find the root cause, and prevent recurrence.
-
-**Short-Term vs Long-Term Containment?**
-
-> Short-term containment is an immediate emergency action, such as blocking an attacker IP or isolating a compromised server. Long-term containment provides safer temporary operation until a permanent fix can be implemented, such as moving the system to an isolated network or applying compensating firewall controls.
-
-**Root-Cause Analysis?**
-
-> Root-cause analysis identifies the real reason an incident occurred. For example, malware may be the visible problem, but the actual root cause could be an unpatched vulnerability, stolen credentials, or a firewall misconfiguration. Fixing the root cause prevents the attacker from using the same path again.
-
-**Threat Hunting?**
-
-> Threat hunting is a proactive security process in which analysts create a hypothesis and search logs, endpoint data, and network activity for hidden threats that may not have generated an alert. If malicious behavior is found, the team investigates it, creates new detection logic, and responds to the threat.
-
-**MITRE ATT&CK?**
-
-> MITRE ATT&CK is a knowledge base of real-world adversary behavior. It organizes attacker actions into tactics, which describe why the attacker acts, and techniques, which describe how the attacker achieves those objectives. Security teams use it for threat hunting, detection engineering, incident investigation, and identifying gaps in security controls.
-
----
 
 # 12. Quick Revision
 
