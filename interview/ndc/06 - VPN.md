@@ -258,12 +258,6 @@ Remote User → VPN → MFA → Firewall → Network Segmentation → Internal A
 
 Weak passwords, stolen credentials, credential reuse, missing MFA, unpatched VPN gateway, incorrect firewall rules, over-permissive access, misconfigured split tunneling, weak cryptographic configuration, compromised endpoint.
 
-## 6.4 VPN Misconfiguration Example
-
-Bad: `VPN User → Connected → Access to Entire Internal Network`.
-Better: `VPN User → Authentication + MFA → Role-Based Access → Only Required Servers`.
-This follows **Least Privilege**.
-
 ---
 
 # 7. Scenario-Based Interview Questions
@@ -309,25 +303,6 @@ VPN Tunnel Established? → VPN IP Assigned? → Route to 10.0.0.20 Present? →
 
 10. **Attackers are repeatedly trying leaked employee passwords against the VPN gateway. What would you do?**
     Use multiple controls: MFA, strong password policy, rate limiting, account lockout where appropriate, SIEM monitoring, VPN gateway patching, disable compromised credentials, restrict access where possible.
-
----
-
-# 8. Quick Revision Table
-
-| Topic             | Simple Meaning                                         |
-| ----------------- | ------------------------------------------------------ |
-| VPN               | Secure logical private connection over another network |
-| Encryption        | Makes data unreadable to unauthorized users            |
-| Authentication    | Verifies user/device identity                          |
-| Integrity         | Ensures data was not changed                           |
-| Tunneling         | Encapsulates traffic for transport                     |
-| Remote Access VPN | User → Organization                                    |
-| Site-to-Site VPN  | Network → Network                                      |
-| Full Tunnel       | All configured traffic through VPN                     |
-| Split Tunnel      | Only selected traffic through VPN                      |
-| Secure VPN        | Security mainly from cryptography                      |
-| Trusted VPN       | Security mainly from provider network isolation        |
-| Hybrid VPN        | Trusted network + cryptographic VPN                    |
 
 ---
 
