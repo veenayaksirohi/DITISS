@@ -1,271 +1,1204 @@
-# AnzenOps architecture
+# Interview-Ready Project Introduction
 
-AnzenOps is a three-tier React, Flask, and PostgreSQL application delivered through a security-focused GitHub Actions pipeline to AWS EKS. Terraform provisions the AWS infrastructure, Ansible configures the standalone security services, and Kubernetes runs the application and observability stack.
+## 1. Project Overview
 
-![Polished AnzenOps architecture](./anzenops-architecture.png)
+My project is called **AnzenOps**. It is an end-to-end **DevSecOps project** built around a **three-tier web application**.
 
-[Open the editable diagrams.net source](./anzenops-architecture.drawio)
+The application uses:
 
-## Editable architecture
+- **React** for the frontend
+- **Flask** for the backend REST APIs
+- **PostgreSQL** for the database
 
-```mermaid
-flowchart TB
-    DEV[Developer] --> GH[GitHub repository]
+The main objective of this project was to **integrate security into every stage of the software delivery lifecycle**, instead of performing security checks only after deployment.
 
-    subgraph PIPELINE[GitHub Actions - automated preproduction pipeline]
-        direction LR
-        CI[Workflow trigger] --> COMPOSE[Docker Compose validation]
-        CI --> TRUFFLE[TruffleHog<br/>secret scan]
-        TRUFFLE --> SAST[SonarQube<br/>SAST and quality]
-        TRUFFLE --> SCA[Trivy filesystem<br/>SCA and SBOM]
-        SAST -. findings .-> DOJO
-        SCA -. findings .-> DOJO
-        SAST --> BUILD[Build and local<br/>readiness check]
-        SCA --> BUILD
-        BUILD --> HUB[Docker Hub<br/>frontend, backend, database]
-        HUB --> IMGSCAN[Trivy image scan]
-        CI --> IAC[Trivy IaC scan]
-        IMGSCAN -. findings .-> DOJO
-        IAC -. findings .-> DOJO
-        HUB --> PREPROD[Deploy preprod<br/>Kubernetes manifests]
-        PREPROD --> ZAP[OWASP ZAP DAST]
-        ZAP -. findings .-> DOJO
-        PREPROD --> MON[Deploy monitoring<br/>with Helm]
-    end
+The project combines:
 
-    GH --> CI
+- CI/CD automation
+- Containerization
+- Kubernetes orchestration
+- Cloud infrastructure
+- Security scanning
+- Vulnerability management
+- Monitoring and observability
+- Infrastructure automation
 
-    subgraph AWS[AWS us-east-1]
-        direction TB
+---
 
-        subgraph PROVISION[Infrastructure and configuration]
-            TF[Terraform] --> EKS
-            TF --> TOOLS
-            ANSIBLE[Ansible] --> TOOLS
-        end
-
-        subgraph TOOLS[Default VPC - public EC2 security services]
-            direction LR
-            SONAR[SonarQube EC2<br/>port 9000]
-            DOJO[DefectDojo EC2<br/>port 8080]
-            WAZM[Wazuh EC2<br/>manager, indexer, dashboard]
-        end
-
-        subgraph EKS[Project VPC - Amazon EKS]
-            direction TB
-            EKSAPI[EKS managed control plane<br/>public and private endpoint]
-
-            subgraph NETWORK[VPC networking]
-                PUB[Public subnets<br/>worker nodes and load balancers]
-                PRIV[Private subnets<br/>EKS cluster attachment]
-                NAT[NAT gateway]
-                PUB --> NAT --> PRIV
-            end
-
-            subgraph NODES[Managed node group - 1 to 3 EC2 nodes]
-                direction TB
-                WORKERS[EC2 worker hosts]
-
-                subgraph APP[preprod namespace - automated deployment]
-                    direction LR
-                    LB[Public LoadBalancer<br/>HTTP 80] --> FE[React and Nginx<br/>3 to 6 pods]
-                    FE -->|same-origin /api| BE[Flask REST API<br/>3 to 6 pods]
-                    BE -->|SQLAlchemy / TCP 5432| DB[(PostgreSQL<br/>1 pod)]
-                    HPAF[Frontend HPA<br/>CPU and memory] --> FE
-                    HPAB[Backend HPA<br/>CPU and memory] --> BE
-                    DB --> EMPTY[(emptyDir storage<br/>ephemeral)]
-                    PVC[(Declared 5 Gi PVC<br/>currently unused)] -. not mounted .-> DB
-                end
-
-                subgraph OBS[monitoring namespace]
-                    direction LR
-                    KSM[kube-state-metrics<br/>and node-exporter] -. scraped metrics .-> PROM[Prometheus]
-                    PROM -. metrics .-> FE
-                    PROM -. metrics .-> BE
-                    PROM -. datasource .-> GRAF[Grafana<br/>public NLB]
-                    PROM -. alerts .-> ALERT[Alertmanager]
-                end
-
-                WAZAG[Wazuh agent DaemonSet<br/>optional] -. host monitoring .-> WORKERS
-            end
-        end
-
-        WAZAG -. security events .-> WAZM
-    end
-
-    CI -->|AWS credentials and kubectl| EKSAPI
-    BE -->|HTTPS requests| POKE[PokeAPI and sprite CDN]
-    PROD[prod namespace manifests<br/>defined, manual deployment] -. manual kubectl apply .-> EKSAPI
-    ZAP -->|HTTP baseline scan| LB
-    USER[Application user] -->|HTTP| LB
-    ADMIN[Operators] --> GRAF
-    HUB -. images for manual release .-> PROD
-
-    classDef source fill:#24292f,color:#fff,stroke:#111827,stroke-width:1.5px;
-    classDef pipeline fill:#e8f1ff,color:#102a43,stroke:#2563eb,stroke-width:1.2px;
-    classDef security fill:#fff1f2,color:#4c0519,stroke:#e11d48,stroke-width:1.2px;
-    classDef aws fill:#fff7ed,color:#431407,stroke:#f59e0b,stroke-width:1.2px;
-    classDef app fill:#ecfdf5,color:#052e16,stroke:#10b981,stroke-width:1.2px;
-    classDef observe fill:#f5f3ff,color:#2e1065,stroke:#8b5cf6,stroke-width:1.2px;
-    classDef warning fill:#fffbeb,color:#451a03,stroke:#d97706,stroke-width:1.5px;
-    classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b,stroke-width:1.2px;
-
-    class GH,DEV source;
-    class CI,COMPOSE,TRUFFLE,SCA,BUILD,HUB,IMGSCAN,IAC,PREPROD,ZAP,MON pipeline;
-    class SAST,SONAR,DOJO,WAZM,WAZAG security;
-    class TF,ANSIBLE,EKSAPI,PUB,PRIV,NAT,WORKERS aws;
-    class LB,FE,BE,DB,HPAF,HPAB app;
-    class KSM,PROM,GRAF,ALERT observe;
-    class EMPTY,PVC,PROD warning;
-    class USER,ADMIN,POKE external;
-
-    linkStyle 6,7,13,14,17,31,32,33,34,35,37 stroke:#64748b,stroke-width:1.5px,stroke-dasharray:2 3;
-    linkStyle 30,36,38,41 stroke:#d97706,stroke-width:1.7px,stroke-dasharray:8 5;
-```
-
-## Legend and implementation notes
-
-| Visual | Meaning |
-| --- | --- |
-| Solid arrow | Runtime traffic, build dependency, or automated deployment flow |
-| Fine dotted arrow | Security findings, metrics, alerts, or runtime telemetry |
-| Long dashed amber arrow | Optional component, unused resource, or manual deployment path |
-| Blue | CI/CD pipeline |
-| Green | Application runtime |
-| Purple | Monitoring and observability |
-| Red | Security tooling |
-| Amber | AWS infrastructure or an implementation caveat |
-
-- The GitHub Actions workflow deploys only the `preprod` namespace. Production manifests exist, but the production workflow stage is commented out.
-- Both PostgreSQL deployment manifests declare an `emptyDir` volume. Their 5 Gi PVC manifests exist but are not referenced by the pods, so database data is currently ephemeral.
-- Prometheus and Grafana are installed only when `GRAFANA_ADMIN_PASSWORD` is configured. Their current data storage is also ephemeral.
-- Wazuh is optional: agents run as a privileged DaemonSet on EKS nodes and communicate with the separate Wazuh EC2 manager over its public address.
-- SonarQube, DefectDojo, and Wazuh are provisioned in the default VPC, separate from the project VPC used by EKS.
-
-## Project architecture and overall flow
-
-AnzenOps combines a three-tier web application with infrastructure automation, continuous security testing, deployment automation, vulnerability management, and runtime monitoring. The architecture is divided into four main areas:
-
-1. **Application layer:** React and Nginx provide the user interface, Flask implements the API and application logic, and PostgreSQL stores users and Pokémon squads.
-2. **Delivery layer:** GitHub Actions builds and tests the application, publishes its container images, and deploys the preproduction environment.
-3. **Cloud platform layer:** Terraform provisions AWS networking, EKS, managed worker nodes, and the EC2 instances used by the security tools. Ansible installs and configures the tools on those instances.
-4. **Security and observability layer:** TruffleHog, SonarQube, Trivy, OWASP ZAP, DefectDojo, Prometheus, Grafana, Alertmanager, and optionally Wazuh cover the application from source code through runtime.
-
-### Runtime request flow
-
-The frontend Kubernetes Service is an AWS-facing `LoadBalancer`. A normal application request follows this path:
+# 2. Project Architecture
 
 ```text
-Application user
-    → AWS LoadBalancer on port 80
-    → React application served by Nginx
-    → Nginx proxies same-origin /api requests
-    → Internal Flask Service on port 5000
-    → PostgreSQL Service on port 5432
+Developer
+   |
+   | git push
+   v
+GitHub Repository
+   |
+   v
+GitHub Actions CI/CD Pipeline
+   |
+   +--> TruffleHog
+   |      Secret Scanning
+   |
+   +--> SonarQube
+   |      SAST
+   |
+   +--> Trivy
+   |      SCA + SBOM
+   |
+   v
+Docker Compose
+   |
+   +--> Frontend Image
+   +--> Backend Image
+   +--> PostgreSQL Image
+   |
+   v
+Application Validation
+   |
+   v
+Docker Hub
+   |
+   +--> Trivy Image Scanning
+   +--> Trivy IaC Scanning
+   |
+   v
+AWS EKS - Preproduction
+   |
+   +--> Frontend Pods
+   +--> Backend Pods
+   +--> PostgreSQL Pod
+   +--> Kubernetes Services
+   +--> HPA
+   +--> Health Probes
+   |
+   v
+AWS LoadBalancer
+   |
+   v
+OWASP ZAP
+   |
+   v
+DefectDojo
+   |
+   +--> SonarQube Reports
+   +--> Trivy Reports
+   +--> ZAP Reports
+   |
+   v
+Monitoring
+   |
+   +--> Prometheus
+   +--> Grafana
+   +--> Wazuh
 ```
 
-The browser never needs to resolve the backend's Kubernetes service name. It calls `/api` on the frontend origin, and Nginx forwards the request to `http://backend:5000`. The Flask service uses SQLAlchemy to store user and squad data in PostgreSQL. When Pokémon catalogue, statistics, species, move, or sprite data is needed, Flask makes outbound HTTPS requests to PokeAPI and its sprite CDN.
+---
 
-Authentication is handled by the Flask API. Registration hashes the password before saving it. Login verifies the hash and returns a JWT. Protected squad endpoints require that JWT and use its identity to isolate each user's data.
+# 3. CI/CD Pipeline Flow
 
-### Infrastructure provisioning flow
+Whenever a developer pushes code to GitHub, **GitHub Actions** automatically starts the CI/CD pipeline.
 
-The provisioning script runs the two independent Terraform projects in parallel:
+## Step 1: Secret Scanning
 
-- The **EKS project** creates the project VPC, public and private subnets, NAT gateway, EKS control plane, and managed EC2 node group.
-- The **security-tools project** creates separate EC2 instances for SonarQube, DefectDojo, and Wazuh in the AWS default VPC.
+First, **TruffleHog** scans the repository and complete Git history to detect accidentally committed secrets.
 
-After Terraform completes, the script updates kubeconfig, discovers the public addresses of the tool instances, builds an Ansible inventory, and runs the three Ansible playbooks in parallel. It then creates the SonarQube and DefectDojo API credentials used by GitHub Actions and generates the Wazuh agent manifest with the current Wazuh public address.
+Examples include:
 
-### CI/CD and DevSecOps flow
+- API keys
+- Passwords
+- Access tokens
+- Private keys
+- Cloud credentials
 
-A push or pull request to a configured branch starts the following process:
+```text
+Developer Push
+      |
+      v
+GitHub Repository
+      |
+      v
+TruffleHog
+      |
+      v
+Secret Detection
+```
 
-1. **Validate:** GitHub Actions checks out the repository, verifies Docker, and validates the Docker Compose configuration.
-2. **Scan secrets:** TruffleHog examines the Git history for verified leaked credentials before the application is built.
-3. **Analyze source:** SonarQube performs static application security testing and code-quality analysis. Its report is imported into DefectDojo.
-4. **Scan dependencies and produce an SBOM:** Trivy examines the repository and creates a CycloneDX software bill of materials. The report is stored as a workflow artifact and imported into DefectDojo.
-5. **Build and test containers:** Docker Compose builds the database, backend, and frontend images. The runner starts all three and waits for the frontend readiness check to succeed.
-6. **Publish:** The images are pushed to Docker Hub using GitHub secrets.
-7. **Scan published images:** Trivy scans each container image, and the resulting CycloneDX reports are imported into DefectDojo.
-8. **Scan infrastructure code:** Trivy checks the Terraform, Kubernetes, and container configuration for high- and critical-severity misconfigurations. Results are imported into DefectDojo.
-9. **Deploy preproduction:** The workflow authenticates to AWS, discovers the EKS cluster, updates kubeconfig, and applies the `preprod` Kubernetes manifests.
-10. **Run DAST:** After the public LoadBalancer becomes available, OWASP ZAP performs a baseline scan against the running frontend. Its report is saved and imported into DefectDojo.
-11. **Install monitoring:** When the Grafana administrator password is configured, Helm installs Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics.
-12. **Clean up:** The DAST job removes the temporary preproduction resources after testing. Production deployment remains a separate manual path because the production workflow and OPA security-gate jobs are currently commented out.
+---
 
-DefectDojo is the central record for SonarQube, SBOM, image, IaC, and ZAP results. Reimporting into stable test names enables deduplication, closes findings that no longer appear, and prevents a new test from being created on every workflow run.
+## Step 2: Static Application Security Testing
 
-## Security measures implemented
+After secret scanning, **SonarQube** performs **Static Application Security Testing (SAST)**.
 
-The project applies defense in depth: different controls protect source code, dependencies, container images, infrastructure definitions, the running application, credentials, and the underlying nodes.
+SonarQube analyzes the source code without running the application.
 
-| Security area | Implemented measure | Purpose |
-| --- | --- | --- |
-| Secrets | TruffleHog scans Git history for verified credentials | Prevent leaked keys and tokens from reaching build or deployment stages |
-| Source code | SonarQube SAST and code-quality analysis | Detect insecure patterns, bugs, and maintainability issues before deployment |
-| Dependencies | Trivy filesystem scan and CycloneDX SBOM | Identify vulnerable packages and maintain an inventory of shipped components |
-| Containers | Trivy scans all three published Docker images | Detect operating-system and application-package vulnerabilities in deployable artifacts |
-| Infrastructure as code | Trivy configuration scanning | Find unsafe Terraform, Kubernetes, and container configuration before it is applied |
-| Running application | OWASP ZAP baseline DAST | Test the public application for runtime web vulnerabilities and unsafe HTTP behavior |
-| Findings management | DefectDojo reimport, deduplication, and finding lifecycle management | Centralize results from different tools and make remediation trackable |
-| Authentication | JWT-protected Flask endpoints | Require authentication before reading or updating a user's squad |
-| Password storage | Bcrypt password hashing | Avoid storing reusable plaintext passwords in PostgreSQL |
-| Configuration secrets | Runtime environment variables, Kubernetes Secrets, and GitHub Actions secrets | Keep operational credentials out of application source code and container images |
-| Startup safety | Flask fails at startup when `DATABASE_URL` or `JWT_SECRET_KEY` is missing | Prevent an accidentally unconfigured backend from running |
-| Input controls | Required credentials, unique usernames, list-shaped squad payloads, and a five-member squad limit | Reject malformed or invalid application requests |
-| Workload resilience | CPU/memory requests and limits, readiness/liveness probes, and HPAs | Limit resource exhaustion, remove unhealthy pods from service, and scale during load |
-| AWS identity | EKS IRSA support and GitHub-managed AWS credentials | Support scoped AWS access without baking cloud credentials into images |
-| Data at rest | Encrypted gp3 root volumes for the security-tool EC2 instances | Protect EC2 volume data if the underlying storage is exposed |
-| Monitoring | Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics | Detect availability, resource, node, and workload anomalies |
-| Runtime security | Optional Wazuh agents with file-integrity monitoring, log collection, rootcheck, vulnerability detection, and active response | Detect changes and suspicious activity that build-time scanners cannot see |
+It checks for:
 
-Not every scan currently blocks the pipeline. TruffleHog and failed build/deployment commands can stop execution, but the IaC scan explicitly uses a zero exit code and several report-producing scans are primarily visibility controls. DefectDojo therefore supports triage and remediation, but a future policy gate is still needed to enforce a consistent release threshold.
+- Security vulnerabilities
+- Bugs
+- Code smells
+- Security hotspots
+- Duplicate code
+- Maintainability problems
+- Insecure coding patterns
 
-### Known security limitations
+---
 
-The project intentionally documents its current gaps instead of presenting the environment as production hardened:
+## Step 3: Software Composition Analysis
 
-- The EKS public endpoint allows `0.0.0.0/0`, and the worker and security-tool security groups currently allow broad inbound traffic. These rules should be restricted to trusted CIDRs and required ports.
-- SonarQube and DefectDojo are addressed over HTTP. TLS termination and private connectivity should be added for production use.
-- Kubernetes Secret manifests contain base64-encoded demonstration values. Base64 is not encryption; production secrets should come from a managed secret store or an external-secrets solution.
-- Container deployments use mutable `latest` tags. Immutable image digests or versioned tags would improve provenance and rollback safety.
-- The database uses `emptyDir`, while the declared PVC is unused. This causes data loss when the database pod is replaced and is unsuitable for production.
-- Prometheus and Grafana persistence is disabled, so monitoring history can also be lost during pod replacement.
-- Wazuh agents run privileged and mount host paths. This is necessary for the demonstrated host monitoring but increases impact if an agent is compromised; permissions should be minimized and the deployment carefully controlled.
-- The `/api/zap-canary` endpoint contains intentional reflected XSS for DAST verification. It must be removed before treating the application as production safe.
-- The OPA security-gate and automated production-deployment jobs are placeholders and are not active.
+**Trivy** scans the application's dependencies.
 
-## Why security was necessary
+This process is called **Software Composition Analysis (SCA)**.
 
-Security is required because the project crosses several trust boundaries and processes assets that attackers commonly target: source code, CI/CD credentials, Docker images, a public web endpoint, cloud infrastructure, Kubernetes nodes, user passwords, JWTs, and database records. A weakness in any one layer can become a path into the others.
+It checks third-party packages and libraries for known vulnerabilities.
 
-### Protecting users and application data
+Trivy also generates a **CycloneDX Software Bill of Materials (SBOM)**.
 
-The application stores login credentials and user-specific squad data. Without password hashing, authentication, and authorization, an attacker could recover passwords, impersonate users, or read and modify another user's records. Bcrypt reduces the usefulness of a stolen password database, while JWT-protected endpoints ensure that squad operations are associated with an authenticated identity.
+An SBOM provides a list of software components used by the application.
 
-### Protecting the software supply chain
+```text
+Application
+     |
+     v
+Dependency Files
+     |
+     v
+Trivy
+     |
+     +--> Vulnerability Detection
+     |
+     +--> CycloneDX SBOM
+```
 
-Modern applications include code from package registries, base container images, build actions, and external services. A vulnerability does not have to originate in this repository to affect the deployed system. SBOM generation plus dependency and image scanning improve visibility into what is built and deployed. Secret scanning also prevents an accidentally committed cloud key or API token from becoming a direct infrastructure compromise.
+---
 
-### Protecting cloud and Kubernetes infrastructure
+## Step 4: Docker Image Build
 
-Terraform and Kubernetes make infrastructure repeatable, but they also make unsafe settings repeatable. A single permissive security group, exposed service, privileged container, or missing resource boundary can affect every deployment. IaC scanning identifies these problems before provisioning, while Kubernetes probes, resource limits, namespaces, and autoscaling reduce the operational impact of unhealthy or overloaded workloads.
+**Docker Compose** builds the container images for the three application tiers:
 
-### Finding different classes of vulnerability
+- Frontend
+- Backend
+- PostgreSQL database
 
-No single security tool can see the entire system:
+```text
+Source Code
+     |
+     v
+Docker Compose
+     |
+     +--> Frontend Image
+     +--> Backend Image
+     +--> PostgreSQL Image
+```
 
-- SAST examines code without running it.
-- Dependency and image scans examine known vulnerable components.
-- IaC scanning examines deployment configuration.
-- DAST tests the behavior of the live public application.
-- Runtime monitoring observes changes and attacks after deployment.
+---
 
-Using these controls together reduces blind spots. For example, SonarQube may identify an unsafe code pattern, but ZAP can demonstrate whether it is exploitable through HTTP, while Wazuh can detect suspicious changes that occur only after a pod or node is running.
+## Step 5: Application Validation
 
-### Reducing remediation cost and deployment risk
+The pipeline starts the Docker containers and verifies that the application is responding correctly.
 
-Finding a leaked secret or vulnerable dependency during CI is faster and safer than discovering it after production deployment. Automated checks give developers feedback close to the change that introduced the problem. Centralizing reports in DefectDojo also provides ownership, deduplication, historical visibility, and a measurable remediation process instead of leaving separate reports scattered across workflow logs.
+This helps ensure that the application works before it is deployed to Kubernetes.
 
-The objective is therefore not only to add scanning tools. It is to make security part of the delivery lifecycle: prevent obvious issues early, verify the built artifacts, test the deployed application, observe the running environment, and retain the findings needed to improve the next release.
+```text
+Build Images
+     |
+     v
+Start Containers
+     |
+     v
+Application Health Check
+     |
+     +--> Success -> Continue
+     |
+     +--> Failure -> Stop Pipeline
+```
+
+---
+
+## Step 6: Push Images to Docker Hub
+
+After successful validation, the container images are pushed to **Docker Hub**.
+
+The images include:
+
+- Frontend image
+- Backend image
+- PostgreSQL image
+
+---
+
+## Step 7: Container Image Scanning
+
+**Trivy** scans the container images for known vulnerabilities.
+
+It checks:
+
+- Operating-system packages
+- Application libraries
+- Package versions
+- Known CVEs
+- Vulnerability severity
+
+---
+
+## Step 8: Infrastructure-as-Code Scanning
+
+Trivy also scans infrastructure configuration files.
+
+It checks:
+
+- Terraform files
+- Kubernetes YAML manifests
+- Dockerfiles
+- Docker Compose files
+
+This helps identify insecure infrastructure configurations before deployment.
+
+---
+
+## Step 9: Preproduction Deployment
+
+After the security scans, the application is deployed to the **preproduction namespace on AWS EKS**.
+
+Kubernetes manages:
+
+- Frontend replicas
+- Backend replicas
+- Database pod
+- Deployments
+- ReplicaSets
+- Services
+- Health probes
+- Resource requests and limits
+- Horizontal Pod Autoscalers
+- Persistent storage
+
+The frontend application is exposed using an **AWS LoadBalancer**.
+
+```text
+Docker Images
+      |
+      v
+AWS EKS
+      |
+      v
+Preproduction Namespace
+      |
+      +--> Frontend Pods
+      |
+      +--> Backend Pods
+      |
+      +--> PostgreSQL Pod
+      |
+      v
+AWS LoadBalancer
+      |
+      v
+Users / Security Testing
+```
+
+---
+
+## Step 10: Dynamic Application Security Testing
+
+Once the application is running in preproduction, **OWASP ZAP** performs **Dynamic Application Security Testing (DAST)**.
+
+Unlike SAST, DAST tests the **running application**.
+
+```text
+Running Application
+       |
+       v
+OWASP ZAP
+       |
+       v
+HTTP Requests
+       |
+       v
+Analyze Responses
+       |
+       v
+Security Findings
+```
+
+---
+
+## Step 11: Vulnerability Management
+
+Reports generated by:
+
+- SonarQube
+- Trivy
+- OWASP ZAP
+
+are uploaded to **DefectDojo**.
+
+DefectDojo provides:
+
+- Centralized vulnerability management
+- Finding tracking
+- Severity management
+- Deduplication
+- Security-report organization
+
+Deduplication prevents the same vulnerability from being repeatedly stored as a completely new finding.
+
+---
+
+## Step 12: Monitoring and Observability
+
+**Prometheus** and **Grafana** are deployed on AWS EKS using **Helm**.
+
+### Prometheus
+
+Prometheus collects metrics from:
+
+- Kubernetes nodes
+- Pods
+- Containers
+- Deployments
+- Kubernetes components
+
+### Grafana
+
+Grafana reads the metrics stored by Prometheus and displays them through dashboards.
+
+```text
+Kubernetes
+    |
+    v
+Metrics
+    |
+    v
+Prometheus
+    |
+    v
+Grafana
+    |
+    v
+Dashboards
+```
+
+**Wazuh** is also configured as an optional security-monitoring component.
+
+---
+
+# 4. Infrastructure Automation
+
+## Terraform
+
+**Terraform** is used to provision the AWS infrastructure.
+
+It creates and manages resources such as:
+
+- AWS VPC
+- Subnets
+- EKS cluster
+- Worker nodes
+- Security groups
+- IAM-related infrastructure
+- EC2 instances for security tools
+
+```text
+Terraform Code
+      |
+      v
+AWS API
+      |
+      +--> VPC
+      +--> EKS
+      +--> Worker Nodes
+      +--> EC2
+      +--> Security Groups
+```
+
+---
+
+## Ansible
+
+**Ansible** is used for configuration management.
+
+After Terraform creates the EC2 instances, Ansible installs and configures tools such as:
+
+- SonarQube
+- DefectDojo
+- Wazuh
+
+```text
+Terraform
+   |
+   v
+Create EC2 Instances
+   |
+   v
+Ansible
+   |
+   +--> Install SonarQube
+   +--> Install DefectDojo
+   +--> Install Wazuh
+```
+
+---
+
+# 5. My Contribution
+
+My main contribution to the project included:
+
+- GitHub Actions CI/CD pipeline
+- DefectDojo integration
+- DefectDojo vulnerability deduplication
+- Prometheus automation
+- Grafana automation
+- Grafana Secret handling
+- Kubernetes deployment scripts
+- Frontend exposure using LoadBalancer
+- Horizontal Pod Autoscaler configuration
+- Environment deployment and cleanup automation
+
+---
+
+# 6. Final Result
+
+The final result was a working **end-to-end DevSecOps pipeline** that successfully performed:
+
+```text
+Code Push
+   |
+   v
+Secret Scanning
+   |
+   v
+SAST
+   |
+   v
+SCA + SBOM
+   |
+   v
+Docker Build
+   |
+   v
+Application Validation
+   |
+   v
+Container Image Scanning
+   |
+   v
+IaC Scanning
+   |
+   v
+AWS EKS Preproduction Deployment
+   |
+   v
+DAST
+   |
+   v
+Vulnerability Reporting
+   |
+   v
+Monitoring
+   |
+   v
+Environment Cleanup
+```
+
+---
+
+# 7. GitHub Actions
+
+## What Is GitHub Actions?
+
+**GitHub Actions** is a CI/CD automation service provided by GitHub.
+
+It automatically performs tasks when an event occurs in a GitHub repository.
+
+Examples of events include:
+
+- Code push
+- Pull request
+- Merge
+- Manual workflow execution
+- Scheduled execution
+
+A GitHub Actions pipeline is normally defined using a **YAML file** inside:
+
+```text
+.github/workflows/
+```
+
+Example:
+
+```yaml
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run tests
+        run: echo "Running tests"
+```
+
+---
+
+# 8. GitHub Actions vs Jenkins
+
+| GitHub Actions                           | Jenkins                                          |
+| ---------------------------------------- | ------------------------------------------------ |
+| Built directly into GitHub               | Separate CI/CD server                            |
+| Uses YAML workflow files                 | Commonly uses a Jenkinsfile                      |
+| GitHub-hosted runners are available      | Usually requires controller/agent infrastructure |
+| Easy integration with repository events  | Webhooks usually need configuration              |
+| Built-in encrypted GitHub Secrets        | Credentials are configured inside Jenkins        |
+| Large GitHub Actions Marketplace         | Large Jenkins plugin ecosystem                   |
+| Requires less infrastructure maintenance | Jenkins and plugins require maintenance          |
+| Good for GitHub-based projects           | Good for highly customized CI/CD environments    |
+
+### Interview-Ready Answer
+
+> **GitHub Actions is integrated directly with GitHub and is easier to configure and maintain for GitHub-based projects. Jenkins is a separate CI/CD server and provides more customization, but it requires additional infrastructure, plugins, configuration, and maintenance.**
+
+---
+
+# 9. SonarQube
+
+## What Is SonarQube?
+
+**SonarQube** is a static code-analysis platform.
+
+It examines source code **without running the application**.
+
+This type of testing is called:
+
+**SAST — Static Application Security Testing**
+
+SonarQube can identify:
+
+- Security vulnerabilities
+- Bugs
+- Code smells
+- Duplicate code
+- Maintainability issues
+- Security hotspots
+- Some insecure coding patterns
+
+---
+
+# 10. How SonarQube Finds Insecure Code
+
+## Step 1: Read the Source Code
+
+The SonarQube scanner analyzes the application's source files and sends analysis information to the SonarQube server.
+
+```text
+Source Code
+     |
+     v
+Sonar Scanner
+     |
+     v
+Static Analysis
+     |
+     v
+SonarQube Server
+```
+
+---
+
+## Step 2: Understand the Code Structure
+
+SonarQube parses the code and understands its programming structure.
+
+Internally, static-analysis tools can represent code using structures such as an **Abstract Syntax Tree (AST)**.
+
+Example:
+
+```python
+if username == "admin":
+    allow_access()
+```
+
+The analyzer understands that the code contains:
+
+- A conditional statement
+- A variable
+- A comparison
+- A function call
+
+It does not simply treat the source code as plain text.
+
+---
+
+## Step 3: Check Security and Quality Rules
+
+SonarQube compares the code against predefined security and quality rules.
+
+For example, it may identify:
+
+```python
+password = "admin123"
+```
+
+as an insecure coding practice.
+
+The flow is:
+
+```text
+Source Code
+     |
+     v
+Code Parsing
+     |
+     v
+Security Rules
+     |
+     v
+Issue Detection
+     |
+     v
+SonarQube Dashboard
+```
+
+---
+
+# 11. OWASP ZAP
+
+## What Is OWASP ZAP?
+
+**OWASP ZAP** stands for:
+
+**OWASP Zed Attack Proxy**
+
+It is a web application security-testing tool used for:
+
+**DAST — Dynamic Application Security Testing**
+
+Unlike SonarQube, ZAP does not primarily analyze application source code.
+
+Instead, it tests the **running application** by sending HTTP/HTTPS requests and analyzing the responses.
+
+---
+
+# 12. How OWASP ZAP Finds Vulnerabilities
+
+## Step 1: Provide the Application URL
+
+ZAP receives the URL of the running application.
+
+Example:
+
+```text
+http://application.example.com
+```
+
+---
+
+## Step 2: Explore the Application
+
+ZAP can use crawling or spidering techniques to discover:
+
+- Web pages
+- Links
+- Forms
+- API endpoints
+- Application resources
+
+---
+
+## Step 3: Analyze Requests and Responses
+
+ZAP analyzes HTTP requests and responses.
+
+It can inspect:
+
+- HTTP headers
+- Cookies
+- Response content
+- Request parameters
+- Authentication behavior
+- Security-related headers
+
+---
+
+## Step 4: Detect Security Weaknesses
+
+ZAP may identify issues such as:
+
+- Missing security headers
+- Insecure cookies
+- Information disclosure
+- Improper HTTP configuration
+- Some injection-related weaknesses
+- Cross-site scripting-related issues
+
+---
+
+## Step 5: Active Scanning
+
+During an **active scan**, ZAP can modify application inputs and send security-testing payloads.
+
+```text
+Application URL
+      |
+      v
+ZAP Spider / Crawler
+      |
+      v
+Discover Endpoints
+      |
+      v
+Send Test Requests
+      |
+      v
+Analyze Responses
+      |
+      v
+Security Findings
+```
+
+### Interview-Ready Answer
+
+> **OWASP ZAP is a DAST tool. It tests a running web application by sending HTTP requests, analyzing the responses, discovering endpoints, and checking for web security vulnerabilities.**
+
+---
+
+# 13. TruffleHog
+
+## What Is TruffleHog?
+
+**TruffleHog** is a secret-scanning tool.
+
+It searches repositories and Git history for accidentally committed credentials.
+
+It can detect things such as:
+
+- API keys
+- Access tokens
+- Private keys
+- Cloud credentials
+- Authentication tokens
+- Other sensitive secrets
+
+```text
+Git Repository
+      |
+      v
+TruffleHog
+      |
+      v
+Scan Files + Git History
+      |
+      v
+Possible Secrets
+```
+
+### Interview-Ready Answer
+
+> **TruffleHog is used for secret scanning. In my project, it scans the repository and Git history to detect accidentally committed credentials such as API keys, tokens, and private keys.**
+
+---
+
+# 14. Trivy
+
+## What Is Trivy?
+
+**Trivy** is an open-source security scanner.
+
+In AnzenOps, Trivy is used for:
+
+- Software Composition Analysis
+- SBOM generation
+- Container-image scanning
+- Infrastructure-as-Code scanning
+- Configuration scanning
+
+---
+
+# 15. Trivy Software Composition Analysis
+
+**Software Composition Analysis (SCA)** checks third-party dependencies for known vulnerabilities.
+
+Trivy reads dependency files such as:
+
+```text
+requirements.txt
+package-lock.json
+```
+
+It determines:
+
+- Package name
+- Installed version
+- Known vulnerabilities
+- CVE
+- Severity
+- Fixed version, when available
+
+Example:
+
+```text
+Package: example-library
+Installed Version: 1.2.0
+Vulnerability: CVE-XXXX-XXXXX
+Severity: HIGH
+Fixed Version: 1.2.1
+```
+
+The process is:
+
+```text
+Dependency File
+      |
+      v
+Identify Packages
+      |
+      v
+Identify Versions
+      |
+      v
+Compare with Vulnerability Database
+      |
+      v
+Find CVEs
+      |
+      v
+Generate Report
+```
+
+---
+
+# 16. SBOM
+
+## What Is an SBOM?
+
+**SBOM** stands for:
+
+**Software Bill of Materials**
+
+It is an inventory of the components and dependencies used inside an application.
+
+Example:
+
+```text
+Application
+ |
+ +--> React
+ |
+ +--> Flask
+ |
+ +--> Python Libraries
+ |
+ +--> JavaScript Packages
+ |
+ +--> Operating-System Packages
+```
+
+In AnzenOps, Trivy generates the SBOM using the **CycloneDX format**.
+
+### Why Is an SBOM Useful?
+
+It helps us understand:
+
+- What software components we are using
+- Which versions are installed
+- Whether a vulnerable library exists
+- Which applications may be affected by a newly discovered CVE
+
+---
+
+# 17. Container-Image Scanning
+
+Container-image scanning checks Docker images for known vulnerabilities before deployment.
+
+In AnzenOps, Trivy scans three images:
+
+- Frontend image
+- Backend image
+- PostgreSQL database image
+
+The scanning process is:
+
+```text
+Docker Image
+      |
+      v
+Read Image Layers
+      |
+      v
+Identify Installed Packages
+      |
+      v
+Detect Package Versions
+      |
+      v
+Compare with Vulnerability Database
+      |
+      v
+Identify CVEs
+      |
+      v
+Generate Security Report
+      |
+      v
+Upload Report to DefectDojo
+```
+
+---
+
+# 18. Infrastructure-as-Code Scanning
+
+## What Is IaC Scanning?
+
+**Infrastructure-as-Code scanning** checks infrastructure configuration files for security mistakes before infrastructure is deployed.
+
+In AnzenOps, **Trivy** performs IaC scanning.
+
+It scans:
+
+- Terraform files
+- Kubernetes YAML manifests
+- Dockerfiles
+- Docker Compose files
+
+---
+
+# 19. How Trivy Performs IaC Scanning
+
+## Step 1: Read Configuration Files
+
+Trivy scans locations such as:
+
+```text
+infra/terraform/
+k8s/preprod/
+k8s/prod/
+Dockerfile
+docker-compose.yml
+```
+
+Trivy does **not create or modify the infrastructure**.
+
+It only analyzes the configuration.
+
+---
+
+## Step 2: Understand Infrastructure Resources
+
+Trivy identifies resources such as:
+
+- AWS security groups
+- EKS clusters
+- EC2 instances
+- Kubernetes Deployments
+- Kubernetes Services
+- Containers
+- Storage volumes
+
+---
+
+## Step 3: Apply Security Rules
+
+Trivy compares the infrastructure configuration with built-in security rules.
+
+For example:
+
+```hcl
+cidr_blocks = ["0.0.0.0/0"]
+```
+
+This means traffic may be allowed from any IPv4 address.
+
+Depending on the resource and exposed port, Trivy may report this as **unrestricted or overly broad network access**.
+
+Another example:
+
+```yaml
+securityContext:
+  privileged: true
+```
+
+A privileged container receives elevated access to the host system.
+
+Trivy may report this as a security risk.
+
+---
+
+## Step 4: Detect Misconfigurations
+
+IaC scanning can identify issues such as:
+
+- Security groups open to `0.0.0.0/0`
+- Unnecessarily publicly exposed resources
+- Privileged containers
+- Containers running as root
+- Missing security contexts
+- Insecure container configurations
+- Insecure cloud settings
+
+### Interview-Ready Answer
+
+> **IaC scanning checks infrastructure configuration files before deployment. In my project, Trivy scans Terraform, Kubernetes YAML, Dockerfiles, and Docker Compose files to identify security misconfigurations such as unrestricted security groups, privileged containers, and insecure container settings.**
+
+---
+
+# 20. AWS EKS
+
+## What Is AWS EKS?
+
+**AWS EKS** stands for:
+
+**Amazon Elastic Kubernetes Service**
+
+It is a **managed Kubernetes service provided by AWS**.
+
+It allows us to deploy, manage, and scale containerized applications using Kubernetes without manually building and maintaining the Kubernetes control plane.
+
+```text
+AWS EKS = Kubernetes managed by AWS
+```
+
+---
+
+# 21. What AWS Manages in EKS
+
+AWS manages the Kubernetes control plane, including:
+
+- Kubernetes API servers
+- etcd
+- Control-plane availability
+- Control-plane infrastructure
+- Control-plane maintenance
+- Control-plane patching
+
+AWS runs the control plane across multiple Availability Zones for high availability.
+
+---
+
+# 22. What We Manage
+
+We are responsible for application-level Kubernetes resources and workload configuration, including:
+
+- Deployments
+- ReplicaSets
+- Pods
+- Containers
+- Services
+- ConfigMaps
+- Secrets
+- Persistent storage
+- Resource requests and limits
+- Health probes
+- Horizontal Pod Autoscalers
+- Kubernetes manifests
+
+Depending on the EKS compute model being used, we may also configure or manage the worker-node capacity.
+
+---
+
+# 23. Why Use EKS Instead of Creating Our Own Kubernetes Cluster?
+
+Creating Kubernetes manually requires us to manage:
+
+- Control-plane nodes
+- API server
+- etcd
+- High availability
+- Control-plane patching
+- Kubernetes upgrades
+- Control-plane recovery
+- Security maintenance
+
+With EKS, AWS manages the Kubernetes control plane.
+
+This allows us to focus more on:
+
+- Application deployment
+- Security
+- Scaling
+- Monitoring
+- CI/CD automation
+
+### Interview-Ready Answer
+
+> **We used Amazon EKS because it provides a managed Kubernetes control plane. AWS manages components such as the API server, etcd, high availability, and control-plane maintenance. This reduces operational overhead and allows us to focus on deploying, securing, monitoring, and scaling our applications.**
+
+---
+
+# 24. Complete AnzenOps Security Flow
+
+```text
+Developer
+    |
+    v
+GitHub Push
+    |
+    v
+GitHub Actions
+    |
+    +-------------------------------+
+    |                               |
+    v                               |
+TruffleHog                          |
+Secret Scanning                     |
+    |                               |
+    v                               |
+SonarQube                           |
+SAST                                |
+    |                               |
+    v                               |
+Trivy                               |
+SCA + SBOM                          |
+    |                               |
+    v                               |
+Docker Build                        |
+    |                               |
+    v                               |
+Application Validation              |
+    |                               |
+    v                               |
+Docker Hub                          |
+    |                               |
+    v                               |
+Trivy                               |
+Image + IaC Scanning                |
+    |                               |
+    v                               |
+AWS EKS Preproduction               |
+    |                               |
+    v                               |
+OWASP ZAP                           |
+DAST                                |
+    |                               |
+    v                               |
+DefectDojo                          |
+Vulnerability Management            |
+    |                               |
+    +-------------------------------+
+    |
+    v
+Prometheus + Grafana
+Monitoring
+```
+
+---
+
+# 25. Short Interview Project Introduction
+
+> **My project is called AnzenOps. It is an end-to-end DevSecOps implementation built around a three-tier application using React, Flask, and PostgreSQL.**
+>
+> **GitHub Actions is used for CI/CD automation. We integrated TruffleHog for secret scanning, SonarQube for SAST, Trivy for SCA, SBOM generation, container-image scanning and IaC scanning, and OWASP ZAP for DAST.**
+>
+> **The application is containerized using Docker and deployed on AWS EKS. Terraform provisions the AWS infrastructure, while Ansible configures tools such as SonarQube, DefectDojo, and Wazuh.**
+>
+> **DefectDojo centralizes security findings and performs vulnerability deduplication. Prometheus and Grafana are used for monitoring and visualization.**
+>
+> **My main contribution was to the GitHub Actions pipeline, DefectDojo integration and deduplication, Prometheus and Grafana automation, Grafana Secret handling, Kubernetes deployment scripts, frontend exposure, and HPA-based autoscaling.**
+>
+> **The main goal of the project was to shift security left and integrate security checks throughout the software delivery lifecycle instead of checking security only after deployment.**

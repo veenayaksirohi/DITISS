@@ -2,7 +2,7 @@ Good morning, sir/ma’am. Thank you for giving me this opportunity to introduce
 
 My name is Veenayak Sirohi, and I am from Hapur, Uttar Pradesh, which is located near Meerut and Delhi. I completed my B.Tech in Computer Science and Engineering from G.L. Bajaj Group of Institutions, Mathura, in 2025.
 
-I recently completed the PGCP-ITISS course at SunBeam Institute of Information Technology, Pune. During this course, I developed knowledge of computer networks, Linux and operating-system administration, DevOps, and cybersecurity. I scored 250 out of 280 marks in my course modules.
+I recently completed the PGCP-ITISS course at SunBeam Institute of Information Technology, Pune. During this course, I developed knowledge of computer networks, Linux and operating-system administration, DevOps, and cybersecurity.
 
 My main academic project is AnzenOps, an end-to-end DevSecOps CI/CD pipeline with observability. In this project, I used GitHub Actions, Docker, Kubernetes, Amazon EKS, and Terraform to automate application testing and deployment. I also integrated SonarQube, Trivy, OWASP ZAP, and DefectDojo for security testing, along with Prometheus and Grafana for monitoring.
 
