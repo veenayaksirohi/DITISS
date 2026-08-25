@@ -478,7 +478,7 @@ DUPLEX (Part C)
 
 - [[00 - Syllabus and Interview Checklist]]
 - [[Index|Computer Networks Index]]
-- [[01 - OSI Model]]
+- [[01A - OSI Model]]
 - [[08 - Spanning Tree Protocol]]
 - [[05 - VLANs and Inter-VLAN Routing]]
 - [[09 - Infrastructure Security ACL AAA and Port Security]]

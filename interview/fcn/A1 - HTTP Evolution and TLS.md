@@ -935,5 +935,5 @@ graph LR
 
 - [[00 - Syllabus and Interview Checklist]]
 - [[Index|Computer Networks Index]]
-- [[01 - OSI Model]]
+- [[01A - OSI Model]]
 - [[02 - TCP-IP Model]]

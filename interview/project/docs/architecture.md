@@ -6,135 +6,18 @@ AnzenOps is a three-tier React, Flask, and PostgreSQL application delivered thro
 
 [Open the editable diagrams.net source](./anzenops-architecture.drawio)
 
-## Editable architecture
-
-```mermaid
-flowchart TB
-    DEV[Developer] --> GH[GitHub repository]
-
-    subgraph PIPELINE[GitHub Actions - automated preproduction pipeline]
-        direction LR
-        CI[Workflow trigger] --> COMPOSE[Docker Compose validation]
-        CI --> TRUFFLE[TruffleHog<br/>secret scan]
-        TRUFFLE --> SAST[SonarQube<br/>SAST and quality]
-        TRUFFLE --> SCA[Trivy filesystem<br/>SCA and SBOM]
-        SAST -. findings .-> DOJO
-        SCA -. findings .-> DOJO
-        SAST --> BUILD[Build and local<br/>readiness check]
-        SCA --> BUILD
-        BUILD --> HUB[Docker Hub<br/>frontend, backend, database]
-        HUB --> IMGSCAN[Trivy image scan]
-        CI --> IAC[Trivy IaC scan]
-        IMGSCAN -. findings .-> DOJO
-        IAC -. findings .-> DOJO
-        HUB --> PREPROD[Deploy preprod<br/>Kubernetes manifests]
-        PREPROD --> ZAP[OWASP ZAP DAST]
-        ZAP -. findings .-> DOJO
-        PREPROD --> MON[Deploy monitoring<br/>with Helm]
-    end
-
-    GH --> CI
-
-    subgraph AWS[AWS us-east-1]
-        direction TB
-
-        subgraph PROVISION[Infrastructure and configuration]
-            TF[Terraform] --> EKS
-            TF --> TOOLS
-            ANSIBLE[Ansible] --> TOOLS
-        end
-
-        subgraph TOOLS[Default VPC - public EC2 security services]
-            direction LR
-            SONAR[SonarQube EC2<br/>port 9000]
-            DOJO[DefectDojo EC2<br/>port 8080]
-            WAZM[Wazuh EC2<br/>manager, indexer, dashboard]
-        end
-
-        subgraph EKS[Project VPC - Amazon EKS]
-            direction TB
-            EKSAPI[EKS managed control plane<br/>public and private endpoint]
-
-            subgraph NETWORK[VPC networking]
-                PUB[Public subnets<br/>worker nodes and load balancers]
-                PRIV[Private subnets<br/>EKS cluster attachment]
-                NAT[NAT gateway]
-                PUB --> NAT --> PRIV
-            end
-
-            subgraph NODES[Managed node group - 1 to 3 EC2 nodes]
-                direction TB
-                WORKERS[EC2 worker hosts]
-
-                subgraph APP[preprod namespace - automated deployment]
-                    direction LR
-                    LB[Public LoadBalancer<br/>HTTP 80] --> FE[React and Nginx<br/>3 to 6 pods]
-                    FE -->|same-origin /api| BE[Flask REST API<br/>3 to 6 pods]
-                    BE -->|SQLAlchemy / TCP 5432| DB[(PostgreSQL<br/>1 pod)]
-                    HPAF[Frontend HPA<br/>CPU and memory] --> FE
-                    HPAB[Backend HPA<br/>CPU and memory] --> BE
-                    DB --> EMPTY[(emptyDir storage<br/>ephemeral)]
-                    PVC[(Declared 5 Gi PVC<br/>currently unused)] -. not mounted .-> DB
-                end
-
-                subgraph OBS[monitoring namespace]
-                    direction LR
-                    KSM[kube-state-metrics<br/>and node-exporter] -. scraped metrics .-> PROM[Prometheus]
-                    PROM -. metrics .-> FE
-                    PROM -. metrics .-> BE
-                    PROM -. datasource .-> GRAF[Grafana<br/>public NLB]
-                    PROM -. alerts .-> ALERT[Alertmanager]
-                end
-
-                WAZAG[Wazuh agent DaemonSet<br/>optional] -. host monitoring .-> WORKERS
-            end
-        end
-
-        WAZAG -. security events .-> WAZM
-    end
-
-    CI -->|AWS credentials and kubectl| EKSAPI
-    BE -->|HTTPS requests| POKE[PokeAPI and sprite CDN]
-    PROD[prod namespace manifests<br/>defined, manual deployment] -. manual kubectl apply .-> EKSAPI
-    ZAP -->|HTTP baseline scan| LB
-    USER[Application user] -->|HTTP| LB
-    ADMIN[Operators] --> GRAF
-    HUB -. images for manual release .-> PROD
-
-    classDef source fill:#24292f,color:#fff,stroke:#111827,stroke-width:1.5px;
-    classDef pipeline fill:#e8f1ff,color:#102a43,stroke:#2563eb,stroke-width:1.2px;
-    classDef security fill:#fff1f2,color:#4c0519,stroke:#e11d48,stroke-width:1.2px;
-    classDef aws fill:#fff7ed,color:#431407,stroke:#f59e0b,stroke-width:1.2px;
-    classDef app fill:#ecfdf5,color:#052e16,stroke:#10b981,stroke-width:1.2px;
-    classDef observe fill:#f5f3ff,color:#2e1065,stroke:#8b5cf6,stroke-width:1.2px;
-    classDef warning fill:#fffbeb,color:#451a03,stroke:#d97706,stroke-width:1.5px;
-    classDef external fill:#f8fafc,color:#0f172a,stroke:#64748b,stroke-width:1.2px;
-
-    class GH,DEV source;
-    class CI,COMPOSE,TRUFFLE,SCA,BUILD,HUB,IMGSCAN,IAC,PREPROD,ZAP,MON pipeline;
-    class SAST,SONAR,DOJO,WAZM,WAZAG security;
-    class TF,ANSIBLE,EKSAPI,PUB,PRIV,NAT,WORKERS aws;
-    class LB,FE,BE,DB,HPAF,HPAB app;
-    class KSM,PROM,GRAF,ALERT observe;
-    class EMPTY,PVC,PROD warning;
-    class USER,ADMIN,POKE external;
-
-    linkStyle 6,7,13,14,17,31,32,33,34,35,37 stroke:#64748b,stroke-width:1.5px,stroke-dasharray:2 3;
-    linkStyle 30,36,38,41 stroke:#d97706,stroke-width:1.7px,stroke-dasharray:8 5;
-```
-
 ## Legend and implementation notes
 
-| Visual | Meaning |
-| --- | --- |
-| Solid arrow | Runtime traffic, build dependency, or automated deployment flow |
-| Fine dotted arrow | Security findings, metrics, alerts, or runtime telemetry |
-| Long dashed amber arrow | Optional component, unused resource, or manual deployment path |
-| Blue | CI/CD pipeline |
-| Green | Application runtime |
-| Purple | Monitoring and observability |
-| Red | Security tooling |
-| Amber | AWS infrastructure or an implementation caveat |
+| Visual                  | Meaning                                                         |
+| ----------------------- | --------------------------------------------------------------- |
+| Solid arrow             | Runtime traffic, build dependency, or automated deployment flow |
+| Fine dotted arrow       | Security findings, metrics, alerts, or runtime telemetry        |
+| Long dashed amber arrow | Optional component, unused resource, or manual deployment path  |
+| Blue                    | CI/CD pipeline                                                  |
+| Green                   | Application runtime                                             |
+| Purple                  | Monitoring and observability                                    |
+| Red                     | Security tooling                                                |
+| Amber                   | AWS infrastructure or an implementation caveat                  |
 
 - The GitHub Actions workflow deploys only the `preprod` namespace. Production manifests exist, but the production workflow stage is commented out.
 - Both PostgreSQL deployment manifests declare an `emptyDir` volume. Their 5 Gi PVC manifests exist but are not referenced by the pods, so database data is currently ephemeral.
@@ -200,25 +83,25 @@ DefectDojo is the central record for SonarQube, SBOM, image, IaC, and ZAP result
 
 The project applies defense in depth: different controls protect source code, dependencies, container images, infrastructure definitions, the running application, credentials, and the underlying nodes.
 
-| Security area | Implemented measure | Purpose |
-| --- | --- | --- |
-| Secrets | TruffleHog scans Git history for verified credentials | Prevent leaked keys and tokens from reaching build or deployment stages |
-| Source code | SonarQube SAST and code-quality analysis | Detect insecure patterns, bugs, and maintainability issues before deployment |
-| Dependencies | Trivy filesystem scan and CycloneDX SBOM | Identify vulnerable packages and maintain an inventory of shipped components |
-| Containers | Trivy scans all three published Docker images | Detect operating-system and application-package vulnerabilities in deployable artifacts |
-| Infrastructure as code | Trivy configuration scanning | Find unsafe Terraform, Kubernetes, and container configuration before it is applied |
-| Running application | OWASP ZAP baseline DAST | Test the public application for runtime web vulnerabilities and unsafe HTTP behavior |
-| Findings management | DefectDojo reimport, deduplication, and finding lifecycle management | Centralize results from different tools and make remediation trackable |
-| Authentication | JWT-protected Flask endpoints | Require authentication before reading or updating a user's squad |
-| Password storage | Bcrypt password hashing | Avoid storing reusable plaintext passwords in PostgreSQL |
-| Configuration secrets | Runtime environment variables, Kubernetes Secrets, and GitHub Actions secrets | Keep operational credentials out of application source code and container images |
-| Startup safety | Flask fails at startup when `DATABASE_URL` or `JWT_SECRET_KEY` is missing | Prevent an accidentally unconfigured backend from running |
-| Input controls | Required credentials, unique usernames, list-shaped squad payloads, and a five-member squad limit | Reject malformed or invalid application requests |
-| Workload resilience | CPU/memory requests and limits, readiness/liveness probes, and HPAs | Limit resource exhaustion, remove unhealthy pods from service, and scale during load |
-| AWS identity | EKS IRSA support and GitHub-managed AWS credentials | Support scoped AWS access without baking cloud credentials into images |
-| Data at rest | Encrypted gp3 root volumes for the security-tool EC2 instances | Protect EC2 volume data if the underlying storage is exposed |
-| Monitoring | Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics | Detect availability, resource, node, and workload anomalies |
-| Runtime security | Optional Wazuh agents with file-integrity monitoring, log collection, rootcheck, vulnerability detection, and active response | Detect changes and suspicious activity that build-time scanners cannot see |
+| Security area          | Implemented measure                                                                                                           | Purpose                                                                                 |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Secrets                | TruffleHog scans Git history for verified credentials                                                                         | Prevent leaked keys and tokens from reaching build or deployment stages                 |
+| Source code            | SonarQube SAST and code-quality analysis                                                                                      | Detect insecure patterns, bugs, and maintainability issues before deployment            |
+| Dependencies           | Trivy filesystem scan and CycloneDX SBOM                                                                                      | Identify vulnerable packages and maintain an inventory of shipped components            |
+| Containers             | Trivy scans all three published Docker images                                                                                 | Detect operating-system and application-package vulnerabilities in deployable artifacts |
+| Infrastructure as code | Trivy configuration scanning                                                                                                  | Find unsafe Terraform, Kubernetes, and container configuration before it is applied     |
+| Running application    | OWASP ZAP baseline DAST                                                                                                       | Test the public application for runtime web vulnerabilities and unsafe HTTP behavior    |
+| Findings management    | DefectDojo reimport, deduplication, and finding lifecycle management                                                          | Centralize results from different tools and make remediation trackable                  |
+| Authentication         | JWT-protected Flask endpoints                                                                                                 | Require authentication before reading or updating a user's squad                        |
+| Password storage       | Bcrypt password hashing                                                                                                       | Avoid storing reusable plaintext passwords in PostgreSQL                                |
+| Configuration secrets  | Runtime environment variables, Kubernetes Secrets, and GitHub Actions secrets                                                 | Keep operational credentials out of application source code and container images        |
+| Startup safety         | Flask fails at startup when `DATABASE_URL` or `JWT_SECRET_KEY` is missing                                                     | Prevent an accidentally unconfigured backend from running                               |
+| Input controls         | Required credentials, unique usernames, list-shaped squad payloads, and a five-member squad limit                             | Reject malformed or invalid application requests                                        |
+| Workload resilience    | CPU/memory requests and limits, readiness/liveness probes, and HPAs                                                           | Limit resource exhaustion, remove unhealthy pods from service, and scale during load    |
+| AWS identity           | EKS IRSA support and GitHub-managed AWS credentials                                                                           | Support scoped AWS access without baking cloud credentials into images                  |
+| Data at rest           | Encrypted gp3 root volumes for the security-tool EC2 instances                                                                | Protect EC2 volume data if the underlying storage is exposed                            |
+| Monitoring             | Prometheus, Grafana, Alertmanager, node-exporter, and kube-state-metrics                                                      | Detect availability, resource, node, and workload anomalies                             |
+| Runtime security       | Optional Wazuh agents with file-integrity monitoring, log collection, rootcheck, vulnerability detection, and active response | Detect changes and suspicious activity that build-time scanners cannot see              |
 
 Not every scan currently blocks the pipeline. TruffleHog and failed build/deployment commands can stop execution, but the IaC scan explicitly uses a zero exit code and several report-producing scans are primarily visibility controls. DefectDojo therefore supports triage and remediation, but a future policy gate is still needed to enforce a consistent release threshold.
 

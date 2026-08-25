@@ -1,6 +1,7 @@
 ---
-title: "01 - OSI Model"
+title: "01A - OSI Model"
 aliases:
+  - "01 - OSI Model"
   - "OSI Model — Complete Study Notes"
   - "OSI Model Notes"
 tags:
@@ -1341,8 +1342,10 @@ Examples:
 
 - [[00 - Syllabus and Interview Checklist]]
 - [[Index|Computer Networks Index]]
+- [[01B - OSI Layers Quick Reference]]
 - [[02 - TCP-IP Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[04A - Network Routing Fundamentals]]
+- [[10 - PPP and WAN Technologies]]
 - [[11 - Layer 2 Switching and Ethernet Forwarding]]
 - [[A1 - HTTP Evolution and TLS]]

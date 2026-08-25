@@ -1476,8 +1476,9 @@ Mental shortcut:
 
 - [[00 - Syllabus and Interview Checklist]]
 - [[Index|Computer Networks Index]]
-- [[01 - OSI Model]]
+- [[01A - OSI Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+- [[10 - PPP and WAN Technologies]]
 - [[13 - Router IOS and Management]]
 - [[04B - Routing Protocols and Administrative Distance]]
 - [[05 - VLANs and Inter-VLAN Routing]]

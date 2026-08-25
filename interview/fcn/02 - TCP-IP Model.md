@@ -459,6 +459,6 @@ This is why UDP is called **"fire and forget"** — it has no recovery mechanism
 
 - [[00 - Syllabus and Interview Checklist]]
 - [[Index|Computer Networks Index]]
-- [[01 - OSI Model]]
+- [[01A - OSI Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[A1 - HTTP Evolution and TLS]]

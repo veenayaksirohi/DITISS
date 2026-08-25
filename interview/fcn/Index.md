@@ -18,7 +18,7 @@ syllabus-topic: []
 
 ### 1. OSI Model
 
-**Complete coverage:** [[01 - OSI Model]]
+**Complete coverage across multiple notes:** [[01A - OSI Model|Complete Notes]], [[01B - OSI Layers Quick Reference|Quick Reference]]
 
 ### 2. TCP/IP Model
 
@@ -54,7 +54,7 @@ syllabus-topic: []
 
 ### 10. PPP and WAN Technologies
 
-**Distributed partial coverage:** [[01 - OSI Model|PPP/PPPoE]], [[04A - Network Routing Fundamentals|WAN link references]]
+**Complete dedicated coverage:** [[10 - PPP and WAN Technologies|Dedicated Notes]]; supporting coverage in [[01A - OSI Model|PPP/PPPoE]] and [[04A - Network Routing Fundamentals|WAN link references]]
 
 ### 11. Layer 2 Switching
 
@@ -62,7 +62,7 @@ syllabus-topic: []
 
 ### 12. Ethernet and Wireless (IEEE Standards)
 
-**Distributed complete coverage:** [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]], [[01 - OSI Model|Wireless]]
+**Distributed complete coverage:** [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]], [[01A - OSI Model|Wireless]]
 
 ### 13. Router IOS and Management
 

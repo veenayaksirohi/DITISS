@@ -22,7 +22,7 @@ syllabus-topic: []
 
 ### Priority 1 — Must Know
 
-- [x] 1. OSI Model — [[01 - OSI Model|Notes]]
+- [x] 1. OSI Model — Complete coverage: [[01A - OSI Model|Complete Notes]] · [[01B - OSI Layers Quick Reference|Quick Reference]]
 - [x] 2. TCP/IP Model — [[02 - TCP-IP Model|Notes]]
 - [x] 3. IP Subnetting & VLSM — [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP|Notes]]
 - [x] 4. Routing — [[04A - Network Routing Fundamentals|Fundamentals]] · [[04B - Routing Protocols and Administrative Distance|Protocols]]
@@ -34,9 +34,9 @@ syllabus-topic: []
 
 - [x] 8. Spanning Tree Protocol (STP) — [[08 - Spanning Tree Protocol|Notes]]
 - [x] 9. Infrastructure Security — ACL, AAA — [[09 - Infrastructure Security ACL AAA and Port Security|Notes]]
-- [ ] 10. PPP and WAN Technologies — Partial coverage only: [[01 - OSI Model|PPP/PPPoE]] · [[04A - Network Routing Fundamentals|WAN link references]]
+- [x] 10. PPP and WAN Technologies — Complete coverage: [[10 - PPP and WAN Technologies|Dedicated Notes]] · Supporting coverage: [[01A - OSI Model|PPP/PPPoE]] · [[04A - Network Routing Fundamentals|WAN link references]]
 - [x] 11. Layer 2 Switching — [[11 - Layer 2 Switching and Ethernet Forwarding|Notes]]
-- [x] 12. Ethernet and Wireless (IEEE Standards) — Distributed coverage: [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]] · [[01 - OSI Model|Wireless]]
+- [x] 12. Ethernet and Wireless (IEEE Standards) — Distributed coverage: [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]] · [[01A - OSI Model|Wireless]]
 
 ### Priority 3 — Good to Know
 
@@ -46,7 +46,7 @@ syllabus-topic: []
 - [ ] 16. Virtual Networking — No dedicated note provided
 - [ ] 17. Advanced SDN / OpenDaylight Topics — No dedicated note provided
 
-**Progress:** 12 of 17 topics complete (71%).
+**Progress:** 13 of 17 topics complete (76%).
 
 ---
 
@@ -363,7 +363,8 @@ _Total: 40T + 40L + 40SL = 120 hrs_
 ## Related Notes
 
 - [[Index|Computer Networks Index]]
-- [[01 - OSI Model]]
+- [[01A - OSI Model]]
+- [[01B - OSI Layers Quick Reference]]
 - [[02 - TCP-IP Model]]
 - [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
 - [[04A - Network Routing Fundamentals]]
@@ -372,6 +373,7 @@ _Total: 40T + 40L + 40SL = 120 hrs_
 - [[06 - Network Address Translation]]
 - [[08 - Spanning Tree Protocol]]
 - [[09 - Infrastructure Security ACL AAA and Port Security]]
+- [[10 - PPP and WAN Technologies]]
 - [[11 - Layer 2 Switching and Ethernet Forwarding]]
 - [[13 - Router IOS and Management]]
 - [[A1 - HTTP Evolution and TLS]]
