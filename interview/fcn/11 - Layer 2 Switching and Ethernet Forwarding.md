@@ -24,6 +24,25 @@ This document covers three related but distinct layers of "switching":
 
 ---
 
+## Table of Contents
+
+- [[#0. Full Forms / Abbreviations]]
+- [[#PART A — Network Switching Types]]
+- [[#1. Circuit Switching]]
+- [[#2. Message Switching]]
+- [[#3. Packet Switching]]
+- [[#PART B — Ethernet Forwarding Methods]]
+- [[#4. Store-and-Forward Switching]]
+- [[#5. Cut-Through Switching]]
+- [[#PART C — Layer 2 Switching Fundamentals]]
+- [[#6. The MAC Address Table, Flooding & Forwarding]]
+- [[#7. CSMA/CD — Carrier Sense Multiple Access with Collision Detection]]
+- [[#8. Half-Duplex vs Full-Duplex]]
+- [[#9. Quick Revision Sheet]]
+- [[#Related Notes]]
+
+---
+
 ## 0. Full Forms / Abbreviations
 
 | Abbreviation | Full Form |

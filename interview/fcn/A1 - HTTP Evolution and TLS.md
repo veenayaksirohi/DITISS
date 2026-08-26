@@ -13,6 +13,31 @@ syllabus-topic: []
 
 # HTTP Evolution — Interview Notes (0.9 → 1.0 → 1.1 → 2 → 3)
 
+## Table of Contents
+
+- [[#What is HTTP?]]
+- [[#Timeline at a Glance]]
+- [[#Version Timeline (Quick Recall)]]
+- [[#HTTP/0.9 — The "One-Line" Protocol]]
+- [[#HTTP/1.0 — Extensibility Begins (1996)]]
+- [[#TLS Handshake — Detailed Breakdown]]
+- [[#TLS 1.2 Handshake — Deep Dive]]
+- [[#HTTP Connection Closing (by Version)]]
+- [[#HTTP/1.1 — The Long-Lived Workhorse (1997)]]
+- [[#Chunked Transfer Encoding]]
+- [[#HTTP/2 — Binary, Multiplexed HTTP (2015)]]
+- [[#HTTP/3 — HTTP over QUIC/UDP (2022)]]
+- [[#How QUIC Ensures Reliable Data Transfer]]
+- [[#HTTP Methods]]
+- [[#HTTP Status Codes]]
+- [[#TCP Flags (Control Bits)]]
+- [[#Likely Interview Questions]]
+- [[#Important HTTP Request and Response Headers]]
+- [[#Sources]]
+- [[#Related Notes]]
+
+---
+
 ## What is HTTP?
 
 - HTTP (HyperText Transfer Protocol) is the application-layer protocol used to transfer data between a client (browser, API client) and a server.

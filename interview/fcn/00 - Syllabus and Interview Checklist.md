@@ -18,6 +18,19 @@ syllabus-topic: []
 
 ---
 
+## Table of Contents
+
+- [[#Topics, Interview Priority & Important Ports/Protocols]]
+- [[#Completion Checklist]]
+- [[#🔴 PRIORITY 1 — MUST KNOW (Most Asked in Interviews)]]
+- [[#🟠 PRIORITY 2 — IMPORTANT (Frequently Asked)]]
+- [[#🟡 PRIORITY 3 — GOOD TO KNOW (Asked in Advanced Rounds)]]
+- [[#🌐 INTERVIEW SPECIAL — IMPORTANT PORTS & PROTOCOLS]]
+- [[#📋 QUICK SYLLABUS TOPIC LIST (All Sessions)]]
+- [[#Related Notes]]
+
+---
+
 ## Completion Checklist
 
 ### Priority 1 — Must Know

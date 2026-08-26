@@ -20,13 +20,16 @@ syllabus-topic:
 ---
 
 ## Table of Contents
-- [Layer 1 — Physical Layer](#layer-1--physical-layer)
-- [Layer 2 — Data Link Layer](#layer-2--data-link-layer)
-- [Layer 3 — Network Layer](#layer-3--network-layer)
-- [Layer 4 — Transport Layer](#layer-4--transport-layer)
-- [Layer 5 — Session Layer](#layer-5--session-layer)
-- [Layer 6 — Presentation Layer](#layer-6--presentation-layer)
-- [Layer 7 — Application Layer](#layer-7--application-layer)
+- [[#Layer 1 — Physical Layer]]
+- [[#Layer 2 — Data Link Layer]]
+- [[#Layer 3 — Network Layer]]
+- [[#Layer 4 — Transport Layer]]
+- [[#Layer 5 — Session Layer]]
+- [[#Layer 6 — Presentation Layer]]
+- [[#Layer 7 — Application Layer]]
+- [[#OSI Model — Complete Reference]]
+- [[#Data Encapsulation & Decapsulation]]
+- [[#Related Notes]]
 
 ---
 

@@ -14,6 +14,20 @@ syllabus-topic:
 
 # Spanning Tree Protocol (STP)
 
+## Table of Contents
+
+- [[#0. Full Forms / Abbreviations]]
+- [[#1. Why STP Is Needed — The Layer 2 Loop Problem]]
+- [[#2. What Is STP, In Plain Terms?]]
+- [[#3. How Switches Discover Loops — BPDUs]]
+- [[#4. Root Bridge Election]]
+- [[#5. STP Timers & BPDU Types]]
+- [[#6. Port Roles]]
+- [[#7. STP Protocol Types (Variants)]]
+- [[#8. Port States]]
+- [[#9. Quick Revision — Key Facts]]
+- [[#Related Notes]]
+
 ---
 
 ## 0. Full Forms / Abbreviations

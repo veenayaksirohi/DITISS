@@ -14,6 +14,13 @@ syllabus-topic: []
 
 > Master guide: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
 
+## Table of Contents
+
+- [[#Recommended Reading Order]]
+- [[#Supplemental Notes]]
+
+---
+
 ## Recommended Reading Order
 
 ### 1. OSI Model

@@ -16,6 +16,24 @@ syllabus-topic:
 
 ---
 
+## Table of Contents
+
+- [[#4.1 Static Routing vs Dynamic Routing]]
+- [[#4.2 Distance Vector vs Link State (RIP vs OSPF)]]
+- [[#4.3 Administrative Distance (AD) Concept]]
+- [[#4.4 IGP vs EGP]]
+- [[#4.5 RIP (Routing Information Protocol)]]
+- [[#4.6 IGRP (Interior Gateway Routing Protocol) — Cisco Legacy]]
+- [[#4.7 OSPF (Open Shortest Path First)]]
+- [[#4.8 EIGRP (Enhanced Interior Gateway Routing Protocol)]]
+- [[#4.9 BGP (Border Gateway Protocol)]]
+- [[#4.10 🎯 Master Comparison Table — RIP vs OSPF vs EIGRP vs BGP]]
+- [[#⭐ Quick Revision — All Protocols Ultra-Short]]
+- [[#🎯 Interview-Level Key Differences]]
+- [[#Related Notes]]
+
+---
+
 ## 4.1 Static Routing vs Dynamic Routing
 
 ### 🔹 Static Routing

@@ -16,6 +16,21 @@ syllabus-topic:
 
 ---
 
+## Table of Contents
+
+- [[#1. VLAN Concept]]
+- [[#1.1 VLAN ID (VLAN Number) and VLAN Range]]
+- [[#2. Benefits / Advantages of VLAN]]
+- [[#3. VLAN Port Assignment / Connection Types]]
+- [[#4. VLAN Tagging — IEEE 802.1Q]]
+- [[#5. Inter-VLAN Routing]]
+- [[#6. VTP (VLAN Trunk Protocol)]]
+- [[#⭐ Quick Revision — VLAN Module]]
+- [[#🎯 Most Likely Exam/Viva Questions]]
+- [[#Related Notes]]
+
+---
+
 ## 1. VLAN Concept
 
 * **VLAN (Virtual Local Area Network)** = a **logical grouping** of networking devices, regardless of their physical location.

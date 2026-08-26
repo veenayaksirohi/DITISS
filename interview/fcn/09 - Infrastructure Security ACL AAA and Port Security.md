@@ -15,6 +15,26 @@ syllabus-topic:
 
 # Port Security, AAA & Access Control Lists (ACLs)
 
+## Table of Contents
+
+- [[#0. Full Forms / Abbreviations]]
+- [[#0.1 Topics Covered in These Notes]]
+- [[#PART A — Port Security]]
+- [[#1. What Is Port Security?]]
+- [[#2. Violation Modes]]
+- [[#3. MAC Address Learning / Types of MAC Address Entries]]
+- [[#4. Aging Timers]]
+- [[#5. Port Security — Full Example Diagram]]
+- [[#PART B — AAA Framework (Authentication, Authorization, Accounting)]]
+- [[#6. What Is AAA?]]
+- [[#7. RADIUS]]
+- [[#8. TACACS+]]
+- [[#9. RADIUS vs TACACS+]]
+- [[#PART C — Access Control Lists (ACLs)]]
+- [[#10. ACL Types]]
+- [[#11. Quick Revision — Key Facts]]
+- [[#Related Notes]]
+
 ---
 
 ## 0. Full Forms / Abbreviations

@@ -14,6 +14,23 @@ syllabus-topic:
 
 # 📡 Module 6: NAT (Network Address Translation) — Complete Notes
 
+## Table of Contents
+
+- [[#6.1 What is NAT?]]
+- [[#6.2 Why NAT is Used — IPv4 Exhaustion]]
+- [[#6.3 Private IP Address Ranges (RFC 1918)]]
+- [[#6.4 NAT Addressing Terminology (Very Important)]]
+- [[#6.5 NAT Table Concept]]
+- [[#6.6 Types of NAT]]
+- [[#6.7 Static NAT]]
+- [[#6.8 Dynamic NAT]]
+- [[#6.9 PAT (Port Address Translation) / NAT Overload]]
+- [[#6.10 NAT Types — Full Side-by-Side Comparison]]
+- [[#6.11 NAT64]]
+- [[#⭐ Quick Revision — NAT Module]]
+- [[#🎯 Most Likely Exam/Viva Questions]]
+- [[#Related Notes]]
+
 ---
 
 ## 6.1 What is NAT?

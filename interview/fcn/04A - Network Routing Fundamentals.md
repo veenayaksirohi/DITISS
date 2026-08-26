@@ -15,6 +15,28 @@ syllabus-topic:
 
 # Network Routing — Detailed Study Notes
 
+## Table of Contents
+
+- [[#1) What is Routing?]]
+- [[#2) Router]]
+- [[#3) How Routing Works]]
+- [[#4) Working Principle of Routing]]
+- [[#5) Routing Table]]
+- [[#6) Types of Routing]]
+- [[#7) Administrative Distance]]
+- [[#Administrative Distance (AD) Table]]
+- [[#Notes]]
+- [[#Quick Memory Order (Low → High AD)]]
+- [[#8) Routing Protocol Categories]]
+- [[#9) Metrics and Path Choice]]
+- [[#10) Distance Vector Routing]]
+- [[#11) Link-State Routing]]
+- [[#12) Hybrid Routing]]
+- [[#13) Loop Prevention Techniques]]
+- [[#14) Load Balancing]]
+- [[#15) RIP vs OSPF vs EIGRP — Quick Comparison]]
+- [[#Related Notes]]
+
 > **Administrative Distance (AD)** — A number that tells a router how much it **trusts a route source**. Lower AD = more trusted. When two sources advertise the same destination, the router picks the one with the lower AD. Range: 0 (most trusted) to 255 (never used).
 
 ---

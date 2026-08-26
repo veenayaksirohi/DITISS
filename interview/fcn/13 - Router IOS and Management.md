@@ -17,6 +17,27 @@ syllabus-topic:
 
 ---
 
+## Table of Contents
+
+- [[#0. Full Forms / Abbreviations]]
+- [[#PART A — What Is Cisco IOS?]]
+- [[#PART B — Router Hardware Components (The "Big 5")]]
+- [[#PART C — Cisco IOS CLI Modes]]
+- [[#PART D — Router Boot Sequence]]
+- [[#1. Boot Sequence Overview]]
+- [[#1.1 Detailed Step-by-Step Flow]]
+- [[#PART E — Telnet vs SSH (Remote Access Security)]]
+- [[#PART F — Ways to Access the Cisco IOS CLI]]
+- [[#PART G — Configuration Registers]]
+- [[#What Is the Configuration Register?]]
+- [[#PART H — Cisco IOS Password Recovery (Full Procedure)]]
+- [[#PART I — Debugging & Logging]]
+- [[#Why Debugging and Logging Matter]]
+- [[#PART J — Master Quick Revision]]
+- [[#Related Notes]]
+
+---
+
 ## 0. Full Forms / Abbreviations
 
 | Abbreviation | Full Form                                                              |

@@ -18,6 +18,25 @@ syllabus-topic:
 
 ---
 
+## Table of Contents
+
+- [[#1. What Is an IP Address?]]
+- [[#2. IPv4 Address Classes]]
+- [[#3. Subnetting]]
+- [[#4. CIDR (Classless Inter-Domain Routing)]]
+- [[#5. VLSM (Variable Length Subnet Mask)]]
+- [[#6. Wildcard Mask & Wildcard IP]]
+- [[#7. IPv6 Addressing]]
+- [[#8. EUI-64 (Extended Unique Identifier)]]
+- [[#9. IPv6 Address Scopes: Link-Local, ULA, and Global Unicast]]
+- [[#10. IPv6 Enhancements Over IPv4]]
+- [[#11. NDP — Neighbor Discovery Protocol (IPv6)]]
+- [[#12. IPv4 vs IPv6 — Side-by-Side Comparison]]
+- [[#13. Quick Revision Sheet]]
+- [[#Related Notes]]
+
+---
+
 ## 1. What Is an IP Address?
 
 An **IP (Internet Protocol) address** is a unique number given to every device (computer, phone, router, server) on a network so it can send and receive data. It does two jobs:

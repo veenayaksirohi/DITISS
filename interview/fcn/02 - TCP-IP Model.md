@@ -19,6 +19,20 @@ syllabus-topic:
 
 ---
 
+## Table of Contents
+
+- [[#1. TCP/IP Model — 4-Layer Overview]]
+- [[#2. TCP vs UDP — Full Comparison]]
+- [[#3. Why Video Streaming Uses UDP Instead of TCP]]
+- [[#4. TCP Three-Way Handshake (Connection Setup)]]
+- [[#5. TCP Four-Way Termination (Connection Teardown)]]
+- [[#6. Quick Reference — Handshake vs Termination]]
+- [[#7. TCP/IP in Action — Full Data Flow]]
+- [[#8. Checksum — Error Detection]]
+- [[#Related Notes]]
+
+---
+
 ## 1. TCP/IP Model — 4-Layer Overview
 
 The **TCP/IP model** (also called the **Internet Model** or **DoD model**) is the practical model used by the real internet. Unlike the 7-layer OSI model (a conceptual/teaching framework), the TCP/IP model is the **actual implementation** that networks run on today.
