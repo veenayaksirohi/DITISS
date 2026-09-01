@@ -3208,10 +3208,6 @@ A switch needs to know **which MAC address is allowed on which port**. There are
 
 **Static = the administrator manually tells the switch** exactly which MAC address is allowed on a port.
 
-```
- Switch(config-if)# switchport port-security mac-address aabb.cc00.0100
-```
-
 - You type the MAC address in yourself.
 - It's saved in the running-config right away (and survives reload automatically, since it's a normal config line).
 - Best for: a small number of known, fixed devices (e.g., a server that never changes NICs).
@@ -3219,11 +3215,6 @@ A switch needs to know **which MAC address is allowed on which port**. There are
 ### 3.2 Dynamic MAC
 
 **Dynamic = the switch learns it automatically.** You don't configure anything.
-
-```
- Switch(config-if)# switchport port-security
- (no mac-address specified → switch learns whatever connects first, up to the max)
-```
 
 - The switch watches incoming frames and learns the source MAC on its own.
 - **Downside:** this learned entry is **NOT saved** anywhere — it's lost the moment the switch reloads, meaning it has to re-learn from scratch (and briefly allow whatever connects next) after every reboot.
@@ -3450,7 +3441,6 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 Step 1 — Create the ACL:
   Router(config)# access-list 10 permit 192.168.1.0 0.0.0.255
   Router(config)# access-list 10 deny any
-
 Step 2 — Apply it to an interface (close to the DESTINATION):
   Router(config)# interface g0/1
   Router(config-if)# ip access-group 10 out
@@ -3468,7 +3458,6 @@ Step 2 — Apply it to an interface (close to the DESTINATION):
 Step 1 — Create the ACL:
   Router(config)# access-list 110 permit tcp 192.168.1.0 0.0.0.255 host 10.0.0.5 eq 80
   Router(config)# access-list 110 deny ip any any
-
 Step 2 — Apply it to an interface (close to the SOURCE):
   Router(config)# interface g0/0
   Router(config-if)# ip access-group 110 in
@@ -3487,12 +3476,10 @@ Standard Named ACL:
   Router(config)# ip access-list standard BLOCK-SALES
   Router(config-std-nacl)# deny 192.168.10.0 0.0.0.255
   Router(config-std-nacl)# permit any
-
 Extended Named ACL:
   Router(config)# ip access-list extended ALLOW-WEB
   Router(config-ext-nacl)# permit tcp any host 10.0.0.5 eq 443
   Router(config-ext-nacl)# deny ip any any
-
 Apply (same as numbered):
   Router(config-if)# ip access-group BLOCK-SALES in
   Router(config-if)# ip access-group ALLOW-WEB in
@@ -3511,7 +3498,6 @@ Apply (same as numbered):
  Standard ACL (source IP only) → place NEAR the DESTINATION
    Reason: it can only match source IP, so placing it near the source
    would block traffic from reaching OTHER destinations it shouldn't affect.
-
  Extended ACL (full 5-tuple match) → place NEAR the SOURCE
    Reason: it can match precisely what it needs to block, so it's safe
    (and more efficient) to stop unwanted traffic as early as possible.
@@ -4044,57 +4030,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 | **D. Interface Configuration** | Configure a specific interface (IP address, description, etc.)                      | `Router(config-if)#`   | `Router(config)# interface <name>`    |
 | **E. Line Configuration**      | Configure console / VTY / AUX lines (passwords, login method, transport)            | `Router(config-line)#` | `Router(config)# line vty 0 4` (etc.) |
 
-### Common User EXEC Commands
-
-```text
-Router> show ?
-Router> show history
-Router> show version
-Router> ping 192.168.1.1
-Router> traceroute 8.8.8.8
-Router> telnet 192.168.1.10
-Router> logout
-```
-
-### Privileged EXEC — Common Uses
-
-Once in `Router#`, you can:
-
-- View detailed information (`show running-config`, `show startup-config`, `show version`)
-- Copy/save configuration
-- Run `debug` commands
-- Enter global configuration mode
-
-```text
-Router# show running-config
-```
-
-Shows the **active** configuration in RAM. Includes: interfaces, hostname, passwords, routing configuration, VTY line settings, and enabled services.
-
-```text
-Router# show startup-config
-```
-
-Shows the configuration **saved in NVRAM** that will be used on the next reboot.
-
-```text
-Router# copy running-config startup-config
-```
-
-Saves the current (active) configuration to NVRAM so it survives a reboot:
-
-```text
-RAM (running-config)
-        │  copy
-        ▼
-NVRAM (startup-config)
-```
-
-### Types of Line Passwords
-
-- **Console password** — protects local console-port access (`line console 0`)
-- **Telnet / SSH password** — protects remote CLI access (`line vty 0 4`)
-
 ---
 
 ## PART D — Router Boot Sequence
@@ -4185,84 +4120,6 @@ Search startup-config
 
 ---
 
-## PART E — Telnet vs SSH (Remote Access Security)
-
-Both protocols allow **remote CLI access** to a router/switch through **VTY lines**, but they differ fundamentally in security.
-
-By default a router has 5 VTY lines (`line vty 0 4` = VTY 0 through VTY 4), meaning up to 5 simultaneous remote CLI sessions.
-
-| Feature                          | Telnet                                                             | SSH                                                      |
-| -------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------- |
-| **Encryption**                   | ❌ None — sends everything, including passwords, in **plain text** | ✅ Full encryption of the entire session                 |
-| **Port**                         | TCP 23                                                             | TCP 22                                                   |
-| **Authentication security**      | Weak — credentials easily captured via packet sniffing             | Strong — supports password AND public-key authentication |
-| **Data integrity checking**      | ❌ No                                                              | ✅ Yes (cryptographic integrity checks)                  |
-| **Vulnerable to eavesdropping?** | ✅ Very — anyone on the path can read the traffic                  | ❌ No — traffic is encrypted end-to-end                  |
-| **Recommended today?**           | ❌ No — legacy/insecure, mainly seen in labs/older environments    | ✅ Yes — industry standard for remote device management  |
-
-### Why Telnet Is Insecure — Visualized
-
-```
- Telnet Session (PLAIN TEXT):
-
-  Admin PC ──── "Username: admin" ────────────► Router
-  Admin PC ──── "Password: Cisco123" ─────────► Router
-                        │
-                        ▼
-        Anyone capturing packets on this path
-        (e.g., via Wireshark) can read the
-        password DIRECTLY — no decryption needed.
-```
-
-Example command: `telnet 192.168.1.1`
-
-### Why SSH Is Secure — Visualized
-
-```
- SSH Session (ENCRYPTED):
-
-  Admin PC ──── [encrypted blob: xK9$#mP2...] ────► Router
-                        │
-                        ▼
-        An eavesdropper only sees scrambled
-        ciphertext — username/password/commands
-        are unreadable without the correct key.
-```
-
-Example command: `ssh admin@192.168.1.1`
-
-### Basic SSH Configuration (Cisco IOS)
-
-```text
-Step 1 — Set hostname and domain name (required for RSA key generation):
-  Router(config)# hostname R1
-  R1(config)# ip domain-name mylab.com
-
-Step 2 — Generate the RSA key pair:
-  R1(config)# crypto key generate rsa
-  (choose a modulus size, e.g. 1024 or 2048 bits)
-
-Step 3 — Create a local user account:
-  R1(config)# username admin secret StrongPass123
-
-Step 4 — Configure the VTY lines to use SSH + local login:
-  R1(config)# line vty 0 4
-  R1(config-line)# transport input ssh
-  R1(config-line)# login local
-```
-
-> `transport input ssh` **disables Telnet** on the VTY lines (only SSH is accepted). Using `transport input telnet ssh` would allow both — not recommended for security.
-
-### Exam One-Liners
-
-- Telnet = **unencrypted**, TCP port 23 — never use on production networks.
-- SSH = **encrypted**, TCP port 22 — the modern standard for remote device administration.
-- SSH requires a **hostname + domain name + RSA key pair** before it can be enabled.
-- Best practice: `transport input ssh` on VTY lines to **disable Telnet entirely**.
-- Default VTY lines: **0 to 4** (5 lines total).
-
----
-
 ## PART F — Ways to Access the Cisco IOS CLI
 
 There are four common ways an administrator can reach the CLI of a router:
@@ -4307,14 +4164,6 @@ Example: `telnet 192.168.1.1`
 Remote Admin ── Modem ── AUX port ── Router
 ```
 
-Some Cisco routers have an **AUX (Auxiliary) port**, traditionally connected to a modem for **out-of-band management** — i.e., accessing the router when the normal in-band network path is down or unavailable. It is not used for day-to-day remote administration like SSH/Telnet, but as a backup access path.
-
-### Exam One-Liners
-
-- Console and AUX are physical/out-of-band access methods; SSH and Telnet are network/in-band (VTY) access methods.
-- Console access is required for the **very first configuration** of a router (no IP/network config exists yet).
-- SSH is preferred over Telnet for all remote in-band access.
-
 ---
 
 ## PART G — Configuration Registers
@@ -4322,12 +4171,6 @@ Some Cisco routers have an **AUX (Auxiliary) port**, traditionally connected to 
 ## What Is the Configuration Register?
 
 The **configuration register** is a **16-bit (4 hex-digit) value** stored in **NVRAM** that tells the router **how to boot** — where to look for the IOS, whether to load the startup-config, and other boot-time behaviors.
-
-```text
-View current value:
-  Router# show version
-  (look for the line: "Configuration register is 0x XXXX")
-```
 
 ### Common Configuration Register Values
 
@@ -4345,15 +4188,6 @@ Router(config)# config-register 0x2142
 
 - Takes effect **after the next reload** — not immediately.
 - Commonly used during **password recovery**: set to `0x2142` to skip loading the (password-protected) startup-config, log in with no password, then manually reload the old config and change the password, and finally set the register **back to 0x2102** before the final reload/save.
-
-### Exam One-Liners
-
-- Config register = 16-bit value in **NVRAM**, controls boot behavior.
-- `0x2102` = normal/default boot.
-- `0x2142` = ignore (skip loading) startup-config — the classic password-recovery value.
-- `0x2100` = boot straight into ROMmon.
-- Changes to the register only take effect **after a reload**.
-- Always remember to set it **back to 0x2102** after password recovery — otherwise the router will keep ignoring its saved config on every future boot.
 
 ---
 
@@ -4394,11 +4228,6 @@ The router reboots without loading the old (password-protected) configuration.
 
 Since the old configuration was skipped, no password is currently applied:
 
-```text
-Router> enable
-Router#
-```
-
 ### Step 5 — Copy the Old Configuration into RAM
 
 The old configuration is still safely stored in NVRAM — it was only skipped, not deleted:
@@ -4418,27 +4247,9 @@ This restores your old configuration (interfaces, routing, etc.) **without** re-
 
 ### Step 6 — Change the Password
 
-```text
-Router# configure terminal
-Router(config)# enable secret NewPassword123
-```
-
-If needed, also change the console password:
-
-```text
-Router(config)# line console 0
-Router(config-line)# password NewPassword123
-Router(config-line)# login
-```
-
 ### Step 7 — Restore Normal Boot Behavior
 
 This step is critical — don't skip it:
-
-```text
-Router(config)# config-register 0x2102
-```
-
 This ensures the router will load the startup-config normally on all future reboots.
 
 ### Step 8 — Save the Configuration
