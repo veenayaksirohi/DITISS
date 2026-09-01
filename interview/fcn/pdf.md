@@ -1,110 +1,217 @@
 ---
-title: "Index"
-aliases:
-  - "Computer Networks Index"
-  - "Computer Networks MOC"
-  - "FCN Index"
-tags:
-  - computer-networks
-  - moc
-syllabus-topic: []
----
+# OSI Model — Layers 1–7 (Condensed)
 
-# Computer Networks — Map of Content
+## Addressing Scope (applies across L2/L3/L4 — stated once)
+`MAC (L2)` → local link only, rebuilt every hop | `IP (L3)` → end-to-end, never changes | `Port (L4)` → process-specific, end-to-end
 
-> Master guide: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
-
-## Table of Contents
-
-- [[#Recommended Reading Order]]
-- [[#Supplemental Notes]]
+## Encapsulation Chain (stated once — see per-layer PDU name only below)
+`Data → [L4 header]=Segment → [L3 header]=Packet → [L2 header+trailer]=Frame → [L1]=Bits`
 
 ---
 
-## Recommended Reading Order
+## L1 — Physical
 
-### 1. OSI Model
+> Moves raw bits only. No frames/packets/addresses/decisions — hence "dumb layer."
 
-**Complete coverage across multiple notes:** [[01A - OSI Model|Complete Notes]], [[01B - OSI Layers Quick Reference|Quick Reference]]
+- **Job:** encode bits → signal (voltage/light/radio) and back; defines connectors, cabling, voltage, clocking, bit rate, topology
+- **Cables:** UTP (unshielded, Cat5e/6) · STP (shielded) · Coax (legacy 10BASE-2/5) · Fibre (immune to EMI, long-haul)
+- **RJ45:** T568A vs T568B — only pairs 2↔3 (orange/green) swapped; crossover = A one end, B other end
+- **Encoding:** NRZ (steady voltage, clock-drift prone) vs Manchester (mid-bit transition, self-clocking)
+- **Serial vs Parallel:** serial = one wire, long distance, networking | parallel = many wires, short distance, skew/EMI issues
+- **Async vs Sync:** async = start/stop bits, no shared clock (RS-232) | sync = shared/embedded clock, continuous (modern links)
+- **Bandwidth vs Throughput:** bandwidth = theoretical max | throughput = actual (always ≤ bandwidth, overhead/noise reduce it)
+- **Duplex:** Simplex (one-way, TV) · Half (turns, walkie-talkie/hub) · Full (both ways, switch port)
+- **Topologies:** Mesh (redundant) · Star (common, central switch) · Ring (one break = failure) · Bus (legacy shared cable)
 
-### 2. TCP/IP Model
+**Devices:** Repeater (regen signal, extends distance) → Hub (multi-port repeater, 1 collision domain; active=boosts, passive=just wires) → Cables/Connectors (RJ-45, BNC, LC, SC, DB-9) → NIC (L1+L2) → Modem (digital↔analog) → CSU/DSU (router↔WAN, clocking) → Transceiver (media conversion)
 
-**Complete coverage:** [[02 - TCP-IP Model]]
+**Protocols/Standards:** Ethernet 802.3, Wi-Fi 802.11, Bluetooth 802.15, USB, RS-232, DSL, SONET/SDH, V.35, DOCSIS, T1/E1 (1.544/2.048 Mbps)
 
-### 3. IP Subnetting & VLSM
+---
 
-**Complete coverage:** [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+## L2 — Data Link
 
-### 4. Routing
+> Hop-to-hop frame delivery between two **directly connected** devices only. IP packet (L3) stays same end-to-end; **frame is destroyed & rebuilt at every router hop.**
 
-**Distributed complete coverage:** [[04A - Network Routing Fundamentals]], [[04B - Routing Protocols and Administrative Distance]]
+```
+PC1→R1 (frame1) | R1→R2 (frame2, new MACs) | R2→PC2 (frame3, new MACs)
+IP packet inside: unchanged throughout — only the frame wrapper changes
+```
 
-### 5. VLANs & Inter-VLAN Routing
+**Sublayers:** LLC (802.2 — interfaces L3, flow/error control, multiplexing) · MAC (802.3/802.11 — framing, addressing, medium access)
 
-**Complete coverage:** [[05 - VLANs and Inter-VLAN Routing]]
+**Frame:** `Preamble | Dst MAC | Src MAC | Type/Len | Data(IP pkt) | FCS`
 
-### 6. NAT (Network Address Translation)
+- MAC = 48-bit, `AA:BB:CC:DD:EE:FF`, first 3 bytes = OUI (vendor), last 3 = device ID, local-link only
+- Fixed-size frames (ATM, 53B) vs variable-size (Ethernet, HDLC — delimiter flags)
 
-**Complete coverage:** [[06 - Network Address Translation]]
+**Functions:**
+| Function | Mechanism |
+|---|---|
+| Framing | headers/trailers around L3 packet |
+| Flow control | Stop-and-Wait (1 frame, wait ACK) · Sliding Window (multiple before ACK) |
+| Error control | FCS/CRC (most common) · Parity bit · ACK+retransmit · Sequence numbers |
+| Media access | CSMA/CD (wired, listen+detect collision) · CSMA/CA (Wi-Fi, avoid via backoff) · Token Passing (Token Ring) · TDMA (cellular/WAN) |
 
-### 7. IPv4 vs IPv6
+**Protocols:** Ethernet 802.3, Wi-Fi 802.11, PPP, HDLC (Cisco default serial), Frame Relay, ATM (53B cells), ARP (L2/L3 boundary — resolves IP→MAC), STP 802.1D (loop prevention), VLAN 802.1Q, PPPoE, SDLC, SLIP
 
-**Complete coverage:** [[03 - IP Subnetting VLSM IPv4 IPv6 and NDP]]
+**Devices:** Switch (MAC table, per-port collision domain) · Bridge (2-port predecessor to switch) · NIC · Wireless AP (bridges 802.11↔802.3)
 
-### 8. Spanning Tree Protocol (STP)
+---
 
-**Complete coverage:** [[08 - Spanning Tree Protocol]]
+## L3 — Network
 
-### 9. Infrastructure Security — ACL, AAA
+> End-to-end packet delivery **across** networks via logical (IP) addressing. IP src/dst never change; only L2 frame rebuilds per hop; L4 payload untouched at routers.
 
-**Complete coverage:** [[09 - Infrastructure Security ACL AAA and Port Security]]
+- **Direct delivery:** same network, no router (`192.168.1.10→.20`) | **Indirect:** different networks, via router(s)
+- **Logical addressing:** IPv4 (32-bit) / IPv6 (128-bit); Network ID + Host ID (`192.168.1.10/24` → net `.0`, host `.10`)
+- **Packetization:** L4 segment + IP header = packet
+- **Routing:** Static (manual) · Dynamic (RIP/OSPF/EIGRP, auto-exchange) · Default (`0.0.0.0/0` catch-all)
+  - Routing = path determination (control plane) vs Forwarding = actual send (data plane)
+- **Fragmentation:** triggered when packet > MTU (Ethernet default 1500B); Identification/Fragment Offset/MF flag; **reassembly only at final destination**
+- **NAT:** Static (1:1 fixed) · Dynamic (pool) · PAT (many:1 via ports — most common, home routers)
 
-### 10. PPP and WAN Technologies
+**IPv4 header key fields:** Version · IHL · ToS/DSCP · Total Length · Identification/Flags/Fragment Offset (fragmentation) · **TTL** (dec per hop, drop@0, prevents loops) · Protocol (TCP=6, UDP=17, ICMP=1) · Header Checksum · Src/Dst IP
 
-**Complete dedicated coverage:** [[10 - PPP and WAN Technologies|Dedicated Notes]]; supporting coverage in [[01A - OSI Model|PPP/PPPoE]] and [[04A - Network Routing Fundamentals|WAN link references]]
+**Protocols:** IPv4, IPv6, ICMP (ping/traceroute/errors), ICMPv6+NDP, ARP (boundary, resolves IP→MAC), RARP (obsolete), NAT, IPSec, MPLS (label-based, ISP traffic engineering)
 
-### 11. Layer 2 Switching
+**Routing protocols:**
+| Protocol | Type | Metric | Max hops | Use |
+|---|---|---|---|---|
+| RIP | Distance-vector | Hop count | **15** (16=unreachable) | Small nets |
+| OSPF | Link-state | Cost (bandwidth) | Unlimited | Enterprise; uses **Dijkstra SPF**, builds LSDB |
+| EIGRP | Adv. distance-vector (Cisco) | BW+Delay+Load+Reliability | Unlimited | Cisco-only |
+| BGP | Path-vector | AS path attrs | Unlimited | Internet backbone |
 
-**Complete coverage:** [[11 - Layer 2 Switching and Ethernet Forwarding]]
+**Routing vs Flooding:** routing = best path via table, efficient, low BW | flooding = all paths, inefficient, high BW (e.g. ARP broadcast)
 
-### 12. Ethernet and Wireless (IEEE Standards)
+**Devices:** Router (primary) · L3 Switch (routes VLANs via SVI) · Multilayer Switch (L2+L3) · Firewall (IP/protocol filtering)
 
-**Distributed complete coverage:** [[11 - Layer 2 Switching and Ethernet Forwarding|Ethernet]], [[01A - OSI Model|Wireless]]
+---
 
-### 13. Router IOS and Management
+## L4 — Transport
 
-**Complete coverage:** [[13 - Router IOS and Management]]
+> Process-to-process delivery via **ports**. L3 gets packet to the right _host_; L4 gets it to the right _application_.
 
-### 14. SDN — Software Defined Networking
+```
+Socket = IP:Port (e.g. 192.168.1.10:80)
+Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–49151 registered (MySQL3306,RDP3389) | 49152–65535 ephemeral
+```
 
-**Unavailable:** No dedicated note provided.
+- **Segmentation:** message → tagged segments (seq #) → reassembled in order; detects lost/duplicate/out-of-order
+- **Connection control:** TCP (connection-oriented, reliable) vs UDP (connectionless, fast/unreliable)
+  - 3-way handshake: `SYN → SYN-ACK → ACK`
+  - 4-way termination: `FIN → ACK → FIN → ACK`
+- **Flow control (end-to-end, not hop-to-hop):** TCP sliding window — receiver advertises window size; shrinks/grows with receiver speed
+- **Error control (end-to-end):** Checksum, ACK, Retransmission (on RTO timeout), Sequence numbers
 
-### 15. OpenFlow and OpenDaylight
+**TCP vs UDP vs SCTP:**
+| | TCP | UDP | SCTP |
+|---|---|---|---|
+| Connection | 3-way handshake | Connectionless | 4-way handshake |
+| Reliability | ACK+retransmit | None | Selective ACK |
+| Ordering | Guaranteed | None | Both modes |
+| Header | 20–60B | **8B** (no seq/ACK/window — bare minimum for speed) | 12B+chunks |
+| Multihoming | No | No | Yes |
+| Proto # | 6 | 17 | 132 |
+| Use | HTTP,FTP,SSH,SMTP | DNS,DHCP,VoIP,SNMP | Telephony (SS7/IP) |
 
-**Unavailable:** No dedicated note provided.
+**Devices:** Host OS TCP/IP stack · Stateful firewall (port+state inspection) · Load balancer (L4 port/protocol) · Proxy (terminates/re-establishes TCP)
 
-### 16. Virtual Networking
+---
 
-**Unavailable:** No dedicated note provided.
+## L5 — Session
 
-### 17. Advanced SDN / OpenDaylight Topics
+> Dialog controller: establishes/manages/synchronizes/terminates sessions between application processes. Pure software.
 
-**Unavailable:** No dedicated note provided.
+- **Lifecycle:** Establishment (negotiate params, select duplex) → Data transfer (checkpoints) → Termination
+- **Dialog control:** Half-duplex (turn-taking, token-based) vs Full-duplex (simultaneous)
+- **Synchronization (checkpoints)** — key differentiator: without checkpoints, a failed 900MB/1GB transfer restarts from 0; with checkpoints, resume from last major/minor sync point (only resend since then)
+- **Session mgmt:** Session ID, re-sync after failure, multiplexing (multiple L4 services share one connection). Auth/authz coordinated here but **enforced at L7** (OAuth, HTTP Basic, LDAP)
 
-## Supplemental Notes
+**Protocols:** RPC, NetBIOS, SIP (session setup=L5, signaling=L7), RTCP, PPTP/L2TP (VPN tunneling), PAP, H.245
 
-- [[A1 - HTTP Evolution and TLS]]
+**Devices:** none dedicated (software) — app servers, proxy servers, stateful firewalls, SBCs, VPN gateways manage sessions
+
+---
+
+## L6 — Presentation
+
+> "Translator" — makes data readable across systems regardless of internal format. Pure software.
+
+- **Translation:** EBCDIC↔ASCII, ASCII↔Unicode, big↔little-endian, JPEG/PNG↔bitmap; uses **ASN.1** as common description language; handles serialization (JSON/XML→bytes)
+- **Encryption/decryption:** confidentiality via encode/decode; SSL/TLS commonly taught here, but in practice TLS runs over TCP(L4) serving L7 apps — **TCP/IP model puts TLS at Application layer**
+- **Compression:** Lossless (ZIP/GZIP/LZW — text, no loss) vs Lossy (JPEG images, MPEG/H.264 video, MP3/AAC audio — acceptable for media, not text)
+
+**Protocols:** SSL/TLS, JPEG, MPEG, GIF/PNG, ASCII/EBCDIC/Unicode, XDR, MIME (Base64), ASN.1
+
+**Devices:** none (software) — browsers (TLS+parsing), media players (decompression), email clients (MIME), OpenSSL/Bouncy Castle
+
+---
+
+## L7 — Application
+
+> Entry point for user data into the OSI stack. Note: the _application itself_ (Chrome) isn't L7 — the _protocols_ enabling its network use are.
+
+| Service       | Protocol     | Port     |
+| ------------- | ------------ | -------- |
+| Web           | HTTP / HTTPS | 80 / 443 |
+| Remote admin  | SSH / Telnet | 22 / 23  |
+| Mgmt          | SNMP         | 161/162  |
+| Time sync     | NTP          | 123      |
+| IP assignment | DHCP         | 67/68    |
+
+**Devices:** End-user hosts, web servers, DNS servers, mail servers (SMTP/POP3/IMAP), DHCP servers, L7 firewall (DPI), L7 load balancer (URL/cookie/header routing)
+
+---
+
+## Encapsulation/Decapsulation Summary
+
+| Layer    | Adds (send)                           | PDU     | Strips (receive)                    |
+| -------- | ------------------------------------- | ------- | ----------------------------------- |
+| L7/L6/L5 | format, compress, encrypt             | Data    | decrypt, decompress, deliver to app |
+| L4       | TCP/UDP header (ports, seq, checksum) | Segment | check ports/seq, strip, reassemble  |
+| L3       | IP header (src/dst IP, TTL, protocol) | Packet  | check IP, strip                     |
+| L2       | MAC header + FCS trailer              | Frame   | check MAC+CRC, strip                |
+| L1       | frame→bits→transmit                   | Bits    | bits→reconstruct frame              |
+
+---
+
+## OSI Layers — Real-World Mapping
+
+**Which PC component handles each layer:**
+
+| Layer           | Component                  | Example                              |
+| --------------- | -------------------------- | ------------------------------------ |
+| 7. Application  | Application software       | Chrome, WhatsApp, Outlook            |
+| 6. Presentation | Application / libraries    | TLS encryption, JSON, image encoding |
+| 5. Session      | Application / OS libraries | Login session, connection session    |
+| 4. Transport    | **OS network stack**       | TCP, UDP                             |
+| 3. Network      | **OS network stack**       | IPv4, IPv6, ICMP                     |
+| 2. Data Link    | **NIC driver + NIC**       | Ethernet frame, MAC address          |
+| 1. Physical     | **NIC hardware / PHY**     | Electrical signals, Wi-Fi radio      |
+
+**Security controls per layer (ties into CDAC DITISS/security focus):**
+
+| Layer           | Main Security                | Examples                                                   |
+| --------------- | ---------------------------- | ---------------------------------------------------------- |
+| 7. Application  | Application security         | WAF, authN/authZ, secure coding, antivirus                 |
+| 6. Presentation | Encryption / data protection | TLS/SSL, encryption, certificates                          |
+| 5. Session      | Session security             | Session timeout, secure cookies, MFA, session tokens       |
+| 4. Transport    | Port/connection security     | Firewall rules, TCP/UDP filtering, TLS                     |
+| 3. Network      | IP/routing security          | Firewall, ACL, IPsec, VPN, IDS/IPS                         |
+| 2. Data Link    | LAN/switch security          | VLAN, Port Security, 802.1X, DHCP Snooping, ARP protection |
+| 1. Physical     | Physical protection          | Locked server room, CCTV, access cards, cable protection   |
+
+---
 
 ## 1. What Is an IP Address?
 
-An **IP (Internet Protocol) address** is a unique number given to every device (computer, phone, router, server) on a network so it can send and receive data. It does two jobs:
-
-1. **Identifies the device** — tells the network _who_ this device is.
-2. **Locates the device** — tells routers _where_ to send packets so they reach it.
+An **IP (Internet Protocol) address** is a unique number given to every device on a network so it can send and receive data. It does two jobs:1. **Identifies the device** 2. **Locates the device**
 
 ```
- IP Address = Network Portion + Host Portion
-              (which network?)   (which device on it?)
+ IP Address = Network Portion(which network?) + Host Portion (which device on it?)
+
 ```
 
 - **IPv4** → 32 bits long, written as `192.168.1.10`
@@ -122,19 +229,7 @@ Every packet on a network travels using one of four delivery styles:
 | **Anycast**   | The _nearest_ device in a group   | Mainly IPv6 (limited IPv4 use) | One sender, delivered to whichever member of the group is closest by routing distance.                                                    |
 
 ```
- Unicast    :  Sender ────────────────► Single Host
 
- Broadcast  :  Sender ─────┬──────────► Host A
-   (IPv4)                   ├──────────► Host B     (ALL hosts on segment)
-                             └──────────► Host C
-
- Multicast  :  Sender ─────┬──────────► Host A (joined group)
-                             ├──────────► Host B (joined group)
-                             └──────────► Host C (joined group)
-                                          (Host D — not joined — gets nothing)
-
- Anycast    :  Sender ────────────────► Nearest of {Host A, Host B, Host C}
-```
 
 **One-liners to remember:**
 
@@ -149,13 +244,7 @@ Every packet on a network travels using one of four delivery styles:
 
 IPv4 addresses are split into **5 classes**, identified by the value of the **first octet**.
 
-```
- Class A : 0xxxxxxx  ->  1   - 126   (N.H.H.H)
- Class B : 10xxxxxx  ->  128 - 191   (N.N.H.H)
- Class C : 110xxxxx  ->  192 - 223   (N.N.N.H)
- Class D : 1110xxxx  ->  224 - 239   (Multicast, no subnet mask)
- Class E : 1111xxxx  ->  240 - 255   (Experimental / research, no subnet mask)
-```
+
 
 > `127.x.x.x` is carved out of Class A and reserved for **loopback** testing.
 
@@ -197,9 +286,11 @@ IPv4 addresses are split into **5 classes**, identified by the value of the **fi
 **Core formulas:**
 
 ```
+
 Usable subnets = 2^(subnet bits)
-Usable hosts   = 2^(host bits) − 2
-Block size     = 256 − (subnet mask octet value)
+Usable hosts = 2^(host bits) − 2
+Block size = 256 − (subnet mask octet value)
+
 ```
 
 > Older textbooks subtract 2 from the subnet count for an "all-zeros" and "all-ones" subnet. Modern routers (RFC 1878) allow both, so in practice **all 2ⁿ subnets are usable** — but some exam boards still test the old "−2" rule, so know both.
@@ -207,7 +298,9 @@ Block size     = 256 − (subnet mask octet value)
 ### 3.1 Class C Example — Mask 255.255.255.224 (/27)
 
 ```
- Last octet in binary: 1110 0000   (3 subnet bits, 5 host bits)
+
+Last octet in binary: 1110 0000 (3 subnet bits, 5 host bits)
+
 ```
 
 - Subnet bits = 3 → up to **8 subnets** (6 if using the older −2 convention)
@@ -243,15 +336,17 @@ Block size     = 256 − (subnet mask octet value)
 - Block size = 256 − 240 = **16**
 
 ```
+
 First subnet:
-  Subnet    : 10.0.0.0
-  Broadcast : 10.15.255.255
-  Hosts     : 10.0.0.1 - 10.15.255.254
+Subnet : 10.0.0.0
+Broadcast : 10.15.255.255
+Hosts : 10.0.0.1 - 10.15.255.254
 
 Last subnet:
-  Subnet    : 10.240.0.0
-  Broadcast : 10.255.255.255
-  Hosts     : 10.240.0.1 - 10.255.255.254
+Subnet : 10.240.0.0
+Broadcast : 10.255.255.255
+Hosts : 10.240.0.1 - 10.255.255.254
+
 ```
 
 ---
@@ -261,10 +356,12 @@ Last subnet:
 **CIDR** replaces the rigid Class A/B/C system with a simple **slash notation** (`/n`) that states exactly how many bits, counting from the left, form the network portion. This lets a network be _any_ size, not just a class-sized one.
 
 ```
- 192.168.1.0/24
-              └── "/24" = first 24 bits = NETWORK part
-                        = last 8 bits  = HOST part
-                        = subnet mask 255.255.255.0
+
+192.168.1.0/24
+└── "/24" = first 24 bits = NETWORK part
+= last 8 bits = HOST part
+= subnet mask 255.255.255.0
+
 ```
 
 ### 4.1 Why CIDR Matters
@@ -287,8 +384,10 @@ Last subnet:
 | /32       | 255.255.255.255 | 0           | 1 (single host route)    |
 
 ```
+
 Formula:
-  Usable Hosts = 2^(32 − n) − 2      where n = CIDR prefix length
+Usable Hosts = 2^(32 − n) − 2 where n = CIDR prefix length
+
 ```
 
 ### 4.3 Route Summarization (Supernetting)
@@ -296,10 +395,12 @@ Formula:
 CIDR also lets you go the _other_ direction — combine several small networks into one larger advertised block:
 
 ```
- 192.168.0.0/24  ─┐
- 192.168.1.0/24   ├──►  Summarized as  192.168.0.0/22
- 192.168.2.0/24   │      (covers .0.0 – .3.255, 1024 addresses)
- 192.168.3.0/24  ─┘
+
+192.168.0.0/24 ─┐
+192.168.1.0/24 ├──► Summarized as 192.168.0.0/22
+192.168.2.0/24 │ (covers .0.0 – .3.255, 1024 addresses)
+192.168.3.0/24 ─┘
+
 ```
 
 - **Shorter prefix** (fewer network bits) → bigger block, more hosts, fewer routes to advertise.
@@ -350,12 +451,14 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 | Management | 192.168.1.224 | /29    | 255.255.255.248 | 6            |
 
 ```
- 192.168.1.0/24
- ├── 192.168.1.0/25    → Sales      (126 hosts)
- ├── 192.168.1.128/26  → Purchase   (62 hosts)
- ├── 192.168.1.192/27  → Accounts   (30 hosts)
- └── 192.168.1.224/29  → Management (6 hosts)
-       └── 192.168.1.232 – 255 → still unused, kept for future growth
+
+192.168.1.0/24
+├── 192.168.1.0/25 → Sales (126 hosts)
+├── 192.168.1.128/26 → Purchase (62 hosts)
+├── 192.168.1.192/27 → Accounts (30 hosts)
+└── 192.168.1.224/29 → Management (6 hosts)
+└── 192.168.1.232 – 255 → still unused, kept for future growth
+
 ```
 
 ---
@@ -365,10 +468,12 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Access Control Lists)** and **OSPF `network` statements**, and it flips the logic of a normal subnet mask:
 
 ```
- Subnet Mask   :  1 = network bit (must match)   0 = host bit (varies)
- Wildcard Mask :  0 = must match                  1 = don't care (any value OK)
 
- Wildcard Mask = 255.255.255.255 − Subnet Mask
+Subnet Mask : 1 = network bit (must match) 0 = host bit (varies)
+Wildcard Mask : 0 = must match 1 = don't care (any value OK)
+
+Wildcard Mask = 255.255.255.255 − Subnet Mask
+
 ```
 
 ### 6.1 Quick Reference
@@ -388,9 +493,11 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 **Worked example:**
 
 ```
- Subnet Mask   :  255.255.255.  0   →  11111111.11111111.11111111.00000000
- Wildcard Mask :    0.  0.  0.255   →  00000000.00000000.00000000.11111111
-                (each octet: 255 − subnet-octet = wildcard-octet)
+
+Subnet Mask : 255.255.255. 0 → 11111111.11111111.11111111.00000000
+Wildcard Mask : 0. 0. 0.255 → 00000000.00000000.00000000.11111111
+(each octet: 255 − subnet-octet = wildcard-octet)
+
 ```
 
 ### 6.2 Where Wildcard IPs Are Used
@@ -431,19 +538,25 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 
 ```
+
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+
 ```
 
 **Rule 1 — drop leading zeros** in each group (keep at least one digit):
 
 ```
+
 2001:db8:85a3:0:0:8a2e:370:7334
+
 ```
 
 **Rule 2 — replace ONE run of consecutive all-zero groups with `::`** (only once per address, to avoid ambiguity about how many groups it stands for):
 
 ```
+
 2001:db8:85a3::8a2e:370:7334
+
 ```
 
 **Special addresses:**
@@ -458,10 +571,12 @@ Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 A typical `/64` IPv6 address splits cleanly into two 64-bit halves:
 
 ```
- 3A:2B1C : 0000:0000 : 0009:0101:0000:007C  /64
- └────┬───────────┘   └──────────┬─────────┘
-   Network ID                Interface ID
-  (first 64 bits)           (last 64 bits)
+
+3A:2B1C : 0000:0000 : 0009:0101:0000:007C /64
+└────┬───────────┘ └──────────┬─────────┘
+Network ID Interface ID
+(first 64 bits) (last 64 bits)
+
 ```
 
 | Part             | Bits     | Also Called               | Purpose                                             |
@@ -489,17 +604,19 @@ The Interface ID can be set two ways:
 ### 7.4 Configuring IPv6 (Cisco IOS)
 
 ```
+
 Step 1 — Enable IPv6 routing globally:
-    Router(config)# ipv6 unicast-routing
+Router(config)# ipv6 unicast-routing
 
 Step 2 — Enter the interface:
-    Router(config)# interface g0/0
+Router(config)# interface g0/0
 
 Step 3a — Auto-generate the host part via EUI-64:
-    Router(config-if)# ipv6 address 3A:2B1C::/64 eui-64
+Router(config-if)# ipv6 address 3A:2B1C::/64 eui-64
 
 Step 3b — OR manually assign a complete address:
-    Router(config-if)# ipv6 address 3A:2B1C::1/64
+Router(config-if)# ipv6 address 3A:2B1C::1/64
+
 ```
 
 | Command                           | Purpose                                              |
@@ -518,9 +635,11 @@ Step 3b — OR manually assign a complete address:
 **Algorithm:**
 
 ```
+
 1. Split the 48-bit MAC address into two 24-bit halves.
-2. Insert FFFE in the middle  → 48 bits become 64 bits.
+2. Insert FFFE in the middle → 48 bits become 64 bits.
 3. Flip the 7th bit of the first byte (the universal/local bit).
+
 ```
 
 **Worked example** — MAC = `00:1A:2B:3C:4D:5E`
@@ -535,7 +654,9 @@ Step 3b — OR manually assign a complete address:
 **Full address example** — prefix `3A:2B1C::/64` + this Interface ID:
 
 ```
+
 3A:2B1C:02:1A:2B:FF:FE:3C:4D:5E
+
 ```
 
 > This is exactly what the `eui-64` keyword does in `ipv6 address ... eui-64` (Section 7.4).
@@ -547,10 +668,12 @@ Step 3b — OR manually assign a complete address:
 Every IPv6 device typically carries **up to three addresses at once**, each meant for a different scope of communication:
 
 ```
+
 PC1
-├── Link-local: FE80::10        → same LAN only
-├── ULA:         FD12::10       → private organization-wide
+├── Link-local: FE80::10 → same LAN only
+├── ULA: FD12::10 → private organization-wide
 └── Global (GUA): 2001:db8:1::10 → the whole Internet
+
 ```
 
 ### 9.1 Link-Local Address — `FE80::/10`
@@ -562,9 +685,11 @@ Used for communication **within the same local link only**. It is created automa
 - Router Advertisements (RA) and SLAAC
 
 ```
-PC1                         Router
-FE80::10  ────────────────  FE80::1
-             Same LAN
+
+PC1 Router
+FE80::10 ──────────────── FE80::1
+Same LAN
+
 ```
 
 A link-local address **cannot be routed** past the local router — it never leaves the segment it was created on.
@@ -585,13 +710,15 @@ ULA is what **replaced** Site-Local as IPv6's version of a "private" address. Ex
 | Globally unique?                 | No — ranges can clash if networks merge   | ✅ Yes — a randomly generated **Global ID** makes collisions very unlikely even after a merger |
 
 ```
- ULA structure:
 
- fd  XX:XXXX:XXXX  :  XXXX  :  Interface ID
- └┬┘ └─────┬──────┘    └┬──┘    └─────┬──────┘
- Prefix  Global ID    Subnet ID    Interface ID
- (7-8    (40 bits,     (16 bits)   (64 bits)
-  bits)   random)
+ULA structure:
+
+fd XX:XXXX:XXXX : XXXX : Interface ID
+└┬┘ └─────┬──────┘ └┬──┘ └─────┬──────┘
+Prefix Global ID Subnet ID Interface ID
+(7-8 (40 bits, (16 bits) (64 bits)
+bits) random)
+
 ```
 
 ### 9.4 Global Unicast Address (GUA) — `2000::/3`
@@ -642,22 +769,26 @@ Beyond the scopes above, a handful of other reserved ranges show up regularly in
 | **NAT66 / NPTv6** _(uncommon)_                | The edge router translates the ULA source prefix into a GUA prefix — conceptually similar to IPv4 NAT. Officially discouraged and rarely deployed in IPv6 networks. | ✅ Yes      |
 
 ```
- Standard design — dual addressing, no NAT:
 
-  PC ── fd12:3456:789a:1::10  (ULA — internal LAN traffic)
-     └─ 2001:db8:1::10        (GUA — traffic to the Internet)
+Standard design — dual addressing, no NAT:
 
-  Both addresses live on the SAME interface — no translation needed.
+PC ── fd12:3456:789a:1::10 (ULA — internal LAN traffic)
+└─ 2001:db8:1::10 (GUA — traffic to the Internet)
+
+Both addresses live on the SAME interface — no translation needed.
+
 ```
 
 ```
- ULA-only LAN (no GUA assigned) — cannot reach the Internet:
 
-  PC (fd12::10 ULA only) ──X──► Internet
-                           │
-                    dropped: ULA isn't
-                    routable outside the
-                    private network
+ULA-only LAN (no GUA assigned) — cannot reach the Internet:
+
+PC (fd12::10 ULA only) ──X──► Internet
+│
+dropped: ULA isn't
+routable outside the
+private network
+
 ```
 
 This is why IPv6 is often described as "**NAT-free**" — the normal design gives every Internet-facing device its own GUA, so no translation is ever needed (contrast with IPv4 in Section 10). NAT66/NPTv6 exists only as a fallback for networks that insist on staying ULA-only.
@@ -691,15 +822,17 @@ NDP replaces ARP (and adds more capabilities), using **ICMPv6 multicast** instea
 | **NA** (Neighbor Advertisement) | Host/Router → unicast reply     | Answers an NS with the requested MAC address.                                               |
 
 ```
- Address Resolution Flow (NDP):
 
-  Host A                                   Host B
-    │  NS (Who has IPv6-B? Tell IPv6-A)       │
-    │ ──────────► solicited-node multicast ──►│
-    │                                          │
-    │  NA (IPv6-B is-at MAC-B)                 │
-    │ ◄──────────────── unicast ───────────────│
-```
+Address Resolution Flow (NDP):
+
+Host A Host B
+│ NS (Who has IPv6-B? Tell IPv6-A) │
+│ ──────────► solicited-node multicast ──►│
+│ │
+│ NA (IPv6-B is-at MAC-B) │
+│ ◄──────────────── unicast ───────────────│
+
+````
 
 **DAD (Duplicate Address Detection):** before a host starts using a new IPv6 address, it sends an **NS** targeting its own tentative address. If it gets an **NA** back, that address is already in use elsewhere — it must not be used.
 
@@ -928,7 +1061,7 @@ When a router learns the same destination from different routing sources, it use
 
 ## Administrative Distance (AD) Table
 
-**AD = Administrative Distance**  
+**AD = Administrative Distance**
 **Lower AD = More Trusted Route**
 
 | Route Source                   | AD (Administrative Distance) | Meaning                                         |
@@ -1851,7 +1984,7 @@ To disable it (modern best practice):
 ```bash
 router eigrp 10
  no auto-summary
-```
+````
 
 #### Bandwidth management
 
