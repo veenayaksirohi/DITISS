@@ -2822,28 +2822,6 @@ There are **4 main types**:
 
 ## Spanning Tree Protocol (STP)
 
-### 0. Full Forms / Abbreviations
-
-| Abbreviation   | Full Form                                         |
-| -------------- | ------------------------------------------------- |
-| **STP**        | Spanning Tree Protocol                            |
-| **RSTP**       | Rapid Spanning Tree Protocol                      |
-| **MSTP**       | Multiple Spanning Tree Protocol                   |
-| **PVST+**      | Per-VLAN Spanning Tree Plus                       |
-| **RPVST+**     | Rapid Per-VLAN Spanning Tree Plus                 |
-| **BPDU**       | Bridge Protocol Data Unit                         |
-| **TCN (BPDU)** | Topology Change Notification (BPDU)               |
-| **BID**        | Bridge ID                                         |
-| **RP**         | Root Port                                         |
-| **DP**         | Designated Port                                   |
-| **TTL**        | Time To Live                                      |
-| **ARP**        | Address Resolution Protocol                       |
-| **MAC**        | Media Access Control (address)                    |
-| **VLAN**       | Virtual Local Area Network                        |
-| **IEEE**       | Institute of Electrical and Electronics Engineers |
-
----
-
 ### 1. Why STP Is Needed — The Layer 2 Loop Problem
 
 Real-world networks deliberately use **redundant links** between switches for fault tolerance (a backup path if one link fails). The problem: **Ethernet frames have no TTL** (unlike IP packets) — nothing stops a frame from circulating forever if a loop exists. Without a loop-prevention mechanism, three problems happen **simultaneously**:
@@ -3125,22 +3103,6 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 ---
 
 ## Switch Security, AAA, and ACLs
-
-### 0. Full Forms / Abbreviations
-
-| Abbreviation | Full Form                                             |
-| ------------ | ----------------------------------------------------- |
-| **AAA**      | Authentication, Authorization, Accounting             |
-| **RADIUS**   | Remote Authentication Dial-In User Service            |
-| **TACACS+**  | Terminal Access Controller Access-Control System Plus |
-| **ACL**      | Access Control List                                   |
-| **MAC**      | Media Access Control (address)                        |
-| **UDP**      | User Datagram Protocol                                |
-| **TCP**      | Transmission Control Protocol                         |
-| **VPN**      | Virtual Private Network                               |
-| **ISP**      | Internet Service Provider                             |
-
----
 
 ### 0.1 Topics Covered in These Notes
 
@@ -3522,19 +3484,6 @@ Apply (same as numbered):
 ---
 
 ## Network and Ethernet Switching
-
-### 0. Full Forms / Abbreviations
-
-| Abbreviation | Full Form                                              |
-| ------------ | ------------------------------------------------------ |
-| **VC / VCI** | Virtual Circuit / Virtual Circuit Identifier           |
-| **FCS**      | Frame Check Sequence                                   |
-| **CRC**      | Cyclic Redundancy Check                                |
-| **CSMA/CD**  | Carrier Sense Multiple Access with Collision Detection |
-| **MAC**      | Media Access Control (address)                         |
-| **NIC**      | Network Interface Card                                 |
-
----
 
 ### PART A — Network Switching Types
 
@@ -3951,26 +3900,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## Cisco IOS, Router Hardware, and Management
-
-### 0. Full Forms / Abbreviations
-
-| Abbreviation | Full Form                                                              |
-| ------------ | ---------------------------------------------------------------------- |
-| **POST**     | Power-On Self-Test                                                     |
-| **IOS**      | Internetwork Operating System (Cisco)                                  |
-| **ROM**      | Read-Only Memory                                                       |
-| **RAM**      | Random-Access Memory                                                   |
-| **NVRAM**    | Non-Volatile Random-Access Memory                                      |
-| **Flash**    | Flash Memory                                                           |
-| **SSH**      | Secure Shell                                                           |
-| **Telnet**   | Teletype Network                                                       |
-| **CLI**      | Command-Line Interface                                                 |
-| **TFTP**     | Trivial File Transfer Protocol                                         |
-| **ROMmon**   | ROM Monitor (also written RXBOOT)                                      |
-| **VTY**      | Virtual Teletype (virtual terminal line, used for remote CLI sessions) |
-| **AUX**      | Auxiliary (port)                                                       |
-
----
 
 ### PART A — What Is Cisco IOS?
 
