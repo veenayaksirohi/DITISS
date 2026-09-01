@@ -228,9 +228,6 @@ Every packet on a network travels using one of four delivery styles:
 | **Multicast** | Only devices that joined a group  | IPv4 & IPv6                    | One sender, only "subscribed" devices receive it. IPv4 range: `224.0.0.0–239.255.255.255`. IPv6 range: `ff00::/8`.                        |
 | **Anycast**   | The _nearest_ device in a group   | Mainly IPv6 (limited IPv4 use) | One sender, delivered to whichever member of the group is closest by routing distance.                                                    |
 
-```
-
-
 **One-liners to remember:**
 
 - Unicast = 1 → 1
@@ -243,8 +240,6 @@ Every packet on a network travels using one of four delivery styles:
 ## 2. IPv4 Address Classes
 
 IPv4 addresses are split into **5 classes**, identified by the value of the **first octet**.
-
-
 
 > `127.x.x.x` is carved out of Class A and reserved for **loopback** testing.
 
@@ -286,11 +281,9 @@ IPv4 addresses are split into **5 classes**, identified by the value of the **fi
 **Core formulas:**
 
 ```
-
 Usable subnets = 2^(subnet bits)
-Usable hosts = 2^(host bits) − 2
-Block size = 256 − (subnet mask octet value)
-
+Usable hosts   = 2^(host bits) − 2
+Block size     = 256 − (subnet mask octet value)
 ```
 
 > Older textbooks subtract 2 from the subnet count for an "all-zeros" and "all-ones" subnet. Modern routers (RFC 1878) allow both, so in practice **all 2ⁿ subnets are usable** — but some exam boards still test the old "−2" rule, so know both.
@@ -298,9 +291,7 @@ Block size = 256 − (subnet mask octet value)
 ### 3.1 Class C Example — Mask 255.255.255.224 (/27)
 
 ```
-
-Last octet in binary: 1110 0000 (3 subnet bits, 5 host bits)
-
+ Last octet in binary: 1110 0000   (3 subnet bits, 5 host bits)
 ```
 
 - Subnet bits = 3 → up to **8 subnets** (6 if using the older −2 convention)
@@ -336,17 +327,15 @@ Last octet in binary: 1110 0000 (3 subnet bits, 5 host bits)
 - Block size = 256 − 240 = **16**
 
 ```
-
 First subnet:
-Subnet : 10.0.0.0
-Broadcast : 10.15.255.255
-Hosts : 10.0.0.1 - 10.15.255.254
+  Subnet    : 10.0.0.0
+  Broadcast : 10.15.255.255
+  Hosts     : 10.0.0.1 - 10.15.255.254
 
 Last subnet:
-Subnet : 10.240.0.0
-Broadcast : 10.255.255.255
-Hosts : 10.240.0.1 - 10.255.255.254
-
+  Subnet    : 10.240.0.0
+  Broadcast : 10.255.255.255
+  Hosts     : 10.240.0.1 - 10.255.255.254
 ```
 
 ---
@@ -356,12 +345,10 @@ Hosts : 10.240.0.1 - 10.255.255.254
 **CIDR** replaces the rigid Class A/B/C system with a simple **slash notation** (`/n`) that states exactly how many bits, counting from the left, form the network portion. This lets a network be _any_ size, not just a class-sized one.
 
 ```
-
-192.168.1.0/24
-└── "/24" = first 24 bits = NETWORK part
-= last 8 bits = HOST part
-= subnet mask 255.255.255.0
-
+ 192.168.1.0/24
+              └── "/24" = first 24 bits = NETWORK part
+                        = last 8 bits  = HOST part
+                        = subnet mask 255.255.255.0
 ```
 
 ### 4.1 Why CIDR Matters
@@ -384,10 +371,8 @@ Hosts : 10.240.0.1 - 10.255.255.254
 | /32       | 255.255.255.255 | 0           | 1 (single host route)    |
 
 ```
-
 Formula:
-Usable Hosts = 2^(32 − n) − 2 where n = CIDR prefix length
-
+  Usable Hosts = 2^(32 − n) − 2      where n = CIDR prefix length
 ```
 
 ### 4.3 Route Summarization (Supernetting)
@@ -395,12 +380,10 @@ Usable Hosts = 2^(32 − n) − 2 where n = CIDR prefix length
 CIDR also lets you go the _other_ direction — combine several small networks into one larger advertised block:
 
 ```
-
-192.168.0.0/24 ─┐
-192.168.1.0/24 ├──► Summarized as 192.168.0.0/22
-192.168.2.0/24 │ (covers .0.0 – .3.255, 1024 addresses)
-192.168.3.0/24 ─┘
-
+ 192.168.0.0/24  ─┐
+ 192.168.1.0/24   ├──►  Summarized as  192.168.0.0/22
+ 192.168.2.0/24   │      (covers .0.0 – .3.255, 1024 addresses)
+ 192.168.3.0/24  ─┘
 ```
 
 - **Shorter prefix** (fewer network bits) → bigger block, more hosts, fewer routes to advertise.
@@ -451,14 +434,12 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 | Management | 192.168.1.224 | /29    | 255.255.255.248 | 6            |
 
 ```
-
-192.168.1.0/24
-├── 192.168.1.0/25 → Sales (126 hosts)
-├── 192.168.1.128/26 → Purchase (62 hosts)
-├── 192.168.1.192/27 → Accounts (30 hosts)
-└── 192.168.1.224/29 → Management (6 hosts)
-└── 192.168.1.232 – 255 → still unused, kept for future growth
-
+ 192.168.1.0/24
+ ├── 192.168.1.0/25    → Sales      (126 hosts)
+ ├── 192.168.1.128/26  → Purchase   (62 hosts)
+ ├── 192.168.1.192/27  → Accounts   (30 hosts)
+ └── 192.168.1.224/29  → Management (6 hosts)
+       └── 192.168.1.232 – 255 → still unused, kept for future growth
 ```
 
 ---
@@ -468,12 +449,10 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Access Control Lists)** and **OSPF `network` statements**, and it flips the logic of a normal subnet mask:
 
 ```
+ Subnet Mask   :  1 = network bit (must match)   0 = host bit (varies)
+ Wildcard Mask :  0 = must match                  1 = don't care (any value OK)
 
-Subnet Mask : 1 = network bit (must match) 0 = host bit (varies)
-Wildcard Mask : 0 = must match 1 = don't care (any value OK)
-
-Wildcard Mask = 255.255.255.255 − Subnet Mask
-
+ Wildcard Mask = 255.255.255.255 − Subnet Mask
 ```
 
 ### 6.1 Quick Reference
@@ -493,11 +472,9 @@ Wildcard Mask = 255.255.255.255 − Subnet Mask
 **Worked example:**
 
 ```
-
-Subnet Mask : 255.255.255. 0 → 11111111.11111111.11111111.00000000
-Wildcard Mask : 0. 0. 0.255 → 00000000.00000000.00000000.11111111
-(each octet: 255 − subnet-octet = wildcard-octet)
-
+ Subnet Mask   :  255.255.255.  0   →  11111111.11111111.11111111.00000000
+ Wildcard Mask :    0.  0.  0.255   →  00000000.00000000.00000000.11111111
+                (each octet: 255 − subnet-octet = wildcard-octet)
 ```
 
 ### 6.2 Where Wildcard IPs Are Used
@@ -538,25 +515,19 @@ Wildcard Mask : 0. 0. 0.255 → 00000000.00000000.00000000.11111111
 Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 
 ```
-
 2001:0db8:85a3:0000:0000:8a2e:0370:7334
-
 ```
 
 **Rule 1 — drop leading zeros** in each group (keep at least one digit):
 
 ```
-
 2001:db8:85a3:0:0:8a2e:370:7334
-
 ```
 
 **Rule 2 — replace ONE run of consecutive all-zero groups with `::`** (only once per address, to avoid ambiguity about how many groups it stands for):
 
 ```
-
 2001:db8:85a3::8a2e:370:7334
-
 ```
 
 **Special addresses:**
@@ -571,12 +542,10 @@ Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 A typical `/64` IPv6 address splits cleanly into two 64-bit halves:
 
 ```
-
-3A:2B1C : 0000:0000 : 0009:0101:0000:007C /64
-└────┬───────────┘ └──────────┬─────────┘
-Network ID Interface ID
-(first 64 bits) (last 64 bits)
-
+ 3A:2B1C : 0000:0000 : 0009:0101:0000:007C  /64
+ └────┬───────────┘   └──────────┬─────────┘
+   Network ID                Interface ID
+  (first 64 bits)           (last 64 bits)
 ```
 
 | Part             | Bits     | Also Called               | Purpose                                             |
@@ -604,19 +573,17 @@ The Interface ID can be set two ways:
 ### 7.4 Configuring IPv6 (Cisco IOS)
 
 ```
-
 Step 1 — Enable IPv6 routing globally:
-Router(config)# ipv6 unicast-routing
+    Router(config)# ipv6 unicast-routing
 
 Step 2 — Enter the interface:
-Router(config)# interface g0/0
+    Router(config)# interface g0/0
 
 Step 3a — Auto-generate the host part via EUI-64:
-Router(config-if)# ipv6 address 3A:2B1C::/64 eui-64
+    Router(config-if)# ipv6 address 3A:2B1C::/64 eui-64
 
 Step 3b — OR manually assign a complete address:
-Router(config-if)# ipv6 address 3A:2B1C::1/64
-
+    Router(config-if)# ipv6 address 3A:2B1C::1/64
 ```
 
 | Command                           | Purpose                                              |
@@ -635,11 +602,9 @@ Router(config-if)# ipv6 address 3A:2B1C::1/64
 **Algorithm:**
 
 ```
-
 1. Split the 48-bit MAC address into two 24-bit halves.
-2. Insert FFFE in the middle → 48 bits become 64 bits.
+2. Insert FFFE in the middle  → 48 bits become 64 bits.
 3. Flip the 7th bit of the first byte (the universal/local bit).
-
 ```
 
 **Worked example** — MAC = `00:1A:2B:3C:4D:5E`
@@ -654,9 +619,7 @@ Router(config-if)# ipv6 address 3A:2B1C::1/64
 **Full address example** — prefix `3A:2B1C::/64` + this Interface ID:
 
 ```
-
 3A:2B1C:02:1A:2B:FF:FE:3C:4D:5E
-
 ```
 
 > This is exactly what the `eui-64` keyword does in `ipv6 address ... eui-64` (Section 7.4).
@@ -668,12 +631,10 @@ Router(config-if)# ipv6 address 3A:2B1C::1/64
 Every IPv6 device typically carries **up to three addresses at once**, each meant for a different scope of communication:
 
 ```
-
 PC1
-├── Link-local: FE80::10 → same LAN only
-├── ULA: FD12::10 → private organization-wide
+├── Link-local: FE80::10        → same LAN only
+├── ULA:         FD12::10       → private organization-wide
 └── Global (GUA): 2001:db8:1::10 → the whole Internet
-
 ```
 
 ### 9.1 Link-Local Address — `FE80::/10`
@@ -685,11 +646,9 @@ Used for communication **within the same local link only**. It is created automa
 - Router Advertisements (RA) and SLAAC
 
 ```
-
-PC1 Router
-FE80::10 ──────────────── FE80::1
-Same LAN
-
+PC1                         Router
+FE80::10  ────────────────  FE80::1
+             Same LAN
 ```
 
 A link-local address **cannot be routed** past the local router — it never leaves the segment it was created on.
@@ -710,15 +669,13 @@ ULA is what **replaced** Site-Local as IPv6's version of a "private" address. Ex
 | Globally unique?                 | No — ranges can clash if networks merge   | ✅ Yes — a randomly generated **Global ID** makes collisions very unlikely even after a merger |
 
 ```
+ ULA structure:
 
-ULA structure:
-
-fd XX:XXXX:XXXX : XXXX : Interface ID
-└┬┘ └─────┬──────┘ └┬──┘ └─────┬──────┘
-Prefix Global ID Subnet ID Interface ID
-(7-8 (40 bits, (16 bits) (64 bits)
-bits) random)
-
+ fd  XX:XXXX:XXXX  :  XXXX  :  Interface ID
+ └┬┘ └─────┬──────┘    └┬──┘    └─────┬──────┘
+ Prefix  Global ID    Subnet ID    Interface ID
+ (7-8    (40 bits,     (16 bits)   (64 bits)
+  bits)   random)
 ```
 
 ### 9.4 Global Unicast Address (GUA) — `2000::/3`
@@ -769,26 +726,22 @@ Beyond the scopes above, a handful of other reserved ranges show up regularly in
 | **NAT66 / NPTv6** _(uncommon)_                | The edge router translates the ULA source prefix into a GUA prefix — conceptually similar to IPv4 NAT. Officially discouraged and rarely deployed in IPv6 networks. | ✅ Yes      |
 
 ```
+ Standard design — dual addressing, no NAT:
 
-Standard design — dual addressing, no NAT:
+  PC ── fd12:3456:789a:1::10  (ULA — internal LAN traffic)
+     └─ 2001:db8:1::10        (GUA — traffic to the Internet)
 
-PC ── fd12:3456:789a:1::10 (ULA — internal LAN traffic)
-└─ 2001:db8:1::10 (GUA — traffic to the Internet)
-
-Both addresses live on the SAME interface — no translation needed.
-
+  Both addresses live on the SAME interface — no translation needed.
 ```
 
 ```
+ ULA-only LAN (no GUA assigned) — cannot reach the Internet:
 
-ULA-only LAN (no GUA assigned) — cannot reach the Internet:
-
-PC (fd12::10 ULA only) ──X──► Internet
-│
-dropped: ULA isn't
-routable outside the
-private network
-
+  PC (fd12::10 ULA only) ──X──► Internet
+                           │
+                    dropped: ULA isn't
+                    routable outside the
+                    private network
 ```
 
 This is why IPv6 is often described as "**NAT-free**" — the normal design gives every Internet-facing device its own GUA, so no translation is ever needed (contrast with IPv4 in Section 10). NAT66/NPTv6 exists only as a fallback for networks that insist on staying ULA-only.
@@ -822,17 +775,15 @@ NDP replaces ARP (and adds more capabilities), using **ICMPv6 multicast** instea
 | **NA** (Neighbor Advertisement) | Host/Router → unicast reply     | Answers an NS with the requested MAC address.                                               |
 
 ```
+ Address Resolution Flow (NDP):
 
-Address Resolution Flow (NDP):
-
-Host A Host B
-│ NS (Who has IPv6-B? Tell IPv6-A) │
-│ ──────────► solicited-node multicast ──►│
-│ │
-│ NA (IPv6-B is-at MAC-B) │
-│ ◄──────────────── unicast ───────────────│
-
-````
+  Host A                                   Host B
+    │  NS (Who has IPv6-B? Tell IPv6-A)       │
+    │ ──────────► solicited-node multicast ──►│
+    │                                          │
+    │  NA (IPv6-B is-at MAC-B)                 │
+    │ ◄──────────────── unicast ───────────────│
+```
 
 **DAD (Duplicate Address Detection):** before a host starts using a new IPv6 address, it sends an **NS** targeting its own tentative address. If it gets an **NA** back, that address is already in use elsewhere — it must not be used.
 
@@ -1061,7 +1012,7 @@ When a router learns the same destination from different routing sources, it use
 
 ## Administrative Distance (AD) Table
 
-**AD = Administrative Distance**
+**AD = Administrative Distance**  
 **Lower AD = More Trusted Route**
 
 | Route Source                   | AD (Administrative Distance) | Meaning                                         |
@@ -1984,7 +1935,7 @@ To disable it (modern best practice):
 ```bash
 router eigrp 10
  no auto-summary
-````
+```
 
 #### Bandwidth management
 
@@ -4177,8 +4128,6 @@ DUPLEX (Part C)
 
 ---
 
---
-
 ## 0. Full Forms / Abbreviations
 
 | Abbreviation | Full Form                                                              |
@@ -4826,5 +4775,3 @@ DEBUGGING & LOGGING
   undebug all       : stops all active debug output — always run when done
   Best practice     : centralized Syslog server for production logging
 ```
-
----
