@@ -3144,16 +3144,7 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 
 ## 0.1 Topics Covered in These Notes
 
-| Topic                                                                                | Covered In |
-| ------------------------------------------------------------------------------------ | ---------- |
-| Standard ACL vs Extended ACL (numbered and named)                                    | §10        |
-| ACL placement — Standard close to destination, Extended close to source              | §10.1      |
-| Port Security — violation modes: Protect, Restrict, Shutdown                         | §2         |
-| MAC Address Learning — Static, Dynamic, and why Sticky MAC is needed (with use case) | §3         |
-| AAA — Authentication, Authorization, Accounting                                      | §6         |
-| TACACS+ vs RADIUS — key differences                                                  | §9         |
-
----
+### Standard ACL vs Extended ACL (numbered and named), ACL placement, Port Security, MAC Address Learning, AAA, TACACS+ vs RADIUS
 
 ## PART A — Port Security
 
@@ -3498,6 +3489,7 @@ Apply (same as numbered):
  Standard ACL (source IP only) → place NEAR the DESTINATION
    Reason: it can only match source IP, so placing it near the source
    would block traffic from reaching OTHER destinations it shouldn't affect.
+
  Extended ACL (full 5-tuple match) → place NEAR the SOURCE
    Reason: it can match precisely what it needs to block, so it's safe
    (and more efficient) to stop unwanted traffic as early as possible.
