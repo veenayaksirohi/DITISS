@@ -1,5 +1,4 @@
 # OSI Model — Layers 1–7 (Condensed)
-
 ## Addressing Scope (applies across L2/L3/L4 — stated once)
 `MAC (L2)` → local link only, rebuilt every hop | `IP (L3)` → end-to-end, never changes | `Port (L4)` → process-specific, end-to-end
 
@@ -9,7 +8,6 @@
 ---
 
 ## L1 — Physical
-
 > Moves raw bits only. No frames/packets/addresses/decisions — hence "dumb layer."
 
 - **Job:** encode bits → signal (voltage/light/radio) and back; defines connectors, cabling, voltage, clocking, bit rate, topology
@@ -29,7 +27,6 @@
 ---
 
 ## L2 — Data Link
-
 > Hop-to-hop frame delivery between two **directly connected** devices only. IP packet (L3) stays same end-to-end; **frame is destroyed & rebuilt at every router hop.**
 
 ```
@@ -59,7 +56,6 @@ IP packet inside: unchanged throughout — only the frame wrapper changes
 ---
 
 ## L3 — Network
-
 > End-to-end packet delivery **across** networks via logical (IP) addressing. IP src/dst never change; only L2 frame rebuilds per hop; L4 payload untouched at routers.
 
 - **Direct delivery:** same network, no router (`192.168.1.10→.20`) | **Indirect:** different networks, via router(s)
@@ -89,7 +85,6 @@ IP packet inside: unchanged throughout — only the frame wrapper changes
 ---
 
 ## L4 — Transport
-
 > Process-to-process delivery via **ports**. L3 gets packet to the right _host_; L4 gets it to the right _application_.
 
 ```
@@ -120,7 +115,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## L5 — Session
-
 > Dialog controller: establishes/manages/synchronizes/terminates sessions between application processes. Pure software.
 
 - **Lifecycle:** Establishment (negotiate params, select duplex) → Data transfer (checkpoints) → Termination
@@ -135,7 +129,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## L6 — Presentation
-
 > "Translator" — makes data readable across systems regardless of internal format. Pure software.
 
 - **Translation:** EBCDIC↔ASCII, ASCII↔Unicode, big↔little-endian, JPEG/PNG↔bitmap; uses **ASN.1** as common description language; handles serialization (JSON/XML→bytes)
@@ -149,7 +142,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## L7 — Application
-
 > Entry point for user data into the OSI stack. Note: the _application itself_ (Chrome) isn't L7 — the _protocols_ enabling its network use are.
 
 | Service       | Protocol     | Port     |
@@ -165,7 +157,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## Encapsulation/Decapsulation Summary
-
 | Layer    | Adds (send)                           | PDU     | Strips (receive)                    |
 | -------- | ------------------------------------- | ------- | ----------------------------------- |
 | L7/L6/L5 | format, compress, encrypt             | Data    | decrypt, decompress, deliver to app |
@@ -177,7 +168,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## OSI Layers — Real-World Mapping
-
 **Which PC component handles each layer:**
 
 | Layer           | Component                  | Example                              |
@@ -205,7 +195,6 @@ Ports: 0–1023 well-known (HTTP80,HTTPS443,FTP21,SSH22,DNS53,SMTP25) | 1024–4
 ---
 
 ## 1. What Is an IP Address?
-
 An **IP (Internet Protocol) address** is a unique number given to every device on a network so it can send and receive data. It does two jobs:1. **Identifies the device** 2. **Locates the device**
 
 ```
@@ -217,7 +206,6 @@ An **IP (Internet Protocol) address** is a unique number given to every device o
 - **IPv6** → 128 bits long, written as `2001:db8::1`
 
 ### 1.1 How Traffic Gets Delivered: Unicast, Broadcast, Multicast, Anycast
-
 Every packet on a network travels using one of four delivery styles:
 
 | Type          | Goes To                           | Works In                       | In Plain Words                                                                                                                            |
@@ -237,7 +225,6 @@ Every packet on a network travels using one of four delivery styles:
 ---
 
 ## 2. IPv4 Address Classes
-
 IPv4 addresses are split into **5 classes**, identified by the value of the **first octet**.
 
 > `127.x.x.x` is carved out of Class A and reserved for **loopback** testing.
@@ -260,7 +247,6 @@ IPv4 addresses are split into **5 classes**, identified by the value of the **fi
 ---
 
 ## 3. Subnetting
-
 **Subnetting** means splitting one large network into smaller networks by "borrowing" bits from the host portion to extend the network portion.
 
 **Default subnet masks (by class):**
@@ -288,7 +274,6 @@ Block size     = 256 − (subnet mask octet value)
 > Older textbooks subtract 2 from the subnet count for an "all-zeros" and "all-ones" subnet. Modern routers (RFC 1878) allow both, so in practice **all 2ⁿ subnets are usable** — but some exam boards still test the old "−2" rule, so know both.
 
 ### 3.1 Class C Example — Mask 255.255.255.224 (/27)
-
 ```
  Last octet in binary: 1110 0000   (3 subnet bits, 5 host bits)
 ```
@@ -307,7 +292,6 @@ Block size     = 256 − (subnet mask octet value)
 | 192    | 223       | 193–222          |
 
 ### 3.2 Class B Example — Mask 255.255.240.0 (/20)
-
 - 4 bits borrowed → 2⁴ = **16 subnets** (14 under the old convention)
 - 12 host bits → 2¹² − 2 = **4,094 hosts per subnet**
 - Block size = 256 − 240 = **16**
@@ -320,7 +304,6 @@ Block size     = 256 − (subnet mask octet value)
 | .64.0  | .64.1      | .79.254   | .79.255   |
 
 ### 3.3 Class A Example — Mask 255.240.0.0 (/12)
-
 - 4 bits borrowed → 2⁴ = **16 subnets** (14 under the old convention)
 - 20 host bits → 2²⁰ − 2 = **1,048,574 hosts per subnet**
 - Block size = 256 − 240 = **16**
@@ -340,7 +323,6 @@ Last subnet:
 ---
 
 ## 4. CIDR (Classless Inter-Domain Routing)
-
 **CIDR** replaces the rigid Class A/B/C system with a simple **slash notation** (`/n`) that states exactly how many bits, counting from the left, form the network portion. This lets a network be _any_ size, not just a class-sized one.
 
 ```
@@ -351,13 +333,11 @@ Last subnet:
 ```
 
 ### 4.1 Why CIDR Matters
-
 - ✅ No more wasted addresses (a Class C used to force exactly 254 hosts even if you only needed 10)
 - ✅ Enables **route summarization** — many small networks advertised as one big block, shrinking routing tables
 - ✅ Is the foundation that makes **VLSM** possible (Section 5)
 
 ### 4.2 Prefix Length ↔ Subnet Mask ↔ Hosts (IPv4 Quick Reference)
-
 | CIDR (/n) | Subnet Mask     | # Host Bits | Usable Hosts (2ⁿ−2)      |
 | --------- | --------------- | ----------- | ------------------------ |
 | /24       | 255.255.255.0   | 8           | 254                      |
@@ -375,7 +355,6 @@ Formula:
 ```
 
 ### 4.3 Route Summarization (Supernetting)
-
 CIDR also lets you go the _other_ direction — combine several small networks into one larger advertised block:
 
 ```
@@ -389,7 +368,6 @@ CIDR also lets you go the _other_ direction — combine several small networks i
 - **Longer prefix** (more network bits) → smaller block, fewer hosts, more granular control.
 
 ### 4.4 CIDR in IPv6
-
 Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64** network prefix, leaving the remaining 64 bits for the device's own identifier (see Section 7).
 
 **One-liners:**
@@ -401,7 +379,6 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 ---
 
 ## 5. VLSM (Variable Length Subnet Mask)
-
 **VLSM**, also called **classless addressing**, lets you use _different_ mask lengths for different subnets carved from the same network — long masks (small blocks) for small departments, short masks (big blocks) for large ones. It requires a **classless routing protocol** (e.g. OSPF, EIGRP) to work, since those protocols carry the mask along with each route.
 
 **Why use VLSM instead of one fixed subnet size for everyone?** Because department sizes vary. A fixed subnet size forces you to either waste addresses on small departments or run out of addresses for big ones. VLSM sizes each subnet to fit its actual need, minimizing waste.
@@ -409,7 +386,6 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 **Golden rule: always allocate the largest requirement first**, then carve the remaining space for smaller ones.
 
 ### Worked Example — 192.168.1.0/24
-
 **Requirements (sorted largest → smallest):**
 
 | Department | Hosts Needed |
@@ -444,7 +420,6 @@ Same `/n` idea, e.g. `2001:db8::/32`. IPv6 almost always standardizes on a **/64
 ---
 
 ## 6. Wildcard Mask & Wildcard IP
-
 A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Access Control Lists)** and **OSPF `network` statements**, and it flips the logic of a normal subnet mask:
 
 ```
@@ -455,7 +430,6 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 ```
 
 ### 6.1 Quick Reference
-
 | CIDR (/n) | Subnet Mask     | Wildcard Mask   |
 | --------- | --------------- | --------------- |
 | /24       | 255.255.255.0   | 0.0.0.255       |
@@ -477,7 +451,6 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 ```
 
 ### 6.2 Where Wildcard IPs Are Used
-
 | Use Case                   | Example Syntax                                  | Meaning                                               |
 | -------------------------- | ----------------------------------------------- | ----------------------------------------------------- |
 | **ACL permit/deny**        | `access-list 10 permit 192.168.1.0 0.0.0.255`   | Matches any host `192.168.1.0`–`192.168.1.255`        |
@@ -496,13 +469,11 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 ---
 
 ## 7. IPv6 Addressing
-
 - **128 bits** long (vs IPv4's 32 bits) — written as 8 groups of hex digits.
 - Identifies a network interface and enables routing, exactly like IPv4 does, just with a vastly bigger address pool.
 - **No broadcast in IPv6** — the all-nodes multicast group `ff02::1` covers most of that role, though protocol-specific multicast groups are preferred in practice.
 
 ### 7.1 IPv6 Address Types
-
 | Type          | Delivered To                     | Notes                                                                                                                                                                                                                                                                                                     |
 | ------------- | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Unicast**   | One specific interface           | Standard one-to-one delivery.                                                                                                                                                                                                                                                                             |
@@ -510,7 +481,6 @@ A **wildcard mask** is the _inverse_ of a subnet mask. It's used in **ACLs (Acce
 | **Anycast**   | The nearest interface in a group | Same address _format_ as unicast — the only difference is that the address is assigned to multiple devices, and routing sends traffic to whichever one is closest. A common real-world use is DNS root servers: many physical servers share one anycast address, and each client reaches the nearest one. |
 
 ### 7.2 Writing IPv6 Addresses
-
 Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 
 ```
@@ -537,7 +507,6 @@ Full form — 8 groups of 4 hex digits ("hextets"), separated by `:`:
 | `::`    | Unspecified address (full: `0:0:0:0:0:0:0:0`) |
 
 ### 7.3 Structure of an IPv6 Address: Network ID + Interface ID
-
 A typical `/64` IPv6 address splits cleanly into two 64-bit halves:
 
 ```
@@ -570,7 +539,6 @@ The Interface ID can be set two ways:
 > ⚠️ `::` can appear **only once per address** — using it twice makes it impossible to tell how many zero groups each one represents.
 
 ### 7.4 Configuring IPv6 (Cisco IOS)
-
 ```
 Step 1 — Enable IPv6 routing globally:
     Router(config)# ipv6 unicast-routing
@@ -595,7 +563,6 @@ Step 3b — OR manually assign a complete address:
 ---
 
 ## 8. EUI-64 (Extended Unique Identifier)
-
 **EUI-64** automatically builds a 64-bit Interface ID (Section 7.3) out of a device's 48-bit MAC address, so no one has to type a host address by hand.
 
 **Algorithm:**
@@ -626,7 +593,6 @@ Step 3b — OR manually assign a complete address:
 ---
 
 ## 9. IPv6 Address Scopes: Link-Local, ULA, and Global Unicast
-
 Every IPv6 device typically carries **up to three addresses at once**, each meant for a different scope of communication:
 
 ```
@@ -637,7 +603,6 @@ PC1
 ```
 
 ### 9.1 Link-Local Address — `FE80::/10`
-
 Used for communication **within the same local link only**. It is created automatically by every IPv6 interface and is essential for:
 
 - Talking to the local router
@@ -653,11 +618,9 @@ FE80::10  ────────────────  FE80::1
 A link-local address **cannot be routed** past the local router — it never leaves the segment it was created on.
 
 ### 9.2 Site-Local Address — `FEC0::/10` (Deprecated)
-
 An older private-addressing scheme, similar in intent to IPv4's private ranges, but it was **deprecated** because it caused routing ambiguity when organizations merged their networks. **It should not be used in new designs.**
 
 ### 9.3 Unique Local Address (ULA) — `FC00::/7`, Commonly Seen as `FD00::/8`
-
 ULA is what **replaced** Site-Local as IPv6's version of a "private" address. Example: `FD12:3456:789A:1::10`.
 
 |                                  | IPv4 Private                              | IPv6 ULA                                                                                       |
@@ -678,11 +641,9 @@ ULA is what **replaced** Site-Local as IPv6's version of a "private" address. Ex
 ```
 
 ### 9.4 Global Unicast Address (GUA) — `2000::/3`
-
 This is IPv6's equivalent of a public IPv4 address — used for direct, end-to-end communication with the Internet.
 
 ### 9.5 Summary Table
-
 | Address Type                  | Range       | Scope                        | Routable?                       |
 | ----------------------------- | ----------- | ---------------------------- | ------------------------------- |
 | **Link-Local**                | `FE80::/10` | Same link/LAN only           | ❌ Not by routers               |
@@ -697,7 +658,6 @@ This is IPv6's equivalent of a public IPv4 address — used for direct, end-to-e
 - Neither Link-Local nor ULA is reachable from outside its own scope.
 
 ### 9.6 Full IPv6 Special Address Range Reference
-
 Beyond the scopes above, a handful of other reserved ranges show up regularly in exams and configs:
 
 | IPv6 Address / Range | Name                       | Purpose                                                                                                                                     |
@@ -716,7 +676,6 @@ Beyond the scopes above, a handful of other reserved ranges show up regularly in
 > `FE00::/9` is a separate reserved block from `FE80::/10` and `FEC0::/10` (old Site-Local) — despite the similar-looking prefixes, the bit math places them in different, non-overlapping ranges. Don't assume nesting just because the hex looks similar.
 
 ### 9.7 Can a ULA-Only Device Reach the Internet?
-
 **No — not directly.** Since ULA (`fc00::/7`) isn't routable on the public Internet, packets sourced from a ULA address get dropped as soon as they try to leave the private network. To actually reach the Internet, one of these is needed:
 
 | Option                                        | How It Works                                                                                                                                                        | NAT Needed? |
@@ -750,7 +709,6 @@ This is why IPv6 is often described as "**NAT-free**" — the normal design give
 ---
 
 ## 10. IPv6 Enhancements Over IPv4
-
 | Function               | IPv4 Approach                                 | IPv6 Approach                                                                                                  |
 | ---------------------- | --------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | **Subnetting**         | Manual subnetting required to divide networks | Vast 128-bit space mostly avoids complex subnetting; a simple hierarchical `/64` prefix is the norm            |
@@ -763,7 +721,6 @@ This is why IPv6 is often described as "**NAT-free**" — the normal design give
 ---
 
 ## 11. NDP — Neighbor Discovery Protocol (IPv6)
-
 NDP replaces ARP (and adds more capabilities), using **ICMPv6 multicast** instead of broadcast.
 
 | Message                         | Direction                       | Purpose                                                                                     |
@@ -789,7 +746,6 @@ NDP replaces ARP (and adds more capabilities), using **ICMPv6 multicast** instea
 ---
 
 ## 12. IPv4 vs IPv6 — Side-by-Side Comparison
-
 | Feature                    | IPv4                | IPv6                                                                   |
 | -------------------------- | ------------------- | ---------------------------------------------------------------------- |
 | Size                       | 32-bit              | 128-bit                                                                |
@@ -814,7 +770,6 @@ NDP replaces ARP (and adds more capabilities), using **ICMPv6 multicast** instea
 ---
 
 ## 1) What is Routing?
-
 Routing is the process of choosing the best path for data packets to travel from a source device to a destination device across one or more networks.
 
 In simple words, routing decides:
@@ -828,11 +783,9 @@ Routing is very important in packet-switched networks such as the **Internet**, 
 ---
 
 ## 2) Router
-
 A **router** is a Layer 3 device that connects different networks and forwards packets based on the **destination IP address**.
 
 ### Main functions of a router
-
 - Receives packets from one network
 - Reads the destination IP address
 - Checks the routing table
@@ -840,17 +793,14 @@ A **router** is a Layer 3 device that connects different networks and forwards p
 - Forwards the packet toward the destination
 
 ### OSI Layer
-
 - **Layer 3: Network Layer**
 
 ---
 
 ## 3) How Routing Works
-
 Routing works hop by hop. A packet does not usually go directly from sender to destination in one step. Instead, it passes through routers one by one.
 
 ### Working process
-
 1. A sender creates data and adds the **destination IP address** in the packet header.
 2. The packet reaches the nearest router.
 3. The router checks its **routing table**.
@@ -858,7 +808,6 @@ Routing works hop by hop. A packet does not usually go directly from sender to d
 5. This process continues until the packet reaches the destination.
 
 ### Important point
-
 - Each router along the path is called a **hop**.
 - If a packet crosses too many hops, it may be dropped.
 - To prevent packets from looping forever, IP packets have a **TTL (Time To Live)** value.
@@ -868,11 +817,9 @@ Routing works hop by hop. A packet does not usually go directly from sender to d
 ---
 
 ## 4) Working Principle of Routing
-
 Routing is based on finding the **best path**, not just any path.
 
 ### Step-by-step flow
-
 1. **Communication starts**
    A device sends data to another device, often using an application protocol like HTTP, HTTPS, or SSH.
 
@@ -897,11 +844,9 @@ Routing is based on finding the **best path**, not just any path.
 ---
 
 ## 5) Routing Table
-
 A **routing table** is a database stored in a router that contains information about possible paths to different networks.
 
 ### A routing table usually contains:
-
 - Destination network
 - Next hop
 - Metric / cost
@@ -909,13 +854,11 @@ A **routing table** is a database stored in a router that contains information a
 - Interface to use
 
 ### Why it matters
-
 The router uses the routing table to decide where to send a packet next.
 
 ---
 
 ## 6) Types of Routing
-
 Routing is mainly of **three types**.
 
 | Type            | Meaning                                             | What Router Learns / Uses                                                           | Best For                         | Advantages                                 | Disadvantages                                     |
@@ -927,7 +870,6 @@ Routing is mainly of **three types**.
 ---
 
 ### 6.1 Static Routing
-
 Static routing means the network administrator manually enters the route into the router.
 
 In static routing, routing entries are added manually in the routing table and typically include:
@@ -936,20 +878,17 @@ In static routing, routing entries are added manually in the routing table and t
 - Next-hop address (or exit interface)
 
 #### Features
-
 - Routes are configured by hand
 - Does not change automatically
 - Very simple and predictable
 - Uses no routing protocol
 
 #### Advantages
-
 - Full control over the path
 - More secure in small networks
 - Low CPU and bandwidth usage
 
 #### Disadvantages
-
 - Hard to manage in large networks
 - No automatic failover
 - Not suitable when links change often
@@ -957,23 +896,19 @@ In static routing, routing entries are added manually in the routing table and t
 ---
 
 ### 6.2 Dynamic Routing
-
 Dynamic routing means routers automatically learn routes and update them when the network changes.
 
 #### Features
-
 - Routes are discovered automatically
 - Routers exchange information
 - Adapts to failures and new paths
 
 #### Advantages
-
 - Easier to manage in large networks
 - Automatically reacts to network changes
 - Scales better than static routing
 
 #### Disadvantages
-
 - Uses more CPU, memory, and bandwidth
 - More complex than static routing
 - Routing loops and convergence delays may occur
@@ -986,31 +921,25 @@ Dynamic routing means routers automatically learn routes and update them when th
 ---
 
 ### 6.3 Default Routing
-
 Default routing is used when the router does not know a more specific route.
 
 #### Default route
-
 - **0.0.0.0/0** in IPv4
 - Means "send packets to this gateway if no other route matches"
 
 #### Used when
-
 - A network has only one way out
 - A small branch office sends all unknown traffic to the main router or ISP
 
 #### Example
-
 If a router does not have a route for a destination, it sends the packet to the **default gateway**.
 
 ---
 
 ## 7) Administrative Distance
-
 When a router learns the same destination from different routing sources, it uses **administrative distance** to choose the more trusted source. Lower AD means higher trust.
 
 ## Administrative Distance (AD) Table
-
 **AD = Administrative Distance**  
 **Lower AD = More Trusted Route**
 
@@ -1031,7 +960,6 @@ When a router learns the same destination from different routing sources, it use
 ---
 
 ## Notes
-
 - **Administrative Distance (AD)** indicates the **trustworthiness of a route source**.
 - **Lower AD = Higher priority (more trusted).**
 - A route with **AD 255** is **never used**.
@@ -1039,7 +967,6 @@ When a router learns the same destination from different routing sources, it use
 ---
 
 ## Quick Memory Order (Low → High AD)
-
 Connected → Static → eBGP → EIGRP → IGRP → OSPF → IS-IS → RIP → EIGRP External → iBGP → Unknown
 
 0 → 1 → 20 → 90 → 100 → 110 → 115 → 120 → 170 → 200 → 255
@@ -1051,7 +978,6 @@ EIGRP internal routes are preferred over OSPF and RIP because their default admi
 ---
 
 ## 8) Routing Protocol Categories
-
 Routing protocols are rules used by routers to learn networks and choose the best path for packets. They are usually grouped into **distance vector**, **link-state**, and **hybrid** protocols. These are mainly **intradomain routing** protocols, meaning they are used inside an autonomous system rather than between different organizations or ISPs.
 
 | Category        | Main idea                         | Example protocols | Typical use                        |
@@ -1063,11 +989,9 @@ Routing protocols are rules used by routers to learn networks and choose the bes
 ---
 
 ## 9) Metrics and Path Choice
-
 A routing protocol decides the best path using a **metric**, which is its internal path cost. Different protocols use different metrics, so "best" can mean different things depending on the protocol.
 
 ### Common metrics
-
 - **Hop count**: number of routers crossed; RIP uses this.
 - **Cost**: used by OSPF, usually based on bandwidth.
 - **Bandwidth**: higher bandwidth links are preferred in OSPF cost calculation.
@@ -1075,7 +999,6 @@ A routing protocol decides the best path using a **metric**, which is its intern
 - **Reliability and load**: also part of composite path selection in EIGRP-style designs.
 
 ### OSPF cost formula
-
 OSPF commonly calculates cost as:
 
 $$\text{cost} = \frac{\text{reference bandwidth}}{\text{interface bandwidth}}$$
@@ -1085,30 +1008,25 @@ With the default reference bandwidth of 100 Mbps, a 10 Mbps interface has a cost
 ---
 
 ## 10) Distance Vector Routing
-
 Distance vector routing protocols choose routes based mainly on what their **neighbors** tell them. The router does not know the whole network map; it trusts information received from directly connected routers, which is why this is often called **routing by rumor**. RIP is the classic example, and its metric is hop count, meaning the route with the fewest routers is preferred.
 
 ### Features
-
 - Routers exchange updates periodically, often with the full routing table in RIP.
 - Updates are shared only with neighboring routers, not flooded to the whole network.
 - The main metric is usually **hop count**.
 - RIP has a maximum hop count of **15**; a destination at 16 hops is unreachable.
 
 ### Advantages
-
 - Easy to configure and understand.
 - Uses less CPU and memory than link-state protocols.
 - Works well in small networks.
 
 ### Disadvantages
-
 - Converges slowly after a network change.
 - More likely to suffer from routing loops and the **count-to-infinity** problem.
 - Not ideal for large or fast-changing networks.
 
 ### Distance vector vs link-state
-
 | Feature      | Distance Vector | Link-State              |
 | ------------ | --------------- | ----------------------- |
 | Network view | Neighbor-based  | Full topology-based     |
@@ -1121,17 +1039,14 @@ Distance vector routing protocols choose routes based mainly on what their **nei
 ---
 
 ### RIP overview
-
 The **Routing Information Protocol (RIP)** is a dynamic routing protocol used by routers to find paths to destination networks. It operates at the **Network Layer (Layer 3)** and belongs to the **distance-vector** family. RIP is designed mainly for small to medium networks because it uses a very simple metric and has limited scalability.
 
 #### Core idea
-
 - Routers share route information with neighbors only.
 - Each route is measured by **hop count**.
 - The route with the lowest hop count is preferred.
 
 ### Hop count
-
 Hop count is the number of routers a packet must cross to reach a destination. In RIP, every router crossed adds **1 hop**, so the path with fewer routers is considered better. RIP allows a maximum hop count of **15**; a hop count of **16** means the destination is unreachable.
 
 Why this matters:
@@ -1141,11 +1056,9 @@ Why this matters:
 - A path with better bandwidth is still ignored if it has more hops, because RIP does **not** consider bandwidth or delay.
 
 ### How RIP works
-
 RIP uses the **distance-vector** method, which means each router knows only what its neighbors tell it. Every **30 seconds**, routers send their routing table updates to neighboring routers, and the information spreads gradually until the network reaches **convergence**.
 
 #### Operation flow
-
 1. The router starts with directly connected networks.
 2. It exchanges updates with neighbors every 30 seconds.
 3. If a router learns a shorter path, it updates its table.
@@ -1153,7 +1066,6 @@ RIP uses the **distance-vector** method, which means each router knows only what
 5. The route is removed after **240 seconds** if it is not refreshed.
 
 ### RIP features
-
 - Periodic updates every 30 seconds.
 - Shares the **full routing table** in updates.
 - Uses **routing by rumor**, meaning routers trust information from neighbors.
@@ -1161,7 +1073,6 @@ RIP uses the **distance-vector** method, which means each router knows only what
 - Works with a simple hop-count metric.
 
 ### RIP versions
-
 | Version | IP type | Update method                | Subnet mask support | Authentication                                                        |
 | ------- | ------- | ---------------------------- | ------------------- | --------------------------------------------------------------------- |
 | RIPv1   | IPv4    | Broadcast to 255.255.255.255 | No, classful only   | No                                                                    |
@@ -1169,7 +1080,6 @@ RIP uses the **distance-vector** method, which means each router knows only what
 | RIPng   | IPv6    | Multicast to FF02::9         | Yes, classless      | Supports IPv6 security mechanisms; not the same as classic RIPv2 auth |
 
 ### RIP timers
-
 RIP uses timers to control route freshness and stability. The default values are:
 
 - **Update timer**: 30 seconds.
@@ -1178,14 +1088,12 @@ RIP uses timers to control route freshness and stability. The default values are
 - **Flush timer**: 240 seconds.
 
 #### Timer meaning
-
 - **Update timer**: when the next routing update is sent.
 - **Invalid timer**: when a route is marked unreachable.
 - **Hold-down timer**: prevents unstable routing changes from being accepted too quickly.
 - **Flush timer**: removes the route from the table completely.
 
 ### RIP advantages
-
 - Very easy to configure.
 - Low CPU and memory usage.
 - Simple to understand and troubleshoot.
@@ -1193,18 +1101,15 @@ RIP uses timers to control route freshness and stability. The default values are
 - Can support basic equal-cost load balancing in some cases.
 
 ### RIP disadvantages
-
 - Limited to **15 hops**, so it does not scale well.
 - Slow convergence after failures.
 - Periodic full-table updates waste bandwidth.
 - Weak for modern enterprise needs like large topologies and advanced path selection.
 
 ### Security concerns
-
 RIP is weak in security because updates are easy to intercept and manipulate if authentication is not used. Problems include route spoofing, eavesdropping, and false updates that can trigger instability or denial of service.
 
 ### Why RIP is considered old
-
 RIP is often called "dead" in modern networks because it:
 
 - uses only hop count, not bandwidth-aware metrics,
@@ -1216,18 +1121,15 @@ RIP is often called "dead" in modern networks because it:
 ---
 
 ## 11) Link-State Routing
-
 Link-state routing protocols give each router a much more complete view of the network. Routers share information about their links, form a topology database, and then run **Dijkstra's SPF algorithm** to calculate the best path. OSPF and IS-IS are the common examples.
 
 ### Features
-
 - Routers use **hello packets** to discover and maintain neighbors.
 - Topology changes are sent as **triggered updates** rather than fixed periodic full-table advertisements.
 - Each router keeps a copy of the network topology in a database.
 - OSPF stores and uses **LSAs** (Link-State Advertisements) to build the topology view.
 
 ### Tables used in link-state
-
 | Table                 | Purpose                                                      |
 | --------------------- | ------------------------------------------------------------ |
 | Neighbor table        | Stores directly adjacent routers and adjacency status        |
@@ -1235,14 +1137,12 @@ Link-state routing protocols give each router a much more complete view of the n
 | Routing table         | Stores the best routes selected from the SPF calculation     |
 
 ### Advantages
-
 - Fast convergence after changes.
 - More accurate because routers know the overall topology.
 - Scales better than distance vector in larger networks.
 - Avoids persistent routing loops more effectively.
 
 ### Disadvantages
-
 - Uses more memory and CPU because of topology calculations.
 - Configuration and troubleshooting are more complex.
 - Flooding link-state information can use more bandwidth.
@@ -1250,18 +1150,15 @@ Link-state routing protocols give each router a much more complete view of the n
 ---
 
 ### OSPF overview
-
 OSPF (Open Shortest Path First) is a **link-state routing protocol** used inside an autonomous system. Each router independently runs OSPF, learns the topology, and calculates the best routes based on **cost**, not hop count.
 
 #### What OSPF does
-
 - Discovers neighbors with Hello packets.
 - Builds a link-state database (LSDB).
 - Runs SPF (Dijkstra) to select shortest paths.
 - Uses areas to reduce flooding and improve scalability.
 
 ### Key OSPF terms
-
 | Term         | Meaning                                                                                                                               |
 | ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
 | Router ID    | A unique 32-bit number used to identify an OSPF router.                                                                               |
@@ -1273,37 +1170,30 @@ OSPF (Open Shortest Path First) is a **link-state routing protocol** used inside
 | LSDB         | Link-State Database. This is the table where a router stores all received LSAs.                                                       |
 
 ### Router ID
-
 The Router ID is like the **name tag** of an OSPF router. It must be unique inside the OSPF network.
 
 #### How it is chosen
-
 1. If the router-id is manually configured, OSPF uses that first.
 2. If not, OSPF uses the highest loopback IP address.
 3. If there is no loopback, it uses the highest active interface IP address.
 
 #### Why it matters
-
 - It identifies the router in OSPF.
 - It is used in DR/BDR election when priorities are equal.
 - If no valid Router ID exists, OSPF may not start properly.
 
 ### Hello packet
-
 Hello packets are OSPF's way of saying, "Are you there?" They are sent regularly to discover neighbors and maintain the relationship between routers.
 
 #### Main job of Hello packets
-
 - Discover OSPF neighbors.
 - Keep the neighbor relationship alive.
 - Help in DR/BDR election on broadcast and multi-access networks.
 
 #### Important idea
-
 If a router stops receiving Hello packets for the dead interval, it assumes the neighbor is down.
 
 ### OSPF broadcast and multicast addresses
-
 OSPF does not use broadcast to send updates. Instead, it uses **multicast** so only OSPF-enabled routers receive the packets, not every device on the network.
 
 | Address       | Who receives it  | Used for                                                                           |
@@ -1312,7 +1202,6 @@ OSPF does not use broadcast to send updates. Instead, it uses **multicast** so o
 | **224.0.0.6** | DR and BDR only  | DROTHERs send updates to this address so only the DR and BDR process them          |
 
 #### How it works on a LAN segment
-
 - All OSPF routers send Hello packets to **224.0.0.5** to discover neighbors.
 - When a DROTHER needs to share a route update, it sends it to **224.0.0.6** (DR/BDR only).
 - The DR then re-floods the update to **224.0.0.5** so all routers on the segment receive it.
@@ -1320,27 +1209,22 @@ OSPF does not use broadcast to send updates. Instead, it uses **multicast** so o
 This two-step process reduces unnecessary processing on routers that are not the DR or BDR.
 
 #### Why not broadcast?
-
 - Broadcast goes to **every device** on the segment, including non-routers like PCs and switches.
 - Multicast reaches only devices that have joined that multicast group — so only OSPF routers are involved.
 
 ### Area ID
-
 The Area ID tells OSPF which **group** or **section** of the network an interface belongs to. Routers with the same area ID can exchange detailed OSPF information directly.
 
 #### Why areas are used
-
 - They divide a large network into smaller parts.
 - They reduce flooding and make OSPF easier to scale.
 - They keep LSDB size smaller inside each area.
 
 #### Important note
-
 - Area 0 is the backbone area.
 - In general, other areas must connect to area 0 somehow.
 
 ### DR and BDR in OSPF
-
 On **broadcast** and **multi-access** networks (like Ethernet segments), OSPF elects two special routers to reduce traffic:
 
 - **DR (Designated Router)** → the main router for distributing routing information on that segment.
@@ -1349,14 +1233,12 @@ On **broadcast** and **multi-access** networks (like Ethernet segments), OSPF el
 Instead of every router forming full adjacency with every other router, all other routers (called **DROTHER**) form adjacencies mainly with the DR and BDR. This reduces the number of adjacencies and LSA flooding, which saves bandwidth and CPU.
 
 ### How DR/BDR election works
-
 OSPF uses two main things to decide which router becomes DR and which becomes BDR:
 
 1. **OSPF priority (per interface)**
 2. **Router ID (RID)**
 
 #### Election rules
-
 1. **Highest priority wins as DR**
    - Each router has an **OSPF priority** on the interface, from `0` to `255`.
    - The router with the **highest priority** becomes **DR**.
@@ -1375,7 +1257,6 @@ OSPF uses two main things to decide which router becomes DR and which becomes BD
    - In that case, DR/BDR is chosen purely by **Router ID**.
 
 ### OSPF network types
-
 OSPF behaves differently depending on the **network type** of an interface. The network type controls two things: whether a **DR/BDR is elected**, and how **neighbors are discovered**.
 
 | Network Type            | DR/BDR Elected? | Neighbor Discovery    | Typical Use               |
@@ -1386,71 +1267,59 @@ OSPF behaves differently depending on the **network type** of an interface. The 
 | **Point-to-Multipoint** | No              | Automatic (multicast) | Frame Relay hub-and-spoke |
 
 #### Broadcast
-
 - The most common type in modern networks — used on **Ethernet**.
 - OSPF automatically discovers neighbors using **multicast** (224.0.0.5 / 224.0.0.6).
 - A **DR and BDR are elected** to reduce the number of adjacencies on the segment.
 - All other routers on the segment are called **DROTHERs** and only form full adjacency with the DR and BDR.
 
 #### Point-to-Point
-
 - Used on links with only **two routers** (e.g., serial links, PPP, HDLC WAN connections).
 - **No DR/BDR election** — not needed because there are only two endpoints on the link.
 - The two routers form a **direct full adjacency** with each other automatically.
 - Simple and fast — this is the preferred type for serial WAN links.
 
 #### NBMA (Non-Broadcast Multi-Access)
-
 - Used on older WAN technologies like **Frame Relay or ATM**, where multiple routers share the same network but the medium **does not support native broadcast**.
 - **DR/BDR is still elected** (same logic as broadcast), but neighbors must be **manually configured** because multicast does not work natively here.
 - Requires `neighbor` statements under the OSPF process to tell OSPF where to send updates.
 
 #### Point-to-Multipoint
-
 - Also common on **hub-and-spoke WAN** designs (Frame Relay).
 - **No DR/BDR election** — OSPF treats each connection to a spoke as a separate point-to-point link.
 - Neighbors are discovered **automatically** where multicast is supported, or can be configured manually.
 - Simpler to set up than NBMA because it avoids the DR/BDR complexity.
 
 #### Quick rule to remember
-
 - **DR/BDR elected** → Broadcast, NBMA
 - **No DR/BDR** → Point-to-Point, Point-to-Multipoint
 
 ---
 
 ### LSA
-
 LSA stands for **Link-State Advertisement**. It is the message OSPF uses to share information about links, routers, and network changes.
 
 #### What an LSA contains
-
 - Router information.
 - Link/interface information.
 - Cost and connectivity details.
 - Topology changes.
 
 #### Why it matters
-
 - LSAs are how OSPF learns the full network topology.
 - When something changes, new LSAs are flooded so all routers can update their view.
 
 ### LSDB
-
 LSDB means **Link-State Database**. It is the collection of all LSAs a router knows about.
 
 #### Simple meaning
-
 Think of the LSDB as OSPF's **network map**. Every router in the same area keeps a similar map so they can calculate the best route.
 
 #### Why it is important
-
 - OSPF uses the LSDB as input for SPF calculation.
 - A correct LSDB is needed for correct route calculation.
 - If LSDBs do not match, routing problems can happen.
 
 ### OSPF neighbor states
-
 When two routers start talking OSPF, they do not become fully connected immediately. They move through a set of states step by step until they finally reach **Full**, which means their databases are synchronized.
 
 | State    | Meaning                                                                                                        |
@@ -1464,7 +1333,6 @@ When two routers start talking OSPF, they do not become fully connected immediat
 | Full     | The LSDBs are synchronized. At this point, the OSPF adjacency is complete.                                     |
 
 #### What the states really mean
-
 You can think of the OSPF process like two routers getting to know each other.
 
 - **Down** means they have not started talking yet.
@@ -1475,22 +1343,18 @@ You can think of the OSPF process like two routers getting to know each other.
 - **Full** means both routers now have the same view of the network.
 
 ### Neighbor vs adjacency
-
 A **neighbor** is just a router that has been discovered by Hello packets. It means the routers know each other exists.
 
 An **adjacency** is a stronger relationship. It means the routers have gone beyond discovery and have fully exchanged and synchronized their LSDBs.
 
 #### Simple example
-
 - If Router A and Router B send Hello packets to each other, they are **neighbors**.
 - If they also exchange database information and finish synchronizing, they are **adjacent**.
 
 ### Why not every neighbor becomes adjacent
-
 On broadcast networks like Ethernet, OSPF uses the **DR/BDR** mechanism to reduce overhead. That means routers do not always form full adjacencies with every other router on the same network segment. Instead, many routers only fully adjacence with the DR and BDR, which keeps the number of relationships lower and makes the network more efficient.
 
 ### Why adjacency can fail
-
 OSPF may stop before Full if some values do not match. Common problems include:
 
 - Area ID mismatch.
@@ -1500,17 +1364,14 @@ OSPF may stop before Full if some values do not match. Common problems include:
 - Wrong network type in some designs.
 
 ### Easy memory trick
-
 - **Neighbor** = "I know you."
 - **Adjacency** = "I know you, and I share my routing database with you."
 - **Full** = "We are completely synchronized."
 
 ### OSPF message types
-
 OSPF uses **5 types of packets** to discover neighbors, synchronize databases, and update topology.
 
 #### 1. Hello
-
 - **Purpose**: Discover and maintain OSPF neighbors.
 - **What it does**:
   - Says "I am here" (neighbor discovery).
@@ -1519,7 +1380,6 @@ OSPF uses **5 types of packets** to discover neighbors, synchronize databases, a
 - **Used in**: Down → Init → Two-Way states.
 
 #### 2. DBD (Database Description)
-
 - **Purpose**: Exchange a **summary** of the LSDB (not the full routes).
 - **What it does**:
   - Each router shows what LSAs it knows (like a table of contents).
@@ -1527,14 +1387,12 @@ OSPF uses **5 types of packets** to discover neighbors, synchronize databases, a
   - Used in **ExStart** and **Exchange** states.
 
 #### 3. LSR (Link-State Request)
-
 - **Purpose**: Ask for **specific missing LSAs**.
 - **What it does**:
   - After comparing DBDs, a router says, "You have something I don't; send me those LSAs."
   - Used in the **Loading** state.
 
 #### 4. LSU (Link-State Update)
-
 - **Purpose**: Send the **actual LSAs** that were requested.
 - **What it does**:
   - Contains full **Link-State Advertisements** (routing info).
@@ -1542,18 +1400,15 @@ OSPF uses **5 types of packets** to discover neighbors, synchronize databases, a
   - Sent in **Loading** state for sync, and anytime an LSA is updated (flooding).
 
 #### 5. LSAck (Link-State Acknowledgment)
-
 - **Purpose**: Confirm that LSU packets were received.
 - **What it does**:
   - Each router sends an LSAck to say "Yes, I got your LSU and its LSAs."
   - This makes OSPF **reliable** (if no LSAck, the LSU is re-sent).
 
 ### OSPF cost
-
 OSPF uses **cost** as its only metric to decide which path is the best. Lower cost is always preferred, and by default, cost is based on **interface bandwidth**.
 
 #### What "cost" means
-
 - **Cost = how "expensive" a link is to use.**
 - Low-bandwidth links have **high cost** (not preferred).
 - High-bandwidth links have **low cost** (preferred).
@@ -1561,14 +1416,12 @@ OSPF uses **cost** as its only metric to decide which path is the best. Lower co
 For example, OSPF should prefer a 100 Mbps link over a 10 Mbps link for the same path.
 
 #### The cost formula
-
 $$\text{Cost} = \frac{\text{Reference Bandwidth}}{\text{Interface Bandwidth}}$$
 
 - **Reference Bandwidth** is a fixed value set by the vendor (by default **100 Mbps** on Cisco).
 - **Interface Bandwidth** is the actual speed of the link (e.g., 10 Mbps, 100 Mbps, 1 Gbps).
 
 #### Example values (Cisco default)
-
 | Link type              | Bandwidth | Formula (100 Mbps / BW) | Cost                                                          |
 | ---------------------- | --------- | ----------------------- | ------------------------------------------------------------- |
 | 10 Mbps Ethernet       | 10 Mbps   | 100 / 10                | 10                                                            |
@@ -1576,13 +1429,11 @@ $$\text{Cost} = \frac{\text{Reference Bandwidth}}{\text{Interface Bandwidth}}$$
 | 1 Gbps GigabitEthernet | 1 Gbps    | 100 / 1000              | 1 (since cost is rounded to integer, any value < 1 becomes 1) |
 
 #### How OSPF uses cost
-
 - Each router assigns a **cost to every outgoing OSPF interface** using this formula.
 - When choosing a path to a destination, OSPF **adds up all the link costs** along the path.
 - The path with the **lowest total cost** becomes the best route.
 
 #### Simple example
-
 Suppose Router A has two paths to a server:
 
 - Path 1: A → B → Server, with link costs 10 + 10 = **20**
@@ -1591,11 +1442,9 @@ Suppose Router A has two paths to a server:
 Even if both paths have the same number of hops, OSPF chooses **Path 2** because its **total cost (2)** is lower than cost 20.
 
 ### LSDB and SPF
-
 Each router stores LSAs in the **LSDB**, and that database becomes the input to the SPF algorithm. SPF does not directly read packets to build the routing table; instead, it calculates the best route tree from the LSDB from the local router's perspective.
 
 #### Why OSPF areas matter
-
 Areas exist mainly to **reduce load** and **improve convergence**:
 
 - **Limit LSA flooding** to just the area.
@@ -1604,7 +1453,6 @@ Areas exist mainly to **reduce load** and **improve convergence**:
 - **Improve convergence** because changes in one area do not force full SPF runs everywhere.
 
 ### OSPF packet flow (step-by-step)
-
 This is the usual OSPF "conversation" on a segment:
 
 1. **Hello** → Routers send Hello packets.
@@ -1615,25 +1463,21 @@ This is the usual OSPF "conversation" on a segment:
 6. **Full** → LSDBs are synchronized; adjacency is complete and SPF can run.
 
 ### OSPF areas (types explained)
-
 OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everything else connects to it.
 
 #### 1. Backbone area (Area 0)
-
 - The **core** of the OSPF network.
 - **All other areas must connect** to Area 0 (directly or via virtual links).
 - It carries routing information between non-backbone areas.
 - Supports **all LSA types** (1, 2, 3, 4, 5).
 
 #### 2. Standard (normal) area
-
 - A regular OSPF area that is not special.
 - **Any LSA type is allowed** (1, 2, 3, 4, 5).
 - No special restrictions; it behaves like the classic OSPF design.
 - This is the **default** if you don't configure a special area type.
 
 #### 3. Stub area
-
 - A **simplified** area that:
   - **Blocks Type 5 external LSAs** (no external routes from other AS).
   - Instead of all externals, it uses a **default route** toward the backbone.
@@ -1643,7 +1487,6 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
 - Goal: reduce LSDB size and routing table size in edge areas.
 
 #### 4. Totally stubby area (Cisco-style)
-
 - Even stricter than a stub area:
   - **Blocks Type 5 (external) and Type 3 (inter-area) LSAs**.
 - The router only knows:
@@ -1652,7 +1495,6 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
 - This keeps the LSDB and routing table **very small**.
 
 #### 5. NSSA (Not-So-Stubby Area)
-
 - Like a **stub** but more flexible:
   - **Blocks Type 5 external LSAs from outside.**
   - **Allows an ASBR inside the NSSA** to generate **Type 7 LSAs** for external routes.
@@ -1660,46 +1502,38 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
 - Use case: an edge area that needs to redistribute external routes without becoming a normal area.
 
 ### OSPF router types
-
 #### Backbone Area (Area 0)
-
 - Identifier = **Area 0** (backbone area).
 - Acts as the **core** of the OSPF domain.
 - **All other areas must connect to Area 0** (directly or via ABRs/virtual links).
 - Carries routing traffic between non-backbone areas.
 
 #### Backbone router
-
 - Any router that has **at least one interface in Area 0**.
 - It may also have interfaces in other areas.
 - Participates in the backbone routing but does not necessarily connect multiple areas itself.
 
 #### Area Border Router (ABR)
-
 - A router with **interfaces in multiple areas** (for example, Area 0 + Area 10).
 - Connects an **internal area to the backbone**.
 - **Summarizes routes** between areas and controls which LSAs are sent where.
 - Plays a key role in hierarchical design and route-table size control.
 
 #### Internal router
-
 - A router whose **all interfaces belong to a single area**.
 - Operates only within that area's LSDB.
 - Generally **simpler** (no ABR/ASBR features).
 
 #### Autonomous System Boundary Router (ASBR)
-
 - A router that **connects an OSPF AS to another routing domain** (e.g., another AS, BGP, RIP, EIGRP).
 - **Redistributes** external routes into OSPF as **Type 5 LSAs** (or **Type 7 in NSSA**).
 - Typically located at the edge of the OSPF network.
 
 ### OSPF addressing and summarization
-
 - OSPF is **classless** and supports **VLSM** and **CIDR**.
 - It allows **route summarization** at ABRs and ASBRs.
 
 #### How summarization helps
-
 - Instead of advertising each small subnet, ABRs can advertise **a single network ID or summary prefix**.
 - This:
   - Reduces the **routing-table size**.
@@ -1707,7 +1541,6 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
   - Hides small topology changes from the rest of the domain.
 
 ### OSPFv2 vs OSPFv3
-
 | Feature    | OSPFv2                          | OSPFv3                                              |
 | ---------- | ------------------------------- | --------------------------------------------------- |
 | IP version | IPv4                            | IPv6                                                |
@@ -1718,18 +1551,15 @@ OSPF breaks the network into **areas**. Area 0 is the **backbone**, and everythi
 ---
 
 ## 12) Hybrid Routing
-
 Hybrid routing combines ideas from distance vector and link-state routing. EIGRP is the best-known example in Cisco environments. It learns routes from neighbors like a distance-vector protocol, but it also uses fast convergence techniques, neighbor discovery, and partial updates that make it behave more like a modern advanced protocol.
 
 ### Features
-
 - Uses **hello packets** for neighbor discovery.
 - Sends **partial, triggered updates** when the topology changes.
 - Uses the **DUAL algorithm** to find loop-free paths.
 - Supports backup paths called **feasible successors**.
 
 ### EIGRP terms
-
 | Term                  | Meaning                                                           |
 | --------------------- | ----------------------------------------------------------------- |
 | Successor             | Best route to the destination, installed in the routing table     |
@@ -1737,14 +1567,12 @@ Hybrid routing combines ideas from distance vector and link-state routing. EIGRP
 | Feasibility condition | Rule used to ensure the backup route is loop-free                 |
 
 ### Advantages
-
 - Fast convergence.
 - Efficient bandwidth use because it does not flood full tables constantly.
 - Supports scalable networks.
 - Can provide backup routes quickly through feasible successors.
 
 ### Disadvantages
-
 - More complex than RIP.
 - Uses more CPU and memory than distance vector protocols.
 - Cisco-focused in practice, so it is less universal than OSPF.
@@ -1752,14 +1580,12 @@ Hybrid routing combines ideas from distance vector and link-state routing. EIGRP
 ---
 
 ### EIGRP – Core idea
-
 **EIGRP (Enhanced Interior Gateway Routing Protocol)** is a **hybrid routing protocol**: it behaves mostly like an **advanced distance-vector** protocol but borrows features from link-state routing. It runs at **Layer 3 (Network Layer)** and uses **IP protocol 88**.
 
 - Used to discover and maintain **best paths inside an AS**.
 - Fast convergence, efficient bandwidth use, and unequal-cost load balancing make it popular in **enterprise networks**.
 
 ### Administrative Distance in EIGRP
-
 Administrative Distance (AD) tells the router **how much it trusts a route**. Lower AD = more trusted.
 
 | Type                                  | AD Value |
@@ -1771,7 +1597,6 @@ Administrative Distance (AD) tells the router **how much it trusts a route**. Lo
 - So, **EIGRP internal routes** are trusted more than most other IGPs (for example, OSPF = 110, RIP = 120).
 
 ### Key EIGRP messages
-
 EIGRP uses several message types, sent as **multicast (224.0.0.10)** or **unicast**, depending on purpose.
 
 | Message         | Purpose                                                                                                                                                            |
@@ -1789,7 +1614,6 @@ EIGRP uses several message types, sent as **multicast (224.0.0.10)** or **unicas
 > - **Update, Query, Reply** are **reliable** and must be acknowledged.
 
 ### EIGRP broadcast and multicast
-
 EIGRP does **not** use broadcast. It uses **multicast** for most messages, and switches to **unicast** in specific situations.
 
 | Address / Type             | Used for                                                                                                                          |
@@ -1798,21 +1622,17 @@ EIGRP does **not** use broadcast. It uses **multicast** for most messages, and s
 | **Unicast**                | Retransmissions of reliable messages if a neighbor does not acknowledge; also used on NBMA links where multicast is not supported |
 
 #### Why multicast instead of broadcast?
-
 - **Broadcast** goes to every device on the network — including PCs, printers, and switches that do not run EIGRP.
 - **Multicast 224.0.0.10** only reaches routers that have joined the EIGRP multicast group, which saves processing on non-EIGRP devices.
 
 #### When EIGRP falls back to unicast
-
 - If a neighbor does not **acknowledge** a reliable message (Update, Query, Reply), EIGRP retransmits it as **unicast** directly to that neighbor.
 - On **NBMA links** (e.g., Frame Relay) where multicast may not work, EIGRP uses unicast with manually configured neighbor statements.
 
 ### Composite metric (EIGRP metric)
-
 EIGRP chooses the best path using a **composite metric** built from **five K-values**. By default, only **K₁ = Bandwidth** and **K₃ = Delay** are used.
 
 #### K-value meanings
-
 - **K₁ = Bandwidth**
 - **K₂ = Load**
 - **K₃ = Delay**
@@ -1820,20 +1640,17 @@ EIGRP chooses the best path using a **composite metric** built from **five K-val
 - **K₅ = MTU**
 
 #### Default K-values
-
 $$\text{K1} = 1, \quad \text{K2} = 0, \quad \text{K3} = 1, \quad \text{K4} = 0, \quad \text{K5} = 0$$
 
 So **only bandwidth and delay contribute** by default. Lower metric = better route.
 
 #### Classic metric mindset
-
 - **Bandwidth**: lower bandwidth → higher metric.
 - **Delay**: higher delay → higher metric.
 
 EIGRP's metric can be **scaled** so large bandwidths (10 Gbps, 100 Gbps) are still distinguished.
 
 ### Neighbor adjacency requirements
-
 For two routers to become **EIGRP neighbors**, these must match:
 
 - **K-values** (all 5) on the link.
@@ -1844,7 +1661,6 @@ For two routers to become **EIGRP neighbors**, these must match:
 If any of these differ, the routers **will not form a neighbor relationship**, even if physically connected.
 
 ### EIGRP timers
-
 | Timer                | LAN (Ethernet) Default | WAN / Slow-link Default | Purpose                                                               |
 | -------------------- | ---------------------- | ----------------------- | --------------------------------------------------------------------- |
 | **Hello Timer**      | **5 seconds**          | **60 seconds**          | Interval between Hello packets.                                       |
@@ -1855,7 +1671,6 @@ If any of these differ, the routers **will not form a neighbor relationship**, e
 The LAN timers allow **fast failure detection** on high-speed links. The longer WAN timers reduce Hello overhead on slower, more sensitive connections.
 
 ### Pros of EIGRP
-
 - **Fast convergence** (via **DUAL algorithm** and feasible successors).
 - **VLSM and CIDR support** for efficient IP design.
 - **Partial updates** reduce bandwidth usage vs full-table distance-vector protocols like RIP.
@@ -1863,14 +1678,12 @@ The LAN timers allow **fast failure detection** on high-speed links. The longer 
 - **Unequal-cost load balancing** (via `variance` command).
 
 ### DUAL (Diffusing Update Algorithm)
-
 DUAL is the **core of EIGRP's loop-free convergence**. It uses:
 
 - **Topology table** (all routes and their metrics).
 - **Feasibility condition** to choose **loop-free backup routes (feasible successors)**.
 
 #### Key distance terms
-
 Before understanding DUAL, you need to know two distance values EIGRP uses:
 
 | Term                  | Short form | Meaning                                                                                                                                                        |
@@ -1884,7 +1697,6 @@ Simple way to remember:
 - **FD** = your total cost = (your link to neighbor) + (neighbor's RD).
 
 #### Feasibility condition
-
 A backup path (feasible successor) is loop-free if:
 
 > **RD of the backup path < FD of the current best path**
@@ -1892,13 +1704,11 @@ A backup path (feasible successor) is loop-free if:
 This rule guarantees the backup neighbor is closer to the destination than you are, so it cannot be routing traffic back through you — meaning no loop is possible.
 
 #### Key ideas
-
 - **Successor** = the current best path (in routing table). Has the lowest FD.
 - **Feasible successor** = a loop-free backup path ready to take over **immediately**. Its RD must be less than the successor's FD.
 - If no feasible successor exists, EIGRP runs a **diffusing computation** (queries and replies) to find a new route; this usually takes a few seconds.
 
 #### Example
-
 Suppose Router A has two paths to a destination:
 
 - Path via B: FD = 100, RD reported by B = 60
@@ -1910,7 +1720,6 @@ Path via C: is C's RD (80) < successor's FD (100)? Yes → C is a **feasible suc
 This is why EIGRP is often said to support an **"immediate backup"**, unlike OSPF.
 
 ### EIGRP tables
-
 | Table                   | Purpose                                                                       |
 | ----------------------- | ----------------------------------------------------------------------------- |
 | **Neighbor table**      | Stores EIGRP neighbors and their metrics (like RTT, SRTT, RTO).               |
@@ -1921,9 +1730,7 @@ OSPF style: **LSDB → SPF → routing table**.
 EIGRP style: **Topology table → DUAL → routing table**.
 
 ### Auto-summarization and bandwidth management
-
 #### Auto-summarization
-
 By default, EIGRP **auto-summarizes** routes at **classful boundaries**.
 
 - Example: 192.168.1.0/24 and 192.168.2.0/24 may be summarized to **192.168.0.0/16**.
@@ -1937,36 +1744,30 @@ router eigrp 10
 ```
 
 #### Bandwidth management
-
 EIGRP limits routing traffic to a percentage of the interface bandwidth (default **50%**).
 
 - Prevents routing updates from **flooding low-bandwidth links**.
 - On high-speed links, this can be too conservative, so you can adjust it and tune **bandwidth** and **delay** metrics manually.
 
 ### PDM (Protocol Dependent Module)
-
 EIGRP is designed to support **multiple network-layer protocols**, not just IP. This is possible because of its modular design — each supported protocol gets its own **Protocol Dependent Module (PDM)**.
 
 #### What PDM does
-
 - Each PDM handles the routing logic for **one specific protocol** (e.g., IPv4, IPv6, IPX).
 - The DUAL algorithm and the core EIGRP engine remain the same — only the PDM layer changes depending on the protocol being routed.
 - Think of it like a **compartment** or plug-in: one compartment for IPv4, another for IPv6, and so on.
 
 #### Why it matters
-
 - EIGRP can maintain **separate neighbor tables, topology tables, and routing tables** for each protocol independently.
 - A problem in one protocol's routing does not affect the others.
 - In modern networks, the most relevant PDMs are **IPv4** and **IPv6 (EIGRPv6)**.
 
 #### Simple way to think about it
-
 > DUAL is the engine. PDM is the gear selector — it tells the engine which protocol's routes to process.
 
 ---
 
 ### Basic EIGRP commands (Cisco)
-
 ```bash
 R(config)# router eigrp 10
 R(config-router)# network 192.168.1.0 0.0.0.255
@@ -1976,7 +1777,6 @@ R(config-router)# network 10.0.0.0
 - **AS number (10)** must be the same on all routers in the EIGRP domain.
 
 #### Common verification commands
-
 ```bash
 show ip eigrp neighbors          → EIGRP neighbor table
 show ip eigrp topology           → Topology table (includes feasible successors)
@@ -1986,7 +1786,6 @@ show ip route eigrp              → EIGRP routes in routing table
 ---
 
 ## 13) Loop Prevention Techniques
-
 A **routing loop** happens when a packet goes in circles between routers instead of reaching the destination.
 
 - Wastes **bandwidth**.
@@ -1996,7 +1795,6 @@ A **routing loop** happens when a packet goes in circles between routers instead
 The goal of all these techniques is: **Stop packets from looping endlessly** and **prevent bad routing info from spreading**.
 
 ### 1. TTL (Time To Live)
-
 - Every IP packet has a **TTL** field (or **Hop-Limit** in IPv6).
 - Every time the packet passes a router, **TTL = TTL – 1**.
 - When **TTL = 0**, the packet is **dropped** and not forwarded.
@@ -2007,7 +1805,6 @@ The goal of all these techniques is: **Stop packets from looping endlessly** and
 - Does **not fix** the routing bug; it just limits the damage.
 
 ### 2. Split Horizon
-
 In distance-vector protocols, a router **does not advertise a route back out the same interface** it learned it on.
 
 > Example:
@@ -2021,7 +1818,6 @@ In distance-vector protocols, a router **does not advertise a route back out the
 - Basic rule in **RIP, EIGRP**, and similar protocols.
 
 ### 3. Route Poisoning
-
 When a route fails (link goes down), the router **adverts it with "infinite" metric**, i.e., unreachable.
 
 > Example:
@@ -2036,7 +1832,6 @@ When a route fails (link goes down), the router **adverts it with "infinite" met
 - Prevents **count-to-infinity** and routing loops.
 
 ### 4. Poison Reverse
-
 A **stronger version** of Split Horizon.
 
 - Instead of just **not advertising** the route, the router **explicitly advertises it as unreachable** back to the neighbor.
@@ -2052,7 +1847,6 @@ A **stronger version** of Split Horizon.
 - More aggressive at preventing loops; used in **RIP with poison-reverse** and EIGRP.
 
 ### 5. Hold-down Timers
-
 When a route disappears, routers **temporarily ignore** new updates for that destination unless the new route comes from the same source or is clearly better.
 
 **What it prevents**
@@ -2065,7 +1859,6 @@ When a route disappears, routers **temporarily ignore** new updates for that des
 - Slower convergence in some cases, but safer against instability.
 
 ### 6. Triggered (Flash) Updates
-
 Instead of waiting for **periodic updates** every 30 seconds (RIP style), a router **immediately sends an update** when a route changes.
 
 **Purpose**
@@ -2074,7 +1867,6 @@ Instead of waiting for **periodic updates** every 30 seconds (RIP style), a rout
 - Reduces chance that others still use an old path, which could cause loops.
 
 ### 7. Sequence Numbers
-
 Some protocols attach a **version number** to each route or message.
 
 - Neighbors accept only **newer** sequence numbers.
@@ -2086,7 +1878,6 @@ Some protocols attach a **version number** to each route or message.
 - Avoids using old routes that might have created loops.
 
 ### 8. Link-State Routing (OSPF style)
-
 In **link-state protocols (OSPF, IS-IS)**:
 
 - Each router builds a **complete map (topology)** of the network using **LSAs**.
@@ -2098,7 +1889,6 @@ In **link-state protocols (OSPF, IS-IS)**:
 - Every router independently computes **loop-free shortest paths** from the shared map.
 
 ### 9. Path-Vector (BGP style)
-
 In **BGP**, each route carries a **full path list** (list of AS numbers or routers).
 
 - When a router sees **its own ID** (AS number) in the path, it **rejects** that route.
@@ -2113,7 +1903,6 @@ In **BGP**, each route carries a **full path list** (list of AS numbers or route
 - Straight-forward **loop detection**: no router can import a path that includes itself.
 
 ### Quick conceptual summary
-
 | Technique             | Main idea                                             | Where it's used              |
 | --------------------- | ----------------------------------------------------- | ---------------------------- |
 | **TTL**               | Eventually kill looping packets                       | All IP networks              |
@@ -2127,7 +1916,6 @@ In **BGP**, each route carries a **full path list** (list of AS numbers or route
 | **Path-Vector (BGP)** | Check path; if it includes me → reject                | BGP                          |
 
 ### Simple way to remember
-
 - **Distance-vector →** Prevent loops with **rules and timers** (split horizon, poisoning, hold-down, triggers).
 - **Link-state →** Avoid loops with **complete topology + Dijkstra**.
 - **BGP** → Detect loops with **path history** (AS-PATH / router ID list).
@@ -2135,11 +1923,8 @@ In **BGP**, each route carries a **full path list** (list of AS numbers or route
 ---
 
 ## 14) Load Balancing
-
 ### Load balancing in OSPF
-
 #### How it works
-
 - OSPF uses **cost** as its metric.
 - If a router has **two or more routes with exactly the same total cost** to a destination, it can install **multiple next-hops** in the routing table.
 - Traffic is then **shared across these equal-cost paths** (usually per-flow or per-packet, depending on platform/CEF).
@@ -2147,7 +1932,6 @@ In **BGP**, each route carries a **full path list** (list of AS numbers or route
 This is called **ECMP – Equal-Cost Multi-Path** routing.
 
 #### Limits
-
 - On Cisco IOS, by default, OSPF usually uses up to **4 equal-cost paths**.
 - You can change this with the `maximum-paths` command under the OSPF process, up to higher values (often up to 16 or 32, depending on platform/IOS).
 
@@ -2162,11 +1946,9 @@ router ospf 1
   Only routes with **identical cost** are used together.
 
 ### Load balancing in EIGRP
-
 EIGRP is more flexible: it supports **equal-cost** and **unequal-cost** load balancing.
 
 #### 1. Equal-cost load balancing (default)
-
 - If EIGRP learns multiple routes to a destination with the **same composite metric**, it can install multiple next-hops and share traffic across them.
 - By default, Cisco routers use up to **4 equal-cost paths**, controlled by `maximum-paths`.
 
@@ -2178,7 +1960,6 @@ router eigrp 100
 ```
 
 #### 2. Unequal-cost load balancing (variance)
-
 This is the big EIGRP advantage over OSPF.
 
 - EIGRP can also use **paths with different metrics** if they are **"good enough"** compared to the best path.
@@ -2208,7 +1989,6 @@ Important:
 - Only **feasible successors** are used for unequal-cost load balancing (must pass feasibility condition, so they are loop-free).
 
 #### Traffic-share ratios
-
 When EIGRP does unequal-cost load balancing, it does **not** split traffic equally. Instead, it sends **more traffic through the better path** and less through the worse one, in proportion to their metrics.
 
 The traffic share is calculated as:
@@ -2230,7 +2010,6 @@ So the ratio is **10 : 5 : 2** — Path A carries roughly 10 packets for every 5
 This is called **proportional load sharing** — faster/better paths carry more of the load automatically.
 
 ### Quick comparison
-
 | Feature                     | OSPF                        | EIGRP                                     |
 | --------------------------- | --------------------------- | ----------------------------------------- |
 | Metric                      | Cost (bandwidth-based)      | Composite (bandwidth, delay, etc.)        |
@@ -2245,7 +2024,6 @@ Mental shortcut:
 ---
 
 ## 15) RIP vs OSPF vs EIGRP — Quick Comparison
-
 | Feature                     | RIP                                                 | OSPF                                  | EIGRP                                             |
 | --------------------------- | --------------------------------------------------- | ------------------------------------- | ------------------------------------------------- |
 | **Protocol type**           | Distance vector                                     | Link-state                            | Hybrid (advanced distance vector)                 |
@@ -2259,7 +2037,6 @@ Mental shortcut:
 | **Load balancing**          | Equal-cost only                                     | Equal-cost only (ECMP)                | Equal-cost and unequal-cost (via `variance`)      |
 
 ### Simple memory shortcut
-
 - **RIP** → Simple, slow, small networks only. Hop count is the only metric. Good for learning; rarely used in production today.
 - **OSPF** → Open standard, cost-based metric, scales well with areas. The most common choice in real-world networks.
 - **EIGRP** → Cisco-focused, fastest convergence via DUAL, flexible load balancing with `variance`. Best in Cisco-only environments.
@@ -2267,7 +2044,6 @@ Mental shortcut:
 ---
 
 ## 1. VLAN Concept
-
 - **VLAN (Virtual Local Area Network)** = a **logical grouping** of networking devices, regardless of their physical location.
 - Creating a VLAN **breaks one large broadcast domain into multiple smaller broadcast domains**.
 - Think of a VLAN like a **subnet**: just as two different subnets cannot communicate without a router, **two different VLANs also require a router (or Layer 3 device) to communicate**.
@@ -2280,16 +2056,13 @@ Mental shortcut:
 ---
 
 ## 1.1 VLAN ID (VLAN Number) and VLAN Range
-
 Every VLAN is identified by a unique **VLAN ID** (a number) so switches can distinguish one VLAN's traffic from another's, especially over a trunk link.
 
 ### 🔹 VLAN ID Field
-
 - Carried inside the **802.1Q tag** in the Ethernet frame (12-bit field).
 - 12 bits → theoretical range = **0 – 4095** → but 0 and 4095 are reserved, so usable range = **1 – 4094**.
 
 ### 🔹 VLAN ID Ranges (Cisco Switches)
-
 | Range           | Type               | Notes                                                                                                              |
 | --------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
 | **0**           | Reserved           | Not used (priority tagging only, no VLAN)                                                                          |
@@ -2303,7 +2076,6 @@ Every VLAN is identified by a unique **VLAN ID** (a number) so switches can dist
 **1 = Default | 2–1001 = Normal | 1002–1005 = Legacy Reserved | 1006–4094 = Extended | 4095 = Reserved**
 
 ### 🔹 Normal Range vs Extended Range VLANs
-
 | Parameter         | Normal Range VLAN           | Extended Range VLAN                    |
 | ----------------- | --------------------------- | -------------------------------------- |
 | VLAN ID           | 1 – 1001                    | 1006 – 4094                            |
@@ -2316,7 +2088,6 @@ Every VLAN is identified by a unique **VLAN ID** (a number) so switches can dist
 ---
 
 ## 2. Benefits / Advantages of VLAN
-
 | Benefit                           | Explanation                                                                                              |
 | --------------------------------- | -------------------------------------------------------------------------------------------------------- |
 | **Solves broadcast problem**      | Limits broadcast traffic to within the VLAN only                                                         |
@@ -2330,14 +2101,12 @@ Every VLAN is identified by a unique **VLAN ID** (a number) so switches can dist
 ---
 
 ## 3. VLAN Port Assignment / Connection Types
-
 When configuring VLANs on a switch port, we must define the **connection type**. Switches support **two types** of VLAN connections:
 
 1. **Access Link**
 2. **Trunk Link**
 
 ### 🔹 Access Link
-
 - Connects a switch port to an end device with a **standard Ethernet NIC**.
 - Standard NICs only understand **IEEE 802.3 / Ethernet II** frames (no VLAN tag).
 - An access port can be assigned to **only ONE VLAN** at a time.
@@ -2348,13 +2117,11 @@ When configuring VLANs on a switch port, we must define the **connection type**.
 > 20 users connected to a hub → hub connected to a switch access port → all 20 users are in the **same VLAN**. To put 10 users in a different VLAN, you'd need a **separate hub** connected to a **different access port**.
 
 ### 🔹 Trunk Link
-
 - Connects a switch port to a device **capable of understanding multiple VLANs** (usually **switch-to-switch** or **switch-to-router**).
 - Allows VLAN information to be carried **across the network** — this is how a VLAN can "span" multiple switches.
 - Requires the original Ethernet frame to be **modified** to carry VLAN membership information (**tagging**).
 
 ### 🔹 Access vs Trunk — Comparison Table
-
 | Parameter                 | Access Link                             | Trunk Link                                 |
 | ------------------------- | --------------------------------------- | ------------------------------------------ |
 | Connects to               | End devices (PC, printer, standard NIC) | Switches, routers                          |
@@ -2366,9 +2133,7 @@ When configuring VLANs on a switch port, we must define the **connection type**.
 ---
 
 ## 4. VLAN Tagging — IEEE 802.1Q
-
 ### 🔹 What is Tagging?
-
 - In trunking, a **separate logical connection** is created for each VLAN (instead of one physical connection per VLAN).
 - The switch **adds the source port's VLAN identifier** to the Ethernet frame — this is called **tagging**.
 - This tag tells the receiving switch **which VLAN the frame originated from**, allowing intelligent forwarding decisions based on **both** the destination MAC address **and** the source VLAN ID.
@@ -2377,14 +2142,12 @@ When configuring VLANs on a switch port, we must define the **connection type**.
 📌 Since the frame is modified, a **standard NIC will NOT understand tagged frames** and will typically **drop them**. Both ends of a trunk link **must support and be configured with the same trunking protocol**.
 
 ### 🔹 Trunking Protocols (2 types)
-
 | Protocol  | Full Form         | Vendor                     |
 | --------- | ----------------- | -------------------------- |
 | **ISL**   | Inter-Switch Link | Cisco-**proprietary**      |
 | **Dot1q** | IEEE 802.1Q       | **Open industry standard** |
 
 ### 🔹 IEEE 802.1Q Details
-
 - Industry-standard trunking protocol (works across vendors, unlike ISL).
 - Inserts a **4-byte tag** into the Ethernet frame header, containing:
   - **TPID (Tag Protocol Identifier)** — identifies the frame as 802.1Q tagged
@@ -2400,7 +2163,6 @@ When configuring VLANs on a switch port, we must define the **connection type**.
 ---
 
 ## 5. Inter-VLAN Routing
-
 Since different VLANs are like different subnets, communication **between VLANs requires Layer 3 routing**. There are **three options**:
 
 1. **Router with one physical interface per VLAN** (traditional method — typically NOT used; wastes physical ports)
@@ -2408,12 +2170,10 @@ Since different VLANs are like different subnets, communication **between VLANs 
 3. **Layer 3 Switch** (Switched Virtual Interfaces — SVIs, most common in modern networks)
 
 ### 🔹 Option 1: One Router Interface per VLAN
-
 - Requires a **dedicated physical router interface for each VLAN**.
 - **Disadvantage:** Not scalable — limited by number of physical router ports; wasteful and expensive.
 
 ### 🔹 Option 2: Router-on-a-Stick
-
 - A configuration that allows routing of traffic **between VLANs using a single physical router interface**.
 - The router has **one physical interface**, but that interface is divided into multiple **logical sub-interfaces** — one per VLAN.
 - Router connects to the switch via a **VLAN trunk** (802.1Q).
@@ -2447,7 +2207,6 @@ interface fastethernet0/0.20
 ✅ **Exam Trap:** Router-on-a-stick needs only **ONE physical interface** but **multiple logical sub-interfaces**, each tied to a VLAN via `encapsulation dot1q`.
 
 ### 🔹 Option 3: Layer 3 Switch (Preferred in Modern Networks)
-
 - A switch capable of performing **both Layer 2 switching AND Layer 3 routing**.
 - Uses **SVI (Switched Virtual Interface)** — a virtual interface representing a VLAN, assigned an IP address, acting as the default gateway for that VLAN.
 - **Faster** than router-on-a-stick (hardware-based switching/routing, no trunk bottleneck).
@@ -2462,7 +2221,6 @@ interface vlan 10
 ```
 
 ### 🔹 Comparison of Inter-VLAN Routing Methods
-
 | Method                 | Physical Interfaces Needed | Speed                        | Scalability | Common Usage                |
 | ---------------------- | -------------------------- | ---------------------------- | ----------- | --------------------------- |
 | One interface per VLAN | Many (1 per VLAN)          | Fast (dedicated)             | Poor        | Rare / legacy               |
@@ -2472,22 +2230,18 @@ interface vlan 10
 ---
 
 ## 6. VTP (VLAN Trunk Protocol)
-
 ### 🔹 What is VTP?
-
 - **VTP (VLAN Trunk Protocol)** reduces administrative overhead in a switched network.
 - When a new VLAN is configured on **one VTP server**, that VLAN information is **automatically distributed to all switches** in the same VTP domain.
 - Eliminates the need to **manually configure the same VLAN on every switch**.
 - **VTP is Cisco-proprietary**, available mainly on Cisco Catalyst series switches.
 
 ### 🔹 VTP Features
-
 - Advertises VLAN configuration information across the network
 - Maintains **VLAN configuration consistency** throughout a common administrative domain
 - Sends advertisements **only on trunk ports**
 
 ### 🔹 VTP Modes (3 Modes — Very Important)
-
 | Mode            | Can Create/Modify/Delete VLANs?     | Forwards VTP Advertisements?       | Saves VLAN Info in NVRAM?    |
 | --------------- | ----------------------------------- | ---------------------------------- | ---------------------------- |
 | **Server**      | ✅ Yes                              | ✅ Yes                             | ✅ Yes                       |
@@ -2517,7 +2271,6 @@ interface vlan 10
 **Transparent = Local Control Only, Just Relays**
 
 ### 🔹 VTP Operation
-
 - VTP advertisements are sent as **multicast frames**.
 - VTP **servers and clients** synchronize using the **latest Configuration Revision Number** — higher revision number = more recent = gets adopted.
 - Advertisements are sent **every 5 minutes**, or immediately when a change occurs (triggered).
@@ -2526,7 +2279,6 @@ interface vlan 10
 If a **new switch with a higher VTP revision number** (even with wrong/empty VLAN data) is added to the domain, it can **overwrite the VLAN database** of the entire network — causing major outages!
 
 ### 🔹 VTP Configuration Guidelines
-
 Configuration items required for VTP setup:
 
 - **VTP Domain Name** — must match across all switches in the domain to communicate
@@ -2535,7 +2287,6 @@ Configuration items required for VTP setup:
 - **VTP Password** — secures the domain from unauthorized VTP changes
 
 ### 🔹 Best Practice When Adding a New Switch to an Existing VTP Domain
-
 To avoid accidentally overwriting the domain's VLAN database:
 
 1. **Add the new switch in Client mode first** → allows it to safely learn/synchronize the latest VLAN information from the domain without risk of overwriting anything.
@@ -2552,7 +2303,6 @@ To avoid accidentally overwriting the domain's VLAN database:
 ---
 
 ## 6.1 What is NAT?
-
 **Network Address Translation (NAT)** is the process where a network device — usually a **router or firewall** — translates a **private IP address** into a **public IP address** (and vice versa) as traffic crosses the boundary between a private network and the outside network (typically the Internet).
 
 - NAT is typically performed on a **border router/firewall** sitting between the inside (private) network and the outside (public) network.
@@ -2561,12 +2311,10 @@ To avoid accidentally overwriting the domain's VLAN database:
 ---
 
 ## 6.2 Why NAT is Used — IPv4 Exhaustion
-
 - IPv4 has only **~4.3 billion** addresses total — nowhere near enough for every device on Earth to have a unique public IP.
 - NAT was introduced as a **short-term fix** to slow down the exhaustion of public IPv4 addresses (long-term fix = IPv6).
 
 ### 🔹 Main Reasons NAT is Used
-
 | Reason                           | Explanation                                                                                 |
 | -------------------------------- | ------------------------------------------------------------------------------------------- |
 | **IPv4 Address Conservation**    | Limits the number of public IPs an organization must purchase/use                           |
@@ -2580,7 +2328,6 @@ To avoid accidentally overwriting the domain's VLAN database:
 ---
 
 ## 6.3 Private IP Address Ranges (RFC 1918)
-
 These ranges are **reserved for private/internal use only** — they are **not routable on the public Internet**. Any device using these must go through NAT to reach the internet.
 
 | Class       | Private IP Range                  | Total Addresses | CIDR             |
@@ -2595,7 +2342,6 @@ These ranges are **reserved for private/internal use only** — they are **not r
 📌 **Exam Trap:** Common mistake — thinking **all** of `172.x.x.x` is private. Only **172.16.0.0 to 172.31.255.255** is private; e.g., `172.32.0.0` is a **public** address.
 
 ### 🔹 Other Special/Reserved Ranges (Bonus)
-
 | Range            | Purpose                                 |
 | ---------------- | --------------------------------------- |
 | `127.0.0.0/8`    | Loopback (localhost)                    |
@@ -2604,7 +2350,6 @@ These ranges are **reserved for private/internal use only** — they are **not r
 ---
 
 ## 6.4 NAT Addressing Terminology (Very Important)
-
 NAT uses **4 specific address terms**, based on the combination of **Inside/Outside** and **Local/Global**:
 
 | Term               | Meaning                                                                                                                                                             |
@@ -2615,7 +2360,6 @@ NAT uses **4 specific address terms**, based on the combination of **Inside/Outs
 | **Outside Local**  | The address used to represent an **outside host** as seen from **inside** the private network (rarely different from Outside Global unless doing NAT on both sides) |
 
 ### 🔹 Simple Way to Remember
-
 - **"Inside"** = belongs to your private network
 - **"Outside"** = belongs to the internet/external network
 - **"Local"** = how the address appears **inside** the private network
@@ -2635,11 +2379,9 @@ NAT uses **4 specific address terms**, based on the combination of **Inside/Outs
 ---
 
 ## 6.5 NAT Table Concept
-
 The **NAT Table** (also called the **NAT Translation Table**) is a table maintained by the NAT router/firewall that keeps track of the **mappings between inside local and inside global addresses** (and ports, in PAT).
 
 ### 🔹 What the NAT Table Stores
-
 - Inside Local IP (+ port, for PAT)
 - Inside Global IP (+ port, for PAT)
 - Outside Global IP (+ port, if applicable)
@@ -2647,7 +2389,6 @@ The **NAT Table** (also called the **NAT Translation Table**) is a table maintai
 - Idle timer (how long the entry stays before being removed if unused)
 
 ### 🔹 Example NAT Table (PAT/Overload)
-
 | Inside Local      | Inside Global     | Outside Global   | Protocol |
 | ----------------- | ----------------- | ---------------- | -------- |
 | 192.168.1.10:5001 | 203.0.113.5:10001 | 8.8.8.8:80       | TCP      |
@@ -2661,7 +2402,6 @@ The **NAT Table** (also called the **NAT Translation Table**) is a table maintai
 ---
 
 ## 6.6 Types of NAT
-
 There are **4 main types**:
 
 1. **Static NAT**
@@ -2670,7 +2410,6 @@ There are **4 main types**:
 4. **NAT64** (IPv6 ↔ IPv4 transition mechanism)
 
 ### 🔹 Quick Comparison Table
-
 | Type                   | Mapping                 | Public IPs Used              | Use Case                                     |
 | ---------------------- | ----------------------- | ---------------------------- | -------------------------------------------- |
 | **Static NAT**         | 1-to-1, permanent       | One public IP per private IP | Server that must be reachable from outside   |
@@ -2681,7 +2420,6 @@ There are **4 main types**:
 ---
 
 ## 6.7 Static NAT
-
 - Defines a **one-to-one, permanent mapping** between one private (inside local) IP and one public (inside global) IP.
 - Mapping includes **destination IP translation** in one direction and **source IP translation** in the reverse direction.
 - **Manually configured** — does NOT age out or change automatically.
@@ -2689,14 +2427,12 @@ There are **4 main types**:
 - Allows connections to be **originated from either side** (inside → outside OR outside → inside) — this is important because it's the only NAT type that reliably supports **inbound connections initiated from the internet**.
 
 ### 🔹 Static NAT Diagram
-
 ```
   Static NAT:
   Inside: 192.168.1.10 ──→ Router ──→ Outside: 203.0.113.5
 ```
 
 ### 🔹 Use Case
-
 - **Servers that must be reachable from the internet** — e.g., a web server, mail server, or any host that external users need to initiate connections to.
 
 ✅ **Exam Trap:** Static NAT does **NOT conserve IP addresses** — it's still 1-to-1 — its purpose is **reachability/accessibility**, not conservation.
@@ -2704,7 +2440,6 @@ There are **4 main types**:
 ---
 
 ## 6.8 Dynamic NAT
-
 - Also creates a **one-to-one mapping** between inside local and inside global addresses, BUT the mapping is chosen **dynamically** from a **pool of available public IPs**, rather than being manually fixed.
 - Router defines:
   - A **pool of possible inside global (public) addresses**
@@ -2712,7 +2447,6 @@ There are **4 main types**:
 - The dynamic entry stays in the NAT table **only as long as traffic is flowing occasionally** — it **ages out** after a period of inactivity.
 
 ### 🔹 Dynamic NAT Diagram
-
 ```
   Dynamic NAT:
   192.168.1.10 ──→ 203.0.113.5  ┐
@@ -2721,7 +2455,6 @@ There are **4 main types**:
 ```
 
 ### 🔹 Key Limitation
-
 - If the **number of inside hosts needing translation exceeds the pool size**, some hosts will **fail to get a public IP** and be unable to reach the internet until an address frees up.
 
 ✅ **Exam Trap:** Dynamic NAT is still **1-to-1 at any given moment** — it just **automates address assignment** from a pool. It does NOT let multiple hosts share ONE IP simultaneously (that's PAT).
@@ -2729,7 +2462,6 @@ There are **4 main types**:
 ---
 
 ## 6.9 PAT (Port Address Translation) / NAT Overload
-
 - Also called **NAT Overloading** or **NAPT (Network Address Port Translation)**.
 - A modified form of Dynamic NAT where the **number of inside local addresses is greater than the number of inside global addresses**.
 - Typically, **just ONE single public IP** provides internet access for **ALL inside hosts**.
@@ -2738,7 +2470,6 @@ There are **4 main types**:
 - **Most popular/common form of NAT** used today (homes, small businesses, most SOHO routers).
 
 ### 🔹 PAT Diagram
-
 ```
   PAT (NAT Overload):
   192.168.1.10 ──→ 203.0.113.5 : 10001  ┐
@@ -2747,7 +2478,6 @@ There are **4 main types**:
 ```
 
 ### 🔹 Why PAT Works
-
 - TCP/UDP has **65,536 possible port numbers** per IP address.
 - By mapping each internal host's connection to a **unique port** on the single shared public IP, the router can track and correctly route return traffic back to the right internal host.
 
@@ -2756,7 +2486,6 @@ There are **4 main types**:
 ---
 
 ## 6.10 NAT Types — Full Side-by-Side Comparison
-
 | Parameter               | Static NAT            | Dynamic NAT              | PAT / NAT Overload            |
 | ----------------------- | --------------------- | ------------------------ | ----------------------------- |
 | Mapping Type            | 1-to-1 (fixed)        | 1-to-1 (from pool)       | Many-to-1 (via ports)         |
@@ -2770,11 +2499,9 @@ There are **4 main types**:
 ---
 
 ## 6.11 NAT64
-
 **NAT64** allows **IPv6-only hosts** to communicate with **IPv4-only servers**, by translating between IPv6 and IPv4 addresses at the network boundary. Works **alongside DNS64**.
 
 ### 🔹 How NAT64 Works (Step-by-Step)
-
 1. An **IPv6-only host** queries **DNS64** for an IPv4-only domain (e.g., `example.com`).
 2. DNS64 finds **only an IPv4 A record** (e.g., `93.184.216.34`). Since no AAAA (IPv6) record exists, DNS64 **synthesizes** one by embedding the IPv4 address into the **NAT64 prefix** (`64:ff9b::/96`):
    - Synthesized AAAA: `64:ff9b::5db8:d822`
@@ -2783,7 +2510,6 @@ There are **4 main types**:
 5. The **IPv4 server replies** → the NAT64 gateway translates **IPv4 → IPv6** → sends the reply back to the original IPv6 host.
 
 ### 🔹 NAT64 Flow Diagram
-
 ```
   IPv6 Host          NAT64 Gateway            IPv4 Server
   (2001:db8::1)      (64:ff9b::/96)         (93.184.216.34)
@@ -2799,7 +2525,6 @@ There are **4 main types**:
 ```
 
 ### 🔹 NAT64 vs Traditional NAT
-
 | Feature    | Traditional NAT              | NAT64                       |
 | ---------- | ---------------------------- | --------------------------- |
 | Translates | Private IPv4 ↔ Public IPv4   | IPv6 ↔ IPv4                 |
@@ -2809,7 +2534,6 @@ There are **4 main types**:
 | Use Case   | Home/office internet sharing | IPv4-to-IPv6 migration      |
 
 ### 🔹 NAT64 Key Terms
-
 | Term                | Meaning                                                                         |
 | ------------------- | ------------------------------------------------------------------------------- |
 | **NAT64**           | Translates between IPv6 and IPv4                                                |
@@ -2823,7 +2547,6 @@ There are **4 main types**:
 ---
 
 ## 0. Full Forms / Abbreviations
-
 | Abbreviation   | Full Form                                         |
 | -------------- | ------------------------------------------------- |
 | **STP**        | Spanning Tree Protocol                            |
@@ -2845,7 +2568,6 @@ There are **4 main types**:
 ---
 
 ## 1. Why STP Is Needed — The Layer 2 Loop Problem
-
 Real-world networks deliberately use **redundant links** between switches for fault tolerance (a backup path if one link fails). The problem: **Ethernet frames have no TTL** (unlike IP packets) — nothing stops a frame from circulating forever if a loop exists. Without a loop-prevention mechanism, three problems happen **simultaneously**:
 
 | #   | Problem                              | What Happens                                                                                                                                 |
@@ -2855,7 +2577,6 @@ Real-world networks deliberately use **redundant links** between switches for fa
 | ③   | **Duplicate Frame Delivery**         | The same unicast frame arrives at the destination multiple times → breaks upper-layer protocols like TCP                                     |
 
 ### 1.1 Without STP — Loop Present
-
 ```
                      PC-A
                       |
@@ -2879,7 +2600,6 @@ Step 3: Both switches receive the SAME broadcast again → and flood it again �
 ```
 
 ### 1.2 With STP — Loop Broken
-
 ```
                      PC-A
                       |
@@ -2900,7 +2620,6 @@ Step 3: Both switches receive the SAME broadcast again → and flood it again �
 ```
 
 ### 1.3 Problem → STP Solution
-
 | Problem Without STP                | How STP Solves It                                     |
 | ---------------------------------- | ----------------------------------------------------- |
 | Broadcast storms crash the network | Blocks redundant ports to eliminate loops             |
@@ -2911,7 +2630,6 @@ Step 3: Both switches receive the SAME broadcast again → and flood it again �
 ---
 
 ## 2. What Is STP, In Plain Terms?
-
 - STP (**IEEE 802.1D**) was created to **prevent Layer 2 loops** while still keeping redundant physical links available as backups.
 - STP ensures there is only **one logical (active) path** between any two points on the network, by intentionally **blocking** redundant paths that could otherwise cause a loop.
 - A **blocked port** stops **user data** from entering or leaving it — but it still sends/receives **BPDU frames** (the control messages STP itself uses to detect and manage loops).
@@ -2926,7 +2644,6 @@ Step 3: Both switches receive the SAME broadcast again → and flood it again �
 ---
 
 ## 3. How Switches Discover Loops — BPDUs
-
 - Switches discover the presence of loops (and each other) by sending **probes** into the network.
 - These probes are called **BPDUs** — **Bridge Protocol Data Units**.
 - Each BPDU carries specific information identifying the sending switch (its Bridge ID, path cost, etc. — see §4.2).
@@ -2943,9 +2660,7 @@ Once the Root Bridge is elected, every other switch calculates the **best (lowes
 ---
 
 ## 4. Root Bridge Election
-
 ### 4.1 Bridge ID (BID)
-
 Every switch has a **Bridge ID**, which is what gets compared during root bridge election.
 
 **Classic 802.1D BID structure:**
@@ -2964,7 +2679,6 @@ Every switch has a **Bridge ID**, which is what gets compared during root bridge
 ```
 
 ### 4.2 Election Rule
-
 ```
  Root Bridge Election Rule:
    1. LOWEST Bridge ID (BID) wins.
@@ -2989,9 +2703,7 @@ Since all three share the same default priority (32768), the tie-breaker is the 
 ---
 
 ## 5. STP Timers & BPDU Types
-
 ### 5.1 Key STP Timers
-
 | Timer             | Default Value | Purpose                                                                          |
 | ----------------- | ------------- | -------------------------------------------------------------------------------- |
 | **Hello Time**    | 2 s           | How often the Root Bridge sends BPDUs                                            |
@@ -3005,7 +2717,6 @@ Since all three share the same default priority (32768), the tie-breaker is the 
 > ```
 
 ### 5.2 BPDU Types
-
 | Type                                        | Purpose                                                                                                                                                     |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Configuration BPDU**                      | Carries the Root BID, path cost, sender's BID, port ID, and timers. Sent every 2 seconds (Hello Time), originated by the Root Bridge and relayed downstream |
@@ -3014,7 +2725,6 @@ Since all three share the same default priority (32768), the tie-breaker is the 
 ---
 
 ## 6. Port Roles
-
 Once the Root Bridge is elected, every other ("non-root") switch assigns roles to its own ports:
 
 | Port Role                          | Meaning                                                                                                                |
@@ -3036,7 +2746,6 @@ Once the Root Bridge is elected, every other ("non-root") switch assigns roles t
 - Any additional redundant port that is neither RP nor DP goes into **Blocking** state to eliminate the loop, but stays ready to take over if needed.
 
 ### 6.1 Final Simplified View — 5-Switch Example
-
 A larger topology follows the exact same logic — every non-root switch has one Root Port, every link has one Designated Port, and any leftover redundant port is blocked:
 
 ```
@@ -3066,7 +2775,6 @@ A larger topology follows the exact same logic — every non-root switch has one
 ---
 
 ## 7. STP Protocol Types (Variants)
-
 | Protocol        | Vendor | Instances                      | Convergence Time | Key Trait                                   |
 | --------------- | ------ | ------------------------------ | ---------------- | ------------------------------------------- |
 | **802.1D STP**  | IEEE   | 1 tree for ALL VLANs           | 30–50 s          | Original STP; 5 port states                 |
@@ -3090,9 +2798,7 @@ A larger topology follows the exact same logic — every non-root switch has one
 ---
 
 ## 8. Port States
-
 ### 8.1 802.1D — 5 States
-
 ```
 Blocking → Listening → Learning → Forwarding
                                        ↳ (or) Disabled
@@ -3107,7 +2813,6 @@ Blocking → Listening → Learning → Forwarding
 | **Disabled**   | Administratively shut down; not participating in STP at all                       |
 
 ### 8.2 802.1w RSTP — 3 States
-
 ```
 Discarding → Learning → Forwarding
 ```
@@ -3125,7 +2830,6 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 ---
 
 ## 0. Full Forms / Abbreviations
-
 | Abbreviation | Full Form                                             |
 | ------------ | ----------------------------------------------------- |
 | **AAA**      | Authentication, Authorization, Accounting             |
@@ -3141,7 +2845,6 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 ---
 
 ## 0.1 Topics Covered in These Notes
-
 | Topic                                                                                | Covered In |
 | ------------------------------------------------------------------------------------ | ---------- |
 | Standard ACL vs Extended ACL (numbered and named)                                    | §10        |
@@ -3154,9 +2857,7 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 ---
 
 ## PART A — Port Security
-
 ## 1. What Is Port Security?
-
 **Port security** limits _which_ MAC addresses are allowed to send traffic through a switch **access port** — preventing unauthorized devices (rogue laptops, rogue switches, MAC-spoofing attacks) from connecting to the network.
 
 ```
@@ -3168,7 +2869,6 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 ---
 
 ## 2. Violation Modes
-
 When a port-security violation occurs (an unapproved MAC tries to send traffic, or the max MAC count is exceeded), the switch reacts based on the configured **violation mode**:
 
 | Mode         | Action                                                                                                                                             | Logs?  | Port Stays Up? |
@@ -3199,11 +2899,9 @@ When a port-security violation occurs (an unapproved MAC tries to send traffic, 
 ---
 
 ## 3. MAC Address Learning / Types of MAC Address Entries
-
 A switch needs to know **which MAC address is allowed on which port**. There are three ways this gets configured:
 
 ### 3.1 Static MAC
-
 **Static = the administrator manually tells the switch** exactly which MAC address is allowed on a port.
 
 ```
@@ -3215,7 +2913,6 @@ A switch needs to know **which MAC address is allowed on which port**. There are
 - Best for: a small number of known, fixed devices (e.g., a server that never changes NICs).
 
 ### 3.2 Dynamic MAC
-
 **Dynamic = the switch learns it automatically.** You don't configure anything.
 
 ```
@@ -3227,7 +2924,6 @@ A switch needs to know **which MAC address is allowed on which port**. There are
 - **Downside:** this learned entry is **NOT saved** anywhere — it's lost the moment the switch reloads, meaning it has to re-learn from scratch (and briefly allow whatever connects next) after every reboot.
 
 ### 3.3 Why Is Sticky MAC Needed?
-
 Static and Dynamic each have a real drawback:
 
 | Problem         | Static MAC                                                                                        | Dynamic MAC                                |
@@ -3245,7 +2941,6 @@ Static and Dynamic each have a real drawback:
 ```
 
 ### 3.4 Sticky MAC — Use Case Scenario
-
 **Scenario:** You're securing 40 access ports in an office, each connected to a known employee laptop that rarely changes. You want port security enabled, but typing 40 MAC addresses by hand is slow and error-prone, and you also don't want the switch to have to blindly re-learn (and briefly trust) a new device every time it reboots.
 
 ```
@@ -3270,7 +2965,6 @@ Static and Dynamic each have a real drawback:
 - Ideal for environments where devices are relatively fixed (offices, server rooms) but the sheer number of ports makes manual static configuration impractical.
 
 ### 3.5 Summary Table
-
 | Type            | How It's Learned                                                                           | Survives Reload?                                                                      |
 | --------------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
 | **Static MAC**  | Manually configured by the admin                                                           | ✅ Yes, automatically                                                                 |
@@ -3278,7 +2972,6 @@ Static and Dynamic each have a real drawback:
 | **Sticky MAC**  | Learned automatically (like dynamic) **but** automatically written into the running-config | ✅ Only if `write memory` (saved to startup-config) is run — otherwise lost on reload |
 
 ### 3.6 Sticky MAC — Step-by-Step Flow
-
 ```
   ┌──────────────────────┐   Frame (src: aabb.cc00.0100)   ┌────────────────────────────────┐
   │  PC (aabb.cc00.0100) │ ───────────────────────────────►│      Switch Port Fa0/1         │
@@ -3299,7 +2992,6 @@ Static and Dynamic each have a real drawback:
 ---
 
 ## 4. Aging Timers
-
 Aging timers control **how long** a dynamically learned secure MAC address stays bound to a port. **By default, secure MACs never age out.**
 
 | Type           | Behaviour                                                                                                                                        |
@@ -3317,7 +3009,6 @@ Aging timers control **how long** a dynamically learned secure MAC address stays
 ---
 
 ## 5. Port Security — Full Example Diagram
-
 ```
             +--------------------------------------------------+
             |            Switch Access Port Fa0/1               |
@@ -3343,9 +3034,7 @@ Aging timers control **how long** a dynamically learned secure MAC address stays
 ---
 
 ## PART B — AAA Framework (Authentication, Authorization, Accounting)
-
 ## 6. What Is AAA?
-
 | Function           | Question Answered      | Examples                                         |
 | ------------------ | ---------------------- | ------------------------------------------------ |
 | **Authentication** | "**Who are you?**"     | Username/password, certificates, tokens          |
@@ -3364,7 +3053,6 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 ---
 
 ## 7. RADIUS
-
 **RADIUS** = Remote Authentication Dial-In User Service. An **open standard**, client-server AAA protocol.
 
 - **Transport:** UDP
@@ -3387,7 +3075,6 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 ---
 
 ## 8. TACACS+
-
 **TACACS+** = Terminal Access Controller Access-Control System Plus. A **Cisco-enhanced/proprietary** AAA protocol.
 
 - **Transport:** TCP
@@ -3411,7 +3098,6 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 ---
 
 ## 9. RADIUS vs TACACS+
-
 | Feature                       | RADIUS                        | TACACS+                           |
 | ----------------------------- | ----------------------------- | --------------------------------- |
 | **Standard**                  | Open (RFC 2865)               | Cisco proprietary                 |
@@ -3431,9 +3117,7 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 ---
 
 ## PART C — Access Control Lists (ACLs)
-
 ## 10. ACL Types
-
 | Type             | Filters By                                                                    | Number Range       | Placement                                                |
 | ---------------- | ----------------------------------------------------------------------------- | ------------------ | -------------------------------------------------------- |
 | **Standard ACL** | Source IP only                                                                | 1–99, 1300–1999    | Close to the **destination**                             |
@@ -3441,9 +3125,7 @@ AAA is implemented using one of two main protocols: **RADIUS** or **TACACS+**.
 | **Named ACL**    | Same filtering as Standard/Extended, but identified by name instead of number | N/A                | Same placement rules as its Standard/Extended equivalent |
 
 ### 10.1 ACL Configuration Commands
-
 #### A. Standard ACL (Numbered) — filters by source IP only
-
 ```
 Step 1 — Create the ACL:
   Router(config)# access-list 10 permit 192.168.1.0 0.0.0.255
@@ -3461,7 +3143,6 @@ Step 2 — Apply it to an interface (close to the DESTINATION):
 | `ip access-group 10 out`       | Apply ACL 10 to traffic **leaving** this interface                                            |
 
 #### B. Extended ACL (Numbered) — filters by source/dest IP, protocol, port
-
 ```
 Step 1 — Create the ACL:
   Router(config)# access-list 110 permit tcp 192.168.1.0 0.0.0.255 host 10.0.0.5 eq 80
@@ -3479,7 +3160,6 @@ Step 2 — Apply it to an interface (close to the SOURCE):
 | `ip access-group 110 in`                               | Apply ACL 110 to traffic **entering** this interface                                     |
 
 #### C. Named ACL — same logic, human-readable name instead of a number
-
 ```
 Standard Named ACL:
   Router(config)# ip access-list standard BLOCK-SALES
@@ -3504,7 +3184,6 @@ Apply (same as numbered):
 - Named ACLs use `ip access-list {standard|extended} <name>` instead of a number, then enter a sub-mode to add `permit`/`deny` lines.
 
 ### 10.2 Why Placement Matters
-
 ```
  Standard ACL (source IP only) → place NEAR the DESTINATION
    Reason: it can only match source IP, so placing it near the source
@@ -3525,7 +3204,6 @@ Apply (same as numbered):
 ```
 
 ### 10.3 Implicit Deny
-
 > ⚠️ **Implicit Deny:** Every ACL ends with an **invisible `deny any`** statement. If a packet doesn't match **any** configured rule, it is **automatically dropped**.
 
 ```
@@ -3542,7 +3220,6 @@ Apply (same as numbered):
 ---
 
 ## 0. Full Forms / Abbreviations
-
 | Abbreviation | Full Form                                              |
 | ------------ | ------------------------------------------------------ |
 | **VC / VCI** | Virtual Circuit / Virtual Circuit Identifier           |
@@ -3555,11 +3232,9 @@ Apply (same as numbered):
 ---
 
 ## PART A — Network Switching Types
-
 These describe the fundamental ways data can travel through a network of intermediate nodes. This is general networking theory — separate from how an individual Ethernet switch behaves internally, which is covered in Part B.
 
 ## 1. Circuit Switching
-
 A **dedicated physical path** is set up end-to-end **before** any data is sent. The whole session then uses that **same fixed path** — exactly like a traditional telephone call.
 
 **Phases:**
@@ -3587,7 +3262,6 @@ A **dedicated physical path** is set up end-to-end **before** any data is sent. 
 ---
 
 ## 2. Message Switching
-
 The **entire message** is treated as one unit. Each intermediate node **stores the whole message**, then forwards it onward once ready — a **"store-and-forward"** approach applied at the message level.
 
 ```
@@ -3608,11 +3282,9 @@ The **entire message** is treated as one unit. Each intermediate node **stores t
 ---
 
 ## 3. Packet Switching
-
 The message is broken into smaller **packets** that travel independently or semi-independently through the network. There are two sub-types.
 
 ### 3.1 Datagram Switching (Connectionless)
-
 Each packet is **routed independently** — there's no fixed path. Different packets from the same message may take **different routes**, and they're only reassembled at the receiver. Every packet must carry the **full source and destination address**, since each one is routed on its own.
 
 ```
@@ -3636,7 +3308,6 @@ Each packet is **routed independently** — there's no fixed path. Different pac
 | Efficient, and resilient to link failures (packets simply reroute around a broken link) | Delay is unpredictable; out-of-order arrival is possible |
 
 ### 3.2 Virtual Circuit Switching (Connection-Oriented)
-
 A **logical path** (the virtual circuit) is set up **before** data transfer begins. Every packet then follows that **same pre-decided route**, identified by a short **Virtual Circuit Identifier (VCI)** instead of carrying a full address in every packet.
 
 **Phases:**
@@ -3670,7 +3341,6 @@ A **logical path** (the virtual circuit) is set up **before** data transfer begi
 | Low per-packet delay; delivery is guaranteed in order | Less resilient to link failure (the whole VC breaks); has setup overhead |
 
 ### 3.3 Quick Comparison — All Switching Types
-
 | Type                  | Path                 | Addressing                    | Connection-Oriented? | Arrival Order       |
 | --------------------- | -------------------- | ----------------------------- | -------------------- | ------------------- |
 | **Circuit Switching** | Fixed, dedicated     | None needed (path is pre-set) | Yes (end-to-end)     | In order            |
@@ -3688,11 +3358,9 @@ A **logical path** (the virtual circuit) is set up **before** data transfer begi
 ---
 
 ## PART B — Ethernet Forwarding Methods
-
 Part A described how data moves _across a network_. Part B zooms into a single Ethernet switch and asks: once a frame starts arriving on a port, **when does the switch begin forwarding it out the other side?**
 
 ## 4. Store-and-Forward Switching
-
 The switch receives the **entire frame** into its buffer **before** making any forwarding decision. It checks the **FCS (CRC)** for errors and **drops invalid frames**.
 
 ```
@@ -3712,11 +3380,9 @@ The switch receives the **entire frame** into its buffer **before** making any f
 ---
 
 ## 5. Cut-Through Switching
-
 Forwarding **starts before the whole frame has arrived**. There are two variants.
 
 ### 5.1 Fast-Forward Switching
-
 Starts forwarding **the instant the destination MAC address is read** — just the **first 6 bytes** of the frame. It does **not** check the FCS at all.
 
 ```
@@ -3735,7 +3401,6 @@ Starts forwarding **the instant the destination MAC address is read** — just t
 | Lowest latency of all switching methods | Can forward corrupted frames — no error checking at all |
 
 ### 5.2 Fragment-Free Switching
-
 An improved cut-through variant: the switch buffers the **first 64 bytes** before forwarding. Ethernet collisions produce fragments **shorter than 64 bytes** (called "runts"), so this catches and filters those out. It still does **not** perform a full FCS check.
 
 ```
@@ -3752,7 +3417,6 @@ An improved cut-through variant: the switch buffers the **first 64 bytes** befor
 | Filters out collision fragments (runts) | Doesn't catch bit errors that occur beyond byte 64 |
 
 ### 5.3 What Exactly Is a "Runt" (Collision Fragment)?
-
 A **runt** is a very small, incomplete frame left over on the wire after a **collision**.
 
 **Why it happens:** On a **shared, half-duplex** segment (Section 8), two devices can start transmitting at nearly the same instant. When their signals meet on the wire, they collide and corrupt each other. As soon as a device's CSMA/CD logic (Section 7) detects this, it **immediately stops transmitting** that frame. What's left behind on the wire is a **partial, truncated frame** — not a real, usable one.
@@ -3788,7 +3452,6 @@ A **runt** is a very small, incomplete frame left over on the wire after a **col
 - Fragment-Free switching buffers exactly 64 bytes because that's the guaranteed minimum size of any _legitimate_ frame — which makes the runt check reliable at that exact cutoff.
 
 ### 5.4 Quick Comparison — Ethernet Forwarding Methods
-
 | Method                | Buffers                 | Error Check               | Latency    | Best For                                   |
 | --------------------- | ----------------------- | ------------------------- | ---------- | ------------------------------------------ |
 | **Store-and-Forward** | Entire frame            | Full FCS/CRC              | Highest    | Reliability                                |
@@ -3805,15 +3468,12 @@ A **runt** is a very small, incomplete frame left over on the wire after a **col
 ---
 
 ## PART C — Layer 2 Switching Fundamentals
-
 Part B explained _when_ a switch starts forwarding a frame. Part C covers the bigger picture of day-to-day switch operation: how it learns where devices are, what it does when it doesn't know, and how the underlying link (half- vs full-duplex) affects all of it.
 
 ## 6. The MAC Address Table, Flooding & Forwarding
-
 A Layer 2 switch builds and uses a **MAC address table** (also called a **CAM table** — Content Addressable Memory table) to decide where to send each frame.
 
 ### 6.1 How the Switch Learns (Building the MAC Table)
-
 ```
 Step 1: A frame arrives on a port.
 Step 2: The switch reads the frame's SOURCE MAC address.
@@ -3830,7 +3490,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ```
 
 ### 6.2 The Forwarding Decision
-
 ```
  When a frame arrives, the switch checks its MAC table for the DESTINATION MAC:
 
@@ -3840,7 +3499,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ```
 
 ### 6.3 Flooding
-
 **Flooding** happens when the switch doesn't yet know which port leads to the destination MAC — so it sends a copy of the frame out **every port** except the one it came in on. The hope is that the real destination is out there somewhere and will eventually reply, letting the switch learn its actual port.
 
 ```
@@ -3859,7 +3517,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 - **Unknown unicast** — as above, until the switch learns that MAC's real port.
 
 ### 6.4 A Full Example: Learn → Flood → Forward
-
 ```
  T1: Host A sends a frame to Host B (switch doesn't know Host B's port yet)
    → Switch learns Host A's MAC ↔ Port 1
@@ -3883,11 +3540,9 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## 7. CSMA/CD — Carrier Sense Multiple Access with Collision Detection
-
 **CSMA/CD** is the access method traditionally used by Ethernet on **shared, half-duplex media** (old hub-based networks or coax Ethernet) to decide when a device may transmit, and to recover when two devices transmit at once (a **collision**).
 
 ### 7.1 How CSMA/CD Works, Step by Step
-
 ```
 1. Carrier Sense  : Before transmitting, the device LISTENS to the wire.
                      Idle? → proceed. Busy? → wait.
@@ -3923,7 +3578,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ```
 
 ### 7.2 When Is CSMA/CD Actually Used?
-
 - It matters on **half-duplex** links, where collisions are physically possible (Section 8).
 - It's **not needed on full-duplex** links (standard on modern switched Ethernet) — since sending and receiving use separate paths, **collisions can't happen**, so CSMA/CD is effectively irrelevant there.
 
@@ -3936,7 +3590,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## 8. Half-Duplex vs Full-Duplex
-
 | Feature                  | Half-Duplex                                 | Full-Duplex                                                              |
 | ------------------------ | ------------------------------------------- | ------------------------------------------------------------------------ |
 | **Data flow**            | One direction at a time (send _or_ receive) | Both directions at once (send _and_ receive)                             |
@@ -3969,7 +3622,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## 0. Full Forms / Abbreviations
-
 | Abbreviation | Full Form                                                              |
 | ------------ | ---------------------------------------------------------------------- |
 | **POST**     | Power-On Self-Test                                                     |
@@ -3989,7 +3641,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## PART A — What Is Cisco IOS?
-
 **Cisco IOS** is the operating system that runs on Cisco routers and switches. It is responsible for:
 
 - **Routing** — moving packets between networks
@@ -4000,7 +3651,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## PART B — Router Hardware Components (The "Big 5")
-
 | Component | Role                                                                                                  |
 | --------- | ----------------------------------------------------------------------------------------------------- |
 | **CPU**   | Executes IOS instructions and processes                                                               |
@@ -4010,7 +3660,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 | **Flash** | Stores the full IOS image file (the OS itself)                                                        |
 
 ### Memory Cheat Sheet
-
 | Memory Type | Stores                                                                            | Volatile?                           | Analogy                       |
 | ----------- | --------------------------------------------------------------------------------- | ----------------------------------- | ----------------------------- |
 | **ROM**     | Bootstrap program, POST routines, mini-IOS (ROMmon)                               | ❌ No — permanent                   | The router's built-in "BIOS"  |
@@ -4021,7 +3670,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 **Memory mnemonic:** _"Real Networks Feel Real"_ → **R**AM (Running-config) → **N**VRAM (Startup-config) → **F**lash (Full IOS) → **R**OM (ROMmon/Bootstrap).
 
 ### Key Distinctions
-
 | Concept                                                  | Lives In    | Notes                                                         |
 | -------------------------------------------------------- | ----------- | ------------------------------------------------------------- |
 | `show running-config`                                    | RAM         | The **currently active** config — lost on reboot unless saved |
@@ -4033,7 +3681,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 ---
 
 ## PART C — Cisco IOS CLI Modes
-
 | Mode                           | Purpose                                                                             | Prompt                 | How to Enter                          |
 | ------------------------------ | ----------------------------------------------------------------------------------- | ---------------------- | ------------------------------------- |
 | **A. User EXEC**               | Limited access — basic monitoring commands only (e.g., `ping`, `show version`)      | `Router>`              | Default mode on login                 |
@@ -4043,7 +3690,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 | **E. Line Configuration**      | Configure console / VTY / AUX lines (passwords, login method, transport)            | `Router(config-line)#` | `Router(config)# line vty 0 4` (etc.) |
 
 ### Common User EXEC Commands
-
 ```text
 Router> show ?
 Router> show history
@@ -4055,7 +3701,6 @@ Router> logout
 ```
 
 ### Privileged EXEC — Common Uses
-
 Once in `Router#`, you can:
 
 - View detailed information (`show running-config`, `show startup-config`, `show version`)
@@ -4089,16 +3734,13 @@ NVRAM (startup-config)
 ```
 
 ### Types of Line Passwords
-
 - **Console password** — protects local console-port access (`line console 0`)
 - **Telnet / SSH password** — protects remote CLI access (`line vty 0 4`)
 
 ---
 
 ## PART D — Router Boot Sequence
-
 ## 1. Boot Sequence Overview
-
 ```
  POST  →  Bootstrap  →  Locate & Load IOS  →  Load Configuration
 ```
@@ -4111,7 +3753,6 @@ NVRAM (startup-config)
 | **4. Configuration**             | The router loads its saved configuration (startup-config) into running memory to become operational             | Loaded from **NVRAM** into **RAM**           |
 
 ## 1.1 Detailed Step-by-Step Flow
-
 ```
 ┌────────────────────────────────────────────────────────────────┐
 │ STEP 1: POST (Power-On Self-Test)                                │
@@ -4153,7 +3794,6 @@ NVRAM (startup-config)
 ```
 
 ### Simplified Flow (as commonly drawn)
-
 ```text
 Power ON
    │
@@ -4175,7 +3815,6 @@ Search startup-config
 ```
 
 ### Exam One-Liners
-
 - Order to remember: **P**OST → **B**ootstrap → **I**OS → **C**onfig ("**P**lease **B**ring **I**ce **C**ream").
 - POST and Bootstrap both run from **ROM**.
 - IOS is normally loaded from **Flash**; startup-config is loaded from **NVRAM**.
@@ -4184,7 +3823,6 @@ Search startup-config
 ---
 
 ## PART E — Telnet vs SSH (Remote Access Security)
-
 Both protocols allow **remote CLI access** to a router/switch through **VTY lines**, but they differ fundamentally in security.
 
 By default a router has 5 VTY lines (`line vty 0 4` = VTY 0 through VTY 4), meaning up to 5 simultaneous remote CLI sessions.
@@ -4199,7 +3837,6 @@ By default a router has 5 VTY lines (`line vty 0 4` = VTY 0 through VTY 4), mean
 | **Recommended today?**           | ❌ No — legacy/insecure, mainly seen in labs/older environments    | ✅ Yes — industry standard for remote device management  |
 
 ### Why Telnet Is Insecure — Visualized
-
 ```
  Telnet Session (PLAIN TEXT):
 
@@ -4215,7 +3852,6 @@ By default a router has 5 VTY lines (`line vty 0 4` = VTY 0 through VTY 4), mean
 Example command: `telnet 192.168.1.1`
 
 ### Why SSH Is Secure — Visualized
-
 ```
  SSH Session (ENCRYPTED):
 
@@ -4230,7 +3866,6 @@ Example command: `telnet 192.168.1.1`
 Example command: `ssh admin@192.168.1.1`
 
 ### Basic SSH Configuration (Cisco IOS)
-
 ```text
 Step 1 — Set hostname and domain name (required for RSA key generation):
   Router(config)# hostname R1
@@ -4252,7 +3887,6 @@ Step 4 — Configure the VTY lines to use SSH + local login:
 > `transport input ssh` **disables Telnet** on the VTY lines (only SSH is accepted). Using `transport input telnet ssh` would allow both — not recommended for security.
 
 ### Exam One-Liners
-
 - Telnet = **unencrypted**, TCP port 23 — never use on production networks.
 - SSH = **encrypted**, TCP port 22 — the modern standard for remote device administration.
 - SSH requires a **hostname + domain name + RSA key pair** before it can be enabled.
@@ -4262,11 +3896,9 @@ Step 4 — Configure the VTY lines to use SSH + local login:
 ---
 
 ## PART F — Ways to Access the Cisco IOS CLI
-
 There are four common ways an administrator can reach the CLI of a router:
 
 ### 1. Console — Local, Out-of-Band Access
-
 ```text
 PC/Laptop ── Console cable ── Router
 ```
@@ -4280,7 +3912,6 @@ Direct physical connection to the router's console port, accessed via a terminal
 - Password recovery is needed
 
 ### 2. SSH — Remote, Encrypted Access (Preferred)
-
 ```text
 Admin PC ── SSH ──► Router
 ```
@@ -4290,7 +3921,6 @@ Example: `ssh admin@192.168.1.1`
 **Used when:** administering the router remotely and secure access is required. SSH encrypts the entire communication (see Part E).
 
 ### 3. Telnet — Remote, Unencrypted Access
-
 ```text
 Admin PC ── Telnet ──► Router
 ```
@@ -4300,7 +3930,6 @@ Example: `telnet 192.168.1.1`
 **Used when:** remote CLI access is needed — typically only in labs or older environments. ⚠️ Not recommended for production since credentials and data are sent in plain text.
 
 ### 4. AUX Port — Out-of-Band Remote/Modem Access
-
 ```text
 Remote Admin ── Modem ── AUX port ── Router
 ```
@@ -4308,7 +3937,6 @@ Remote Admin ── Modem ── AUX port ── Router
 Some Cisco routers have an **AUX (Auxiliary) port**, traditionally connected to a modem for **out-of-band management** — i.e., accessing the router when the normal in-band network path is down or unavailable. It is not used for day-to-day remote administration like SSH/Telnet, but as a backup access path.
 
 ### Exam One-Liners
-
 - Console and AUX are physical/out-of-band access methods; SSH and Telnet are network/in-band (VTY) access methods.
 - Console access is required for the **very first configuration** of a router (no IP/network config exists yet).
 - SSH is preferred over Telnet for all remote in-band access.
@@ -4316,9 +3944,7 @@ Some Cisco routers have an **AUX (Auxiliary) port**, traditionally connected to 
 ---
 
 ## PART G — Configuration Registers
-
 ## What Is the Configuration Register?
-
 The **configuration register** is a **16-bit (4 hex-digit) value** stored in **NVRAM** that tells the router **how to boot** — where to look for the IOS, whether to load the startup-config, and other boot-time behaviors.
 
 ```text
@@ -4328,7 +3954,6 @@ View current value:
 ```
 
 ### Common Configuration Register Values
-
 | Value      | Meaning                                                                                                                                |
 | ---------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | **0x2102** | **Default** — boot normally: load IOS from Flash, load startup-config from NVRAM                                                       |
@@ -4336,7 +3961,6 @@ View current value:
 | **0x2100** | Boot into **ROMmon** (ROM Monitor) mode — minimal recovery environment, does not load IOS normally                                     |
 
 ### Changing the Configuration Register
-
 ```text
 Router(config)# config-register 0x2142
 ```
@@ -4345,7 +3969,6 @@ Router(config)# config-register 0x2142
 - Commonly used during **password recovery**: set to `0x2142` to skip loading the (password-protected) startup-config, log in with no password, then manually reload the old config and change the password, and finally set the register **back to 0x2102** before the final reload/save.
 
 ### Exam One-Liners
-
 - Config register = 16-bit value in **NVRAM**, controls boot behavior.
 - `0x2102` = normal/default boot.
 - `0x2142` = ignore (skip loading) startup-config — the classic password-recovery value.
@@ -4356,11 +3979,9 @@ Router(config)# config-register 0x2142
 ---
 
 ## PART H — Cisco IOS Password Recovery (Full Procedure)
-
 If you forget a Cisco router's password, you can recover access using **ROMmon mode**, since physical/console access effectively lets you bypass password protection by controlling the boot process.
 
 ### Step 1 — Restart and Enter ROMmon
-
 Power off/on the router, and during boot send the **Break** signal to interrupt the normal boot and drop into ROMmon:
 
 ```text
@@ -4368,7 +3989,6 @@ rommon 1 >
 ```
 
 ### Step 2 — Change the Configuration Register
-
 Tell the router to **ignore the startup-config** on the next boot:
 
 ```text
@@ -4381,7 +4001,6 @@ Why this works:
 - `0x2142` → **ignores** startup-config, so the router boots with no password set
 
 ### Step 3 — Reset/Reload
-
 ```text
 rommon 2 > reset
 ```
@@ -4389,7 +4008,6 @@ rommon 2 > reset
 The router reboots without loading the old (password-protected) configuration.
 
 ### Step 4 — Enter Privileged Mode
-
 Since the old configuration was skipped, no password is currently applied:
 
 ```text
@@ -4398,7 +4016,6 @@ Router#
 ```
 
 ### Step 5 — Copy the Old Configuration into RAM
-
 The old configuration is still safely stored in NVRAM — it was only skipped, not deleted:
 
 ```text
@@ -4415,7 +4032,6 @@ RAM (running-config)
 This restores your old configuration (interfaces, routing, etc.) **without** re-locking you out with the old password.
 
 ### Step 6 — Change the Password
-
 ```text
 Router# configure terminal
 Router(config)# enable secret NewPassword123
@@ -4430,7 +4046,6 @@ Router(config-line)# login
 ```
 
 ### Step 7 — Restore Normal Boot Behavior
-
 This step is critical — don't skip it:
 
 ```text
@@ -4440,13 +4055,11 @@ Router(config)# config-register 0x2102
 This ensures the router will load the startup-config normally on all future reboots.
 
 ### Step 8 — Save the Configuration
-
 ```text
 Router# copy running-config startup-config
 ```
 
 ### Complete Sequence to Remember
-
 ```text
 Power ON
    │
@@ -4479,7 +4092,6 @@ copy running-config startup-config
 ```
 
 ### ⭐ Exam Shortcut
-
 - **2142 = Ignore startup-config** (skip password)
 - **2102 = Normal boot**
 
@@ -4490,13 +4102,10 @@ copy running-config startup-config
 ---
 
 ## PART I — Debugging & Logging
-
 ## Why Debugging and Logging Matter
-
 Routers and switches constantly generate information about their internal operations, errors, and state changes. **Logging** captures this passively; **debugging** actively surfaces detailed real-time information about specific processes — both are essential for troubleshooting.
 
 ### Logging (`show logging` / Syslog)
-
 - The router keeps an internal **log buffer** of system messages (interface up/down, config changes, errors, etc.) by default.
 - Logs can be sent to multiple destinations simultaneously:
 
@@ -4517,7 +4126,6 @@ Routers and switches constantly generate information about their internal operat
 > ⚠️ **Common gotcha:** if you're remotely connected via Telnet/SSH and don't see log messages that appear on the console, run `terminal monitor` to enable them for your session.
 
 ### Debugging (`debug` commands)
-
 - `debug` commands provide **real-time, detailed** output about a specific process as it happens (e.g., `debug ip routing`, `debug ip icmp`, `debug spanning-tree events`).
 - Extremely useful for diagnosing **active, in-progress** problems (e.g., watching routing updates arrive, or watching an authentication exchange fail step-by-step).
 
@@ -4530,7 +4138,6 @@ Router# undebug all      ← or "u all" — disables ALL active debug output
 > ⚠️ **Warning:** `debug` commands are **CPU-intensive** — running heavy debugs (like `debug ip packet` on a busy router) can significantly load the CPU and, in extreme cases, cause the router to become unresponsive. Always disable debugging (`undebug all`) as soon as you're done.
 
 ### Why This Matters — Practical Importance
-
 | Without Debugging/Logging                                | With Debugging/Logging                                                                                 |
 | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
 | Problems are invisible until they cause an outage        | Early warning signs (interface flaps, failed logins, routing changes) are visible before they escalate |
@@ -4539,14 +4146,12 @@ Router# undebug all      ← or "u all" — disables ALL active debug output
 | Diagnosing live/intermittent issues is nearly impossible | `debug` shows the process happening in real time, letting you catch transient issues                   |
 
 ### Best Practices
-
 - Always timestamp log messages: `service timestamps log datetime msec`
 - Send logs to a **centralized syslog server** in production — local buffers are limited in size and lost on reload.
 - Use `debug` **sparingly and temporarily** in production — prefer testing in a lab first, and always run `undebug all` when finished.
 - Match the **logging severity level** to what's actually needed (`logging console <level>`, `logging buffered <level>`) to avoid being flooded with noise.
 
 ### Exam One-Liners
-
 - **Logging** = passive record-keeping of system events; **Debugging** = active, real-time, detailed process tracing.
 - Logging severity levels run **0 (Emergency) → 7 (Debugging)** — lower number = more severe.
 - `terminal monitor` is required to see log messages over a remote (Telnet/SSH) session.
