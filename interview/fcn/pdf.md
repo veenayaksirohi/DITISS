@@ -1,4 +1,3 @@
----
 # OSI Model — Layers 1–7 (Condensed)
 
 ## Addressing Scope (applies across L2/L3/L4 — stated once)
@@ -2267,8 +2266,6 @@ Mental shortcut:
 
 ---
 
----
-
 ## 1. VLAN Concept
 
 - **VLAN (Virtual Local Area Network)** = a **logical grouping** of networking devices, regardless of their physical location.
@@ -2554,37 +2551,6 @@ To avoid accidentally overwriting the domain's VLAN database:
 
 ---
 
-## ⭐ Quick Revision — VLAN Module
-
-- VLAN = logical broadcast domain, needs a **router/L3 device** to talk between VLANs
-- Benefits: **S-R-A-M-L** (Solve broadcast, Reduce domain, Add security, Manage easily, Logical grouping)
-- **Access link** = 1 device, 1 VLAN, untagged, standard NIC
-- **Trunk link** = multiple VLANs, tagged, switch-to-switch/router
-- Trunk protocols: **ISL** (Cisco, tags native VLAN too) vs **802.1Q** (Standard, native VLAN untagged)
-- Inter-VLAN routing: **Router-on-a-Stick** (1 interface, multiple sub-interfaces, `encapsulation dot1q`) OR **Layer 3 Switch** (SVI, faster, modern standard)
-- VTP = Cisco-proprietary, auto-distributes VLAN config
-- VTP modes: **Server** (full control + advertise) / **Client** (no control, listen only) / **Transparent** (local control, just relay)
-- VTP uses **revision number** to determine latest config — **higher wins** (danger zone!)
-- Safe practice: add new switches in **Client** or **Transparent** mode first, verify, then promote to **Server**
-
----
-
-## 🎯 Most Likely Exam/Viva Questions
-
-- What problem does VLAN solve? → **Broadcast domain size / broadcast storms**
-- Difference between Access and Trunk ports? → 1 VLAN vs multiple VLANs
-- What is tagging and why is it needed? → Identifies source VLAN of frame across trunk
-- ISL vs 802.1Q? → Proprietary vs Standard; native VLAN tagging difference
-- What is Router-on-a-Stick? → Single router interface + VLAN sub-interfaces via `dot1q` trunk
-- What is an SVI? → Virtual Layer 3 interface for a VLAN on a Layer 3 switch
-- 3 VTP modes and their differences? → Server / Client / Transparent (see table above)
-- What determines which VTP update is accepted? → **Highest revision number**
-- Why is VTP risky when adding new switches? → A switch with higher revision number can overwrite existing VLAN database
-
----
-
----
-
 ## 6.1 What is NAT?
 
 **Network Address Translation (NAT)** is the process where a network device — usually a **router or firewall** — translates a **private IP address** into a **public IP address** (and vice versa) as traffic crosses the boundary between a private network and the outside network (typically the Internet).
@@ -2853,40 +2819,6 @@ There are **4 main types**:
 | **Stateless NAT64** | **One-to-one** mapping — requires a dedicated block of IPv4 addresses           |
 
 ✅ **Exam Trap:** NAT64 is fundamentally different in **purpose** from traditional NAT — traditional NAT conserves addresses **within the same protocol (IPv4↔IPv4)**; NAT64 exists purely to let **two different protocol versions (v6 and v4) talk to each other** during the IPv6 migration period.
-
----
-
-## ⭐ Quick Revision — NAT Module
-
-- **NAT** = translates private ↔ public IPs at the network boundary (router/firewall)
-- **Why:** IPv4 exhaustion, address conservation, cost savings, hides internal topology (security)
-- **Private ranges (RFC 1918):**
-  - `10.0.0.0 – 10.255.255.255` (Class A)
-  - `172.16.0.0 – 172.31.255.255` (Class B)
-  - `192.168.0.0 – 192.168.255.255` (Class C)
-- **4 Address Terms:** Inside Local (real private IP) / Inside Global (translated public IP) / Outside Global (real public IP of external host) / Outside Local (how external host looks from inside)
-- **NAT Table:** tracks Local↔Global mappings (+ports for PAT); static = permanent, dynamic/PAT = ages out
-- **Static NAT:** 1-to-1, permanent, manual, allows inbound connections — used for public-facing servers
-- **Dynamic NAT:** 1-to-1 from a pool, automatic, pool can exhaust
-- **PAT/Overload:** Many-to-1 using **ports**, only NAT type that truly **conserves IPs**, most common
-- **NAT64:** IPv6 ↔ IPv4 translation for protocol transition, requires DNS64, prefix `64:ff9b::/96`
-
----
-
-## 🎯 Most Likely Exam/Viva Questions
-
-- Why was NAT introduced? → **IPv4 address exhaustion**
-- Name the 3 private IP ranges → 10.x / 172.16–172.31.x / 192.168.x
-- Difference between Inside Local and Inside Global? → Real private IP vs how it appears externally (translated)
-- Which NAT type allows inbound connections from the internet? → **Static NAT**
-- Which NAT type conserves the most IP addresses? → **PAT / NAT Overload**
-- What differentiates hosts sharing the same public IP in PAT? → **Port numbers**
-- What happens to a Dynamic NAT/PAT entry when traffic stops? → It **ages out / times out** from the NAT table
-- What is NAT64 used for? → Allowing **IPv6-only hosts** to reach **IPv4-only servers**
-- What is the NAT64 prefix? → `64:ff9b::/96`
-- Difference between Stateful and Stateless NAT64? → Many-to-1 (like PAT) vs strict 1-to-1
-
----
 
 ---
 
@@ -3189,36 +3121,6 @@ RSTP consolidates 802.1D's **Blocking + Listening + Disabled** into a single **D
 | Disabled     | Discarding     |
 | Learning     | Learning       |
 | Forwarding   | Forwarding     |
-
----
-
-## 9. Quick Revision — Key Facts
-
-```
-STP Purpose        : Prevent Layer-2 loops while keeping redundant links as backup
-Discovery mechanism: BPDU (Bridge Protocol Data Unit), multicast every 2s (Hello Time)
-Loop detection      : A switch receiving its OWN BPDU back = loop exists
-Root Bridge election: LOWEST Bridge ID wins → tie broken by LOWEST MAC address
-BID structure       : Priority (2 bytes) + MAC Address (6 bytes)
-Extended System ID  : Priority + VLAN ID (used in PVST+/RPVST+)
-
-Port Roles  : Root Port (best path to Root) | Designated Port (forwards, 1 per link)
-              | Blocking/Non-Designated Port (loop prevention)
-
-Timers      : Hello = 2s | Max Age = 20s | Forward Delay = 15s
-Convergence : Max Age + (2 × Forward Delay) = 50s  (802.1D)
-
-802.1D states (5): Blocking → Listening → Learning → Forwarding → (Disabled)
-802.1w states (3): Discarding → Learning → Forwarding
-
-802.1D  = original, slow (30-50s), 1 tree for all VLANs
-802.1w  = RSTP, fast (1-6s), 1 tree for all VLANs
-802.1s  = MSTP, fast, VLANs grouped into instances
-PVST+   = Cisco, 1 tree per VLAN, based on 802.1D (slow)
-RPVST+  = Cisco, 1 tree per VLAN, based on 802.1w (fastest, most resource-heavy)
-```
-
----
 
 ---
 
@@ -3636,37 +3538,6 @@ Apply (same as numbered):
 ```
 
 **Exam tip:** If you want to allow general traffic through an ACL, you must explicitly add a `permit` statement — otherwise the implicit deny silently blocks everything not explicitly permitted.
-
----
-
-## 11. Quick Revision — Key Facts
-
-```
-PORT SECURITY
-  Violation modes : Protect (silent drop) < Restrict (drop+log) < Shutdown (port down)
-  Default mode     : Shutdown
-  MAC types        : Static (manual, persists) | Dynamic (auto, lost on reload)
-                      | Sticky (auto-learned, persists ONLY with write memory)
-  Aging types       : Absolute (fixed timer, ignores activity)
-                      | Inactivity (resets on traffic, removes only when idle)
-  Static MACs       : NEVER age out
-
-AAA
-  Authentication  : Who are you?
-  Authorization   : What can you do?
-  Accounting      : What did you do?
-
-  RADIUS   : UDP | ports 1812/1813 | open standard | Auth+Authz combined
-             | encrypts password only | used for Wi-Fi/VPN/ISP
-  TACACS+  : TCP | port 49 | Cisco proprietary | Auth/Authz/Accounting fully separate
-             | encrypts entire packet | per-command authorization | device admin
-
-ACLs
-  Standard ACL : source IP only | 1-99, 1300-1999 | place near DESTINATION
-  Extended ACL : src+dst IP, protocol, port | 100-199, 2000-2699 | place near SOURCE
-  Named ACL    : same rules, uses a name instead of a number
-  Implicit Deny: every ACL ends with a hidden "deny any" — unmatched traffic is dropped
-```
 
 ---
 
@@ -4094,37 +3965,6 @@ Step 4: That entry is then used for FUTURE frames destined to that MAC.
 - **Full-duplex** = both directions at once, no collisions, CSMA/CD not needed.
 - Modern switched links (switch ↔ host, switch ↔ switch) run **full-duplex** by default.
 - A **duplex mismatch** (one side set to half, the other to full) is a classic real-world cause of poor performance and errors on a link.
-
----
-
-## 9. Quick Revision Sheet
-
-```
-SWITCHING TYPES (network-wide, Part A)
-  Circuit Switching  : dedicated path, reserved end-to-end, wastes idle bandwidth
-  Message Switching  : store-and-forward whole message, high delay, obsolete
-  Datagram Switching : connectionless, no fixed path, packets may arrive out of order
-  Virtual Circuit     : connection-oriented, fixed logical path, VCI-based, in order
-
-ETHERNET FORWARDING METHODS (switch-internal, Part B)
-  Store-and-Forward : buffers WHOLE frame, full CRC check, safest, slowest
-  Fast-Forward       : buffers only 6 bytes (Dst MAC), no check, fastest, riskiest
-  Fragment-Free       : buffers 64 bytes, filters runts only, balanced
-
-MAC TABLE / FLOODING / FORWARDING (Part C)
-  MAC table learns   : source MAC ↔ incoming port
-  Known destination  : forward out that one port
-  Unknown/broadcast   : flood out all ports except the source port
-
-CSMA/CD (Part C)
-  Steps  : Carrier Sense → transmit → Collision Detect → Jam Signal → Random Backoff → Retry
-  Needed only on: Half-Duplex links (shared medium, collisions possible)
-
-DUPLEX (Part C)
-  Half-Duplex : one direction at a time, collisions possible, needs CSMA/CD
-  Full-Duplex : both directions at once, no collisions, CSMA/CD not needed
-  Modern switched Ethernet = Full-Duplex by default
-```
 
 ---
 
@@ -4712,66 +4552,3 @@ Router# undebug all      ← or "u all" — disables ALL active debug output
 - `terminal monitor` is required to see log messages over a remote (Telnet/SSH) session.
 - `debug` commands are CPU-intensive — always `undebug all` when finished.
 - Centralized **Syslog servers** are the production-standard destination for logs (local buffers are volatile and size-limited).
-
----
-
-## PART J — Master Quick Revision
-
-```text
-CISCO IOS
-  Operating system for Cisco routers/switches: routing, switching,
-  management, security
-
-HARDWARE COMPONENTS
-  CPU    : executes instructions
-  RAM    : running-config, routing table, ARP cache, buffers, running IOS
-  ROM    : POST + Bootstrap + ROMmon (permanent)
-  NVRAM  : startup-config (persists across reboot)
-  Flash  : full IOS image (persists across reboot)
-
-CLI MODES
-  User EXEC          Router>            basic/limited commands
-  Privileged EXEC     Router#            full admin access (enable)
-  Global Config        Router(config)#    configure terminal
-  Interface Config     Router(config-if)# interface <name>
-  Line Config           Router(config-line)# line vty/console/aux
-
-BOOT SEQUENCE
-  POST → Bootstrap → Locate/Load IOS → Load Config
-  POST & Bootstrap  : run from ROM
-  IOS                : loaded from Flash → into RAM (fallback: TFTP, then ROM)
-  Startup-config     : loaded from NVRAM → into RAM (as running-config)
-  No startup-config found → try TFTP → Setup Mode
-
-ACCESS METHODS
-  Console : local, out-of-band, cable — first-time setup/password recovery
-  SSH     : remote, encrypted, TCP 22 — preferred
-  Telnet  : remote, unencrypted, TCP 23 — legacy/labs only
-  AUX     : out-of-band via modem — backup access when network is down
-
-TELNET vs SSH
-  Telnet : TCP 23, PLAIN TEXT, insecure — avoid in production
-  SSH    : TCP 22, ENCRYPTED, secure — industry standard
-  SSH setup requires: hostname + domain-name + RSA key pair
-  `transport input ssh` on VTY lines disables Telnet
-  Default VTY lines: 0–4 (5 lines)
-
-CONFIG REGISTER
-  16-bit value in NVRAM controlling boot behavior
-  0x2102 : normal/default boot
-  0x2142 : SKIP startup-config (used for password recovery)
-  0x2100 : boot to ROMmon
-  Takes effect only AFTER reload
-
-PASSWORD RECOVERY (requires physical console access)
-  Break → ROMmon → confreg 0x2142 → reset → enable →
-  copy startup-config running-config → change password →
-  config-register 0x2102 → copy running-config startup-config
-
-DEBUGGING & LOGGING
-  Logging   : passive, ongoing record of events (0=Emergency ... 7=Debugging)
-  Debugging : active, real-time, CPU-intensive process tracing
-  terminal monitor : needed to see logs over Telnet/SSH session
-  undebug all       : stops all active debug output — always run when done
-  Best practice     : centralized Syslog server for production logging
-```
