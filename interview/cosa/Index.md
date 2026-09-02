@@ -14,6 +14,7 @@ syllabus-topic: []
 # Linux OS and Security Notes Index
 
 > Master guide: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
+> Broader module checklist: [[00 - Syllabus and Interview Checklist#Concept of Operating Systems & Administration — Interview Checklist|OS Administration Syllabus and Interview Checklist]]
 
 ## Recommended Learning Sequence
 
@@ -110,4 +111,3 @@ syllabus-topic: []
 ## Supplemental Notes
 
 - [[A1 - HAProxy Web Server Path|HAProxy Web Server Path]] — Not part of a numbered syllabus topic.
-- [[A2 - OS Administration Syllabus and Interview Checklist|OS Administration Syllabus and Interview Checklist]] — Broad cross-topic checklist; not counted as dedicated syllabus-topic coverage.
