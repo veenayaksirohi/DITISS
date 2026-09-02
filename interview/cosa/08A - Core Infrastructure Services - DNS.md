@@ -12,6 +12,7 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 8
+  - 15
 ---
 
 > Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08B - Core Infrastructure Services - DHCP|DHCP]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]]

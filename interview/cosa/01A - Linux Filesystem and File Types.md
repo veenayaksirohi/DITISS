@@ -11,9 +11,11 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 1
+  - 2
+  - 12
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[01C - Linux File Links|Linux File Links]] · [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[01C - Linux File Links|Linux File Links]] · [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]] · [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
 
 # Linux File Hierarchy Structure (FHS) & File Types — Study Notes
 

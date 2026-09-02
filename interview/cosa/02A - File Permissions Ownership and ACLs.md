@@ -11,9 +11,10 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 2
+  - 11
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[02B - Special Permission Bits|Special Permission Bits]] · [[03 - User and Group Management|User and Group Management]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[02B - Special Permission Bits|Special Permission Bits]] · [[03 - User and Group Management|User and Group Management]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
 
 # Linux File Permissions & ACLs — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**
@@ -186,7 +187,7 @@ umask 022      # set umask (common default)
 
 ### Why ACL?
 
-Traditional permissions (`rwx` for owner/group/others) only allow **ONE** owner and **ONE** group per file. 
+Traditional permissions (`rwx` for owner/group/others) only allow **ONE** owner and **ONE** group per file.
 
 **Problem:** What if you need to give a *specific* extra user (not the owner, not in the group) read access — without changing the file's actual group or making it world-readable?
 

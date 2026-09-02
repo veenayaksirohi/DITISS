@@ -10,10 +10,11 @@ tags:
   - processes
   - interview-preparation
 syllabus-topic:
+  - 11
   - 12
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[12B - User Space and Kernel Space|User Space and Kernel Space]] · [[01B - Linux Core Commands|Linux Core Commands]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[01B - Linux Core Commands|Linux Core Commands]] · [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]] · [[12B - User Space and Kernel Space|User Space and Kernel Space]]
 
 # Process Internals, Shell Execution, Redirection & Pipes — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**

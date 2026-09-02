@@ -11,6 +11,7 @@ tags:
   - authentication
   - interview-preparation
 syllabus-topic:
+  - 6
   - 16
   - 19
 ---

@@ -13,9 +13,10 @@ tags:
 syllabus-topic:
   - 8
   - 19
+  - 20
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[08A - Core Infrastructure Services - DNS|DNS]] · [[08B - Core Infrastructure Services - DHCP|DHCP]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[08A - Core Infrastructure Services - DNS|DNS]] · [[08B - Core Infrastructure Services - DHCP|DHCP]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
 
 # File Sharing Protocols — FTP, NFS, Samba/SMB, TFTP
 

@@ -10,10 +10,13 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 1
+  - 10
+  - 12
   - 19
+  - 21
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[01C - Linux File Links|Linux File Links]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]] · [[01C - Linux File Links|Linux File Links]] · [[03 - User and Group Management|User and Group Management]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]] · [[08C - Core Infrastructure Services - File Sharing Protocols|File Sharing Protocols]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
 
 # Linux Commands — Study Notes
 **Quick Revision Guide for Exam / Viva Prep**

@@ -11,10 +11,12 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 4
+  - 10
   - 14
+  - 21
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[12B - User Space and Kernel Space|User Space and Kernel Space]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[03 - User and Group Management|User and Group Management]] · [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]] · [[12B - User Space and Kernel Space|User Space and Kernel Space]]
 
 # Linux Boot Process & Systemd — Study Notes
 

@@ -1,6 +1,8 @@
 ---
-title: "02 - OS Administration Syllabus and Interview Checklist"
+title: "A2 - OS Administration Syllabus and Interview Checklist"
 aliases:
+  - "OS Administration Syllabus and Interview Checklist"
+  - "02 - OS Administration Syllabus and Interview Checklist"
   - "Concept of Operating Systems and Administration — CDAC DITISS Syllabus"
 tags:
   - operating-systems
@@ -11,6 +13,8 @@ tags:
   - moc
 syllabus-topic: []
 ---
+
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]]
 
 # Concept of Operating Systems & Administration — Interview Checklist
 
@@ -96,5 +100,6 @@ BIOS/UEFI → Bootloader (GRUB) → Kernel + Initial RAM Disk → systemd/init �
 ---
 
 ## Related Notes
-- [[00 - PGCP-ITISS Full Syllabus and Interview Checklist]]
-- [[00 - Syllabus and Interview Checklist]] (Computer Networks)
+
+- [[Index|Linux OS and Security Notes Index]]
+- [[00 - Syllabus and Interview Checklist|Linux OS and Security Syllabus and Interview Checklist]]

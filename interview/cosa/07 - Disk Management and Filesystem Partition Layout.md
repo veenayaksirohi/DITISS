@@ -10,6 +10,7 @@ tags:
   - filesystem
   - interview-preparation
 syllabus-topic:
+  - 1
   - 7
 ---
 

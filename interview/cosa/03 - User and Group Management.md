@@ -11,9 +11,11 @@ tags:
   - interview-preparation
 syllabus-topic:
   - 3
+  - 10
+  - 14
 ---
 
-> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
+> Navigation: [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]] · [[Index]] · Related: [[01B - Linux Core Commands|Linux Core Commands]] · [[02A - File Permissions Ownership and ACLs|File Permissions Ownership and ACLs]] · [[04 - Linux Boot Process and Systemd|Linux Boot Process and Systemd]] · [[16 - LDAP and NIS Authentication|LDAP and NIS Authentication]]
 
 # Linux User & Group Management — Study Notes
 
