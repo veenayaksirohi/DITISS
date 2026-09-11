@@ -313,26 +313,26 @@ syllabus-topic: []
 
 ## Quick Syllabus Topic List
 
-| Session | Topics |
-|---|---|
-| 5 | Data Center Architecture, Requirements, Security |
-| 6 | Virtualization - Type 1/2, Cloning, Snapshot, Template |
-| 7 | SAN - FreeNAS, ZFS, iSCSI, High Availability |
-| 8 | Cloud Computing - IaaS/PaaS/SaaS, SLA, IAM |
-| 9-10 | Chef & Puppet - Infra Provisioning |
-| 11 | Prometheus - Monitoring, Node/Windows Exporter |
-| 12-15 | DevOps + Docker - CI/CD, Images, Compose, Networking, Agile/Scrum/Kanban |
-| 16-17 | Git & GitHub - Core workflow, GitHub Actions vs Jenkins |
-| 18-19 | Jenkins - CI/CD Pipelines, Docker + GitHub integration |
-| 20-21 | AWS - EC2, Lambda, S3, VPC |
-| 22-23 | Container Orchestration - Kubernetes, Docker Swarm, Microservices |
-| 24-25 | Ansible - Playbooks, Inventory, Roles |
-| 26-27 | Terraform - IaC, State Management, Modules |
+| Session | Topics                                                                   |
+| ------- | ------------------------------------------------------------------------ |
+| 5       | Data Center Architecture, Requirements, Security                         |
+| 6       | Virtualization - Type 1/2, Cloning, Snapshot, Template                   |
+| 7       | SAN - FreeNAS, ZFS, iSCSI, High Availability                             |
+| 8       | Cloud Computing - IaaS/PaaS/SaaS, SLA, IAM                               |
+| 9-10    | Chef & Puppet - Infra Provisioning                                       |
+| 11      | Prometheus - Monitoring, Node/Windows Exporter                           |
+| 12-15   | DevOps + Docker - CI/CD, Images, Compose, Networking, Agile/Scrum/Kanban |
+| 16-17   | Git & GitHub - Core workflow, GitHub Actions vs Jenkins                  |
+| 18-19   | Jenkins - CI/CD Pipelines, Docker + GitHub integration                   |
+| 20-21   | AWS - EC2, Lambda, S3, VPC                                               |
+| 22-23   | Container Orchestration - Kubernetes, Docker Swarm, Microservices        |
+| 24-25   | Ansible - Playbooks, Inventory, Roles                                    |
+| 26-27   | Terraform - IaC, State Management, Modules                               |
 
 ---
 
-*CDAC DITISS - PGCP-ITISS | IT Infrastructure Management & DevOps | Feb 2026*
-*Total: 40T + 40L + 27SL (DevOps section) + Data Center session*
+_CDAC DITISS - PGCP-ITISS | IT Infrastructure Management & DevOps | Feb 2026_
+_Total: 40T + 40L + 27SL (DevOps section) + Data Center session_
 
 ---
 
@@ -340,23 +340,23 @@ syllabus-topic: []
 
 > This section adds navigation and coverage labels only. The original syllabus and checklist above remain unchanged.
 
-| Topic | Syllabus topic | Coverage | Related note or status |
-|---:|---|---|---|
-| 1 | Docker | Complete | [[01 - Docker Containerization and Docker Swarm|Docker, Containerization, and Docker Swarm]] |
-| 2 | Kubernetes / Container Orchestration | Distributed | [[01 - Docker Containerization and Docker Swarm|Docker Swarm]]; [[02 - Kubernetes Container Orchestration|Kubernetes]]; [[07 - Terraform and Infrastructure as Code|Kubernetes IaC]] |
-| 3 | Git & GitHub | Unavailable | No dedicated note provided. |
-| 4 | Jenkins (CI/CD) | Unavailable | No dedicated note provided. |
-| 5 | AWS Core Services | Complete | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
-| 6 | Ansible | Distributed | [[06 - Ansible YAML and Configuration Management|Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
-| 7 | Terraform (IaC) | Complete | [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
-| 8 | Virtualization | Complete | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
-| 9 | Cloud Computing | Complete | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
-| 10 | Prometheus & Monitoring | Unavailable | No dedicated note provided. |
-| 11 | Chef & Puppet (Configuration Management) | Distributed | [[06 - Ansible YAML and Configuration Management|Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]] |
-| 12 | Storage Area Network (SAN) | Unavailable | No dedicated note provided. |
-| 13 | Data Center Management | Complete | [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]] |
-| 14 | Agile & DevOps Culture | Unavailable | No dedicated note provided. |
-| 15 | Docker Swarm (Orchestration Alternative) | Complete | [[01 - Docker Containerization and Docker Swarm|Docker Containerization and Docker Swarm]] |
+| Topic | Syllabus topic                           | Coverage    | Related note or status                                    |
+| ----: | ---------------------------------------- | ----------- | --------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------------- | ---------------- |
+|     1 | Docker                                   | Complete    | [[01 - Docker Containerization and Docker Swarm           | Docker, Containerization, and Docker Swarm]]                                             |
+|     2 | Kubernetes / Container Orchestration     | Distributed | [[01 - Docker Containerization and Docker Swarm           | Docker Swarm]]; [[02 - Kubernetes Container Orchestration                                | Kubernetes]]; [[07 - Terraform and Infrastructure as Code | Kubernetes IaC]] |
+|     3 | Git & GitHub                             | Unavailable | No dedicated note provided.                               |
+|     4 | Jenkins (CI/CD)                          | Unavailable | No dedicated note provided.                               |
+|     5 | AWS Core Services                        | Complete    | [[05 - AWS Cloud Computing Virtualization and Data Center | AWS Cloud Computing, Virtualization, and Data Center]]                                   |
+|     6 | Ansible                                  | Distributed | [[06 - Ansible YAML and Configuration Management          | Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code | Terraform and Infrastructure as Code]]                    |
+|     7 | Terraform (IaC)                          | Complete    | [[07 - Terraform and Infrastructure as Code               | Terraform and Infrastructure as Code]]                                                   |
+|     8 | Virtualization                           | Complete    | [[05 - AWS Cloud Computing Virtualization and Data Center | AWS Cloud Computing, Virtualization, and Data Center]]                                   |
+|     9 | Cloud Computing                          | Complete    | [[05 - AWS Cloud Computing Virtualization and Data Center | AWS Cloud Computing, Virtualization, and Data Center]]                                   |
+|    10 | Prometheus & Monitoring                  | Unavailable | No dedicated note provided.                               |
+|    11 | Chef & Puppet (Configuration Management) | Distributed | [[06 - Ansible YAML and Configuration Management          | Ansible YAML and Configuration Management]]; [[07 - Terraform and Infrastructure as Code | Terraform and Infrastructure as Code]]                    |
+|    12 | Storage Area Network (SAN)               | Unavailable | No dedicated note provided.                               |
+|    13 | Data Center Management                   | Complete    | [[05 - AWS Cloud Computing Virtualization and Data Center | AWS Cloud Computing, Virtualization, and Data Center]]                                   |
+|    14 | Agile & DevOps Culture                   | Unavailable | No dedicated note provided.                               |
+|    15 | Docker Swarm (Orchestration Alternative) | Complete    | [[01 - Docker Containerization and Docker Swarm           | Docker Containerization and Docker Swarm]]                                               |
 
 ### Vault Navigation
 

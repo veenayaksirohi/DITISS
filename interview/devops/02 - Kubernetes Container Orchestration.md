@@ -13,31 +13,32 @@ syllabus-topic:
 ---
 
 # Kubernetes — Complete Revision Notes
+
 ### (Cluster Architecture → Namespaces → Pods → Services → ReplicaSets → Deployments)
 
 ---
 
 ## 0. Full-Form / Key Terms Table
 
-| Term | Full Form / Meaning |
-|---|---|
-| K8s | Kubernetes (8 letters between K and s) |
-| API | Application Programming Interface |
-| CP | Control Plane |
-| etcd | "et cetera distributed" — distributed key-value store |
-| CRI | Container Runtime Interface |
-| CNI | Container Network Interface |
-| RBAC | Role-Based Access Control |
-| HA | High Availability |
-| CIDR/IP | Internet Protocol (addressing) |
-| CLI | Command Line Interface |
-| OCI | Open Container Initiative (image standard) |
-| VIP | Virtual IP |
-| DNS | Domain Name System |
-| PVC | PersistentVolumeClaim |
-| PV | PersistentVolume |
-| RS | ReplicaSet |
-| RC | ReplicationController (legacy) |
+| Term    | Full Form / Meaning                                   |
+| ------- | ----------------------------------------------------- |
+| K8s     | Kubernetes (8 letters between K and s)                |
+| API     | Application Programming Interface                     |
+| CP      | Control Plane                                         |
+| etcd    | "et cetera distributed" — distributed key-value store |
+| CRI     | Container Runtime Interface                           |
+| CNI     | Container Network Interface                           |
+| RBAC    | Role-Based Access Control                             |
+| HA      | High Availability                                     |
+| CIDR/IP | Internet Protocol (addressing)                        |
+| CLI     | Command Line Interface                                |
+| OCI     | Open Container Initiative (image standard)            |
+| VIP     | Virtual IP                                            |
+| DNS     | Domain Name System                                    |
+| PVC     | PersistentVolumeClaim                                 |
+| PV      | PersistentVolume                                      |
+| RS      | ReplicaSet                                            |
+| RC      | ReplicationController (legacy)                        |
 
 ---
 
@@ -48,6 +49,7 @@ syllabus-topic:
 **Kubernetes (K8s)** is an open-source **container orchestration platform**.
 
 It helps to:
+
 - Deploy containerized applications
 - Run containers across multiple machines
 - Automatically restart failed containers
@@ -68,6 +70,7 @@ An online shopping app has a frontend, backend API, and database. During a sale,
 A **cluster** is a group of physical/virtual machines that run containerized applications under Kubernetes management.
 
 A cluster has **two main parts**:
+
 1. **Control Plane** — the "brain"; manages the cluster
 2. **Worker Nodes** — run the actual application Pods
 
@@ -80,23 +83,23 @@ User/Admin → kubectl → Control Plane → Worker Node 1 → App Pods
 
 ### ⚠️ Terminology Correction (Exam Trap)
 
-| Old (Outdated) Term | Current Correct Term |
-|---|---|
-| Master Node | Control-Plane Node |
-| Minion | Worker Node |
-| Master Components | Control-Plane Components |
+| Old (Outdated) Term | Current Correct Term     |
+| ------------------- | ------------------------ |
+| Master Node         | Control-Plane Node       |
+| Minion              | Worker Node              |
+| Master Components   | Control-Plane Components |
 
 ---
 
 ## 3. Node, Pod, Container, Cluster — Key Definitions
 
-| Term | Meaning |
-|---|---|
-| **Container** | A packaged application + its dependencies |
-| **Pod** | Smallest deployable Kubernetes unit; holds 1+ containers |
-| **Node** | A physical/virtual machine that runs Pods |
-| **Cluster** | Group of control-plane + worker nodes |
-| **Service** | Stable network address to reach a group of Pods |
+| Term          | Meaning                                                  |
+| ------------- | -------------------------------------------------------- |
+| **Container** | A packaged application + its dependencies                |
+| **Pod**       | Smallest deployable Kubernetes unit; holds 1+ containers |
+| **Node**      | A physical/virtual machine that runs Pods                |
+| **Cluster**   | Group of control-plane + worker nodes                    |
+| **Service**   | Stable network address to reach a group of Pods          |
 
 ### Cluster Structure (ASCII)
 
@@ -142,36 +145,43 @@ Used for: learning, local development, testing YAML files, testing Deployments/S
 ```bash
 minikube start
 ```
+
 Creates and starts a local Kubernetes cluster.
 
 ```bash
 minikube start --driver=docker
 ```
+
 - `--driver=docker`: Runs the Minikube node using Docker instead of a separate VM driver.
 
 ```bash
 minikube start --nodes=3
 ```
+
 - `--nodes=3`: Creates a 3-node local cluster.
 
 ```bash
 minikube status
 ```
+
 Shows status of host, kubelet, API Server, kubeconfig.
 
 ```bash
 minikube stop
 ```
+
 Stops the cluster (data preserved).
 
 ```bash
 minikube delete
 ```
+
 Deletes the cluster and its stored data.
 
 ```bash
 minikube dashboard
 ```
+
 Opens the Kubernetes Dashboard UI.
 
 ---
@@ -192,6 +202,7 @@ Used for: development, testing, training, small non-critical environments.
 **Advantages:** Simple, easy to configure, fewer servers, low cost.
 
 **Disadvantages:** Control plane = single point of failure. If it fails:
+
 - `kubectl` commands fail
 - New Pods can't be scheduled
 - Failed workloads may not be replaced
@@ -224,16 +235,16 @@ kubectl/Clients → API Load Balancer → Control Plane 1
 
 ### 4.4 Cluster Type Comparison
 
-| Feature | Minikube | Single Control Plane | Multi-Control Plane |
-|---|---|---|---|
-| Main purpose | Learning/local dev | Dev & testing | Production |
-| Control-plane nodes | Usually 1 | 1 | Usually 3+ |
-| Worker nodes | Same/multiple local | 1 or more | Multiple |
-| High availability | No | No | Yes |
-| Cost | Low | Medium | High |
-| Complexity | Low | Medium | High |
-| Failure protection | Low | Low | High |
-| Example | Laptop cluster | Lab cluster | EKS/enterprise |
+| Feature             | Minikube            | Single Control Plane | Multi-Control Plane |
+| ------------------- | ------------------- | -------------------- | ------------------- |
+| Main purpose        | Learning/local dev  | Dev & testing        | Production          |
+| Control-plane nodes | Usually 1           | 1                    | Usually 3+          |
+| Worker nodes        | Same/multiple local | 1 or more            | Multiple            |
+| High availability   | No                  | No                   | Yes                 |
+| Cost                | Low                 | Medium               | High                |
+| Complexity          | Low                 | Medium               | High                |
+| Failure protection  | Low                 | Low                  | High                |
+| Example             | Laptop cluster      | Lab cluster          | EKS/enterprise      |
 
 > ⚠️ **Exam Trap:** "3 nodes always means HA" — **False**. HA depends on how control-plane components, etcd members, load balancers, and failure domains are distributed — not just node count.
 
@@ -243,12 +254,12 @@ kubectl/Clients → API Load Balancer → Control Plane 1
 
 The **control plane** is the **brain** of the cluster. It manages: worker nodes, Pod scheduling, desired state, scaling, cluster config, API requests, recovery.
 
-| Component | Main Responsibility |
-|---|---|
-| `kube-apiserver` | Receives/processes API requests |
-| `etcd` | Stores cluster data/state |
-| `kube-scheduler` | Selects a node for each new Pod |
-| `kube-controller-manager` | Keeps actual state = desired state |
+| Component                  | Main Responsibility                  |
+| -------------------------- | ------------------------------------ |
+| `kube-apiserver`           | Receives/processes API requests      |
+| `etcd`                     | Stores cluster data/state            |
+| `kube-scheduler`           | Selects a node for each new Pod      |
+| `kube-controller-manager`  | Keeps actual state = desired state   |
 | `cloud-controller-manager` | Integrates K8s with a cloud provider |
 
 ---
@@ -265,7 +276,7 @@ Components that talk through it: `kubectl`, Scheduler, Controller Manager, Kubel
 
 1. **Authentication** — Who are you?
 2. **Authorization** — What are you allowed to do?
-3. **Admission Control** — Is this permitted under cluster policy? (runs *after* authN/authZ, *before* storage)
+3. **Admission Control** — Is this permitted under cluster policy? (runs _after_ authN/authZ, _before_ storage)
 4. **Validation** — Is the object technically correct?
 5. **Persistence** — Store accepted state in `etcd`
 
@@ -274,12 +285,14 @@ Components that talk through it: `kubectl`, Scheduler, Controller Manager, Kubel
 ```bash
 kubectl create deployment web --image=nginx
 ```
+
 - `create` → creates a resource
 - `deployment` → resource type
 - `web` → Deployment name
 - `--image=nginx` → container image to use
 
 ### Features
+
 Provides REST API · validates objects · handles authN/authZ · reads/writes cluster state · communication hub · can run multiple instances · **is stateless**.
 
 **Why stateless?** It does not keep important state in local memory/disk — state lives in `etcd`. So multiple API Server replicas can run behind a load balancer (this enables HA).
@@ -312,6 +325,7 @@ Value: Pod configuration and state
 Raft helps etcd members: elect a leader, replicate data, agree on changes, stay consistent, tolerate limited failures.
 
 ### How Raft Works
+
 1. One member becomes leader.
 2. Others become followers.
 3. Write requests go through the leader.
@@ -326,21 +340,21 @@ Quorum = floor(n / 2) + 1
 ```
 
 | etcd Members | Quorum Needed | Failures Tolerated |
-|---:|---:|---:|
-| 1 | 1 | 0 |
-| 2 | 2 | 0 |
-| 3 | 2 | 1 |
-| 4 | 3 | 1 |
-| 5 | 3 | 2 |
-| 7 | 4 | 3 |
+| -----------: | ------------: | -----------------: |
+|            1 |             1 |                  0 |
+|            2 |             2 |                  0 |
+|            3 |             2 |                  1 |
+|            4 |             3 |                  1 |
+|            5 |             3 |                  2 |
+|            7 |             4 |                  3 |
 
 > 🧠 **Interview point:** Odd-numbered etcd clusters are preferred — going from 3→4 members increases quorum requirement without increasing fault tolerance (waste of a node).
 
 ### Two Different Leader-Election Mechanisms (common confusion)
 
-| Process | Used By | Mechanism |
-|---|---|---|
-| etcd leader election | etcd members | Raft consensus |
+| Process                       | Used By                                 | Mechanism                    |
+| ----------------------------- | --------------------------------------- | ---------------------------- |
+| etcd leader election          | etcd members                            | Raft consensus               |
 | K8s component leader election | Scheduler & Controller Manager replicas | Kubernetes **Lease** objects |
 
 > ⚠️ **Exam Trap:** Not all K8s leader elections use Raft — only etcd does.
@@ -352,6 +366,7 @@ Quorum = floor(n / 2) + 1
 In HA clusters, multiple replicas of `kube-scheduler` and `kube-controller-manager` may run, but **only one actively leads** at a time — using **Lease objects**.
 
 ### Working
+
 1. Multiple instances start.
 2. They compete to acquire a Lease.
 3. One wins → becomes leader.
@@ -366,6 +381,7 @@ In HA clusters, multiple replicas of `kube-scheduler` and `kube-controller-manag
 **Definition:** Chooses the best node for a new (unassigned) Pod.
 
 ### What it Considers
+
 CPU/memory requests · available node resources · node selector · node affinity · Pod affinity/anti-affinity · taints & tolerations · Pod priority · storage requirements · scheduling policies
 
 ### Scheduling Process
@@ -382,21 +398,21 @@ Example: Pod needs 2GB RAM; Worker-1 has only 1GB (filtered out); Worker-2 has 4
 ```yaml
 resources:
   requests:
-    cpu: "500m"      # requests half of one CPU core
-    memory: "256Mi"  # requests 256 MiB memory
+    cpu: "500m" # requests half of one CPU core
+    memory: "256Mi" # requests 256 MiB memory
 ```
 
 ---
 
 ## 11. Affinity, Taints & Tolerations
 
-| Concept | Meaning |
-|---|---|
-| **Node affinity** | Pod prefers/requires nodes with specific labels |
-| **Pod affinity** | Place Pod near other selected Pods (e.g., app near cache) |
+| Concept               | Meaning                                                       |
+| --------------------- | ------------------------------------------------------------- |
+| **Node affinity**     | Pod prefers/requires nodes with specific labels               |
+| **Pod affinity**      | Place Pod near other selected Pods (e.g., app near cache)     |
 | **Pod anti-affinity** | Keep selected Pods apart (e.g., spread replicas across nodes) |
-| **Taint** | Marks a node to repel ordinary Pods |
-| **Toleration** | Allows a specific Pod to be scheduled despite a taint |
+| **Taint**             | Marks a node to repel ordinary Pods                           |
+| **Toleration**        | Allows a specific Pod to be scheduled despite a taint         |
 
 ```yaml
 affinity:
@@ -408,6 +424,7 @@ affinity:
               operator: In
               values: ["ssd"]
 ```
+
 This Pod can be scheduled **only** on nodes labeled `disk=ssd`.
 
 > 🧠 Control-plane nodes are commonly **tainted** so normal app workloads aren't scheduled there.
@@ -421,25 +438,27 @@ This Pod can be scheduled **only** on nodes labeled `disk=ssd`.
 ```
 Desired State  vs.  Actual State
 ```
+
 If different → controller takes corrective action.
 
 **Example:** Desired = 3 frontend Pods; Actual = 2 → controller creates 1 more Pod.
 
 ### Common Controllers
 
-| Controller | Responsibility |
-|---|---|
-| Node Controller | Monitors node status |
-| Deployment Controller | Manages Deployment rollout |
-| ReplicaSet Controller | Maintains required Pod replicas |
-| Job Controller | Ensures a Job completes |
-| EndpointSlice Controller | Maintains Service backend endpoint data |
-| ServiceAccount Controller | Manages default ServiceAccounts |
-| Namespace Controller | Handles namespace lifecycle |
+| Controller                | Responsibility                          |
+| ------------------------- | --------------------------------------- |
+| Node Controller           | Monitors node status                    |
+| Deployment Controller     | Manages Deployment rollout              |
+| ReplicaSet Controller     | Maintains required Pod replicas         |
+| Job Controller            | Ensures a Job completes                 |
+| EndpointSlice Controller  | Maintains Service backend endpoint data |
+| ServiceAccount Controller | Manages default ServiceAccounts         |
+| Namespace Controller      | Handles namespace lifecycle             |
 
 > ⚠️ **Correction:** Legacy **ReplicationController** still exists, but modern apps use `Deployment → ReplicaSet → Pods`. Also, modern Services mainly use **EndpointSlice** objects (not the old "Endpoints" object) to track backends.
 
 ### Self-Healing Example (Pod crash)
+
 1. kubelet reports failure
 2. Cluster state updated
 3. Controller notices fewer replicas than desired
@@ -463,12 +482,12 @@ If different → controller takes corrective action.
 
 ## 14. Worker-Node Components — Overview
 
-| Component | Function |
-|---|---|
-| `kubelet` | Manages Pods assigned to the node |
-| `kube-proxy` | Implements Service network forwarding |
-| Container runtime | Runs containers |
-| CNI plugin | Provides Pod networking |
+| Component         | Function                              |
+| ----------------- | ------------------------------------- |
+| `kubelet`         | Manages Pods assigned to the node     |
+| `kube-proxy`      | Implements Service network forwarding |
+| Container runtime | Runs containers                       |
+| CNI plugin        | Provides Pod networking               |
 
 ---
 
@@ -477,9 +496,11 @@ If different → controller takes corrective action.
 **Definition:** The primary Kubernetes **agent** on each node. Talks to the API Server and manages assigned Pods.
 
 ### Responsibilities
+
 Registers node · watches for assigned Pods · calls container runtime · ensures containers run · runs health probes · reports Pod/node status · mounts volumes · restarts failed containers per policy.
 
 ### Working Example
+
 1. Scheduler assigns `frontend-pod` to `worker-1` (recorded via API Server).
 2. kubelet on `worker-1` notices the assignment.
 3. kubelet tells containerd to pull the image.
@@ -487,7 +508,7 @@ Registers node · watches for assigned Pods · calls container runtime · ensure
 5. kubelet runs health checks.
 6. kubelet reports status to API Server.
 
-> ⚠️ **Exam Trap:** kubelet does **NOT** decide *where* a Pod runs — that's the Scheduler's job. kubelet only *manages* the Pod once assigned.
+> ⚠️ **Exam Trap:** kubelet does **NOT** decide _where_ a Pod runs — that's the Scheduler's job. kubelet only _manages_ the Pod once assigned.
 
 ---
 
@@ -496,6 +517,7 @@ Registers node · watches for assigned Pods · calls container runtime · ensure
 **Definition:** Implements the **network rules** needed for Kubernetes Services. Watches Services + EndpointSlices and configures node-level networking.
 
 ### Responsibilities
+
 Maintains Service network rules · forwards Service traffic to Pod endpoints · load-balances across backend Pods · supports `ClusterIP`/`NodePort` · uses OS networking rules.
 
 **Traditional modes:** `iptables`, `IPVS`, `nftables` (in newer setups).
@@ -509,6 +531,7 @@ backend-pod-1: 10.244.1.10
 backend-pod-2: 10.244.2.12
 backend-pod-3: 10.244.3.15
 ```
+
 Pod IPs change over time, but the Service address (`backend-service:5000`) stays stable and forwards to a healthy Pod.
 
 ---
@@ -521,12 +544,12 @@ Pod IPs change over time, but the Service address (`backend-service:5000`) stays
 
 ### Common Service Types (quick view — full detail in Part D)
 
-| Type | Access | Use Case |
-|---|---|---|
-| `ClusterIP` | Inside cluster only | Backend/database |
-| `NodePort` | `NodeIP:Port` on every node | Testing/simple external access |
-| `LoadBalancer` | Cloud/external LB | Production external access |
-| `ExternalName` | Maps to external DNS name | Access external service |
+| Type           | Access                      | Use Case                       |
+| -------------- | --------------------------- | ------------------------------ |
+| `ClusterIP`    | Inside cluster only         | Backend/database               |
+| `NodePort`     | `NodeIP:Port` on every node | Testing/simple external access |
+| `LoadBalancer` | Cloud/external LB           | Production external access     |
+| `ExternalName` | Maps to external DNS name   | Access external service        |
 
 ---
 
@@ -541,6 +564,7 @@ Common runtimes: `containerd`, `CRI-O`, other CRI-compatible runtimes, Docker En
 ```
 kubelet → CRI → container runtime → container
 ```
+
 CRI lets Kubernetes support different runtimes without rewriting kubelet for each one.
 
 **Responsibilities:** pull images · create/start/stop containers · manage execution · report status · delete containers.
@@ -552,6 +576,7 @@ CRI lets Kubernetes support different runtimes without rewriting kubelet for eac
 > ⚠️ "Docker Engine was deprecated in Kubernetes 1.24" needs clarification.
 
 What was actually removed = the **`dockershim`** integration (K8s built-in Docker shim). This does **NOT** mean:
+
 - Docker images stopped working ❌
 - Dockerfiles stopped working ❌
 - Docker-built images can't run on K8s ❌
@@ -572,11 +597,11 @@ Provides: Pod IP addresses · Pod-to-Pod connectivity · inter-node routes · Ne
 
 ### kube-proxy vs CNI
 
-| Component | Main Purpose |
-|---|---|
-| CNI plugin | Creates/manages Pod networking |
-| kube-proxy | Implements Service traffic forwarding |
-| NetworkPolicy | Defines permitted Pod traffic |
+| Component                    | Main Purpose                            |
+| ---------------------------- | --------------------------------------- |
+| CNI plugin                   | Creates/manages Pod networking          |
+| kube-proxy                   | Implements Service traffic forwarding   |
+| NetworkPolicy                | Defines permitted Pod traffic           |
 | Host firewall/security group | Controls traffic entering/leaving nodes |
 
 ---
@@ -585,26 +610,26 @@ Provides: Pod IP addresses · Pod-to-Pod connectivity · inter-node routes · Ne
 
 Required rules depend on cluster design + CNI plugin.
 
-| Port | Protocol | Purpose |
-|---:|---|---|
-| 6443 | TCP | Kubernetes API Server |
-| 2379–2380 | TCP | etcd client & member communication |
-| 10250 | TCP | Kubelet API |
-| 10257 | TCP | Controller Manager secure port |
-| 10259 | TCP | Scheduler secure port |
-| 10256 | TCP | kube-proxy health/metrics |
-| 30000–32767 | TCP/UDP | Default NodePort range |
+|        Port | Protocol | Purpose                            |
+| ----------: | -------- | ---------------------------------- |
+|        6443 | TCP      | Kubernetes API Server              |
+|   2379–2380 | TCP      | etcd client & member communication |
+|       10250 | TCP      | Kubelet API                        |
+|       10257 | TCP      | Controller Manager secure port     |
+|       10259 | TCP      | Scheduler secure port              |
+|       10256 | TCP      | kube-proxy health/metrics          |
+| 30000–32767 | TCP/UDP  | Default NodePort range             |
 
 > ⚠️ **Never expose etcd or kubelet ports publicly.**
 
 ### Firewall vs NetworkPolicy
 
-| Feature | Firewall/Security Group | Kubernetes NetworkPolicy |
-|---|---|---|
-| Protects | Nodes & networks | Pod traffic |
-| Level | Infrastructure | K8s workload |
-| Example | Allow API port only from admin network | Allow frontend Pods → backend Pods |
-| Enforced by | OS firewall / cloud controls | Network (CNI) plugin |
+| Feature     | Firewall/Security Group                | Kubernetes NetworkPolicy           |
+| ----------- | -------------------------------------- | ---------------------------------- |
+| Protects    | Nodes & networks                       | Pod traffic                        |
+| Level       | Infrastructure                         | K8s workload                       |
+| Example     | Allow API port only from admin network | Allow frontend Pods → backend Pods |
+| Enforced by | OS firewall / cloud controls           | Network (CNI) plugin               |
 
 ---
 
@@ -616,12 +641,12 @@ Required rules depend on cluster design + CNI plugin.
 
 ### Main RBAC Resources
 
-| Resource | Scope | Meaning |
-|---|---|---|
-| `Role` | One namespace | Defines permissions |
-| `ClusterRole` | Cluster-wide/reusable | Wider permissions |
-| `RoleBinding` | One namespace | Assigns Role/ClusterRole |
-| `ClusterRoleBinding` | Whole cluster | Assigns ClusterRole globally |
+| Resource             | Scope                 | Meaning                      |
+| -------------------- | --------------------- | ---------------------------- |
+| `Role`               | One namespace         | Defines permissions          |
+| `ClusterRole`        | Cluster-wide/reusable | Wider permissions            |
+| `RoleBinding`        | One namespace         | Assigns Role/ClusterRole     |
+| `ClusterRoleBinding` | Whole cluster         | Assigns ClusterRole globally |
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -634,6 +659,7 @@ rules:
     resources: ["pods"]
     verbs: ["get", "list", "watch"]
 ```
+
 - `resources: ["pods"]` → applies to Pods
 - `get` → read one Pod · `list` → list Pods · `watch` → watch changes
 
@@ -656,6 +682,7 @@ Kubelet → API Server (report status)
 ```
 
 ### Step-by-Step
+
 1. User writes YAML manifest.
 2. `kubectl` sends it to API Server.
 3. API Server authenticates the user.
@@ -734,60 +761,60 @@ kubectl scale deployment nginx-deployment --replicas=5   # scale to 5 Pods
 
 ## 25. Component Comparison Table
 
-| Component | Runs On | Main Job | Stores Cluster State? |
-|---|---|---|---|
-| API Server | Control plane | Handles API requests | No |
-| etcd | Control plane | Stores cluster state | **Yes** |
-| Scheduler | Control plane | Selects nodes for Pods | No |
-| Controller Manager | Control plane | Maintains desired state | No |
-| Cloud Controller Manager | Control plane | Cloud integration | No |
-| kubelet | Nodes | Runs/monitors assigned Pods | No |
-| kube-proxy | Nodes | Service networking | No |
-| Container runtime | Nodes | Runs containers | No |
+| Component                | Runs On       | Main Job                    | Stores Cluster State? |
+| ------------------------ | ------------- | --------------------------- | --------------------- |
+| API Server               | Control plane | Handles API requests        | No                    |
+| etcd                     | Control plane | Stores cluster state        | **Yes**               |
+| Scheduler                | Control plane | Selects nodes for Pods      | No                    |
+| Controller Manager       | Control plane | Maintains desired state     | No                    |
+| Cloud Controller Manager | Control plane | Cloud integration           | No                    |
+| kubelet                  | Nodes         | Runs/monitors assigned Pods | No                    |
+| kube-proxy               | Nodes         | Service networking          | No                    |
+| Container runtime        | Nodes         | Runs containers             | No                    |
 
 ---
 
 ## 26. Common Misconceptions (High-Yield Exam Traps)
 
-| Myth | Reality |
-|---|---|
-| Minikube is only simulated | It's a real local K8s cluster |
-| Scheduler starts containers | Scheduler only picks the node; kubelet+runtime start it |
-| kubelet selects the node | Scheduler selects; kubelet manages the assigned Pod |
-| kube-proxy is a firewall | It implements Service traffic rules, not a firewall |
-| A Service is a physical server | It's a logical networking abstraction |
-| Every HA election uses Raft | Only etcd uses Raft; Scheduler/Controller Manager use Leases |
-| K8s no longer supports Docker images | Only dockershim was removed; OCI images still work |
-| 3 nodes = always HA | Depends on component/etcd distribution, not just node count |
+| Myth                                 | Reality                                                      |
+| ------------------------------------ | ------------------------------------------------------------ |
+| Minikube is only simulated           | It's a real local K8s cluster                                |
+| Scheduler starts containers          | Scheduler only picks the node; kubelet+runtime start it      |
+| kubelet selects the node             | Scheduler selects; kubelet manages the assigned Pod          |
+| kube-proxy is a firewall             | It implements Service traffic rules, not a firewall          |
+| A Service is a physical server       | It's a logical networking abstraction                        |
+| Every HA election uses Raft          | Only etcd uses Raft; Scheduler/Controller Manager use Leases |
+| K8s no longer supports Docker images | Only dockershim was removed; OCI images still work           |
+| 3 nodes = always HA                  | Depends on component/etcd distribution, not just node count  |
 
 ---
 
 ## 27. Interview Q&A — Cluster & Components
 
-| # | Question | Answer |
-|---|---|---|
-| 1 | What is a Kubernetes cluster? | A group of control-plane and worker nodes used to deploy/manage containerized apps. |
-| 2 | Control plane vs worker node? | Control plane manages the cluster; worker nodes run application Pods. |
-| 3 | What is Minikube? | A tool creating a local K8s cluster for learning/dev/testing. |
-| 4 | Is Minikube simulated? | No, it's a real local Kubernetes implementation. |
-| 5 | What is kube-apiserver? | Main entry point of the control plane; processes API requests. |
-| 6 | Does kubectl talk to etcd directly? | No, only through the API Server. |
-| 7 | What is etcd? | Distributed key-value store holding cluster state. |
-| 8 | What happens if etcd is lost? | Cluster loses stored state unless recovered from members/backup. |
-| 9 | Role of kube-scheduler? | Selects a suitable node for each new unscheduled Pod. |
-| 10 | Role of kube-controller-manager? | Runs controllers that move actual state toward desired state. |
-| 11 | What is kubelet? | Node agent ensuring assigned Pods/containers run correctly. |
-| 12 | What is kube-proxy? | Implements network forwarding rules for Services. |
-| 13 | What is a container runtime? | Software that pulls images and runs containers (e.g., containerd). |
-| 14 | What is CRI? | Interface between kubelet and the container runtime. |
-| 15 | Why multiple control-plane nodes? | For high availability and continued management if one fails. |
-| 16 | What is leader election? | Selecting one active leader among multiple instances. |
-| 17 | What is Raft? | Consensus algorithm etcd uses to elect leader/agree on data. |
-| 18 | What is quorum? | Minimum majority of etcd members needed to approve operations. |
-| 19 | What is desired state? | The state declared by the user (e.g., "3 Pods must run"). |
-| 20 | What is actual state? | The real current condition of the cluster. |
-| 21 | What is RBAC? | Controls actions users/ServiceAccounts can perform via roles. |
-| 22 | Did K8s remove Docker support? | Only dockershim was removed; Docker-built images still work. |
+| #   | Question                            | Answer                                                                              |
+| --- | ----------------------------------- | ----------------------------------------------------------------------------------- |
+| 1   | What is a Kubernetes cluster?       | A group of control-plane and worker nodes used to deploy/manage containerized apps. |
+| 2   | Control plane vs worker node?       | Control plane manages the cluster; worker nodes run application Pods.               |
+| 3   | What is Minikube?                   | A tool creating a local K8s cluster for learning/dev/testing.                       |
+| 4   | Is Minikube simulated?              | No, it's a real local Kubernetes implementation.                                    |
+| 5   | What is kube-apiserver?             | Main entry point of the control plane; processes API requests.                      |
+| 6   | Does kubectl talk to etcd directly? | No, only through the API Server.                                                    |
+| 7   | What is etcd?                       | Distributed key-value store holding cluster state.                                  |
+| 8   | What happens if etcd is lost?       | Cluster loses stored state unless recovered from members/backup.                    |
+| 9   | Role of kube-scheduler?             | Selects a suitable node for each new unscheduled Pod.                               |
+| 10  | Role of kube-controller-manager?    | Runs controllers that move actual state toward desired state.                       |
+| 11  | What is kubelet?                    | Node agent ensuring assigned Pods/containers run correctly.                         |
+| 12  | What is kube-proxy?                 | Implements network forwarding rules for Services.                                   |
+| 13  | What is a container runtime?        | Software that pulls images and runs containers (e.g., containerd).                  |
+| 14  | What is CRI?                        | Interface between kubelet and the container runtime.                                |
+| 15  | Why multiple control-plane nodes?   | For high availability and continued management if one fails.                        |
+| 16  | What is leader election?            | Selecting one active leader among multiple instances.                               |
+| 17  | What is Raft?                       | Consensus algorithm etcd uses to elect leader/agree on data.                        |
+| 18  | What is quorum?                     | Minimum majority of etcd members needed to approve operations.                      |
+| 19  | What is desired state?              | The state declared by the user (e.g., "3 Pods must run").                           |
+| 20  | What is actual state?               | The real current condition of the cluster.                                          |
+| 21  | What is RBAC?                       | Controls actions users/ServiceAccounts can perform via roles.                       |
+| 22  | Did K8s remove Docker support?      | Only dockershim was removed; Docker-built images still work.                        |
 
 ---
 
@@ -813,6 +840,7 @@ Service → (selects/exposes) → Pods
 A **Namespace** is a **logical division** inside a cluster. Useful when one cluster is shared by multiple teams, projects, customers, or environments (dev/test/prod).
 
 **Real-life example:**
+
 ```
 Kubernetes Cluster
 ├── development namespace
@@ -821,9 +849,11 @@ Kubernetes Cluster
 ├── production namespace
 └── monitoring namespace
 ```
-Dev and prod run in the *same* cluster but stay logically separated.
+
+Dev and prod run in the _same_ cluster but stay logically separated.
 
 ### Naming Rules
+
 - Resource names must be **unique within their type + namespace**.
 - ✅ Allowed: `development/Pod:frontend` and `production/Pod:frontend`
 - ❌ Not allowed: two Pods named `frontend` in the **same** namespace
@@ -831,6 +861,7 @@ Dev and prod run in the *same* cluster but stay logically separated.
 - Every object also gets a cluster-wide unique **UID**.
 
 ### Important Namespace Properties
+
 - Namespaces **cannot be nested**.
 - A namespaced resource belongs to **only one** namespace.
 - You **cannot move** a resource between namespaces directly — recreate it in the destination.
@@ -838,27 +869,29 @@ Dev and prod run in the *same* cluster but stay logically separated.
 - Namespaces give logical separation but are **not complete security boundaries** alone.
 
 **Nesting NOT possible:**
+
 ```
 production
 └── backend      ❌ Invalid
     └── database
 ```
+
 Instead create separate namespaces: `production-backend`, `production-database`.
 
 ---
 
 ## 3. Namespaced vs Cluster-Scoped Resources
 
-| Namespaced Resources | Cluster-Scoped Resources |
-|---|---|
-| Pod | Node |
-| Deployment | Namespace |
-| ReplicaSet | PersistentVolume |
-| Service | StorageClass |
-| ConfigMap | ClusterRole |
-| Secret | ClusterRoleBinding |
-| Role | CustomResourceDefinition |
-| PersistentVolumeClaim | |
+| Namespaced Resources  | Cluster-Scoped Resources |
+| --------------------- | ------------------------ |
+| Pod                   | Node                     |
+| Deployment            | Namespace                |
+| ReplicaSet            | PersistentVolume         |
+| Service               | StorageClass             |
+| ConfigMap             | ClusterRole              |
+| Secret                | ClusterRoleBinding       |
+| Role                  | CustomResourceDefinition |
+| PersistentVolumeClaim |                          |
 
 ```bash
 kubectl api-resources --namespaced=true    # list namespaced resource types
@@ -869,11 +902,11 @@ kubectl api-resources --namespaced=false   # list cluster-scoped resource types
 
 ## 4. Default Namespaces in a New Cluster
 
-| Namespace | Purpose |
-|---|---|
-| `default` | Used when no namespace is specified |
-| `kube-system` | Kubernetes system components |
-| `kube-public` | Publicly readable cluster info |
+| Namespace         | Purpose                                |
+| ----------------- | -------------------------------------- |
+| `default`         | Used when no namespace is specified    |
+| `kube-system`     | Kubernetes system components           |
+| `kube-public`     | Publicly readable cluster info         |
 | `kube-node-lease` | Lease objects used for node heartbeats |
 
 > 🧠 If you don't specify a namespace, K8s uses `default`.
@@ -909,6 +942,7 @@ kind: Namespace
 metadata:
   name: development
 ```
+
 ```bash
 kubectl apply -f namespace.yaml
 ```
@@ -933,6 +967,7 @@ spec:
     limits.memory: 16Gi
     pods: "20"
 ```
+
 This namespace can request max 4 CPU cores, 8GiB memory, limit up to 8 CPU/16GiB, and run max 20 Pods.
 
 ---
@@ -954,6 +989,7 @@ This namespace can request max 4 CPU cores, 8GiB memory, limit up to 8 CPU/16GiB
 The **smallest deployable compute object** in Kubernetes. Represents one or more closely related containers running together.
 
 A Pod gives its containers:
+
 - Shared networking
 - Shared storage volumes
 - A Pod IP address
@@ -974,6 +1010,7 @@ Pod
 ├── Logging sidecar
 └── Proxy sidecar
 ```
+
 All three: run on the **same node**, share the Pod network, can share volumes, and are created/deleted together.
 
 ---
@@ -990,7 +1027,9 @@ All three: run on the **same node**, share the Pod network, can share volumes, a
 ## 4. Pod Networking
 
 ### 4.1 One Pod = One IP
+
 All containers **inside the same Pod** share:
+
 - Same Pod IP
 - Same network interfaces
 - Same port space
@@ -1002,11 +1041,14 @@ They can talk to each other via **`localhost`**.
 > ⚠️ **Port conflict:** Two containers in the same Pod **cannot** both bind to `0.0.0.0:8080`.
 
 ### 4.2 Pod IP is Temporary
+
 If a Pod is deleted/recreated, its IP usually **changes**:
+
 ```
 Old Pod IP: 10.244.0.5
 New Pod IP: 10.244.1.8
 ```
+
 → Always use a **Service** instead of a raw Pod IP.
 
 ---
@@ -1014,10 +1056,12 @@ New Pod IP: 10.244.1.8
 ## 5. Types of Pods
 
 ### 5.1 Single-Container Pod
+
 ```
 Pod
 └── Nginx container
 ```
+
 **Use cases:** simple web server, backend API, batch job, independent microservice.
 
 ```yaml
@@ -1032,11 +1076,13 @@ spec:
 ```
 
 ### 5.2 Multi-Container Pod
+
 ```
 Pod
 ├── Main application
 └── Supporting container
 ```
+
 Good pairings: app + log collector, app + proxy, app + config reloader, app + monitoring agent.
 
 > ⚠️ **Poor design:** Do NOT put unrelated services (frontend + backend + database) in one Pod just to reduce Pod count — they need independent scaling/updates/failure handling.
@@ -1069,6 +1115,7 @@ spec:
         - name: logs
           mountPath: /var/log/nginx
 ```
+
 **Working:** Both containers run in one Pod → `web` writes logs → shared `emptyDir` volume stores them → `log-reader` reads them.
 
 ---
@@ -1078,6 +1125,7 @@ spec:
 **Definition:** Performs **initialization work** before the regular application containers start. Examples: wait for a DB, download configs, set permissions, generate config, run checks.
 
 ### Working
+
 1. Pod starts.
 2. First init container runs and **must complete successfully**.
 3. Next init container runs (if any).
@@ -1095,7 +1143,8 @@ spec:
   initContainers:
     - name: create-file
       image: busybox:1.36
-      command: ["sh", "-c", "echo 'Application initialized' > /work/message.txt"]
+      command:
+        ["sh", "-c", "echo 'Application initialized' > /work/message.txt"]
       volumeMounts:
         - name: shared-data
           mountPath: /work
@@ -1112,15 +1161,15 @@ spec:
 
 ### Init Container vs Sidecar
 
-| Feature | Init Container | Sidecar Container |
-|---|---|---|
-| Starts before main app | Yes | Can start before or alongside |
-| Runs to completion | Yes (regular init) | Usually no |
-| Runs throughout Pod life | No | Usually yes |
-| Main purpose | Initialization | Continuous supporting function |
-| Example | Wait for database | Log collector |
-| Can share volumes | Yes | Yes |
-| Shares Pod network | Yes | Yes |
+| Feature                  | Init Container     | Sidecar Container              |
+| ------------------------ | ------------------ | ------------------------------ |
+| Starts before main app   | Yes                | Can start before or alongside  |
+| Runs to completion       | Yes (regular init) | Usually no                     |
+| Runs throughout Pod life | No                 | Usually yes                    |
+| Main purpose             | Initialization     | Continuous supporting function |
+| Example                  | Wait for database  | Log collector                  |
+| Can share volumes        | Yes                | Yes                            |
+| Shares Pod network       | Yes                | Yes                            |
 
 ---
 
@@ -1147,52 +1196,60 @@ spec:
 
 ### 8.1 `apiVersion`
 
-| Resource | API Version |
-|---|---|
-| Pod | `v1` |
-| Service | `v1` |
-| Namespace | `v1` |
-| ConfigMap | `v1` |
-| Secret | `v1` |
-| Deployment | `apps/v1` |
-| ReplicaSet | `apps/v1` |
-| StatefulSet | `apps/v1` |
+| Resource    | API Version |
+| ----------- | ----------- |
+| Pod         | `v1`        |
+| Service     | `v1`        |
+| Namespace   | `v1`        |
+| ConfigMap   | `v1`        |
+| Secret      | `v1`        |
+| Deployment  | `apps/v1`   |
+| ReplicaSet  | `apps/v1`   |
+| StatefulSet | `apps/v1`   |
 
 > ⚠️ `v1` does NOT mean "basic" and `apps/v1` does NOT simply mean "advanced." `v1` = **core API group**, version 1. `apps/v1` = **apps API group**, version 1.
 
 ### 8.2 `kind`
+
 The object type: `Pod`, `Service`, `Deployment`, `ReplicaSet`, `Namespace`, etc.
 
 ### 8.3 `metadata`
 
-| Field | Meaning |
-|---|---|
-| `name` | Object name |
-| `namespace` | Namespace it belongs to |
-| `labels` | Key-value pairs used to identify/select objects |
-| `annotations` | Extra non-identifying info |
+| Field         | Meaning                                         |
+| ------------- | ----------------------------------------------- |
+| `name`        | Object name                                     |
+| `namespace`   | Namespace it belongs to                         |
+| `labels`      | Key-value pairs used to identify/select objects |
+| `annotations` | Extra non-identifying info                      |
 
 ### 8.4 Labels
+
 ```yaml
 labels:
   app: myapp
   tier: frontend
   environment: production
 ```
+
 Used by Services/controllers to **select** Pods.
+
 > ⚠️ Label matching is **case-sensitive**: `MyApp` ≠ `myapp`.
 
 ### 8.5 `spec`
+
 Describes the desired configuration: containers, init containers, volumes, restart policy, node selection, service account, security settings, resource requirements.
 
 ### 8.6 `containers`
+
 A **list**; each entry = one regular container (`name`, `image`, etc.).
 
 ### 8.7 `containerPort`
+
 ```yaml
 ports:
   - containerPort: 80
 ```
+
 > ⚠️ This is **documentation only** — it does **not** expose the app outside the Pod. A **Service** is needed for stable external/internal access, and the app must actually listen on that port.
 
 ---
@@ -1221,6 +1278,7 @@ kubectl exec -it myapp-pod -c myapp-container -- sh   # target specific containe
 
 kubectl delete pod myapp-pod               # delete Pod
 ```
+
 > ⚠️ A **manually created** Pod is **not** auto-recreated after deletion. A Pod managed by a ReplicaSet/Deployment normally **is** replaced.
 
 ---
@@ -1235,17 +1293,19 @@ A **network abstraction** that exposes one or more Pods through a **stable endpo
 
 ## 2. Why is a Service Required?
 
-| Pod | Pod IP |
-|---|---|
+| Pod     | Pod IP       |
+| ------- | ------------ |
 | `web-1` | `10.244.0.3` |
 | `web-2` | `10.244.0.4` |
 | `web-3` | `10.244.0.5` |
 
 Pod IPs change → a Service gives one **stable address**:
+
 ```
 Service IP: 10.106.247.157
 Service DNS: web-service
 ```
+
 Clients contact the Service, never individual Pod IPs directly.
 
 ---
@@ -1253,22 +1313,28 @@ Clients contact the Service, never individual Pod IPs directly.
 ## 3. How a Service Finds Pods — Label Selector
 
 Pod label:
+
 ```yaml
 labels:
   app: myapp
 ```
+
 Service selector:
+
 ```yaml
 selector:
   app: myapp
 ```
+
 Labels **must match exactly** (case-sensitive).
 
 ❌ Incorrect (mismatch): Pod `app: myapp` vs Service `app: MyApp` → **fails to select**.
 ✅ Correct: both use `app: myapp`.
 
 ### EndpointSlice
+
 Kubernetes records matching backend Pod IPs in **EndpointSlice** objects:
+
 ```
 Service: web-service
 EndpointSlice:
@@ -1276,6 +1342,7 @@ EndpointSlice:
 - 10.244.0.4:80
 - 10.244.0.5:80
 ```
+
 Endpoints are added/removed automatically as Pods become ready/are removed.
 
 ```bash
@@ -1293,13 +1360,14 @@ ports:
     nodePort: 32000
 ```
 
-| Field | Meaning |
-|---|---|
-| `port` | Port exposed **by the Service** |
-| `targetPort` | Port on the **destination Pod/container** |
-| `nodePort` | Port exposed **on every node** (NodePort Service only) |
+| Field        | Meaning                                                |
+| ------------ | ------------------------------------------------------ |
+| `port`       | Port exposed **by the Service**                        |
+| `targetPort` | Port on the **destination Pod/container**              |
+| `nodePort`   | Port exposed **on every node** (NodePort Service only) |
 
 ### Traffic Flow
+
 ```
 NodeIP:32000 → Service port 80 → Pod targetPort 8080
 ```
@@ -1309,16 +1377,20 @@ NodeIP:32000 → Service port 80 → Pod targetPort 8080
 ## 5. Service Types
 
 ### 5.1 ClusterIP (default)
+
 Exposes the app **only inside the cluster**.
+
 ```yaml
 spec:
   type: ClusterIP
 ```
+
 **Use cases:** backend API, internal DB, Redis, internal microservice, frontend→backend.
 **Advantages:** stable internal IP/DNS, not directly exposed externally.
 **Limitation:** cannot be reached directly from outside the cluster.
 
 ### 5.2 NodePort
+
 Exposes the Service via a port on **every node**: `<NodeIP>:<NodePort>` (e.g., `192.168.1.20:32000`). Default range: **30000–32767**.
 
 **Use cases:** labs, testing, bare-metal, external LB forwarding to node ports.
@@ -1326,16 +1398,20 @@ Exposes the Service via a port on **every node**: `<NodeIP>:<NodePort>` (e.g., `
 **Disadvantages:** high port numbers, node IP must be reachable, not ideal as main public method, firewall must allow the port.
 
 ### 5.3 LoadBalancer
+
 Requests an **external load balancer** from a supported environment (AWS, Azure, GCP, MetalLB on bare metal).
 
 ```
 User → External LB → K8s Service → Selected Pod
 ```
+
 **Advantages:** external access, good for production TCP/UDP, integrates with cloud, distributes traffic.
 **Disadvantages:** cloud cost, needs supported LB implementation, each Service may create its own LB, provisioning takes time.
 
 ### 5.4 ExternalName
+
 Maps a Service name to an **external DNS name** — no normal Pod selector used.
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -1348,14 +1424,14 @@ spec:
 
 ### 5.5 Service Type Comparison
 
-| Feature | ClusterIP | NodePort | LoadBalancer |
-|---|---|---|---|
-| Internal access | Yes | Yes | Yes |
-| External access | No (normally) | Yes | Yes |
-| External method | None | `NodeIP:NodePort` | LB address |
-| Default type | Yes | No | No |
-| Cloud integration needed | No | No | Usually |
-| Common use | Internal services | Labs/testing | Production exposure |
+| Feature                  | ClusterIP         | NodePort          | LoadBalancer        |
+| ------------------------ | ----------------- | ----------------- | ------------------- |
+| Internal access          | Yes               | Yes               | Yes                 |
+| External access          | No (normally)     | Yes               | Yes                 |
+| External method          | None              | `NodeIP:NodePort` | LB address          |
+| Default type             | Yes               | No                | No                  |
+| Cloud integration needed | No                | No                | Usually             |
+| Common use               | Internal services | Labs/testing      | Production exposure |
 
 > 🧠 Conceptually: `LoadBalancer` (includes Service functionality) → uses `NodePort`-like mechanism (impl-dependent) → built on `ClusterIP`.
 
@@ -1364,6 +1440,7 @@ spec:
 ## 6. Service YAML Examples
 
 ### ClusterIP
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -1382,6 +1459,7 @@ spec:
 ```
 
 ### NodePort
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -1399,9 +1477,11 @@ spec:
       targetPort: 80
       nodePort: 32000
 ```
+
 Access via `<NodeIP>:32000`. If `nodePort` omitted, K8s auto-picks from the NodePort range.
 
 ### LoadBalancer
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -1417,6 +1497,7 @@ spec:
       port: 80
       targetPort: 80
 ```
+
 ```bash
 kubectl get service myapp-loadbalancer -n production   # get external address
 ```
@@ -1452,18 +1533,19 @@ Ensures a **specified number** of matching Pod replicas are running.
 ```yaml
 replicas: 3
 ```
+
 K8s tries to always keep 3 Pods running.
 
 > 🧠 Deployments are normally preferred over creating ReplicaSets directly, since RS alone doesn't give controlled rolling updates.
 
 ### How It Works
 
-| Situation | Action |
-|---|---|
-| Too few Pods (Desired 3, Actual 2) | Creates 1 more Pod |
-| Too many Pods (Desired 3, Actual 5) | Terminates 2 Pods |
-| A Pod fails | Creates a replacement |
-| A worker node fails | Control plane notices missing Pods, creates replacements (subject to scheduling) |
+| Situation                           | Action                                                                           |
+| ----------------------------------- | -------------------------------------------------------------------------------- |
+| Too few Pods (Desired 3, Actual 2)  | Creates 1 more Pod                                                               |
+| Too many Pods (Desired 3, Actual 5) | Terminates 2 Pods                                                                |
+| A Pod fails                         | Creates a replacement                                                            |
+| A worker node fails                 | Control plane notices missing Pods, creates replacements (subject to scheduling) |
 
 ### Correct ReplicaSet YAML
 
@@ -1493,6 +1575,7 @@ spec:
 ```
 
 ### Key Fields
+
 - `replicas` → desired Pod count
 - `selector.matchLabels` → identifies Pods managed by this RS
 - `template` → defines how new Pods are created
@@ -1527,6 +1610,7 @@ Deployment → ReplicaSet → Pods
 ```
 
 ### What a Deployment Can Do
+
 Create a ReplicaSet · create desired Pods · scale up/down · rolling updates · check rollout status · pause/resume rollouts · rollback to earlier revision · replace failed Pods (via its RS) · clean up old ReplicaSets.
 
 ---
@@ -1537,6 +1621,7 @@ Create a ReplicaSet · create desired Pods · scale up/down · rolling updates �
 Desired: replicas: 4
 Actual:  3 Pods running
 ```
+
 → Deployment + ReplicaSet controllers work to create the 4th Pod.
 
 ---
@@ -1581,35 +1666,41 @@ spec:
               memory: "256Mi"
 ```
 
-| Field | Meaning |
-|---|---|
-| `replicas: 3` | Maintain 3 Pods |
-| `selector` | Selects Pods managed by this Deployment |
-| `template` | Pod creation template |
-| `strategy` | Update method |
+| Field               | Meaning                                             |
+| ------------------- | --------------------------------------------------- |
+| `replicas: 3`       | Maintain 3 Pods                                     |
+| `selector`          | Selects Pods managed by this Deployment             |
+| `template`          | Pod creation template                               |
+| `strategy`          | Update method                                       |
 | `maxUnavailable: 1` | Max 1 desired Pod may be unavailable during rollout |
-| `maxSurge: 1` | Max 1 extra Pod may be created during rollout |
-| `requests` | Used for scheduling decisions |
-| `limits` | Maximum container resource usage |
+| `maxSurge: 1`       | Max 1 extra Pod may be created during rollout       |
+| `requests`          | Used for scheduling decisions                       |
+| `limits`            | Maximum container resource usage                    |
 
 ---
 
 ## 5. Deployment Update Strategies
 
 ### 5.1 RollingUpdate (default)
+
 Gradually replaces old Pods with new ones:
+
 ```
 V1 Pods: 3 → create 1 V2 Pod → remove 1 V1 Pod → repeat → all V2
 ```
+
 **Advantages:** reduced/zero downtime (if configured well), gradual rollout, easier failure detection, supports rollback.
 **Limitation:** during rollout, old & new versions may run simultaneously — must be compatible.
 
 ### 5.2 Recreate
+
 Terminates **all** old Pods before creating new ones.
+
 ```yaml
 strategy:
   type: Recreate
 ```
+
 **Use cases:** old/new versions incompatible, dev environments, apps needing exclusive resource access.
 **Disadvantage:** causes downtime.
 
@@ -1647,16 +1738,16 @@ kubectl rollout restart deployment/nginx-deployment    # restart Pods (new rollo
 
 ## 7. Pod vs ReplicaSet vs Deployment — Comparison
 
-| Feature | Pod | ReplicaSet | Deployment |
-|---|---|---|---|
-| Runs containers | Yes | Through Pods | Through RS + Pods |
-| Maintains replicas | No | Yes | Yes |
-| Replaces failed Pods | No (if manual) | Yes | Yes |
-| Supports scaling | Not directly | Yes | Yes |
-| Rolling update | No | Not directly | **Yes** |
-| Rollback | No | No convenient built-in | **Yes** |
-| Recommended for apps | Usually no | Usually no (directly) | **Yes** |
-| API version | `v1` | `apps/v1` | `apps/v1` |
+| Feature              | Pod            | ReplicaSet             | Deployment        |
+| -------------------- | -------------- | ---------------------- | ----------------- |
+| Runs containers      | Yes            | Through Pods           | Through RS + Pods |
+| Maintains replicas   | No             | Yes                    | Yes               |
+| Replaces failed Pods | No (if manual) | Yes                    | Yes               |
+| Supports scaling     | Not directly   | Yes                    | Yes               |
+| Rolling update       | No             | Not directly           | **Yes**           |
+| Rollback             | No             | No convenient built-in | **Yes**           |
+| Recommended for apps | Usually no     | Usually no (directly)  | **Yes**           |
+| API version          | `v1`           | `apps/v1`              | `apps/v1`         |
 
 > 🧠 **Interview one-liner:** "A Pod runs containers. A ReplicaSet maintains the required number of Pods. A Deployment manages ReplicaSets and provides rolling updates, scaling, and rollback."
 
@@ -1711,11 +1802,13 @@ spec:
 ```
 
 ### Request Flow
+
 ```
 User → External Load Balancer → Service:80 → Pod1:80 / Pod2:80 / Pod3:80
 ```
 
 ### Working
+
 1. User sends a request to the external LB address.
 2. LB forwards traffic to the K8s Service.
 3. Service selects Pods with `app=web`.
@@ -1728,62 +1821,64 @@ User → External Load Balancer → Service:80 → Pod1:80 / Pod2:80 / Pod3:80
 
 ## 9. Common Mistakes (Exam Traps — Namespaces/Pods/Services/Deployments)
 
-| Mistake | Correct Approach |
-|---|---|
-| `apiVersion: v1` for ReplicaSet | Use `apiVersion: apps/v1` |
-| Service selector `app: MyApp` vs Pod label `app: myapp` | Labels are case-sensitive — must match exactly |
-| Treating `containerPort` as external exposure | It's documentation only — a Service is required |
-| Accessing Pods directly by IP | Pod IPs change — always use a Service |
-| Creating standalone Pods for production | Manual Pods aren't auto-replaced — use a Deployment |
-| Creating ReplicaSets directly | Deployment gives better update/rollback management |
-| Mixing unrelated containers in 1 Pod | Containers in a Pod should be tightly related, scale together |
-| Assuming namespaces block network traffic | They don't — use NetworkPolicy for isolation |
+| Mistake                                                 | Correct Approach                                              |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| `apiVersion: v1` for ReplicaSet                         | Use `apiVersion: apps/v1`                                     |
+| Service selector `app: MyApp` vs Pod label `app: myapp` | Labels are case-sensitive — must match exactly                |
+| Treating `containerPort` as external exposure           | It's documentation only — a Service is required               |
+| Accessing Pods directly by IP                           | Pod IPs change — always use a Service                         |
+| Creating standalone Pods for production                 | Manual Pods aren't auto-replaced — use a Deployment           |
+| Creating ReplicaSets directly                           | Deployment gives better update/rollback management            |
+| Mixing unrelated containers in 1 Pod                    | Containers in a Pod should be tightly related, scale together |
+| Assuming namespaces block network traffic               | They don't — use NetworkPolicy for isolation                  |
 
 ---
 
 ## 10. Interview Q&A — Namespaces, Pods, Services, Deployments
 
-| # | Question | Answer |
-|---|---|---|
-| 1 | What is a Namespace? | Logical division inside a cluster for organizing resources by team/project/env. |
-| 2 | Can two Pods have the same name? | Yes, in different namespaces; not in the same one. |
-| 3 | Can namespaces be nested? | No. |
-| 4 | Can a resource belong to two namespaces? | No, only one. |
-| 5 | Are all resources namespaced? | No — Nodes, Namespaces, PVs, ClusterRoles are cluster-scoped. |
-| 6 | Is a Namespace a security boundary? | No — combine with RBAC, ResourceQuota, NetworkPolicy. |
-| 7 | What is a Pod? | Smallest deployable K8s object; holds 1+ closely related containers. |
-| 8 | Do containers in a Pod get different IPs? | No — they share the Pod IP/network. |
-| 9 | How do containers in a Pod communicate? | Via `localhost` and different ports. |
-| 10 | Can one Pod run multiple containers? | Yes, if closely related. |
-| 11 | What is a sidecar container? | Runs alongside the main app, providing continuous support functionality. |
-| 12 | What is an init container? | Runs and must complete before regular app containers start. |
-| 13 | Can a Pod have multiple init containers? | Yes; they run sequentially. |
-| 14 | Why avoid using Pod IPs directly? | They can change when Pods are recreated. |
-| 15 | What is a Service? | Provides stable network access to a logical group of Pods. |
-| 16 | How does a Service find Pods? | Via label selector; matches stored in EndpointSlices. |
-| 17 | What is ClusterIP? | Default type; exposes Service internally only. |
-| 18 | What is NodePort? | Exposes Service on a static port on each node (`NodeIP:NodePort`). |
-| 19 | What is LoadBalancer? | Requests an external LB from a supported environment. |
-| 20 | Difference: `port` vs `targetPort`? | `port` = Service port; `targetPort` = destination Pod port. |
-| 21 | What is `nodePort`? | Port exposed on every node for a NodePort Service. |
-| 22 | What is a ReplicaSet? | Ensures the specified number of matching Pods keeps running. |
-| 23 | What happens when a RS-managed Pod is deleted? | RS creates a replacement to maintain desired count. |
-| 24 | What is a Deployment? | Manages ReplicaSets; gives declarative scaling, rolling updates, rollback. |
-| 25 | Why use Deployment over ReplicaSet? | Controlled updates, rollout history, and rollback. |
-| 26 | Deployment hierarchy? | Deployment → ReplicaSet → Pods. |
-| 27 | What is a rolling update? | Gradually replaces old Pods with new ones, keeping app available. |
-| 28 | RollingUpdate vs Recreate? | RollingUpdate replaces gradually; Recreate stops all old Pods first (causes downtime). |
+| #   | Question                                       | Answer                                                                                 |
+| --- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| 1   | What is a Namespace?                           | Logical division inside a cluster for organizing resources by team/project/env.        |
+| 2   | Can two Pods have the same name?               | Yes, in different namespaces; not in the same one.                                     |
+| 3   | Can namespaces be nested?                      | No.                                                                                    |
+| 4   | Can a resource belong to two namespaces?       | No, only one.                                                                          |
+| 5   | Are all resources namespaced?                  | No — Nodes, Namespaces, PVs, ClusterRoles are cluster-scoped.                          |
+| 6   | Is a Namespace a security boundary?            | No — combine with RBAC, ResourceQuota, NetworkPolicy.                                  |
+| 7   | What is a Pod?                                 | Smallest deployable K8s object; holds 1+ closely related containers.                   |
+| 8   | Do containers in a Pod get different IPs?      | No — they share the Pod IP/network.                                                    |
+| 9   | How do containers in a Pod communicate?        | Via `localhost` and different ports.                                                   |
+| 10  | Can one Pod run multiple containers?           | Yes, if closely related.                                                               |
+| 11  | What is a sidecar container?                   | Runs alongside the main app, providing continuous support functionality.               |
+| 12  | What is an init container?                     | Runs and must complete before regular app containers start.                            |
+| 13  | Can a Pod have multiple init containers?       | Yes; they run sequentially.                                                            |
+| 14  | Why avoid using Pod IPs directly?              | They can change when Pods are recreated.                                               |
+| 15  | What is a Service?                             | Provides stable network access to a logical group of Pods.                             |
+| 16  | How does a Service find Pods?                  | Via label selector; matches stored in EndpointSlices.                                  |
+| 17  | What is ClusterIP?                             | Default type; exposes Service internally only.                                         |
+| 18  | What is NodePort?                              | Exposes Service on a static port on each node (`NodeIP:NodePort`).                     |
+| 19  | What is LoadBalancer?                          | Requests an external LB from a supported environment.                                  |
+| 20  | Difference: `port` vs `targetPort`?            | `port` = Service port; `targetPort` = destination Pod port.                            |
+| 21  | What is `nodePort`?                            | Port exposed on every node for a NodePort Service.                                     |
+| 22  | What is a ReplicaSet?                          | Ensures the specified number of matching Pods keeps running.                           |
+| 23  | What happens when a RS-managed Pod is deleted? | RS creates a replacement to maintain desired count.                                    |
+| 24  | What is a Deployment?                          | Manages ReplicaSets; gives declarative scaling, rolling updates, rollback.             |
+| 25  | Why use Deployment over ReplicaSet?            | Controlled updates, rollout history, and rollback.                                     |
+| 26  | Deployment hierarchy?                          | Deployment → ReplicaSet → Pods.                                                        |
+| 27  | What is a rolling update?                      | Gradually replaces old Pods with new ones, keeping app available.                      |
+| 28  | RollingUpdate vs Recreate?                     | RollingUpdate replaces gradually; Recreate stops all old Pods first (causes downtime). |
 
 ---
 
 ## PART F — MASTER QUICK-REVISION SUMMARY
 
 ## Cluster
+
 ```
 Kubernetes Cluster = Control Plane + Worker Nodes
 ```
 
 ### Control-Plane Components
+
 ```
 API Server            → Receives & validates requests (stateless, front door)
 etcd                  → Stores cluster state (source of truth)
@@ -1793,6 +1888,7 @@ Cloud Controller Mgr   → Connects K8s with a cloud provider (optional)
 ```
 
 ### Node Components
+
 ```
 kubelet         → Manages assigned Pods (agent on each node)
 kube-proxy      → Implements Service traffic forwarding
@@ -1801,6 +1897,7 @@ CNI plugin      → Provides Pod networking (Calico, Cilium, Flannel)
 ```
 
 ### High Availability
+
 ```
 Multiple API Servers + Multiple Scheduler/Controller instances
 + Multiple etcd members + Load balancer
@@ -1808,18 +1905,21 @@ Multiple API Servers + Multiple Scheduler/Controller instances
 ```
 
 ### Leader Election
+
 ```
 etcd members                        → Raft consensus
 Scheduler & Controller Manager      → Kubernetes Lease objects
 ```
 
 ### Core Workflow
+
 ```
 kubectl → API Server → etcd → Controllers → Scheduler → kubelet
 → Container runtime → Running Pod
 ```
 
 ## Namespace
+
 ```
 → Logically divides the cluster
 → For teams, projects, environments
@@ -1829,6 +1929,7 @@ kubectl → API Server → etcd → Controllers → Scheduler → kubelet
 ```
 
 ## Pod
+
 ```
 → Smallest deployable K8s compute object
 → Holds 1+ containers
@@ -1838,6 +1939,7 @@ kubectl → API Server → etcd → Controllers → Scheduler → kubelet
 ```
 
 ## Container Patterns
+
 ```
 Single-container Pod → one app container
 Multi-container Pod  → closely related containers
@@ -1846,6 +1948,7 @@ Sidecar               → runs ALONGSIDE the app, continuously
 ```
 
 ## Service
+
 ```
 → Stable IP + DNS name
 → Selects Pods via label selector (case-sensitive match)
@@ -1853,11 +1956,13 @@ Sidecar               → runs ALONGSIDE the app, continuously
 ```
 
 ### Port Mapping
+
 ```
 NodeIP:nodePort → Service port → Pod targetPort
 ```
 
 ### Service Types
+
 ```
 ClusterIP    → Internal access only (default)
 NodePort     → NodeIP:NodePort access
@@ -1866,6 +1971,7 @@ ExternalName → Maps to external DNS name
 ```
 
 ## ReplicaSet
+
 ```
 → Maintains the desired Pod count
 → Creates Pods if too few
@@ -1875,6 +1981,7 @@ ExternalName → Maps to external DNS name
 ```
 
 ## Deployment
+
 ```
 → Manages ReplicaSets → ReplicaSet manages Pods
 → Supports scaling, rolling updates, rollback
@@ -1882,6 +1989,7 @@ ExternalName → Maps to external DNS name
 ```
 
 ## Final Object Relationship
+
 ```
 Namespace
 └── Deployment
@@ -1893,6 +2001,7 @@ Service
 ```
 
 ## One-Line Master Answer (Say this in interviews)
+
 > "A Kubernetes cluster consists of a control plane and worker nodes. The control plane uses the API Server, etcd, Scheduler, and Controller Manager to manage the cluster, while worker nodes use kubelet, kube-proxy, a CNI plugin, and a container runtime to run and connect application Pods. Namespaces logically divide the cluster, Pods are the smallest deployable unit, Services give Pods a stable network identity, ReplicaSets maintain the desired Pod count, and Deployments manage ReplicaSets to provide rolling updates, scaling, and rollback."
 
 ## Obsidian Navigation

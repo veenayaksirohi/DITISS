@@ -72,28 +72,29 @@ syllabus-topic: []
 
 ## 📌 Direct Mapping to CDAC DevSecOps Project
 
-| Syllabus Topic | Project Application |
-|---|---|
-| EC2, VPC, S3 | AWS-hosted EKS cluster infra |
-| Docker/Compose | Three-tier app containerization (PostgreSQL, Flask, React/Vite) |
-| Jenkins + GitHub | GitHub Actions CI/CD pipeline |
-| Terraform | `infra/terraform/eks`, `infra/terraform/monitoring-security` |
-| Ansible | `infra/ansible` playbooks |
-| Kubernetes | EKS cluster manifests in `k8s/` |
-| Prometheus | Considered, later dropped from final stack in favor of SonarQube + DefectDojo |
+| Syllabus Topic   | Project Application                                                           |
+| ---------------- | ----------------------------------------------------------------------------- |
+| EC2, VPC, S3     | AWS-hosted EKS cluster infra                                                  |
+| Docker/Compose   | Three-tier app containerization (PostgreSQL, Flask, React/Vite)               |
+| Jenkins + GitHub | GitHub Actions CI/CD pipeline                                                 |
+| Terraform        | `infra/terraform/eks`, `infra/terraform/monitoring-security`                  |
+| Ansible          | `infra/ansible` playbooks                                                     |
+| Kubernetes       | EKS cluster manifests in `k8s/`                                               |
+| Prometheus       | Considered, later dropped from final stack in favor of SonarQube + DefectDojo |
 
 ## 📌 ITIL Lifecycle Quick Reference
 
-| Stage | Focus |
-|---|---|
-| Service Strategy | Market space, financial mgmt, service portfolio |
-| Service Design | SDP, service catalog, capacity, continuity, security |
+| Stage              | Focus                                                        |
+| ------------------ | ------------------------------------------------------------ |
+| Service Strategy   | Market space, financial mgmt, service portfolio              |
+| Service Design     | SDP, service catalog, capacity, continuity, security         |
 | Service Transition | Change mgmt, release/deployment, config mgmt, knowledge mgmt |
-| Service Operation | Incident, problem, event mgmt, service desk |
-| CSI | Training, ongoing scheduling, metrics-driven improvement |
+| Service Operation  | Incident, problem, event mgmt, service desk                  |
+| CSI                | Training, ongoing scheduling, metrics-driven improvement     |
 
 ---
 
 ## Related Notes
+
 - [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
 - [[Index|Vault Index and Reading Order]]
