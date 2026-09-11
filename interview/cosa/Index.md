@@ -20,11 +20,11 @@ syllabus-topic: []
 
 ### 1. Linux Filesystem & Core Commands
 
-**Distributed complete coverage:** [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]], [[01B - Linux Core Commands|Linux Core Commands]], [[01C - Linux File Links|Linux File Links]], [[07 - Disk Management and Filesystem Partition Layout|Filesystem Partition Layout]]
+**Distributed complete coverage:** [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]], [[01B - Linux Core Commands|Linux Core Commands]], [[01C - Linux File Links|Linux File Links]], [[01D - Linux Filesystem and File Types PDF Reference|FHS PDF Reference]], [[07 - Disk Management and Filesystem Partition Layout|Filesystem Partition Layout]]
 
 ### 2. File Permissions, Ownership & ACLs
 
-**Distributed complete coverage:** [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]], [[02A - File Permissions Ownership and ACLs|File Permissions, Ownership and ACLs]], [[02B - Special Permission Bits|Special Permission Bits]]
+**Distributed complete coverage:** [[01A - Linux Filesystem and File Types|Linux Filesystem and File Types]], [[01D - Linux Filesystem and File Types PDF Reference|FHS PDF Reference]], [[02A - File Permissions Ownership and ACLs|File Permissions, Ownership and ACLs]], [[02B - Special Permission Bits|Special Permission Bits]]
 
 ### 3. User & Group Management
 
@@ -64,7 +64,7 @@ syllabus-topic: []
 
 ### 12. Interprocess Communication (IPC)
 
-**Distributed partial coverage:** [[01A - Linux Filesystem and File Types|FIFO and Socket File Types]], [[01B - Linux Core Commands|Process Commands and Signals]], [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]], [[12B - User Space and Kernel Space|User Space and Kernel Space]]
+**Distributed partial coverage:** [[01A - Linux Filesystem and File Types|FIFO and Socket File Types]], [[01B - Linux Core Commands|Process Commands and Signals]], [[01D - Linux Filesystem and File Types PDF Reference|FHS file types]], [[12A - Interprocess Communication and Process Internals|Interprocess Communication and Process Internals]], [[12B - User Space and Kernel Space|User Space and Kernel Space]]
 
 ### 13. Patch & Update Management
 

@@ -23,34 +23,36 @@ syllabus-topic: []
 
 # Concept of OS & Administration — CDAC DITISS
 
-_Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL=210hrs_
+## Course Duration
+
+Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL=210hrs
 
 ## Note Availability Map
 
-| #   | Topic                              | Coverage                  | Notes                                                                                                                                                                                                     |
-| --- | ---------------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| 1   | Linux Filesystem & Core Commands   | ✅ Complete (distributed) | [[01A - Linux Filesystem and File Types]], [[01B - Linux Core Commands]], [[01C - Linux File Links]], [[07 - Disk Management and Filesystem Partition Layout]]                                            |
-| 2   | File Permissions, Ownership & ACLs | ✅ Complete (distributed) | [[01A - Linux Filesystem and File Types]], [[02A - File Permissions Ownership and ACLs]], [[02B - Special Permission Bits]]                                                                               |
-| 3   | User & Group Management            | ✅ Complete               | [[03 - User and Group Management]]                                                                                                                                                                        |
-| 4   | Linux Boot Process & Systemd       | ✅ Complete               | [[04 - Linux Boot Process and Systemd]]                                                                                                                                                                   |
-| 5   | Package & Repository Management    | ❌ None                   | —                                                                                                                                                                                                         |
-| 6   | SSH & Remote Access Security       | 🟡 Partial                | [[16 - LDAP and NIS Authentication                                                                                                                                                                        | SSH Key Exchange appendix]]                                           |
-| 7   | Disk Management & LVM              | 🟡 Partial                | [[07 - Disk Management and Filesystem Partition Layout]]                                                                                                                                                  |
-| 8   | Core Infrastructure Services       | 🟡 Partial (distributed)  | [[08A - Core Infrastructure Services - DNS]], [[08B - Core Infrastructure Services - DHCP]], [[08C - Core Infrastructure Services - File Sharing Protocols]], [[15 - Email Services - Postfix and Dovecot | Mail (MX support)]]                                                   |
-| 9   | Apache Web Server Security         | ❌ None                   | —                                                                                                                                                                                                         |
-| 10  | Logging, Monitoring & NTP          | 🟡 Partial (distributed)  | [[01B - Linux Core Commands]], [[03 - User and Group Management]], [[04 - Linux Boot Process and Systemd]]                                                                                                |
-| 11  | Bash Scripting & Automation        | 🟡 Partial (distributed)  | [[02A - File Permissions Ownership and ACLs                                                                                                                                                               | Cron Risk]], [[12A - Interprocess Communication and Process Internals | Redirection/Pipes]]                                                                                                  |
-| 12  | Interprocess Communication (IPC)   | 🟡 Partial (distributed)  | [[01A - Linux Filesystem and File Types                                                                                                                                                                   | FIFO/Socket]], [[01B - Linux Core Commands                            | Process/Signals]], [[12A - Interprocess Communication and Process Internals]], [[12B - User Space and Kernel Space]] |
-| 13  | Patch & Update Management          | ❌ None                   | —                                                                                                                                                                                                         |
-| 14  | Service Mgmt & System Config Files | 🟡 Partial                | [[03 - User and Group Management]], [[04 - Linux Boot Process and Systemd]]                                                                                                                               |
-| 15  | Email Services — Postfix, Dovecot  | 🟡 Partial                | [[08A - Core Infrastructure Services - DNS                                                                                                                                                                | DNS MX]], [[15 - Email Services - Postfix and Dovecot]]               |
-| 16  | LDAP & NIS Authentication          | ✅ Complete               | [[16 - LDAP and NIS Authentication]]                                                                                                                                                                      |
-| 17  | Squid Proxy                        | ❌ None                   | —                                                                                                                                                                                                         |
-| 18  | Virtual Machine Management         | ❌ None                   | —                                                                                                                                                                                                         |
-| 19  | NIS, Print Services & NFS Advanced | 🟡 Partial                | [[01B - Linux Core Commands]], [[08C - Core Infrastructure Services - File Sharing Protocols]], [[16 - LDAP and NIS Authentication]]                                                                      |
-| 20  | Kickstart Unattended Install       | 🟡 Partial                | [[08C - Core Infrastructure Services - File Sharing Protocols                                                                                                                                             | PXE/TFTP]]                                                            |
-| 21  | X Window System & Perf Tuning      | 🟡 Partial                | [[01B - Linux Core Commands]], [[04 - Linux Boot Process and Systemd]]                                                                                                                                    |
-| 22  | BIND DNS Security (Advanced)       | ❌ None                   | —                                                                                                                                                                                                         |
+| #   | Topic                              | Coverage                  | Notes                                                                                                                                                                                                                   |
+| --- | ---------------------------------- | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| 1   | Linux Filesystem & Core Commands   | ✅ Complete (distributed) | [[01A - Linux Filesystem and File Types]], [[01B - Linux Core Commands]], [[01C - Linux File Links]], [[01D - Linux Filesystem and File Types PDF Reference]], [[07 - Disk Management and Filesystem Partition Layout]] |
+| 2   | File Permissions, Ownership & ACLs | ✅ Complete (distributed) | [[01A - Linux Filesystem and File Types]], [[01D - Linux Filesystem and File Types PDF Reference]], [[02A - File Permissions Ownership and ACLs]], [[02B - Special Permission Bits]]                                    |
+| 3   | User & Group Management            | ✅ Complete               | [[03 - User and Group Management]]                                                                                                                                                                                      |
+| 4   | Linux Boot Process & Systemd       | ✅ Complete               | [[04 - Linux Boot Process and Systemd]]                                                                                                                                                                                 |
+| 5   | Package & Repository Management    | ❌ None                   | —                                                                                                                                                                                                                       |
+| 6   | SSH & Remote Access Security       | 🟡 Partial                | [[16 - LDAP and NIS Authentication                                                                                                                                                                                      | SSH Key Exchange appendix]]                                           |
+| 7   | Disk Management & LVM              | 🟡 Partial                | [[07 - Disk Management and Filesystem Partition Layout]]                                                                                                                                                                |
+| 8   | Core Infrastructure Services       | 🟡 Partial (distributed)  | [[08A - Core Infrastructure Services - DNS]], [[08B - Core Infrastructure Services - DHCP]], [[08C - Core Infrastructure Services - File Sharing Protocols]], [[15 - Email Services - Postfix and Dovecot               | Mail (MX support)]]                                                   |
+| 9   | Apache Web Server Security         | ❌ None                   | —                                                                                                                                                                                                                       |
+| 10  | Logging, Monitoring & NTP          | 🟡 Partial (distributed)  | [[01B - Linux Core Commands]], [[03 - User and Group Management]], [[04 - Linux Boot Process and Systemd]]                                                                                                              |
+| 11  | Bash Scripting & Automation        | 🟡 Partial (distributed)  | [[02A - File Permissions Ownership and ACLs                                                                                                                                                                             | Cron Risk]], [[12A - Interprocess Communication and Process Internals | Redirection/Pipes]]                                                      |
+| 12  | Interprocess Communication (IPC)   | 🟡 Partial (distributed)  | [[01A - Linux Filesystem and File Types                                                                                                                                                                                 | FIFO/Socket]], [[01B - Linux Core Commands                            | Process/Signals]], [[01D - Linux Filesystem and File Types PDF Reference | FHS file types]], [[12A - Interprocess Communication and Process Internals]], [[12B - User Space and Kernel Space]] |
+| 13  | Patch & Update Management          | ❌ None                   | —                                                                                                                                                                                                                       |
+| 14  | Service Mgmt & System Config Files | 🟡 Partial                | [[03 - User and Group Management]], [[04 - Linux Boot Process and Systemd]]                                                                                                                                             |
+| 15  | Email Services — Postfix, Dovecot  | 🟡 Partial                | [[08A - Core Infrastructure Services - DNS                                                                                                                                                                              | DNS MX]], [[15 - Email Services - Postfix and Dovecot]]               |
+| 16  | LDAP & NIS Authentication          | ✅ Complete               | [[16 - LDAP and NIS Authentication]]                                                                                                                                                                                    |
+| 17  | Squid Proxy                        | ❌ None                   | —                                                                                                                                                                                                                       |
+| 18  | Virtual Machine Management         | ❌ None                   | —                                                                                                                                                                                                                       |
+| 19  | NIS, Print Services & NFS Advanced | 🟡 Partial                | [[01B - Linux Core Commands]], [[08C - Core Infrastructure Services - File Sharing Protocols]], [[16 - LDAP and NIS Authentication]]                                                                                    |
+| 20  | Kickstart Unattended Install       | 🟡 Partial                | [[08C - Core Infrastructure Services - File Sharing Protocols                                                                                                                                                           | PXE/TFTP]]                                                            |
+| 21  | X Window System & Perf Tuning      | 🟡 Partial                | [[01B - Linux Core Commands]], [[04 - Linux Boot Process and Systemd]]                                                                                                                                                  |
+| 22  | BIND DNS Security (Advanced)       | ❌ None                   | —                                                                                                                                                                                                                       |
 
 **Supplemental:** [[A1 - HAProxy Web Server Path|HAProxy Web Server Path]] (not part of numbered syllabus)
 
@@ -61,7 +63,7 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 ### 1. Filesystem & Core Commands
 
 - [x] FHS: `/etc /var /home /proc /tmp /usr /bin` + `/boot /dev /lib /media /mnt /opt /sbin /srv /usr/local`
-- [ ] File types — regular, directory, symlink, block, char, FIFO, socket
+- [x] File types — regular, directory, symlink, block, char, FIFO, socket
 - [x] Core cmds: `ls cp mv rm cat grep find diff wc sort head tail` + flags (`-lah -rp -i -rf -rn -type/-name/-size/-mtime/-exec`)
 - [x] Archives: `tar -czvf/-xzvf`, `gzip/gunzip`, `zip/unzip`, `zcat`
 - [x] Process cmds: `ps top kill jobs bg fg nohup` + `killall`, `htop`
@@ -73,29 +75,29 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 - [x] Symbolic (`rwx`) vs octal (`755/644`)
 - [x] `chmod chown chgrp` (+ recursive)
 - [x] SUID(4)/SGID(2)/Sticky(1) — use cases & risks; sticky bit on `/tmp`
-- [ ] `umask` (e.g. `022`)
-- [ ] `setfacl`/`getfacl` vs traditional perms; ACL `mask` entry
-- [ ] World-writable risk: `find / -perm -o+w`
+- [x] `umask` (e.g. `022`)
+- [x] `setfacl`/`getfacl` vs traditional perms; ACL `mask` entry
+- [x] World-writable risk: `find / -perm -o+w`
 
 ### 3. User & Group Management
 
-- [ ] `useradd/adduser/usermod/userdel`, `groupadd/addgroup/groupmod/groupdel`, `gpasswd`
-- [ ] `passwd chage id groups who whoami last`
-- [ ] `/etc/passwd` → `user:x:UID:GID:comment:home:shell`
-- [ ] `/etc/shadow` — hash, aging, `!`=locked
-- [ ] `/etc/group` → `name:x:GID:members`
-- [ ] `su` vs `sudo` (target pw vs own pw); `su -` vs `su` (full login env vs current)
-- [ ] `/etc/sudoers` & `visudo` — `%wheel ALL=(ALL) ALL`, `NOPASSWD`
-- [ ] Primary vs supplementary groups — `id groups newgrp`
+- [x] `useradd/adduser/usermod/userdel`, `groupadd/addgroup/groupmod/groupdel`, `gpasswd`
+- [x] `passwd chage id groups who whoami last`
+- [x] `/etc/passwd` → `user:x:UID:GID:comment:home:shell`
+- [x] `/etc/shadow` — hash, aging, `!`=locked
+- [x] `/etc/group` → `name:x:GID:members`
+- [x] `su` vs `sudo` (target pw vs own pw); `su -` vs `su` (full login env vs current)
+- [x] `/etc/sudoers` & `visudo` — `%wheel ALL=(ALL) ALL`, `NOPASSWD`
+- [x] Primary vs supplementary groups — `id groups newgrp`
 
 ### 4. Boot Process & Systemd
 
-- [ ] Sequence: BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target → Login
-- [ ] GRUB2 — `grub.cfg`, rescue mode, `GRUB_TIMEOUT`
-- [ ] `initramfs` purpose — `dracut`, `pivot_root`
-- [ ] Runlevels ↔ systemd targets (0/1/3/5/6)
-- [ ] `systemctl start/stop/restart/enable/disable/status/is-enabled/daemon-reload` — **`start` ≠ `enable`**
-- [ ] Troubleshooting: `journalctl`, `top`, `htop`
+- [x] Sequence: BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target → Login
+- [x] GRUB2 — `grub.cfg`, rescue mode, `GRUB_TIMEOUT`
+- [x] `initramfs` purpose — `dracut`, `pivot_root`
+- [x] Runlevels ↔ systemd targets (0/1/3/5/6)
+- [x] `systemctl start/stop/restart/enable/disable/status/is-enabled/daemon-reload` — **`start` ≠ `enable`**
+- [x] Troubleshooting: `journalctl`, `top`, `htop`
 
 ### 5. Package & Repository Management
 
@@ -121,15 +123,15 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 
 ### 8. Core Infrastructure Services
 
-- [ ] DNS records: A, AAAA, MX, CNAME, PTR, NS, SOA, TXT
-- [ ] Forward vs reverse zone, `/etc/named.conf`
-- [ ] `/etc/resolv.conf`, `/etc/nsswitch.conf` resolution order
-- [ ] AXFR abuse → `allow-transfer { none; };`
-- [ ] DNS attacks — cache poisoning, amplification, unauthorized AXFR
-- [ ] DHCP DORA (Discover→Offer→Request→Acknowledge); `dhcpd.conf` (`subnet range default-lease-time option routers`)
-- [ ] DHCP starvation attack & snooping
-- [ ] NFS `/etc/exports` — `rw ro root_squash no_root_squash` (danger of `no_root_squash`)
-- [ ] Samba `smb.conf` — `[share] valid users writable path`; Samba vs NFS, ports 445/139
+- [x] DNS records: A, AAAA, MX, CNAME, PTR, NS, SOA, TXT
+- [x] Forward vs reverse zone, `/etc/named.conf`
+- [x] `/etc/resolv.conf`, `/etc/nsswitch.conf` resolution order
+- [x] AXFR abuse → `allow-transfer { none; };`
+- [x] DNS attacks — cache poisoning, amplification, unauthorized AXFR
+- [x] DHCP DORA (Discover→Offer→Request→Acknowledge); `dhcpd.conf` (`subnet range default-lease-time option routers`)
+- [x] DHCP starvation attack & snooping
+- [x] NFS `/etc/exports` — `rw ro root_squash no_root_squash` (danger of `no_root_squash`)
+- [x] Samba `smb.conf` — `[share] valid users writable path`; Samba vs NFS, ports 445/139
 
 ### 9. Apache Web Server Security
 
@@ -160,11 +162,11 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 
 ### 12. Interprocess Communication (IPC)
 
-- [ ] Definition — processes sharing data & synchronizing
-- [ ] Pipes & named pipes (FIFO)
-- [ ] Signals — `kill pkill SIGTERM SIGKILL SIGINT SIGCHLD`
-- [ ] Shared memory · Semaphores (mutual exclusion) · Message queues · Sockets (local/network)
-- [ ] `ps ipcs ipcrm lsof`
+- [x] Definition — processes sharing data & synchronizing
+- [x] Pipes & named pipes (FIFO)
+- [x] Signals — `kill pkill SIGTERM SIGKILL SIGINT SIGCHLD`
+- [x] Shared memory · Semaphores (mutual exclusion) · Message queues · Sockets (local/network)
+- [x] `ps ipcs ipcrm lsof`
 
 ---
 
@@ -186,17 +188,17 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 
 ### 15. Email Services — Postfix, Dovecot
 
-- [ ] Ports: SMTP 25/587, IMAP 143/993, POP3 110/995
-- [ ] Chain: MUA → Postfix(MTA) → Internet → Remote MTA → Dovecot(MDA) → MUA
-- [ ] `main.cf` — `myhostname mydestination smtpd_relay_restrictions`
-- [ ] Open relay danger; SPF/DKIM/DMARC anti-spoofing
+- [x] Ports: SMTP 25/587, IMAP 143/993, POP3 110/995
+- [x] Chain: MUA → Postfix(MTA) → Internet → Remote MTA → Dovecot(MDA) → MUA
+- [x] `main.cf` — `myhostname mydestination smtpd_relay_restrictions`
+- [x] Open relay danger; SPF/DKIM/DMARC anti-spoofing
 
 ### 16. LDAP & NIS Authentication
 
-- [ ] Ports 389 (plain) / 636 (LDAPS)
-- [ ] DN structure — `cn=user,ou=users,dc=cdac,dc=in`
-- [ ] Bind DN → search → compare hash
-- [ ] LDAP vs NIS (security, structure, status, port)
+- [x] Ports 389 (plain) / 636 (LDAPS)
+- [x] DN structure — `cn=user,ou=users,dc=cdac,dc=in`
+- [x] Bind DN → search → compare hash
+- [x] LDAP vs NIS (security, structure, status, port)
 
 ### 17. Squid Proxy
 
@@ -302,7 +304,7 @@ _Linux track: 50T+50L+15SL=115hrs · Windows+Linux combined module: 90T+90L+30SL
 
 ---
 
-# Windows Track (combined 210hr module)
+## Windows Track (combined 210hr module)
 
 **Courseware:** Linux All-In-One for Dummies (Dulaney) · Mastering Windows Server 2016 R2 · Windows Server 2022 Administration Fundamentals
 
