@@ -1,7 +1,5 @@
 # Linux File Hierarchy Structure (FHS) & File Types — Study Notes
 
-**Quick Revision Guide for Exam / Viva Prep**
-
 ---
 
 ## 1. What is FHS?
@@ -19,10 +17,6 @@ Everything starts from the **root directory `/`** — all other directories bran
 - Topmost directory; everything else lives under it.
 - Only **root user** can normally modify files directly inside `/`.
 
-```text
-/ = Starting point of the entire Linux filesystem
-```
-
 ---
 
 ### `/etc` — Configuration Files
@@ -35,10 +29,6 @@ System-wide config files for users, network, services, and applications.
 /etc/logrotate.conf
 ```
 
-```text
-/etc = System configuration ("editable text configs")
-```
-
 ---
 
 ### `/home` — User Home Directories
@@ -47,10 +37,6 @@ Personal directories for **normal (non-root) users** — Documents, Downloads, p
 
 ```text
 /home/veenay/Documents
-```
-
-```text
-/home = Normal users' personal files
 ```
 
 ---
@@ -71,11 +57,7 @@ Contains data that **changes/grows constantly** while the system runs — the op
 tail -f /var/log/syslog     # very common real-world command
 ```
 
-```text
-/var = Variable — data that keeps changing (logs, mail, cache)
-```
-
-🔴 **Exam Trap:** `/etc` = static configuration (rarely changes), `/var` = dynamic/growing data (changes constantly). Interviewers love this contrast question.
+🔴 **Exam Trap:** `/etc` = static configuration (rarely changes), `/var` = dynamic/growing data (changes constantly).
 
 ---
 
@@ -90,25 +72,13 @@ A **virtual/pseudo filesystem** — not real files stored on disk. It's generate
 /proc/cpuinfo     # CPU details
 ```
 
-```text
-/proc = Live process & kernel info (not real disk files)
-```
-
 ---
 
 ### `/tmp` — Temporary Files
 
 Temporary files created by programs/users. May be **auto-cleared** on reboot.
 
-```text
-/tmp/test.txt
-```
-
 🟠 **Note:** `/tmp` is world-writable by design, but protected by the **Sticky Bit** — only the file's owner (or root) can delete/rename files inside it, even though anyone can create files there.
-
-```text
-/tmp = Temporary, short-lived data
-```
 
 ---
 
@@ -124,11 +94,7 @@ Holds the bulk of installed programs, libraries, and documentation (despite the 
 | `/usr/local` | Software installed manually/from source (not via package manager) |
 | `/usr/src`   | Kernel source code, headers                                       |
 
-```text
-/usr = User-space applications & utilities (the "big library" of installed software)
-```
-
-🔴 **Exam Trap:** Don't confuse `/usr` (programs) with `/home` (personal user files) — a very common beginner mix-up.
+🔴 **Exam Trap:** Don't confuse `/usr` (programs) with `/home` (personal user files).
 
 ---
 
@@ -138,10 +104,6 @@ Basic commands needed by **all users**, available even in minimal/recovery mode.
 
 ```bash
 ls, cp, ping, grep, ps, kill
-```
-
-```text
-/bin = Basic binary commands
 ```
 
 > 💡 On modern distros, `/bin` is often just a **symlink** to `/usr/bin` (merged-usr layout).
@@ -160,10 +122,6 @@ initrd.img   # Initial RAM disk
 grub/        # GRUB bootloader files
 ```
 
-```text
-/boot = Files used to boot/start Linux
-```
-
 ---
 
 ### `/dev` — Device Files
@@ -174,10 +132,6 @@ Linux treats hardware as files. `/dev` holds these device representations.
 /dev/sda      # first hard disk
 /dev/sda1     # first partition on that disk
 /dev/tty1     # terminal
-```
-
-```text
-/dev = Devices (disks, USB, terminals, mic, speakers)
 ```
 
 ---
@@ -191,26 +145,11 @@ libncurses.so
 ld-2.11.1.so
 ```
 
-```text
-/lib = Libraries needed by programs
-```
-
 ---
 
 ### `/media` — Removable Media
 
 Auto-mount point for **removable devices**: USB, CD/DVD, pen drives.
-
-```text
-/media/cdrom
-/media/floppy
-```
-
-```text
-/media = Removable devices
-```
-
----
 
 ### `/mnt` — Temporary Manual Mount Point
 
@@ -218,10 +157,6 @@ Used by **admins** to manually/temporarily mount a filesystem.
 
 ```bash
 mount /dev/sdb1 /mnt
-```
-
-```text
-/mnt = Manual/temporary mounting
 ```
 
 ### `/media` vs `/mnt`
@@ -241,10 +176,6 @@ Software **not part of the default OS install** — usually vendor apps.
 /opt/company-name/application
 ```
 
-```text
-/opt = Optional third-party applications
-```
-
 ---
 
 ### `/sbin` — System Administration Commands
@@ -262,10 +193,6 @@ fdisk, reboot, iptables, fsck, swapon
 | `/bin`    | All users   | `ls`, `cp`, `grep`        |
 | `/sbin`   | Admins/root | `fdisk`, `reboot`, `fsck` |
 
-```text
-/sbin = System binaries (admin-only tools)
-```
-
 ---
 
 ### `/srv` — Service Data
@@ -275,10 +202,6 @@ Data served by services running on the system (web, FTP, version control).
 ```text
 /srv/cvs
 /srv/www
-```
-
-```text
-/srv = Server/service data
 ```
 
 ---
@@ -292,37 +215,9 @@ Part of `/usr`, but called out separately because it's important: holds software
 /usr/local/bin
 ```
 
-```text
-/usr/local = Manually installed / locally-built software
-```
-
 ---
 
-## 4. Quick Revision Table — All FHS Directories
-
-| Directory    | Purpose                     | Easy Meaning       |
-| ------------ | --------------------------- | ------------------ |
-| `/`          | Top of filesystem           | Root               |
-| `/bin`       | Essential commands          | Basic binaries     |
-| `/boot`      | Boot files                  | Starts Linux       |
-| `/dev`       | Hardware/device files       | Devices            |
-| `/etc`       | Configuration files         | Settings (static)  |
-| `/home`      | User personal files         | User homes         |
-| `/lib`       | Shared libraries            | Libraries          |
-| `/media`     | Removable device mounts     | USB/CD             |
-| `/mnt`       | Temporary mounts            | Manual mount       |
-| `/opt`       | Third-party software        | Optional software  |
-| `/proc`      | Process/system info         | Live process info  |
-| `/sbin`      | Admin commands              | System binaries    |
-| `/srv`       | Service/server data         | Services           |
-| `/tmp`       | Temporary files             | Temporary data     |
-| `/usr`       | Programs and utilities      | Applications       |
-| `/usr/local` | Manually installed software | Locally-built apps |
-| `/var`       | Variable/changing data      | Logs, mail, cache  |
-
----
-
-## 5. Linux File Types
+## 4. Linux File Types
 
 Linux is famous for the philosophy **"everything is a file"** — not just documents, but devices, pipes, and sockets too. You can identify a file's type from the **first character** in `ls -l` output.
 
@@ -347,90 +242,17 @@ srwxr-xr-x   1 user user     0 Aug 11 mysocket
 | `p`                          | **FIFO (named pipe)**       | Allows one-way communication between two unrelated processes                       | Created via `mkfifo`    |
 | `s`                          | **Socket**                  | Enables communication between processes (often over a network or locally)          | `/var/run/docker.sock`  |
 
-### 5.1 Quick Explanations with Examples
+**Symbolic Link (`l`)** points to another file by **path**; breaks if target is deleted/moved.
 
-**Regular file (`-`)**
+**Block Device (`b`)** represents storage hardware (hard disks, SSDs, USB drives). Data is read/written in **fixed-size blocks**, and random access (jumping to any block) is possible.
 
-```bash
-touch myfile.txt
-ls -l myfile.txt
-# -rw-r--r--  ...  myfile.txt
-```
+**Character Device (`c`)** represents devices that send/receive data as a continuous **stream**, one character at a time — no random access. Examples: keyboards, mice, terminals, `/dev/null`, `/dev/zero`.
 
-Everyday files: text, scripts, binaries, images.
+**FIFO / Named Pipe (`p`)** is used for **one-way** inter-process communication (IPC) — one process writes, another reads, in **First-In-First-Out** order. Unlike an anonymous pipe (`|` in bash), a named pipe has an actual path on the filesystem so unrelated processes can use it.
 
----
+**Socket (`s`)** enables **bidirectional** communication between processes — locally (Unix domain socket) or across a network. Example: Docker daemon communicates with the Docker CLI via a Unix socket.
 
-**Directory (`d`)**
-
-```bash
-mkdir myfolder
-ls -ld myfolder
-# drwxr-xr-x ...  myfolder
-```
-
-Container for other files and directories.
-
----
-
-**Symbolic Link (`l`)**
-
-```bash
-ln -s /etc/passwd mylink
-ls -l mylink
-# lrwxrwxrwx ... mylink -> /etc/passwd
-```
-
-Points to another file by **path**; breaks if target is deleted/moved.
-
----
-
-**Block Device (`b`)**
-
-```bash
-ls -l /dev/sda
-# brw-rw---- ... /dev/sda
-```
-
-Represents storage hardware (hard disks, SSDs, USB drives). Data is read/written in **fixed-size blocks**, and random access (jumping to any block) is possible.
-
----
-
-**Character Device (`c`)**
-
-```bash
-ls -l /dev/null
-# crw-rw-rw- ... /dev/null
-```
-
-Represents devices that send/receive data as a continuous **stream**, one character at a time — no random access. Examples: keyboards, mice, terminals, `/dev/null`, `/dev/zero`.
-
----
-
-**FIFO / Named Pipe (`p`)**
-
-```bash
-mkfifo mypipe
-ls -l mypipe
-# prw-r--r-- ... mypipe
-```
-
-Used for **one-way** inter-process communication (IPC) — one process writes, another reads, in **First-In-First-Out** order. Unlike an anonymous pipe (`|` in bash), a named pipe has an actual path on the filesystem so unrelated processes can use it.
-
----
-
-**Socket (`s`)**
-
-```bash
-ls -l /var/run/docker.sock
-# srwxr-xr-x ... docker.sock
-```
-
-Enables **bidirectional** communication between processes — locally (Unix domain socket) or across a network. Example: Docker daemon communicates with the Docker CLI via a Unix socket.
-
----
-
-### 5.2 Comparison Table: Block vs Character Device
+### 4.1 Comparison: Block vs Character Device
 
 | Feature            | Block Device                              | Character Device                                    |
 | ------------------ | ----------------------------------------- | --------------------------------------------------- |
@@ -438,20 +260,6 @@ Enables **bidirectional** communication between processes — locally (Unix doma
 | Random access      | ✅ Yes (can jump to any block)            | ❌ No (sequential only)                             |
 | Buffered by kernel | ✅ Yes                                    | Usually not                                         |
 | Examples           | Hard disks, SSDs, USB drives (`/dev/sda`) | Keyboard, mouse, terminal, `/dev/null`, `/dev/zero` |
-
----
-
-### 5.3 All File Types — Summary Table
-
-| Type              | `ls -l` symbol | Real-world example                        |
-| ----------------- | -------------- | ----------------------------------------- |
-| Regular file      | `-`            | `.txt`, `.jpg`, `.sh`                     |
-| Directory         | `d`            | `/home/user/`                             |
-| Symbolic link     | `l`            | Shortcut created via `ln -s`              |
-| Block device      | `b`            | `/dev/sda` (disk)                         |
-| Character device  | `c`            | `/dev/null`, `/dev/tty`                   |
-| FIFO (named pipe) | `p`            | Created via `mkfifo`, one-way IPC         |
-| Socket            | `s`            | `/var/run/docker.sock`, bidirectional IPC |
 
 🔴 **Exam Trap:** Command to check any file's type quickly (beyond `ls -l`):
 
@@ -462,65 +270,9 @@ stat filename     # detailed metadata including type
 
 ---
 
-## 6. Quick-Fire Viva Q&A
-
-| Question                                                 | Answer                                                                                                        |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| What does FHS stand for?                                 | Filesystem Hierarchy Standard                                                                                 |
-| Difference between `/etc` and `/var`?                    | `/etc` = static config files; `/var` = dynamic/growing data (logs, cache, mail)                               |
-| Difference between `/usr` and `/home`?                   | `/usr` = installed programs/utilities; `/home` = personal user files                                          |
-| Difference between `/media` and `/mnt`?                  | `/media` = auto-mount for removable devices; `/mnt` = manual/temporary mount by admin                         |
-| Difference between `/bin` and `/sbin`?                   | `/bin` = commands for all users; `/sbin` = admin-only commands                                                |
-| What is `/proc`?                                         | A virtual filesystem showing live process & kernel info, not real disk files                                  |
-| Where does manually-installed (from source) software go? | `/usr/local`                                                                                                  |
-| What is "everything is a file" in Linux?                 | Even hardware devices, pipes, and sockets are represented and accessed as files                               |
-| Difference between block and character device?           | Block = data in chunks, random access (disks); Character = data as stream, sequential (keyboard, `/dev/null`) |
-| What is a FIFO / named pipe?                             | A special file enabling one-way IPC between unrelated processes, in FIFO order                                |
-| What is a socket file?                                   | Enables two-way communication between processes, locally or over network                                      |
-| How to identify a symlink in `ls -l`?                    | First character is `l`, and it shows `link -> target`                                                         |
-| Command to check a file's type quickly?                  | `file filename` or `stat filename`                                                                            |
-
----
-
-## 7. One-Page Memory Trick
-
-```text
-/       → Root
-/bin    → Commands (everyone)
-/boot   → Boot files
-/dev    → Devices
-/etc    → Config (static)
-/home   → User personal files
-/lib    → Libraries
-/media  → Removable media (auto)
-/mnt    → Manual mount
-/opt    → Optional/3rd-party software
-/proc   → Live process info
-/sbin   → Admin commands
-/srv    → Service data
-/tmp    → Temporary files
-/usr    → Applications/utilities
-/var    → Variable/changing data (logs, cache)
-```
-
-```text
-File types (ls -l 1st char):
--  → regular file
-d  → directory
-l  → symlink
-b  → block device
-c  → character device
-p  → FIFO/named pipe
-s  → socket
-```
-
----
-
 _CDAC DITISS — PGCP-ITISS | Linux OS & Security | FHS + File Types_
 
 # Linux Commands — Study Notes
-
-**Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
@@ -588,7 +340,7 @@ mv -i a.txt b.txt           # prompt before overwrite
 rm -rf oldproject/    # ⚠️ dangerous — no undo, no recycle bin
 ```
 
-🔴 **Exam Trap:** `rm -rf /` (or `rm -rf /*`) can wipe the entire filesystem — classic "why sudo is dangerous" interview question.
+🔴 **Exam Trap:** `rm -rf /` (or `rm -rf /*`) can wipe the entire filesystem.
 
 ---
 
@@ -697,7 +449,7 @@ tail -n 20 file.txt       # last 20 lines
 tail -f /var/log/syslog   # live-follow (used for log monitoring)
 ```
 
-🔴 **Exam Trap:** `tail -f` is heavily used in Viva for "how do you monitor logs in real time?"
+🔴 **Exam Trap:** `tail -f` is heavily used for "how do you monitor logs in real time?"
 
 ---
 
@@ -745,7 +497,7 @@ unzip archive.zip                   # extract
 unzip -l archive.zip                # list contents without extracting
 ```
 
-### Comparison Table: `tar.gz` vs `zip`
+### Comparison: `tar.gz` vs `zip`
 
 | Feature                 | tar.gz                                   | zip                           |
 | ----------------------- | ---------------------------------------- | ----------------------------- |
@@ -844,12 +596,6 @@ ln original.txt hardlink.txt
 - Both filenames are equal — there's no "original" vs "copy"; deleting one leaves the data accessible via the other.
 - File data is deleted only when **link count reaches 0** (all hard links removed).
 
-```
-file.txt   ---\
-                >---> inode 1234 ---> data blocks
-hardlink.txt --/
-```
-
 ### 4.2 Soft Link (Symbolic Link)
 
 ```bash
@@ -859,14 +605,7 @@ ln -s original.txt softlink.txt
 - Creates a **new inode** that simply stores the **path** to the target file (like a shortcut).
 - If the original file is deleted or moved, the symlink becomes a **"dangling"/broken link**.
 
-```
-softlink.txt ---> inode 5678 ("points to path: /home/user/original.txt")
-                                     |
-                                     v
-                        file.txt ---> inode 1234 ---> data blocks
-```
-
-### Comparison Table
+### Comparison
 
 | Feature                             | Hard Link                              | Soft Link (Symlink)                        |
 | ----------------------------------- | -------------------------------------- | ------------------------------------------ |
@@ -878,10 +617,10 @@ softlink.txt ---> inode 5678 ("points to path: /home/user/original.txt")
 | If original deleted                 | Data still accessible (link count > 0) | Symlink breaks ("dangling link")           |
 | `ls -l` indicator                   | Normal file, link count shown          | Shown as `l`, with `->` pointing to target |
 
-🔴 **Exam Trap (very common Viva Q):** _"Why can't hard links cross filesystems?"_
+🔴 **Exam Trap:** _"Why can't hard links cross filesystems?"_
 → Because inode numbers are only unique **within a single filesystem/partition**. A hard link is literally a reference to an inode number, which has no meaning on a different filesystem. Soft links work across filesystems because they just store a **text path**, not an inode reference.
 
-🔴 **Exam Trap:** Check link count via `ls -l` — the number after permissions (e.g., `-rw-r--r-- 2 user user ...`) shows how many hard links point to that inode.
+Check link count via `ls -l` — the number after permissions (e.g., `-rw-r--r-- 2 user user ...`) shows how many hard links point to that inode.
 
 ---
 
@@ -921,7 +660,7 @@ sudo updatedb     # manually refresh the index database (mlocate.db)
 find / -name "httpd.conf" 2>/dev/null
 ```
 
-### Comparison Table: `locate` vs `find`
+### Comparison: `locate` vs `find`
 
 | Feature                      | `locate`                                               | `find`                                                               |
 | ---------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------- |
@@ -935,43 +674,11 @@ find / -name "httpd.conf" 2>/dev/null
 🔴 **Exam Trap:** _"Why did `locate` not find a file I just created?"_
 → Because the `mlocate.db` index hasn't been refreshed yet. Run `sudo updatedb`, or use `find` instead, which always searches live.
 
----
-
-## 6. Quick-Fire Viva Q&A
-
-| Question                                           | Answer                                                                                          |
-| -------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Difference between `mv` and `cp`?                  | `cp` duplicates data (two copies exist); `mv` relocates/renames (one copy, no data duplication) |
-| How to force-kill an unresponsive process?         | `kill -9 PID` (SIGKILL)                                                                         |
-| How to run a script that survives terminal logout? | `nohup command &`                                                                               |
-| Command to view compressed log without extracting? | `zcat file.gz`                                                                                  |
-| How to see how many hard links a file has?         | `ls -l` → link count column                                                                     |
-| Can a soft link point to a directory?              | Yes; a hard link cannot                                                                         |
-| Fastest way to search for a file by name?          | `locate filename` (if index is current)                                                         |
-| Command to compare two directories?                | `diff -r dir1 dir2`                                                                             |
-| Which command shows live CPU/memory usage?         | `top` (or `htop`)                                                                               |
-| Difference between `Ctrl+Z` and `kill`?            | `Ctrl+Z` suspends (pauses) a job; `kill` terminates it                                          |
-
----
-
-## 7. One-Page Summary Table (Ultra-Quick Revision)
-
-| Category               | Commands                                             |
-| ---------------------- | ---------------------------------------------------- |
-| File ops               | `ls`, `cp`, `mv`, `rm`, `cat`                        |
-| Text search/processing | `grep`, `find`, `diff`, `wc`, `sort`, `head`, `tail` |
-| Archiving              | `tar`, `gzip`/`gunzip`, `zip`/`unzip`, `zcat`        |
-| Process mgmt           | `ps`, `top`, `kill`, `jobs`, `bg`, `fg`, `nohup`     |
-| Links                  | `ln` (hard), `ln -s` (soft)                          |
-| Lookup/Help            | `man`, `whatis`, `whereis`, `locate`, `find`         |
-
-# Linux File Links — Hard Link vs Soft Link
+# Linux File Links — Hard Link vs Soft Link (Deep Dive)
 
 ---
 
 ## 1. How Linux Stores Files (Foundation Concept)
-
-Before understanding links, you must understand **inode**.
 
 ```
   ┌─────────────────────────────────────────────────────────────────────┐
@@ -991,8 +698,6 @@ Before understanding links, you must understand **inode**.
   │                    │  - data pointer │                              │
   │                    └─────────────────┘                              │
   │                                                                     │
-  │   Filename ──► inode ──► Data Blocks                               │
-  │                                                                     │
   │   > Filename is just a LABEL pointing to inode                     │
   │   > inode contains ALL metadata + pointer to actual data           │
   │   > inode does NOT store the filename                              │
@@ -1001,17 +706,11 @@ Before understanding links, you must understand **inode**.
 
 ---
 
-## 2. Hard Link
-
-**Definition:** A hard link is a **second filename pointing to the SAME inode**.
-Both the original file and the hard link share the **exact same inode number**.
+## 2. Hard Link — Visualized
 
 ```
   ┌─────────────────────────────────────────────────────────────────────┐
   │                        HARD LINK DIAGRAM                            │
-  │                                                                     │
-  │   FILENAMES              INODE                DATA BLOCKS           │
-  │   (Directory)            (Metadata)           (Actual Content)      │
   │                                                                     │
   │  ┌──────────────┐                                                   │
   │  │ original.txt │──────┐                                           │
@@ -1020,8 +719,6 @@ Both the original file and the hard link share the **exact same inode number**.
   │  ┌──────────────┐      │    │  link count = 2 │   │ (file data) │ │
   │  │  hardlink.txt│──────┘    └─────────────────┘   └─────────────┘ │
   │  └──────────────┘                                                   │
-  │                                                                     │
-  │   Both names ──► SAME inode ──► SAME data                          │
   │                                                                     │
   │   > link count increases by 1 when hard link is created            │
   │   > Deleting original.txt → data still accessible via hardlink.txt │
@@ -1033,13 +730,11 @@ Both the original file and the hard link share the **exact same inode number**.
 
 ```
   BEFORE DELETE:
-  ──────────────
   original.txt ──────┐
                       ├──► inode #1234 (link count=2) ──► "Hello World"
   hardlink.txt ──────┘
 
   AFTER DELETE original.txt:
-  ──────────────────────────
   [original.txt removed]
                              inode #1234 (link count=1) ──► "Hello World"
   hardlink.txt ─────────────────────────────────────────────────────────►
@@ -1050,34 +745,22 @@ Both the original file and the hard link share the **exact same inode number**.
 
 ---
 
-## 3. Soft Link (Symbolic Link / Symlink)
-
-**Definition:** A soft link is a **separate file that stores the PATH of the original file**.
-It has its **own inode** — it just contains a pointer (path) to the original.
+## 3. Soft Link (Symbolic Link) — Visualized
 
 ```
   ┌─────────────────────────────────────────────────────────────────────┐
   │                       SOFT LINK DIAGRAM                             │
   │                                                                     │
-  │   FILENAMES         INODES                  DATA BLOCKS             │
-  │   (Directory)       (Metadata)              (Actual Content)        │
-  │                                                                     │
   │  ┌──────────────┐   ┌─────────────────┐    ┌──────────────────┐    │
   │  │ original.txt │──►│  inode #1234    │───►│  Hello World     │    │
   │  └──────────────┘   │  link count = 1 │    │  (actual data)   │    │
   │          ▲          └─────────────────┘    └──────────────────┘    │
-  │          │                                                           │
   │          │ (stores path: "/home/user/original.txt")                 │
-  │          │                                                           │
   │  ┌──────────────┐   ┌─────────────────┐                            │
   │  │ softlink.txt │──►│  inode #5678    │                            │
   │  └──────────────┘   │  link count = 1 │                            │
   │                     │  type = symlink  │                            │
   │                     └─────────────────┘                            │
-  │                                                                     │
-  │   softlink.txt ──► its own inode ──► stores PATH ──► original.txt  │
-  │                                                   ──► inode #1234  │
-  │                                                   ──► "Hello World" │
   └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1085,14 +768,12 @@ It has its **own inode** — it just contains a pointer (path) to the original.
 
 ```
   BEFORE DELETE:
-  ──────────────
   original.txt ──► inode #1234 ──► "Hello World"
        ▲
        │ (path stored)
   softlink.txt ──► inode #5678
 
   AFTER DELETE original.txt:
-  ──────────────────────────
   [original.txt removed] ──► inode #1234 DELETED ──► data GONE
 
        ▲ (path stored — but target is gone!)
@@ -1106,28 +787,7 @@ It has its **own inode** — it just contains a pointer (path) to the original.
 
 ---
 
-## 4. Hard Link vs Soft Link — Side by Side
-
-```
-  ┌──────────────────────┬───────────────────────┬───────────────────────┐
-  │  Feature             │  Hard Link            │  Soft Link (Symlink)  │
-  ├──────────────────────┼───────────────────────┼───────────────────────┤
-  │  Own inode?          │  NO (shares original) │  YES (new inode)      │
-  │  inode number        │  SAME as original     │  DIFFERENT            │
-  │  Points to           │  inode directly       │  PATH of original     │
-  │  If original deleted │  Data still exists ✅ │  Broken link ❌       │
-  │  Cross filesystem    │  ❌ NOT allowed        │  ✅ Allowed           │
-  │  Link directories    │  ❌ NOT allowed        │  ✅ Allowed           │
-  │  File size shown     │  Same as original     │  Size of path string  │
-  │  Works across mounts │  ❌ NO                │  ✅ YES               │
-  │  ls -l indicator     │  no special symbol    │  shown as link -> path│
-  │  Link count effect   │  Increases by 1       │  No effect on original│
-  └──────────────────────┴───────────────────────┴───────────────────────┘
-```
-
----
-
-## 5. Commands
+## 4. Commands & Verification
 
 ### Create Hard Link
 
@@ -1166,62 +826,7 @@ ls -li
   └─ inode number (1234 same for both hard links)
 ```
 
----
-
-## 6. Visual Summary
-
-```
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │                    COMPLETE COMPARISON DIAGRAM                      │
-  │                                                                     │
-  │   HARD LINK:                                                        │
-  │   ──────────                                                        │
-  │                                                                     │
-  │   original.txt ──────┐                                             │
-  │                        ├──► [ inode #1234 ] ──► [ DATA: "Hello" ]  │
-  │   hardlink.txt ───────┘                                            │
-  │                         (same inode, same data, link count = 2)    │
-  │                                                                     │
-  │ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─  │
-  │                                                                     │
-  │   SOFT LINK:                                                        │
-  │   ──────────                                                        │
-  │                                                                     │
-  │   original.txt ──────► [ inode #1234 ] ──► [ DATA: "Hello" ]       │
-  │         ▲                                                           │
-  │         │ path: "/home/user/original.txt"                           │
-  │         │                                                           │
-  │   softlink.txt ──────► [ inode #5678 ] ──► [ PATH STORED ]         │
-  │                         (different inode, stores path, not data)   │
-  │                                                                     │
-  └─────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 7. Key Exam Points 🎯
-
-| Question                              | Answer                                                                                       |
-| ------------------------------------- | -------------------------------------------------------------------------------------------- |
-| What is an inode?                     | Metadata block storing file info (size, owner, permissions, data pointer) — NOT the filename |
-| Does inode store filename?            | ❌ NO — filename is stored in the directory entry                                            |
-| Hard link has same inode as original? | ✅ YES — same inode number                                                                   |
-| Soft link has same inode as original? | ❌ NO — different inode                                                                      |
-| What does soft link store?            | PATH of the original file                                                                    |
-| Hard link across filesystems?         | ❌ NOT possible                                                                              |
-| Soft link across filesystems?         | ✅ Possible                                                                                  |
-| Hard link on directories?             | ❌ NOT allowed (prevents loops)                                                              |
-| Soft link on directories?             | ✅ Allowed                                                                                   |
-| What is a dangling symlink?           | Soft link whose original file has been deleted                                               |
-| Command for hard link?                | `ln original.txt hardlink.txt`                                                               |
-| Command for soft link?                | `ln -s original.txt softlink.txt`                                                            |
-| When is data actually deleted?        | When inode link count reaches **0**                                                          |
-| `ls -li` shows what?                  | inode number + file details                                                                  |
-| How to identify soft link in `ls -l`? | File type shown as `l` and `->` pointing to target                                           |
-
 # Linux File Permissions & ACLs — Study Notes
-
-**Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
@@ -1250,16 +855,12 @@ Every file/directory has **3 permission sets**: Owner (u), Group (g), Others (o)
 
 ### 1.2 Octal (Numeric) Notation
 
-Each permission has a value:
-
 | Permission  | Value |
 | ----------- | ----- |
 | Read (r)    | 4     |
 | Write (w)   | 2     |
 | Execute (x) | 1     |
 | None (-)    | 0     |
-
-Add the values for each set (owner, group, others):
 
 ```
 rwx = 4+2+1 = 7
@@ -1342,9 +943,7 @@ chgrp developers file.txt
 chgrp -R developers /project/     # recursive
 ```
 
-- Simpler dedicated command when you only need to change the **group**, not the owner.
-
-### Comparison Table
+### Comparison
 
 | Command | Changes                      | Needs Root/Sudo?                               |
 | ------- | ---------------------------- | ---------------------------------------------- |
@@ -1352,7 +951,7 @@ chgrp -R developers /project/     # recursive
 | `chown` | Owner (and optionally group) | Root only (normal users can't give away files) |
 | `chgrp` | Group only                   | Owner (if member of target group) or root      |
 
-🔴 **Exam Trap:** A regular user **cannot** `chown` a file to another user — only root can transfer ownership. This is a very common Viva question.
+🔴 **Exam Trap:** A regular user **cannot** `chown` a file to another user — only root can transfer ownership.
 
 ---
 
@@ -1436,7 +1035,7 @@ mask::rwx
 other::r--
 ```
 
-### Comparison Table: Traditional Permissions vs ACL
+### Comparison: Traditional Permissions vs ACL
 
 | Feature          | Traditional (`chmod`)       | ACL (`setfacl`)                                                      |
 | ---------------- | --------------------------- | -------------------------------------------------------------------- |
@@ -1446,7 +1045,7 @@ other::r--
 | Command          | `chmod`, `chown`            | `setfacl`, `getfacl`                                                 |
 | Viewing          | `ls -l`                     | `getfacl` (also `ls -l` shows a `+` after permissions if ACL is set) |
 
-💡 **Tip:** If `ls -l` shows `rwxr-xr--+` — that trailing `+` means the file **has an ACL** applied beyond normal permissions.
+💡 **Tip:** If `ls -l` shows `rwxr-xr-c-+` — that trailing `+` means the file **has an ACL** applied beyond normal permissions.
 
 ---
 
@@ -1463,7 +1062,7 @@ getfacl file.txt
 # user:bob:rwx    #effective:r-x   <- capped by mask!
 ```
 
-🔴 **Exam Trap (very common Viva Q):** _"You gave a user `rwx` via ACL, but they still can't write. Why?"_
+🔴 **Exam Trap:** _"You gave a user `rwx` via ACL, but they still can't write. Why?"_
 → Because the **mask** entry is restricting the effective permission. Always check `getfacl` output for `#effective:` — if it differs from the granted permission, the **mask** is the cause.
 
 - `setfacl -m mask::rwx file.txt` → widen the mask to allow full effective permissions.
@@ -1506,39 +1105,6 @@ chmod o-w file.txt        # remove write access for others
 
 🟠 **Special case:** `/tmp` is world-writable **by design** (needed for all users to create temp files), but it's protected using the **Sticky Bit** (`chmod +t /tmp`) — this ensures only the file's **owner** (or root) can delete/rename it, even though everyone can write into the directory.
 
----
-
-## 8. Quick-Fire Viva Q&A
-
-| Question                                                             | Answer                                                                       |
-| -------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| What does `chmod 644` mean?                                          | Owner: read+write, Group & Others: read-only                                 |
-| Who can run `chown` to give a file to someone else?                  | Only root (regular users cannot give away ownership)                         |
-| Default umask value on most Linux systems?                           | `022`                                                                        |
-| Why do files never get execute permission by default?                | Max default for files is `666`, not `777` — execute must be added explicitly |
-| How do you give one specific user access without changing the group? | Use ACL — `setfacl -m u:username:rwx file`                                   |
-| What does the `+` after permissions in `ls -l` mean?                 | The file has an ACL applied                                                  |
-| What does the ACL `mask` do?                                         | Caps the effective permission of all named users/groups (acts as a ceiling)  |
-| How to find all world-writable files on the system?                  | `find / -perm -o+w -type f 2>/dev/null`                                      |
-| Why is `/tmp` writable by everyone but still safe?                   | Sticky bit ensures only the file owner/root can delete/rename files inside   |
-| Command to remove ALL ACL entries from a file?                       | `setfacl -b file.txt`                                                        |
-
----
-
-## 9. One-Page Summary Table
-
-| Topic                 | Key Command                         | Key Point                                       |
-| --------------------- | ----------------------------------- | ----------------------------------------------- |
-| Permissions           | `ls -l`                             | rwx for owner/group/others; r=4,w=2,x=1         |
-| Change permission     | `chmod 755 file` / `chmod u+x file` | Numeric = reset all; Symbolic = targeted change |
-| Change owner          | `chown user:group file`             | Root only                                       |
-| Change group          | `chgrp group file`                  | Owner (if member) or root                       |
-| Default permission    | `umask 022`                         | Files=644, Dirs=755 with umask 022              |
-| Multi-user permission | `setfacl -m u:name:rwx file`        | Fine-grained, beyond owner/group/others         |
-| View ACL              | `getfacl file`                      | Shows all entries + effective perms             |
-| ACL cap               | `mask::rwx`                         | Limits effective perms of named users/groups    |
-| Security risk         | `find / -perm -o+w`                 | World-writable = injection/escalation risk      |
-
 # Special Permission Bits in Linux — SUID, SGID, Sticky Bit
 
 ## 1. Overview
@@ -1565,10 +1131,6 @@ When a file with SUID is executed, the process runs with the **permissions of th
 ### Why it's used
 
 Allows a normal user to perform a privileged task (usually requiring root) through a controlled program, **without giving the user permanent root access**.
-
-### Numeric value
-
-`4` → e.g. `chmod 4755 filename`
 
 ### Command
 
@@ -1616,10 +1178,6 @@ Like a bank attendant with vault access — you hand over your request, the atte
 
 Mainly for **shared team/project directories** — ensures all files created by different users automatically belong to the same group, so the whole team can access them without manual `chgrp` every time.
 
-### Numeric value
-
-`2` → e.g. `chmod 2775 dirname`
-
 ### Command
 
 ```bash
@@ -1664,10 +1222,6 @@ When set on a **directory**, only the **file's owner** (or root) can delete or r
 ### Why it's used
 
 Protects files in a **publicly writable shared directory** from being deleted or renamed by other users.
-
-### Numeric value
-
-`1` → e.g. `chmod 1777 dirname`
 
 ### Command
 
@@ -1727,21 +1281,9 @@ Classic real-world example: **`/tmp`** — world-writable, but sticky bit stops 
 | Security risk level | **High** (privilege escalation)   | **Moderate** (mainly on executables)                           | **Low** (only affects delete rights)         |
 | Audit command       | `find / -perm -4000 -type f`      | `find / -perm -2000 -type f`                                   | `find / -perm -1000 -type d`                 |
 
----
-
-## 6. Exam / Viva Quick Points
-
-- All three bits occupy the **4th (leftmost) digit** in `chmod XYZW` notation (X = special bit).
-- Lowercase (`s`, `t`) = special bit **+** underlying execute permission both present.
-- Uppercase (`S`, `T`) = special bit set but **execute permission missing** — a common "spot the trap" question.
-- SUID/SGID = about **identity change during execution**.
-- Sticky bit = about **restricting deletion**, not execution.
-- SUID + SGID are common **privilege escalation vectors** in penetration testing (`find` with `-perm -4000` / `-2000` is a standard enumeration step in Linux privilege escalation checklists).
-- Sticky bit does **not** grant any extra permission — it only removes the ability to delete/rename others' files.
+Key notes: all three bits occupy the **4th (leftmost) digit** in `chmod XYZW` notation (X = special bit). Lowercase (`s`, `t`) = special bit **+** underlying execute permission both present. Uppercase (`S`, `T`) = special bit set but **execute permission missing**. SUID/SGID are about **identity change during execution**; sticky bit is about **restricting deletion**, not execution.
 
 # Linux User & Group Management — Study Notes
-
-**Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
@@ -1766,7 +1308,7 @@ adduser veenay                          # Debian/Ubuntu — interactive, friendl
 | `-G` | Supplementary groups (comma-separated) |
 | `-u` | Specify custom UID                     |
 
-### Comparison Table: `useradd` vs `adduser`
+### Comparison: `useradd` vs `adduser`
 
 | Feature                     | `useradd`                    | `adduser`                                      |
 | --------------------------- | ---------------------------- | ---------------------------------------------- |
@@ -1774,7 +1316,7 @@ adduser veenay                          # Debian/Ubuntu — interactive, friendl
 | Interaction                 | Non-interactive, needs flags | Interactive — prompts for password, name, etc. |
 | Home dir created by default | ❌ No (needs `-m`)           | ✅ Yes, automatically                          |
 
-🔴 **Exam Trap:** `useradd` alone does NOT create a home directory or set a password — many beginners forget `-m` and are surprised the user has no `/home/username`.
+🔴 **Exam Trap:** `useradd` alone does NOT create a home directory or set a password — many beginners forget `-m`.
 
 ---
 
@@ -1880,14 +1422,12 @@ groups veenay
 
 ```bash
 who
-# veenay   tty1    2026-08-11 09:00
 ```
 
 ### 2.6 `whoami` — Show current effective user
 
 ```bash
 whoami
-# veenay
 ```
 
 💡 Useful after `su`/`sudo` to confirm which user context you're actually in.
@@ -1901,16 +1441,6 @@ last -x                # include shutdown/reboot events
 ```
 
 🔴 **Exam Trap:** `last` reads from `/var/log/wtmp` — a classic **forensic/log-analysis** question: "How do you check who logged in last week?" → `last`.
-
-### Comparison Table: Identity/Session Commands
-
-| Command  | Purpose                               |
-| -------- | ------------------------------------- |
-| `id`     | Shows UID, GID, all group memberships |
-| `groups` | Shows just the group names            |
-| `who`    | Shows who is currently logged in      |
-| `whoami` | Shows YOUR current effective username |
-| `last`   | Shows login **history** (past logins) |
 
 ---
 
@@ -1967,7 +1497,7 @@ veenay:$6$abc123...xyz:19850:7:90:7:::
 | `!!`         | Password never set (new account, no password yet)             |
 | `*`          | Login via password disabled entirely (often service accounts) |
 
-🔴 **Exam Trap:** Only **root** should be able to read `/etc/shadow` (permission `640` or `600`, owned by root). If it's world-readable, an attacker can grab password hashes and crack them offline (hashcat/John the Ripper) — classic security audit finding.
+🔴 **Exam Trap:** Only **root** should be able to read `/etc/shadow` (permission `640` or `600`, owned by root). If it's world-readable, an attacker can grab password hashes and crack them offline (hashcat/John the Ripper).
 
 ### `/etc/passwd` vs `/etc/shadow`
 
@@ -1986,13 +1516,6 @@ veenay:$6$abc123...xyz:19850:7:90:7:::
 ```text
 developers:x:1002:veenay,alice,bob
 ```
-
-| Field                   | Meaning                                         |
-| ----------------------- | ----------------------------------------------- |
-| 1. Group name           | e.g., `developers`                              |
-| 2. Password placeholder | Almost always `x` (group passwords rarely used) |
-| 3. GID                  | Group ID                                        |
-| 4. Member list          | Comma-separated **supplementary** members       |
 
 🟠 **Note:** A user's **primary** group (set via GID in `/etc/passwd`) does **NOT** need to be listed in the member list of `/etc/group` — only supplementary memberships appear there.
 
@@ -2013,7 +1536,7 @@ su root          # switch to root, needs ROOT's password
 sudo apt update   # run one command as root, needs YOUR OWN password
 ```
 
-🔴 **Exam Trap (very common Viva Q):** _"Why is `sudo` generally considered safer than `su`?"_
+🔴 **Exam Trap:** _"Why is `sudo` generally considered safer than `su`?"_
 → `sudo` requires the **user's own password** (root password stays secret/unused), logs every command run, and can be restricted to specific commands via `/etc/sudoers` — `su` gives full, unrestricted root access with no command-level logging by default.
 
 ---
@@ -2031,7 +1554,7 @@ su - veenay    # switch user with a FULL LOGIN shell (fresh environment)
 | Working directory                          | Stays in current directory                                | Changes to target user's home directory    |
 | Runs login scripts (`.bash_profile`, etc.) | ❌ No                                                     | ✅ Yes                                     |
 
-🔴 **Exam Trap:** `su - user` is the "correct"/safe way to fully become another user (especially root) — using plain `su user` can carry over the wrong `$PATH`, potentially running unintended binaries (a security risk known as PATH-based privilege confusion).
+🔴 **Exam Trap:** `su - user` is the "correct"/safe way to fully become another user (especially root) — using plain `su user` can carry over the wrong `$PATH`, potentially running unintended binaries (PATH-based privilege confusion).
 
 💡 **Memory trick:** the `-` = "start fresh, like a real login."
 
@@ -2082,11 +1605,6 @@ veenay   ALL=(ALL) /usr/bin/systemctl restart nginx   # sudo for ONE specific co
 ```bash
 id veenay
 # uid=1001(veenay) gid=1001(veenay) groups=1001(veenay),27(sudo),1002(developers)
-#                   ^^^^^^^^^^^^^^^   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#                   primary group      ALL groups (primary + supplementary)
-
-groups veenay
-# veenay : veenay sudo developers
 ```
 
 ### `newgrp` — Temporarily switch active primary group
@@ -2098,7 +1616,7 @@ newgrp developers    # starts a new shell where "developers" is the ACTIVE prima
 - Useful when a user is in multiple groups but needs new files to be created with a **different** group ownership temporarily, without permanently changing their primary group.
 - Exit the shell (`exit`) to return to the original group context.
 
-### Comparison Table
+### Comparison
 
 | Feature            | Primary Group              | Supplementary Group                              |
 | ------------------ | -------------------------- | ------------------------------------------------ |
@@ -2107,55 +1625,11 @@ newgrp developers    # starts a new shell where "developers" is the ACTIVE prima
 | New file ownership | Uses this group by default | Not used unless via `newgrp` or explicit `chgrp` |
 | View via           | `id -g`                    | `id -G` or `groups`                              |
 
-🔴 **Exam Trap:** `id -g` shows only the **primary** group; `id -G` (capital G) shows **all** groups (primary + supplementary). Common command-flag confusion in Viva.
-
----
-
-## 10. Quick-Fire Viva Q&A
-
-| Question                                                            | Answer                                                                                     |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Difference between `useradd` and `adduser`?                         | `useradd` = low-level, non-interactive; `adduser` = interactive script (Debian/Ubuntu)     |
-| How to add a user to a group WITHOUT removing existing groups?      | `usermod -aG groupname username` (always use `-a`)                                         |
-| What does `userdel -r` do differently from plain `userdel`?         | `-r` also deletes the user's home directory and mail spool                                 |
-| Where is the password hash actually stored?                         | `/etc/shadow`, NOT `/etc/passwd`                                                           |
-| What does `!` at the start of the hash field in `/etc/shadow` mean? | Account is locked                                                                          |
-| Difference between `su` and `sudo`?                                 | `su` needs the target user's password; `sudo` needs your own password                      |
-| Why use `su -` instead of `su`?                                     | `su -` gives a full login shell with a clean environment; plain `su` inherits old env vars |
-| Why always use `visudo` to edit sudoers?                            | It locks the file and validates syntax before saving, preventing lockouts                  |
-| What does `NOPASSWD` in sudoers do?                                 | Allows sudo without prompting for a password — high risk if overused                       |
-| How many primary groups can a user have?                            | Exactly one                                                                                |
-| Command to see a user's login history?                              | `last username`                                                                            |
-| Command to see who is CURRENTLY logged in?                          | `who`                                                                                      |
-| Which UID is always root?                                           | `0`                                                                                        |
-| What shell blocks interactive login for service accounts?           | `/sbin/nologin` or `/bin/false`                                                            |
-
----
-
-## 11. One-Page Summary Table
-
-| Task                            | Command                            |
-| ------------------------------- | ---------------------------------- |
-| Create user                     | `useradd -m -s /bin/bash username` |
-| Modify user's groups (append)   | `usermod -aG groupname username`   |
-| Delete user + home dir          | `userdel -r username`              |
-| Create group                    | `groupadd groupname`               |
-| Add user to group               | `gpasswd -a username groupname`    |
-| Set/change password             | `passwd username`                  |
-| Lock/unlock account             | `passwd -l` / `passwd -u` username |
-| Set password aging              | `chage -M 90 -m 7 -W 7 username`   |
-| View UID/GID/groups             | `id username`                      |
-| View login history              | `last username`                    |
-| Switch user (full env)          | `su - username`                    |
-| Run one command as root         | `sudo command`                     |
-| Edit sudo permissions safely    | `visudo`                           |
-| Temporarily switch active group | `newgrp groupname`                 |
+🔴 **Exam Trap:** `id -g` shows only the **primary** group; `id -G` (capital G) shows **all** groups (primary + supplementary).
 
 # Linux Boot Process & Systemd — Study Notes
 
 > Related: [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]]
-
-**Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
@@ -2224,7 +1698,7 @@ newgrp developers    # starts a new shell where "developers" is the ACTIVE prima
 
 **EFI Partition:** Special partition at `/boot/efi` — stores bootloader files, used exclusively by UEFI systems.
 
-### Comparison Table
+### Comparison
 
 | Feature                 | BIOS               | UEFI                        |
 | ----------------------- | ------------------ | --------------------------- |
@@ -2236,7 +1710,7 @@ newgrp developers    # starts a new shell where "developers" is the ACTIVE prima
 | Boot storage            | Boot sector (512B) | EFI partition (`/boot/efi`) |
 | Network boot            | Limited            | ✅ Supported                |
 
-🔴 **Exam Trap:** UEFI's **Secure Boot** feature verifies that only digitally-signed/trusted bootloaders and kernels can run — protects against bootkit malware. Classic security interview question.
+🔴 **Exam Trap:** UEFI's **Secure Boot** feature verifies that only digitally-signed/trusted bootloaders and kernels can run — protects against bootkit malware.
 
 ---
 
@@ -2250,7 +1724,7 @@ GRUB (**GR**and **U**nified **B**ootloader) loads in **stages**, each one small 
 | **Stage 1.5** | **Intermediate loader**       | Sits in the small gap right after the MBR; contains just enough filesystem drivers to locate and load Stage 2 from `/boot`                                                             |
 | **Stage 2**   | **Second-stage boot loader**  | The actual GRUB menu/environment; reads `grub.cfg`, understands filesystems, loads the selected **kernel** + `initramfs` into RAM, and hands off control                               |
 
-🟠 **Note:** Some older or simplified references (e.g. distro installers) collapse this into just "boot loader installer" — the utility (`grub-install`) that writes Stage 1/1.5 into the MBR and Stage 2 into `/boot/grub`. That's an **installation-time tool**, not a fourth boot-time stage — don't confuse the two when answering "how many GRUB stages are there?" (Answer: **3** — Stage 1, Stage 1.5, Stage 2.)
+🟠 **Note:** Some older or simplified references collapse this into just "boot loader installer" — the utility (`grub-install`) that writes Stage 1/1.5 into the MBR and Stage 2 into `/boot/grub`. That's an **installation-time tool**, not a fourth boot-time stage. There are **3** GRUB stages.
 
 ### GRUB2 Configuration
 
@@ -2329,7 +1803,7 @@ dracut --force                  # rebuild initramfs for the current kernel
 lsinitrd /boot/initramfs-*.img  # inspect contents of an initramfs image
 ```
 
-🔴 **Exam Trap (very common Viva Q):** _"Why can't the kernel just mount the real root filesystem directly?"_
+🔴 **Exam Trap:** _"Why can't the kernel just mount the real root filesystem directly?"_
 → Because the drivers needed to access the real root disk (e.g., a RAID controller driver, or LVM logical volume mapping) might not be built into the kernel itself and instead live as modules on that very disk. `initramfs` provides a minimal RAM-based environment with just enough drivers to bootstrap access to the real filesystem — solving the chicken-and-egg problem.
 
 🟠 **Note:** `pivot_root` is conceptually similar to `chroot`, but specifically designed for the boot-time handoff from a temporary root (initramfs) to the permanent one — it also properly unmounts/cleans up the old root.
@@ -2372,9 +1846,9 @@ Traditional **SysV init** used numbered **runlevels**; modern **systemd** uses n
 | **5**    | `graphical.target`                            | Multi-user, networking, **GUI**                      |
 | **6**    | `reboot.target`                               | Reboot the system                                    |
 
-🔴 **Exam Trap:** Runlevel **4 is reserved/unused** by convention — a classic trick question ("what does runlevel 4 do?" → nothing by default, it's reserved for custom/site-specific configuration).
+🔴 **Exam Trap:** Runlevel **4 is reserved/unused** by convention.
 
-🔴 **Exam Trap:** systemd collapses runlevels 2, 3, and 4 into the **same** `multi-user.target` — systemd doesn't distinguish "networking vs no networking" the way SysV runlevels 2/3 did. Don't expect a separate named target for runlevel 2.
+🔴 **Exam Trap:** systemd collapses runlevels 2, 3, and 4 into the **same** `multi-user.target` — systemd doesn't distinguish "networking vs no networking" the way SysV runlevels 2/3 did.
 
 ### Legacy Runlevel Commands
 
@@ -2396,7 +1870,7 @@ systemctl isolate graphical.target            # switch to a target NOW (like `in
 systemctl isolate rescue.target                # go to rescue/single-user mode
 ```
 
-### Comparison Table: Legacy vs Modern Commands
+### Comparison: Legacy vs Modern Commands
 
 | Task                      | SysV (legacy)       | systemd (modern)                      |
 | ------------------------- | ------------------- | ------------------------------------- |
@@ -2410,10 +1884,6 @@ systemctl isolate rescue.target                # go to rescue/single-user mode
 ---
 
 ## 9. Linux Booting Process — Narrative Walkthrough
-
-Linux booting means **starting the computer and loading the Linux operating system into memory**.
-
-### Main Steps
 
 ```text
 Power ON
@@ -2439,204 +1909,39 @@ When you switch on the computer, the CPU starts executing firmware code stored o
 
 ### 9.2 BIOS / UEFI
 
-BIOS or UEFI initializes the hardware.
+BIOS or UEFI initializes the hardware (CPU, RAM, keyboard, disk, other devices). This hardware check is called **POST** (Power-On Self-Test).
 
-It checks things like:
-
-- CPU
-- RAM
-- Keyboard
-- Disk
-- Other devices
-
-This hardware check is called **POST**.
-
-```text
-POST = Power-On Self-Test
-```
-
-Then BIOS/UEFI looks for a bootable device, for example:
-
-```text
-SSD
-HDD
-USB
-Network
-```
+Then BIOS/UEFI looks for a bootable device (SSD, HDD, USB, Network).
 
 ### 9.3 Bootloader
 
-After finding the boot device, the system starts the **bootloader**.
+After finding the boot device, the system starts the **bootloader** — most commonly **GRUB** (older systems: **LILO**).
 
-The most common Linux bootloader is:
-
-```text
-GRUB = GRand Unified Bootloader
-```
-
-Older Linux systems may use:
-
-```text
-LILO = Linux Loader
-```
-
-GRUB can show a menu such as:
-
-```text
-Ubuntu
-Ubuntu Advanced Options
-Windows
-```
-
-Its main job is to load:
-
-```text
-Linux Kernel
-+
-initramfs
-```
-
-into RAM.
+GRUB can show a menu (e.g., Ubuntu, Ubuntu Advanced Options, Windows). Its main job is to load the **Linux Kernel** + **initramfs** into RAM.
 
 ### 9.4 Linux Kernel Loads
 
-The **kernel is the core of Linux**.
-
-The bootloader loads the kernel into memory and gives control to it.
-
-The kernel starts managing:
-
-- CPU
-- RAM
-- Processes
-- Devices
-- Drivers
-- File systems
-
-```text
-GRUB
-  ↓
-Kernel
-  ↓
-Hardware management starts
-```
+The bootloader loads the kernel into memory and gives control to it. The kernel starts managing CPU, RAM, processes, devices, drivers, and file systems.
 
 ### 9.5 initramfs
 
-**initramfs = Initial RAM File System**
-
-It is a small temporary filesystem loaded into RAM during boot.
-
-It contains important drivers and tools needed before the real root filesystem can be mounted, for example:
-
-```text
-Disk driver
-Filesystem driver
-LVM support
-RAID support
-```
-
-Flow:
-
-```text
-Kernel
-   ↓
-initramfs
-   ↓
-Find real root filesystem
-   ↓
-Mount /
-```
+A small temporary filesystem loaded into RAM, containing important drivers and tools (disk driver, filesystem driver, LVM support, RAID support) needed before the real root filesystem can be mounted.
 
 ### 9.6 Root Filesystem Mounts
 
-Linux finds and mounts the root filesystem:
-
-```text
-/
-```
-
-After this, directories such as these become available:
-
-```text
-/etc
-/home
-/usr
-/var
-```
+Linux finds and mounts the root filesystem `/`, after which directories such as `/etc`, `/home`, `/usr`, `/var` become available.
 
 ### 9.7 systemd / init Starts
 
-The kernel starts the first user-space process.
-
-On most modern Linux systems, it is:
-
-```text
-systemd
-```
-
-It normally has:
-
-```text
-PID = 1
-```
-
-Older Linux systems used:
-
-```text
-init
-```
-
-So:
-
-```text
-Kernel
-   ↓
-systemd (PID 1)
-```
+The kernel starts the first user-space process — on most modern systems, `systemd`, with `PID = 1`. Older systems used `init`.
 
 ### 9.8 Services Start
 
-`systemd` starts required services, for example:
-
-```text
-Network service
-SSH service
-Cron
-Logging
-Database services
-Web server
-```
-
-For example:
-
-```bash
-systemctl start ssh
-```
+`systemd` starts required services — network, SSH, cron, logging, database, web server, etc. E.g., `systemctl start ssh`.
 
 ### 9.9 Login Screen / Shell / GUI
 
-Finally, Linux provides a login interface. It may show:
-
-```text
-CLI Login
-```
-
-or:
-
-```text
-GUI Login
-```
-
-After login:
-
-```text
-User
- ↓
-Shell such as Bash
- ↓
-Linux ready to use
-```
+Finally, Linux provides a login interface (CLI or GUI). After login, the user gets a shell such as Bash, and Linux is ready to use.
 
 ---
 
@@ -2645,29 +1950,13 @@ Linux ready to use
 ### Legacy BIOS
 
 ```text
-Power ON
- ↓
-BIOS
- ↓
-MBR
- ↓
-GRUB
- ↓
-Kernel
+Power ON → BIOS → MBR → GRUB → Kernel
 ```
 
 ### Modern UEFI
 
 ```text
-Power ON
- ↓
-UEFI
- ↓
-EFI System Partition
- ↓
-GRUB / EFI Bootloader
- ↓
-Kernel
+Power ON → UEFI → EFI System Partition → GRUB / EFI Bootloader → Kernel
 ```
 
 ### SysV vs systemd Boot — Side-by-Side
@@ -2713,14 +2002,14 @@ systemctl daemon-reload         # after editing a .service unit file, reload sys
 | `systemctl enable`       | ❌ Does NOT start now | ✅ Will auto-start on every future boot |
 | `systemctl enable --now` | ✅ Starts immediately | ✅ AND auto-starts on future boots      |
 
-🔴 **Exam Trap (extremely common Viva Q):** _"I ran `systemctl enable nginx` but nginx isn't running. Why?"_
+🔴 **Exam Trap:** _"I ran `systemctl enable nginx` but nginx isn't running. Why?"_
 → `enable` only creates the **symlinks** that tell systemd to start the service **on the next boot** — it does **NOT** start the service in the current session. You must also run `systemctl start nginx`, or combine both with `systemctl enable --now nginx`.
 
-💡 **Memory trick:** `start` = "now"; `enable` = "forever (from next boot onward)". They are **independent** — you can start without enabling (temporary, won't survive reboot) or enable without starting (won't run until next reboot).
+💡 **Memory trick:** `start` = "now"; `enable` = "forever (from next boot onward)". They are **independent**.
 
 ### `daemon-reload` — When is it needed?
 
-- Required whenever you **create, edit, or delete** a `.service` unit file (e.g., after writing a custom systemd service).
+- Required whenever you **create, edit, or delete** a `.service` unit file.
 - Without it, systemd keeps using its **cached/old** version of the unit file — your edits won't take effect.
 
 ```bash
@@ -2761,28 +2050,17 @@ journalctl --disk-usage              # how much disk space journal logs are usin
 | `-b`                  | Filter by boot session                                                     |
 | `-k`                  | Kernel messages only                                                       |
 
-🔴 **Exam Trap:** `journalctl -u sshd -f` is the go-to command to **live-debug why a service failed to start** — extremely common real-world/interview scenario.
+🔴 **Exam Trap:** `journalctl -u sshd -f` is the go-to command to **live-debug why a service failed to start**.
 
 ### 12.2 `top` — Classic Live Process Monitor
 
-```bash
-top
-```
-
-- Shows real-time CPU/memory usage per process, updates every few seconds by default.
-- Inside `top`: press `k` to kill a process, `q` to quit, `M` to sort by memory, `P` to sort by CPU.
+Shows real-time CPU/memory usage per process, updates every few seconds by default. Inside `top`: press `k` to kill a process, `q` to quit, `M` to sort by memory, `P` to sort by CPU.
 
 ### 12.3 `htop` — Improved Interactive Process Monitor
 
-```bash
-htop
-```
+Color-coded, scrollable, mouse-supported version of `top`. Not installed by default on most distros — needs `yum install htop` / `apt install htop`. Allows easily killing processes, filtering, and tree-view of parent/child processes.
 
-- Color-coded, scrollable, mouse-supported version of `top`.
-- Not installed by default on most distros — needs `yum install htop` / `apt install htop`.
-- Allows easily killing processes, filtering, and tree-view of parent/child processes.
-
-### Comparison Table: `top` vs `htop`
+### Comparison: `top` vs `htop`
 
 | Feature                   | `top`                     | `htop`                             |
 | ------------------------- | ------------------------- | ---------------------------------- |
@@ -2793,77 +2071,7 @@ htop
 
 💡 **Quick troubleshooting combo:** `systemctl status <service>` (is it running?) → `journalctl -u <service> -f` (why did it fail?) → `top`/`htop` (is something hogging CPU/RAM?).
 
----
-
-## 13. Quick-Fire Viva Q&A
-
-| Question                                                     | Answer                                                                                                                                |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| Difference between bootstrap program and bootloader program? | Bootstrap = fixed 512-byte program that loads the next stage; Bootloader = user-facing menu program (e.g., GRUB) offering OS choices  |
-| What is POST?                                                | Power-On Self Test — hardware check performed by BIOS/UEFI at startup                                                                 |
-| Difference between BIOS and UEFI?                            | UEFI is faster, supports larger disks (GPT), more hardware, and Secure Boot; BIOS is legacy, limited to MBR/2TB                       |
-| Where should you edit GRUB settings?                         | `/etc/default/grub`, then regenerate `grub.cfg` — never edit `grub.cfg` directly                                                      |
-| How many stages does GRUB have, and what does each do?       | 3 — Stage 1 (MBR, loads Stage 1.5), Stage 1.5 (filesystem drivers, loads Stage 2), Stage 2 (full GRUB menu, loads kernel + initramfs) |
-| Why does `initramfs` exist?                                  | To provide drivers needed to mount the real root filesystem, before the real root is accessible                                       |
-| Tool used to build initramfs?                                | `dracut`                                                                                                                              |
-| What does `pivot_root` do?                                   | Switches from the temporary initramfs root to the real root filesystem during boot                                                    |
-| What is systemd's PID?                                       | 1 (first user-space process)                                                                                                          |
-| Which runlevel is reserved/unused?                           | Runlevel 4                                                                                                                            |
-| systemd equivalent of runlevel 5?                            | `graphical.target`                                                                                                                    |
-| systemd equivalent of runlevel 3?                            | `multi-user.target`                                                                                                                   |
-| Difference between `systemctl start` and `systemctl enable`? | `start` runs it now (not persistent); `enable` makes it auto-start on future boots (doesn't start now)                                |
-| How to both start AND enable a service in one command?       | `systemctl enable --now servicename`                                                                                                  |
-| When do you need `systemctl daemon-reload`?                  | After creating/editing/deleting a `.service` unit file                                                                                |
-| Command to live-tail logs for a specific service?            | `journalctl -u servicename -f`                                                                                                        |
-| Difference between SysV init and systemd service startup?    | SysV = sequential; systemd = parallel, dependency-resolved (faster boot)                                                              |
-| Naming convention `S10network` in SysV — what does it mean?  | `S` = Start this service, `10` = execution order/priority                                                                             |
-
----
-
-## 14. One-Page Summary
-
-```text
-Full Boot Sequence:
-BIOS/UEFI → MBR/GPT → GRUB2 → Kernel → initramfs → systemd → Target → Login
-
-GRUB2 (3 stages):
-  Stage 1   → MBR, 512B, loads Stage 1.5
-  Stage 1.5 → filesystem drivers, loads Stage 2
-  Stage 2   → full menu, loads kernel + initramfs
-  Config: /etc/default/grub (edit) → grub.cfg (auto-generated, don't edit)
-  GRUB_TIMEOUT = seconds before default boots
-  Rescue mode = minimal CLI when GRUB can't find config/boot files
-
-initramfs:
-  Purpose: temporary RAM root, loads drivers to mount REAL root
-  Build tool: dracut
-  Switch tool: pivot_root
-
-Runlevel → systemd Target:
-  0 → poweroff.target
-  1 → rescue.target
-  2 → multi-user.target (no networking, no separate systemd target)
-  3 → multi-user.target
-  5 → graphical.target
-  6 → reboot.target
-  (4 = reserved/unused)
-
-systemctl commands:
-  start / stop / restart   → immediate action, NOT persistent
-  enable / disable          → persistent across reboot, NOT immediate
-  enable --now               → both at once
-  status / is-enabled        → check current state
-  daemon-reload               → required after editing unit files
-
-Troubleshooting:
-  systemctl status <svc>     → is it running?
-  journalctl -u <svc> -f      → live logs, why did it fail?
-  top / htop                  → CPU/memory usage right now
-```
-
 # Filesystem Partition Layout — Study Notes
-
-**Quick Revision Guide for Exam / Viva Prep**
 
 ---
 
@@ -2894,70 +2102,29 @@ Every disk **partition** is internally divided into **4 logical regions**, laid 
 
 ### 2.1 Boot Sector / Boot Block
 
-- The **first region** of the partition.
-- Contains the bootstrap code needed to start loading the OS, **if** this partition is bootable.
-- Fixed, small size (traditionally 512 bytes for the very first sector of a disk/partition).
-
-```text
-BP = Boot sector / Boot block
-```
-
----
+The **first region** of the partition. Contains the bootstrap code needed to start loading the OS, **if** this partition is bootable. Fixed, small size (traditionally 512 bytes for the very first sector of a disk/partition).
 
 ### 2.2 Volume Control Block / Super Block
 
-- Stores **metadata about the entire filesystem/partition itself** — not about individual files.
-- Contains info like:
-  - Total number of blocks in the partition
-  - Number of free/used blocks
-  - Block size
-  - Filesystem type
-  - Pointer to the free block list
-  - inode count (total & free)
-
-```text
-BL = Volume Control Block / Super block
-```
+Stores **metadata about the entire filesystem/partition itself** — not about individual files. Contains info like total number of blocks, free/used blocks, block size, filesystem type, pointer to the free block list, inode count (total & free).
 
 💡 **Analogy:** If the partition were a library, the **super block** is the library's own administrative record — "how many shelves total, how many books total, how many are checked out" — NOT information about any specific book.
 
----
-
 ### 2.3 Master File Table (MFT) / inode List
 
-- A **table/list of FCBs (File Control Blocks)** — one entry per file on the partition.
-- On Linux/Unix, each entry is called an **inode**; on Windows NTFS, the equivalent structure is literally called the **Master File Table (MFT)**.
-- Each **FCB/inode** stores metadata about ONE file:
-  - File size
-  - Permissions (rwx)
-  - Owner (UID) & Group (GID)
-  - Timestamps (created, modified, accessed)
-  - **Pointers to the actual data blocks** where the file's content lives
+A **table/list of FCBs (File Control Blocks)** — one entry per file on the partition. On Linux/Unix, each entry is called an **inode**; on Windows NTFS, the equivalent structure is literally called the **Master File Table (MFT)**.
 
-```text
-Master File Table = inode list
-Each entry = FCB (File Control Block) = inode
-```
+Each **FCB/inode** stores metadata about ONE file: file size, permissions (rwx), owner (UID) & group (GID), timestamps (created, modified, accessed), and **pointers to the actual data blocks** where the file's content lives.
 
 🔴 **Exam Trap:** The inode does **NOT** store the filename! Filenames are stored separately in the **directory entry**, which just maps a name → inode number. This is exactly why **hard links** work — multiple filenames (directory entries) can point to the SAME inode.
 
----
-
 ### 2.4 Data Blocks
 
-- The actual **content/data** of files is physically stored here.
-- Each FCB/inode holds **pointers** to the specific data blocks that make up that file.
-- A single file may be spread across **multiple, non-contiguous data blocks** — the inode's pointers keep track of all of them in order.
-
-```text
-Data blocks = where actual file CONTENT lives
-```
+The actual **content/data** of files is physically stored here. Each FCB/inode holds **pointers** to the specific data blocks that make up that file. A single file may be spread across **multiple, non-contiguous data blocks** — the inode's pointers keep track of all of them in order.
 
 ---
 
 ## 3. FCB (File Control Block) / inode — How It Connects to Data
-
-From the diagram: each FCB entry in the Master File Table/inode list points to one or more data blocks belonging to that file.
 
 ```text
 FCB (inode) Table              Data Blocks
@@ -2974,7 +2141,7 @@ FCB (inode) Table              Data Blocks
 
 ---
 
-## 4. Comparison Table — Generic vs Linux Terms
+## 4. Comparison — Generic vs Linux Terms
 
 | Generic (OS Textbook) Term | Linux/Unix Term | Stores                                                                                           |
 | -------------------------- | --------------- | ------------------------------------------------------------------------------------------------ |
@@ -2983,40 +2150,2412 @@ FCB (inode) Table              Data Blocks
 | Master File Table (MFT)    | inode list      | One FCB/inode per file — metadata + pointers to data                                             |
 | Data blocks                | Data blocks     | Actual file content                                                                              |
 | File Control Block (FCB)   | inode           | Per-file metadata (size, permissions, owner, timestamps, data block pointers) — NOT the filename |
+# DNS (Domain Name System) — Exam-Ready Notes
+
+> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
+
+### CDAC DITISS — Networking / Linux OS & Security
 
 ---
 
-## 5. Quick-Fire Viva Q&A
+## 1. What is DNS?
 
-| Question                                              | Answer                                                                                                     |
-| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| What are the 4 main regions of a partition?           | Boot sector, Volume Control Block, Master File Table (FCB/inode table), Data blocks                        |
-| What is the Linux name for "Volume Control Block"?    | Super block                                                                                                |
-| What is the Linux name for "Master File Table"?       | inode list                                                                                                 |
-| What does the super block store?                      | Metadata about the entire filesystem (total blocks, free blocks, block size, inode count, etc.)            |
-| What does an inode (FCB) store?                       | Per-file metadata — size, permissions, owner, timestamps, and pointers to data blocks                      |
-| Does an inode store the filename?                     | No — filenames live in directory entries, which map name → inode number                                    |
-| Where is actual file content stored?                  | In the data blocks region                                                                                  |
-| Why can one file's content span multiple data blocks? | The inode holds pointers to ALL the blocks that make up the file, even if they're scattered/non-contiguous |
-| Why does this design allow hard links to work?        | Multiple directory entries (filenames) can point to the SAME inode number, sharing the same data           |
-
----
-
-## 6. One-Page Summary
+DNS translates **human-friendly domain names** into **IP addresses** that computers use to communicate.
 
 ```text
-Partition Layout:
-
-┌──────────┬───────────────┬──────────────────┬─────────────┐
-│ Boot      │ Volume Control │ Master File Table │ Data         │
-│ Sector    │ Block          │ (FCB/inode table)  │ Blocks       │
-└──────────┴───────────────┴──────────────────┴─────────────┘
-
-Generic  → Boot Sector → Volume Control Block → Master File Table → Data Blocks
-Linux    → Boot block  → Super block          → inode list        → Data blocks
-
-Each inode/FCB:
-  - Stores: size, permissions, owner, timestamps
-  - Points to: 1 or more data blocks holding actual content
-  - Does NOT store: the filename (that's in the directory entry)
+www.example.com  ──DNS──►  93.184.216.34
 ```
+
+Without DNS, you'd have to remember IP addresses instead of names.
+
+---
+
+## 2. DNS Naming Hierarchy
+
+DNS is structured like an **inverted tree**, read right-to-left.
+
+```text
+                 .
+                 ↑
+              Root
+
+                com
+                 ↑
+                TLD
+
+              example
+                 ↑
+        Domain (SLD)
+
+                www
+                 ↑
+           Host / Subdomain
+```
+
+```text
+.
+└── com                  (TLD)
+    └── example           (Second-Level Domain / SLD)
+        └── www           (Host / Subdomain)
+```
+
+| Level                         | Name                                            | Example                               |
+| ----------------------------- | ----------------------------------------------- | ------------------------------------- |
+| **Root Domain**               | The dot `.` at the very end (usually invisible) | `example.com.`                        |
+| **TLD (Top-Level Domain)**    | Highest level after root                        | `.com`, `.org`, `.net`, `.uk`, `.edu` |
+| **SLD (Second-Level Domain)** | The registrable/main part                       | `google` in `google.com`              |
+| **Subdomain**                 | Optional prefix under the domain                | `mail` in `mail.google.com`           |
+
+> **Exam trap:** The root is technically represented by a trailing dot (`example.com.`) — it's usually hidden by browsers/apps, but it IS part of the formal DNS hierarchy and sits **above** the TLD.
+
+**Full breakdown example — `www.example.com`:**
+
+| Part           | Role   |
+| -------------- | ------ |
+| `.` (implicit) | Root   |
+| `com`          | TLD    |
+| `example`      | Domain |
+| `www`          | Host   |
+
+---
+
+## 3. Types of TLD
+
+| Type                   | Full Form        | Examples                                              | Notes                                                  |
+| ---------------------- | ---------------- | ----------------------------------------------------- | ------------------------------------------------------ |
+| **ccTLD**              | Country Code TLD | `.in` (India), `.uk` (UK), `.us` (USA), `.jp` (Japan) | Represents a specific country                          |
+| **gTLD**               | Generic TLD      | `.com`, `.org`, `.net`, `.info`                       | Not tied to any country                                |
+| **sTLD**               | Sponsored TLD    | Managed for specific communities/sectors              | Restricted registration purpose                        |
+| **Infrastructure TLD** | —                | `.arpa`                                               | Used for internet infrastructure, e.g. **reverse DNS** |
+
+---
+
+## 4. Key DNS Terms
+
+### 4.1 Subdomain
+
+A domain created **under** another domain.
+
+```text
+mail.example.com
+  ↑        ↑
+subdomain  domain
+```
+
+`student.sunbeaminfo.com` → subdomain under `sunbeaminfo.com`.
+
+> **Correction note:** "Anything between the host and TLD" is sometimes mis-typed as "TLS" in raw notes — it means **TLD** (Top-Level Domain), not TLS (Transport Layer Security). Don't confuse the two in exams.
+
+### 4.2 Zone
+
+A **DNS zone** is a portion of the DNS namespace managed by a particular organization/DNS server.
+
+```text
+sunbeaminfo.com  (zone)
+       │
+       ├── www
+       ├── mail
+       ├── ftp
+       └── server1
+```
+
+### 4.2a Forward Zone vs Reverse Zone
+
+DNS zones come in two directions, depending on which way the lookup goes.
+
+**Forward Zone** — maps **Name → IP** (the normal, everyday lookup).
+
+```text
+www.example.com  ──►  192.168.1.10
+```
+
+- Contains records like `A`, `AAAA`, `CNAME`, `MX`, `NS`, `TXT`
+- Used when a browser/app looks up a website or service name
+
+**Reverse Zone** — maps **IP → Name** (the opposite direction).
+
+```text
+192.168.1.10  ──►  www.example.com
+```
+
+- Contains `PTR` records
+- Uses the special **`.arpa`** infrastructure domain
+- IPv4 reverse zones are named using the **reversed IP octets** + `.in-addr.arpa`
+
+**Reverse zone naming example (IPv4):**
+
+```text
+IP address:         192.168.1.10
+Octets reversed:     1.168.192
+Reverse zone name:   1.168.192.in-addr.arpa
+PTR record inside:   10 → www.example.com
+```
+
+| Feature             | Forward Zone                  | Reverse Zone                                                       |
+| ------------------- | ----------------------------- | ------------------------------------------------------------------ |
+| Direction           | Name → IP                     | IP → Name                                                          |
+| Main record type    | `A` / `AAAA`                  | `PTR`                                                              |
+| Special domain used | Normal domain (`example.com`) | `in-addr.arpa` (IPv4) / `ip6.arpa` (IPv6)                          |
+| Typical use         | Website/service resolution    | Verifying sender identity (mail servers), logging, troubleshooting |
+| Example zone        | `example.com`                 | `1.168.192.in-addr.arpa`                                           |
+
+> **Exam trap:** A domain can have a working forward zone (`A` record) but **no** reverse zone configured (missing `PTR`) — this is common in practice and often causes mail servers to flag the sender as suspicious, since many mail servers perform a reverse-DNS check before accepting mail.
+
+> **Practical/interview point — reverse lookup commands:**
+>
+> ```bash
+> dig -x 192.168.1.10
+> nslookup 192.168.1.10
+> ```
+
+### 4.3 Zone File
+
+A file containing the actual DNS records for a zone.
+
+```text
+www    → 192.168.1.10
+mail   → 192.168.1.20
+ftp    → 192.168.1.30
+```
+
+> Zone file = the DNS "database" holding name→record mappings.
+
+### 4.4 Name Server
+
+A server running DNS software. It can store records, answer queries, cache data, and refer clients to other servers.
+
+### 4.5 Authoritative Name Server
+
+The **official source** of DNS records for a domain/zone — it answers from its own data, not by asking someone else.
+
+```text
+Resolver → Authoritative Server → "www.example.com = 192.168.1.10"
+```
+
+### 4.6 Host
+
+A machine/service name inside a domain, e.g. `www`, `mail`, `ftp`, `server1`, `db`.
+
+### 4.7 FQDN (Fully Qualified Domain Name)
+
+The **complete** DNS name of a host.
+
+```text
+www.example.com
+ ↑      ↑      ↑
+host  domain  TLD
+```
+
+### 4.8 Registrar
+
+A company through which a domain name is registered/reserved (e.g. registering `mycompany.com`). It communicates with the appropriate domain registry.
+
+### 4.9 Resolver
+
+The **client-side component** that performs DNS lookups on behalf of an application.
+
+```text
+Application → DNS Resolver → DNS Servers → IP Address
+```
+
+---
+
+## 5. Resource Records (RR)
+
+**RR = Resource Record** — one individual DNS entry.
+
+```text
+www.example.com  A  192.168.1.10
+```
+
+### RRset
+
+Multiple records with the **same name AND same type** grouped together.
+
+```text
+example.com A 10.0.0.1
+example.com A 10.0.0.2
+example.com A 10.0.0.3
+     └──────────────┘
+        A-record RRset
+```
+
+DNS can return all of them — useful for simple load distribution.
+
+### Parts of a Resource Record
+
+| Field        | Meaning                                           | Example                    |
+| ------------ | ------------------------------------------------- | -------------------------- |
+| **NAME**     | The DNS name the record belongs to                | `www.example.com`          |
+| **TYPE**     | Kind of record                                    | `A`, `AAAA`, `MX`, `CNAME` |
+| **CLASS**    | Almost always `IN` (Internet)                     | `IN`                       |
+| **TTL**      | Time To Live — how long caches may keep it        | `3600` (= 1 hour)          |
+| **RDATA**    | The actual data/value of the record               | `192.168.1.10`             |
+| **RDLENGTH** | Length of the RDATA field (protocol-level detail) | —                          |
+
+**TTL caching flow:**
+
+```text
+Record received → Cached for TTL seconds → TTL expires → Query DNS again
+```
+
+---
+
+## 6. Types of DNS Records
+
+| Record    | Full Form          | Purpose                                                                | Example                                 |
+| --------- | ------------------ | ---------------------------------------------------------------------- | --------------------------------------- |
+| **A**     | Address            | Domain → IPv4                                                          | `www.example.com A 192.168.1.10`        |
+| **AAAA**  | —                  | Domain → IPv6                                                          | `www.example.com AAAA 2001:db8::10`     |
+| **CNAME** | Canonical Name     | Alias → real hostname                                                  | `www.example.com → example.com`         |
+| **MX**    | Mail Exchange      | Which mail server handles domain's email                               | `example.com MX 10 mail1.example.com`   |
+| **TXT**   | Text               | Domain verification, email security (SPF/DKIM etc.)                    | `example.com TXT "verification=abc123"` |
+| **NS**    | Name Server        | Which DNS servers are authoritative for the domain                     | `example.com NS ns1.example.com`        |
+| **PTR**   | Pointer            | Reverse DNS: IP → Domain                                               | `192.168.1.10 PTR www.example.com`      |
+| **SOA**   | Start of Authority | Admin info for the zone (primary server, serial, refresh/retry/expiry) | —                                       |
+
+### Record Memory Trick
+
+```text
+A     → IPv4
+AAAA  → IPv6
+CNAME → Alias
+MX    → Mail server
+TXT   → Text/verification
+NS    → Name server
+PTR   → IP → Name (reverse)
+SOA   → Zone administration info
+```
+
+> **Exam trap — MX priority:** Lower numeric value = **higher preference**.
+>
+> ```text
+> 10 mail1.example.com   ← tried first
+> 20 mail2.example.com   ← backup
+> ```
+
+> **Exam trap — PTR vs A:** A record = name→IP (forward lookup). PTR record = IP→name (**reverse** lookup). Reverse DNS commonly uses the `.arpa` infrastructure TLD.
+
+---
+
+## 7. Types of DNS Servers (4 Key Roles)
+
+| Server                        | Role                                                                              |
+| ----------------------------- | --------------------------------------------------------------------------------- |
+| **Recursive Resolver**        | Works on behalf of the client; does all the searching and caches results          |
+| **Root Name Server**          | Top of hierarchy; doesn't know the final IP — knows **where the TLD servers are** |
+| **TLD Name Server**           | Knows the **authoritative server** for a given domain                             |
+| **Authoritative Name Server** | Holds the **actual records**; gives the final answer                              |
+
+```text
+Client
+  ↓
+Recursive Resolver   (searches)
+  ↓
+Root Name Server      (knows TLD)
+  ↓
+TLD Name Server        (knows authoritative server)
+  ↓
+Authoritative Name Server  (knows final record/IP)
+  ↓
+IP Address
+```
+
+**One-line memory:**
+
+```text
+Resolver      → Searches
+Root          → Knows TLD
+TLD           → Knows authoritative server
+Authoritative → Knows final record/IP
+```
+
+---
+
+## 8. Complete DNS Resolution — Step by Step
+
+User types `example.com` into a browser.
+
+| Step                              | What Happens                                                                      |
+| --------------------------------- | --------------------------------------------------------------------------------- |
+| **1. User enters domain**         | Browser needs the IP before it can connect                                        |
+| **2. Check caches**               | Browser Cache → OS Cache → Router Cache → Resolver Cache (in that order)          |
+| **3. Query Root Server**          | If not cached: Resolver asks Root → Root replies "ask the `.com` TLD server"      |
+| **4. Query TLD Server**           | Resolver asks `.com` TLD → TLD replies "ask `example.com`'s authoritative server" |
+| **5. Query Authoritative Server** | Resolver asks the authoritative server directly for the record                    |
+| **6. Response**                   | Authoritative server returns the record, e.g. `A = 93.184.216.34`                 |
+| **7. Caching**                    | Resolver caches the answer for the record's TTL duration                          |
+| **8. Deliver to browser**         | Resolver hands the IP back to the browser, which connects to the website          |
+
+### Cache Check Order (Step 2 detail)
+
+```text
+Browser Cache
+     ↓ (miss)
+OS Cache
+     ↓ (miss)
+Router Cache
+     ↓ (miss)
+ISP / Recursive Resolver Cache
+     ↓ (miss)
+→ Proceed to full DNS resolution (Root → TLD → Authoritative)
+```
+
+### Full Resolution Diagram
+
+```text
+1. example.com typed
+        ↓
+2. Check caches (browser/OS/router/resolver) → not found
+        ↓
+3. Resolver → Root Server
+              "com is here"
+        ↓
+4. Resolver → .com TLD Server
+              "example.com's authoritative server is here"
+        ↓
+5. Resolver → Authoritative Server
+              "What is example.com's IP?"
+        ↓
+6. Authoritative Server
+              A = 93.184.216.34
+        ↓
+7. Resolver caches answer (per TTL)
+        ↓
+8. Resolver → Browser → 93.184.216.34 → Website loads
+```
+
+> **Important exam point:** The **Root server does NOT return the final IP**. It only refers the resolver to the correct TLD server. Similarly, the **TLD server does NOT return the final IP** either — it refers to the authoritative server. Only the **authoritative server** gives the actual record.
+
+### Real-World Analogy
+
+```text
+You → Ask information desk → "Which city?"
+    → Ask city office → "Which street?"
+    → Ask street authority → "House number is 34"
+```
+
+```text
+Client → Resolver → Root → TLD → Authoritative → IP
+```
+
+---
+
+# DHCP (Dynamic Host Configuration Protocol) — Exam-Ready Notes
+### CDAC DITISS — Networking / Linux OS & Security
+
+---
+
+## 1. What is DHCP?
+
+**DHCP = Dynamic Host Configuration Protocol** — automatically gives network settings to devices, instead of manual configuration.
+
+Manually you'd configure:
+```text
+IP address
+Subnet mask
+Default gateway
+DNS server
+```
+
+With DHCP, this happens automatically:
+```text
+DHCP Server (Pool: 192.168.50.100 - 192.168.50.200)
+        ↓
+Laptop connects
+        ↓
+Gets:
+IP      → 192.168.50.105
+Gateway → 192.168.50.1
+DNS     → 8.8.8.8
+```
+
+---
+
+## 2. Why DHCP is Needed
+
+Without DHCP, every device needs manual configuration:
+```text
+Laptop 1 → 192.168.50.10
+Laptop 2 → 192.168.50.11
+Laptop 3 → 192.168.50.12
+```
+For hundreds of devices, this is impractical and error-prone.
+
+With DHCP:
+```text
+Device joins network → DHCP automatically gives configuration
+```
+
+---
+
+## 3. DHCP Layer & Ports
+
+- DHCP is an **Application Layer** protocol.
+- Uses **UDP** — because the client may not even have an IP address yet (UDP doesn't require an established connection like TCP does).
+
+| Device | Port |
+|---|---|
+| **DHCP Server** | UDP **67** |
+| **DHCP Client** | UDP **68** |
+
+**Easy memory:**
+```text
+Server → 67
+Client → 68
+```
+
+> **Exam trap:** DHCP uses UDP, not TCP — because at the DISCOVER stage the client has no IP address, so it can't establish a TCP connection. UDP allows broadcast communication without a prior handshake.
+
+---
+
+## 4. Benefits of DHCP
+
+| Benefit | Explanation |
+|---|---|
+| **Automation** | New device connects → gets IP automatically, no manual work |
+| **Avoids IP conflicts** | Prevents accidentally assigning the same IP to two devices |
+| **Efficient IP usage** | IPs given as time-limited **leases**; unused addresses get reclaimed and reused |
+| **Mobility** | A laptop moving between Home → Office → College gets correct config automatically at each location |
+| **Centralized management** | Gateway, DNS, domain, IP range, lease time — all configured once on the server |
+
+---
+
+## 5. Key DHCP Components
+
+| Component | Meaning |
+|---|---|
+| **DHCP Server** | Machine that manages IP addresses (pool, gateway, DNS, lease duration, reservations) |
+| **DHCP Client** | Any device requesting config — laptop, phone, desktop, printer, smart TV |
+| **Scope** | The range of IPs DHCP can hand out, e.g. `192.168.50.100 – 192.168.50.200` |
+| **Lease** | An IP given to a client for a specific time period, e.g. 2 hours |
+| **Reservation** | A specific device (identified by MAC address) always gets the same IP — a.k.a. **MAC-to-IP binding** |
+| **DHCP Options** | Extra config sent along with the IP — gateway, DNS, subnet mask, domain name |
+
+**Reservation example:**
+```text
+Printer MAC: AA:BB:CC:11:22:33
+Always gets: 192.168.50.50
+```
+
+---
+
+## 6. DHCP DORA Process (Most Important!)
+
+**DORA = Discover → Offer → Request → Acknowledge**
+
+```text
+CLIENT                         DHCP SERVER
+   |                                |
+   | ---- DHCPDISCOVER -----------> |
+   |                                |
+   | <---- DHCPOFFER -------------- |
+   |                                |
+   | ---- DHCPREQUEST ------------> |
+   |                                |
+   | <---- DHCPACK ---------------- |
+   |                                |
+Client now has IP
+```
+
+### Step 1 — DHCPDISCOVER
+Client has **no IP** and **no known DHCP server**. It **broadcasts**:
+```text
+Client:68 → broadcast → Server:67
+"Is there any DHCP server available?"
+```
+
+### Step 2 — DHCPOFFER
+Server replies with an offer:
+```text
+"I can give you 192.168.50.101"
+```
+May include: IP address, subnet mask, gateway, DNS, lease time.
+
+### Step 3 — DHCPREQUEST
+Client accepts the offer:
+```text
+"I want 192.168.50.101"
+```
+This is commonly **broadcast** too, so all DHCP servers on the network know which offer was accepted (and the ones not chosen can withdraw their offers).
+
+### Step 4 — DHCPACK
+Server confirms:
+```text
+"Confirmed. You can use this IP."
+```
+Client now has: IP, Gateway, DNS, Lease time.
+
+**Memory trick:**
+```text
+Discover → Find server
+Offer    → Server offers IP
+Request  → Client requests IP
+ACK      → Server confirms IP
+```
+
+> **Exam trap:** DHCPREQUEST is typically **broadcast**, not unicast — this lets every DHCP server on the segment know which offer the client accepted, so the other servers can release their reserved offers back to their pools.
+
+---
+
+## 7. Other DHCP Messages
+
+| Message | Meaning | Example Scenario |
+|---|---|---|
+| **DHCPNAK** | Negative Acknowledgement — server rejects the request | Client asks for an IP that's invalid, unavailable, or the client moved to a different subnet |
+| **DHCPDECLINE** | Client rejects an offered IP because it's already in use | Client checks via **ARP**, finds the address occupied, sends DHCPDECLINE |
+| **DHCPRELEASE** | Client gives back the IP when done with it | Client shuts down / disconnects → server can reuse the address |
+| **DHCPINFORM** | Client already has a static IP but wants DHCP *options* (DNS, domain name, etc.) without requesting a new IP | Statically configured server that still wants DNS settings from DHCP |
+
+```text
+DHCPDECLINE flow:
+Server offers 192.168.50.110
+        ↓
+Client checks using ARP
+        ↓
+Address already in use!
+        ↓
+Client sends DHCPDECLINE
+```
+
+> **Exam trap:** Don't confuse DHCPDECLINE (client refuses a specific offered IP because it's already taken) with DHCPNAK (server refuses the client's requested IP). One is client-initiated, the other server-initiated.
+
+---
+
+## 8. DHCP Lease Lifecycle
+
+Suppose lease time = **8 hours**. The client does NOT wait for the full 8 hours to try renewing — it starts early.
+
+| Stage | Timing | What Happens |
+|---|---|---|
+| **1. Initialization** | Boot | Client boots → runs DORA → gets IP (e.g. `192.168.50.110`) |
+| **2. Normal Operation** | — | Client simply uses the assigned IP normally |
+| **3. T1 (Renewal)** | ~**50%** of lease time (e.g. ~4 hrs of 8) | Client sends **unicast** DHCPREQUEST to the **original** DHCP server: "Can I continue using this IP?" |
+| **4. T2 (Rebinding)** | ~**87.5%** of lease time | If original server didn't respond, client **broadcasts** DHCPREQUEST — now willing to accept help from ANY DHCP server |
+| **5. Expiration** | 100% of lease time | If still no response, client **must stop using the IP** and restarts DORA from scratch |
+
+```text
+DORA → Get IP → Use IP
+        ↓
+    T1 = 50%  → try ORIGINAL server (unicast)
+        ↓ (fail)
+    T2 = 87.5% → try ANY server (broadcast)
+        ↓ (fail)
+    Lease expires → stop using IP → restart DORA
+```
+
+> **Exam trap:** T1 renewal is **unicast to the original server**; T2 rebinding is **broadcast to any server**. This distinction (who it talks to, and how) is a classic exam/viva question.
+
+> **Memory trick:** T1 = "Talk to the one I know" (50%) → T2 = "Talk to anyone" (87.5%) → Expire = "Start over".
+
+---
+
+## 9. DHCP Server Configuration (RHEL-family)
+
+### Step 1 — Give the DHCP Server a Static IP
+A DHCP server should itself have a stable, unchanging address.
+```bash
+sudo nmcli connection modify "ens160" ipv4.addresses 192.168.50.5/24
+sudo nmcli connection modify "ens160" ipv4.method manual
+sudo nmcli connection down "ens160"
+sudo nmcli connection up "ens160"
+ip address show
+```
+
+### Step 2 — Install DHCP Server
+```bash
+sudo dnf update -y
+sudo dnf install dhcp-server -y
+```
+
+### Step 3 — Configure `/etc/dhcp/dhcpd.conf`
+```conf
+default-lease-time 600;
+max-lease-time 7200;
+
+authoritative;
+
+subnet 192.168.50.0 netmask 255.255.255.0 {
+    range 192.168.50.100 192.168.50.200;
+    option routers 192.168.50.1;
+    option subnet-mask 255.255.255.0;
+    option domain-name-servers 8.8.8.8;
+}
+```
+
+### Configuration Directive Breakdown
+
+| Directive | Meaning |
+|---|---|
+| `default-lease-time 600;` | Default lease = 600 seconds = **10 minutes** |
+| `max-lease-time 7200;` | Maximum lease = 7200 seconds = **2 hours** |
+| `authoritative;` | "I am the authoritative DHCP server for this network" |
+| `subnet 192.168.50.0 netmask 255.255.255.0` | Defines the network `192.168.50.0/24` |
+| `range 192.168.50.100 192.168.50.200;` | The DHCP **pool** — addresses that can be handed out |
+| `option routers 192.168.50.1;` | Tells clients their **default gateway** |
+| `option subnet-mask 255.255.255.0;` | Tells clients their **subnet mask** |
+| `option domain-name-servers 8.8.8.8;` | Tells clients their **DNS server** |
+
+**Resulting client config:**
+```text
+IP       → 192.168.50.100 - 200 (from pool)
+Mask     → 255.255.255.0
+Gateway  → 192.168.50.1
+DNS      → 8.8.8.8
+Lease    → per configured settings
+```
+
+### Step 4 — Validate Configuration
+```bash
+sudo dhcpd -t
+```
+Checks `/etc/dhcp/dhcpd.conf` for syntax errors **before** restarting the service.
+
+```text
+Edit dhcpd.conf → dhcpd -t → No errors → Restart DHCP
+```
+
+### Step 5 — Bind DHCP to an Interface
+File: `/etc/sysconfig/dhcpd`
+```text
+DHCPDARGS=ens160
+```
+Meaning: DHCP server should listen on interface `ens160`.
+
+### Step 6 — Start the DHCP Server
+```bash
+sudo systemctl enable --now dhcpd
+systemctl status dhcpd
+```
+`enable` = start automatically at boot; `--now` = start it immediately too.
+
+### Step 7 — Firewall
+```bash
+sudo firewall-cmd --add-service=dhcp --permanent
+sudo firewall-cmd --reload
+```
+
+---
+
+## 10. Complete DHCP Architecture
+
+```text
+                   DHCP SERVER
+                  192.168.50.5
+                       |
+              Pool configured:
+          192.168.50.100 - 200
+                       |
+                  Network/Switch
+                       |
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+       Laptop        Phone       Printer
+         |             |             |
+     .100-.200      .100-.200     .100-.200
+```
+Each device gets a unique address from the pool.
+
+---
+
+## 11. Best Practices
+
+| Practice | Why |
+|---|---|
+| **DHCP server should have a static IP** | If the DHCP server's own IP changes, clients lose track of where to renew leases |
+| **Don't overlap DHCP pool with statically assigned IPs** | Prevents IP conflicts between manually configured devices and the DHCP pool |
+| **Avoid uncontrolled multiple DHCP servers** | Two independent DHCP servers (e.g. router's built-in DHCP + a Linux DHCP server) both answering DHCPDISCOVER causes unpredictable client configuration |
+
+**Example of separating static vs. pool addresses:**
+```text
+Static (outside pool):
+192.168.50.1  → Router
+192.168.50.5  → DHCP server
+192.168.50.10 → File server
+192.168.50.20 → Printer
+
+DHCP pool:
+192.168.50.100 - 192.168.50.200
+```
+
+---
+
+# File Sharing Protocols — FTP, NFS, Samba/SMB, TFTP
+
+### Exam-Ready Notes (CDAC DITISS — Linux OS & Security / Networking)
+
+---
+
+## 1. FTP (File Transfer Protocol)
+
+### 1.1 Overview
+
+FTP is used to transfer files between a client and a server. It uses **two separate connections**, not one.
+
+| Port   | Purpose                                                                |
+| ------ | ---------------------------------------------------------------------- |
+| **21** | Control port — commands & replies (login, LIST, RETR, PORT, PASV etc.) |
+| **20** | Data port (used traditionally in Active mode)                          |
+
+- Daemon: `vsftpd` (Very Secure FTP Daemon) — same package/service name on RHEL and Ubuntu.
+- Control connection stays open for the whole session; data connection opens/closes per transfer.
+
+```text
+Control port (21) → commands, login, replies
+Data port    (20) → actual file/data transfer
+```
+
+> **Exam trap:** Students often think FTP uses only port 21. Remember — port 21 is for _control_, actual data moves on a **separate** connection (port 20 in active mode, or a dynamic high port in passive mode).
+
+FTP has two modes of operation: **Active FTP** and **Passive FTP**. The difference is entirely about **who initiates the data connection**.
+
+---
+
+### 1.2 Active FTP — Full Flow
+
+**Key idea: The SERVER connects back to the CLIENT for data.**
+
+```text
+Client IP: 192.168.1.10        Server IP: 203.0.113.10
+```
+
+| Step | Action                                                                               |
+| ---- | ------------------------------------------------------------------------------------ |
+| 1    | Client opens control connection: `Client:50000 → Server:21`                          |
+| 2    | Client logs in: `USER veenayak`, `PASS ****` → Server replies `230 Login successful` |
+| 3    | Client picks a data port (e.g. 50001) and tells server using `PORT` command          |
+| 4    | Client sends a data request: `LIST` or `RETR file.txt`                               |
+| 5    | **Server initiates** the data connection: `Server:20 → Client:50001`                 |
+| 6    | Data (file/listing) is transferred                                                   |
+| 7    | Data connection closes; control connection (21) may stay open                        |
+
+```text
+CLIENT                                   FTP SERVER
+50000 ────────────────────────────────►  21      (Control)
+              USER / PASS / PORT 50001 / LIST
+
+50001 ◄────────────────────────────────  20      (Data)
+              File / Data
+```
+
+**Problem with Active FTP:**
+The server tries to make a **new inbound connection** to the client.
+
+```text
+Internet → Client Firewall/NAT → Client
+```
+
+This inbound connection is commonly **blocked** by client-side firewalls/NAT (home routers, corporate firewalls) — because from the firewall's point of view, it's an _unsolicited incoming connection_.
+
+---
+
+### 1.3 Passive FTP — Full Flow
+
+**Key idea: The CLIENT initiates BOTH connections.**
+
+| Step | Action                                                                  |
+| ---- | ----------------------------------------------------------------------- |
+| 1    | Client opens control connection: `Client:50000 → Server:21`             |
+| 2    | Client logs in (same as active)                                         |
+| 3    | Client sends `PASV` command ("give me a port to connect to")            |
+| 4    | Server picks a data port (e.g. 45000) and tells the client              |
+| 5    | **Client initiates** the data connection: `Client:50001 → Server:45000` |
+| 6    | Client sends `LIST` / `RETR file.txt`                                   |
+| 7    | Data transferred over `Client:50001 ↔ Server:45000`                     |
+| 8    | Data connection closes; control connection may stay open                |
+
+```text
+CLIENT                                   FTP SERVER
+50000 ────────────────────────────────►  21       (Control)
+              USER / PASS / PASV
+                                          "Use port 45000"
+
+50001 ────────────────────────────────►  45000    (Data)
+              File / Data
+```
+
+Both connections start **from the client**, so a stateful firewall easily allows it:
+
+```text
+Client starts connection → Allow outgoing → Allow related return traffic
+```
+
+> **Note:** Passive FTP doesn't magically bypass firewalls on its own — the **server's** firewall must still open the passive port range (e.g. `50000–51000`) in addition to port 21.
+
+---
+
+### 1.4 Active vs Passive — Comparison Table
+
+| Feature                      | Active FTP         | Passive FTP        |
+| ---------------------------- | ------------------ | ------------------ |
+| Control connection           | Client → Server:21 | Client → Server:21 |
+| Data port selected by        | Client             | Server             |
+| FTP command used             | `PORT`             | `PASV`             |
+| Data connection initiated by | **Server**         | **Client**         |
+| Traditional data port        | 20                 | Dynamic high port  |
+| Firewall/NAT friendly        | ❌ Less            | ✅ More            |
+| Common today                 | Rare               | Widely preferred   |
+
+**Easiest memory trick:**
+
+```text
+ACTIVE:   Control → Client initiates | Data → SERVER initiates
+PASSIVE:  Control → Client initiates | Data → CLIENT initiates
+```
+
+> **Viva one-liner:**
+> "Active FTP: server connects back to the client for data.
+> Passive FTP: client connects to the server for data."
+
+---
+
+## 2. NFS (Network File System)
+
+### 2.1 What is NFS?
+
+NFS lets a Linux system **share directories over a network** so another machine can mount and use them almost like local folders. Files physically live on the **server**; the client accesses them over the network.
+
+```text
+NFS Client ────Network──── NFS Server
+/mnt/data                   /data (actual files)
+```
+
+Example:
+
+```bash
+sudo mount 192.168.1.10:/data /mnt/data
+ls /mnt/data      # shows files physically stored on 192.168.1.10
+```
+
+### 2.2 NFS vs Windows File Sharing
+
+| OS Family  | Protocol |
+| ---------- | -------- |
+| Linux/Unix | NFS      |
+| Windows    | SMB/CIFS |
+
+### 2.3 Client–Server Roles
+
+| Role       | Responsibility                                                                            |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| **Server** | Stores files, decides which directories are shared (**exported**), controls client access |
+| **Client** | Requests the shared directory, **mounts** it locally, reads/writes per permissions        |
+
+### 2.4 Key Terms
+
+**Export** — making a server directory available to other machines. Configured in `/etc/exports`.
+
+```text
+/data 192.168.1.0/24(rw,sync)
+```
+
+Meaning: share `/data` with the `192.168.1.0/24` subnet, allow read+write, write synchronously.
+
+**Mount** — attaching a remote (or local) filesystem to a local directory.
+
+```bash
+sudo mount serverA:/home /mnt/nfs
+```
+
+> **Exam/practical trap:** Never mount a remote share directly onto an existing important directory like `/home` — it can **hide** the client's existing local content while mounted. Use a safe empty mount point like `/mnt/nfs`.
+
+**Internal flow when reading a file over NFS:**
+
+```text
+Application → Linux filesystem → NFS client → Network → NFS server → Server filesystem → file.txt
+```
+
+The application doesn't handle network packets itself — the OS/NFS layer does it transparently.
+
+### 2.5 RPC (Remote Procedure Call)
+
+RPC lets one computer request a function/service from another over the network.
+
+```text
+Client: "Server, perform this operation for me."  →  Server: "Here's the result."
+```
+
+Older NFS versions depend on several RPC-based helper services: `rpcbind`, `mountd`, `statd`, `lockd`.
+
+### 2.6 NFS Versions
+
+| Feature                    | NFSv2    | NFSv3                               | NFSv4                    |
+| -------------------------- | -------- | ----------------------------------- | ------------------------ |
+| Age                        | Very old | Improved v2                         | Modern                   |
+| Transport                  | TCP/UDP  | TCP/UDP                             | Primarily TCP            |
+| Main port                  | —        | 2049 (+ RPC helpers)                | **2049**                 |
+| RPC helper services needed | Yes      | Yes (mountd, rpcbind, lockd, statd) | Mostly not needed        |
+| File size limits           | Yes      | Larger support                      | Large                    |
+| Firewall friendliness      | Poor     | More complex                        | **Easier (single port)** |
+| Kerberos/security          | —        | Limited                             | **Strong integration**   |
+| ACL support                | —        | Limited                             | **Improved**             |
+| Recommended today          | ❌       | Older systems                       | ✅ Preferred             |
+
+```text
+NFSv3: Client → [rpcbind, mountd, NFS, lock, status services] → Server   (complex firewall rules)
+NFSv4: Client → TCP 2049 → Server                                       (simple firewall rule)
+```
+
+> **Exam trap:** NFSv4's biggest advantage is often mis-stated as "faster." The real exam-relevant advantage is: **consolidated onto a single well-known port (2049), reducing RPC dependency and simplifying firewall configuration**, plus built-in Kerberos/ACL support.
+
+### 2.7 Server Configuration (RHEL/Rocky/Alma family)
+
+| Step                 | Command                                                               |
+| -------------------- | --------------------------------------------------------------------- |
+| 1. Install           | `sudo dnf install nfs-utils -y`                                       |
+| 2. Create shared dir | `sudo mkdir -p /nfs/share`                                            |
+| 3. Edit exports      | `sudo vim /etc/exports` → add `/nfs/share 192.168.1.0/24(rw,sync)`    |
+| 4. Apply exports     | `sudo exportfs -a` (apply) / `sudo exportfs -v` (view active exports) |
+| 5. Start service     | `sudo systemctl enable --now nfs-server`                              |
+| 6. Check status      | `systemctl status nfs-server`                                         |
+
+### 2.8 Common `/etc/exports` Options
+
+| Option           | Meaning                                                            |
+| ---------------- | ------------------------------------------------------------------ |
+| `ro`             | Read-only                                                          |
+| `rw`             | Read and write                                                     |
+| `sync`           | Write changes synchronously (safer)                                |
+| `async`          | Faster but risk of data loss on failure                            |
+| `root_squash`    | Remote root user is **not** treated as local root (safer, default) |
+| `no_root_squash` | Remote root keeps root privileges on server — **risky**            |
+
+Safe example:
+
+```text
+/nfs/share 192.168.1.0/24(rw,sync,root_squash)
+```
+
+### 2.9 Firewall Rules
+
+```bash
+# NFSv4 (simple — single port)
+sudo firewall-cmd --add-service=nfs --permanent
+sudo firewall-cmd --reload
+
+# NFSv3 (needs extra RPC-related services)
+sudo firewall-cmd --add-service=nfs --permanent
+sudo firewall-cmd --add-service=mountd --permanent
+sudo firewall-cmd --add-service=rpc-bind --permanent
+sudo firewall-cmd --reload
+```
+
+---
+
+## 3. Samba / SMB / CIFS
+
+### 3.1 What is Samba?
+
+Samba is software that lets **Linux and Windows** share files, printers, and authentication using the **SMB/CIFS** protocol.
+
+```text
+Windows Client → SMB/CIFS → Linux Server (Samba) → Shared Folder
+```
+
+Mainly used to let **Windows clients** access files stored on a **Linux server**.
+
+### 3.2 What is SMB/CIFS?
+
+**SMB = Server Message Block** — the network protocol Windows primarily uses for file sharing, printer sharing, network folders, and authentication. **CIFS** is an older related name/version of SMB.
+
+```text
+Windows PC → \\192.168.1.10\share → Samba Server → /var/smb/share
+```
+
+### 3.3 Samba Services / Daemons
+
+| Daemon | Role                                                                  |
+| ------ | --------------------------------------------------------------------- |
+| `smbd` | Handles file sharing, printer sharing, SMB connections (main service) |
+| `nmbd` | Historically handled NetBIOS name services (older setups)             |
+
+### 3.4 Authentication Methods in Samba
+
+| Method                            | Description                                                                                                                                                                                                          |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Local Samba users**             | Create a Linux user + a separate Samba password: `sudo useradd veenayak` → `sudo smbpasswd -a veenayak`                                                                                                              |
+| **PAM + Domain Controller**       | PAM (Pluggable Authentication Modules) is Linux's auth framework; can integrate with a Windows domain for centralized credentials                                                                                    |
+| **Samba as AD Domain Controller** | Samba can act as an **Active Directory DC**, so Windows PCs authenticate against a Linux server (users, passwords, groups, policies)                                                                                 |
+| **LDAP Backend**                  | LDAP (Lightweight Directory Access Protocol) can store centralized users/groups/passwords. _Modern Samba AD DC deployments typically use Samba's own built-in directory rather than plain LDAP as a password store._ |
+
+### 3.5 NFS vs Samba
+
+| NFS                                        | Samba                            |
+| ------------------------------------------ | -------------------------------- |
+| Common in Linux/Unix-to-Linux environments | Common between Windows and Linux |
+| Uses NFS protocol                          | Uses SMB/CIFS protocol           |
+| Default port: **2049**                     | Default port: **TCP 445**        |
+
+---
+
+## 4. TFTP (Trivial File Transfer Protocol)
+
+### 4.1 Overview
+
+| Property           | Detail                         |
+| ------------------ | ------------------------------ |
+| Transport          | **UDP**                        |
+| Default port       | **69**                         |
+| Authentication     | ❌ None (no username/password) |
+| Directory browsing | ❌ Not supported               |
+| Complexity         | Very simple/lightweight        |
+
+```text
+Client → Request file (must know exact filename) → TFTP Server
+Server → Sends file in small blocks → Client
+```
+
+### 4.2 Common Uses
+
+- Network boot / **PXE boot**
+- Router/switch **configuration backup**
+- **Firmware** transfer
+- Small boot/config files
+
+```text
+PXE Client → TFTP Server → bootloader / kernel file
+```
+
+### 4.3 FTP vs TFTP
+
+| Feature           | FTP                              | TFTP                                |
+| ----------------- | -------------------------------- | ----------------------------------- |
+| Full name         | File Transfer Protocol           | Trivial File Transfer Protocol      |
+| Transport         | TCP                              | UDP                                 |
+| Port              | 21 (control) + 20/dynamic (data) | 69                                  |
+| Login/auth        | ✅ Username/password             | ❌ None                             |
+| Directory listing | ✅ Supported                     | ❌ Not supported                    |
+| Feature set       | Rich                             | Minimal                             |
+| Typical use       | General-purpose file transfer    | Boot files, firmware, config backup |
+
+**Directory listing — explained simply:**
+
+```text
+FTP:   Client → "Show me files"         → Server → file1.txt, file2.txt, docs/
+TFTP:  Client → "Give me boot.img"      → Server → sends boot.img (must already know the name)
+```
+
+> **FTP supports browsing/listing files. TFTP requires you to know the file name beforehand.**
+
+**Easy memory:**
+
+```text
+FTP  = Full-featured file transfer
+TFTP = Tiny/simple file transfer
+```
+
+---
+
+## 5. Quick Reference — Packages, Daemons & Services
+
+| Service       | RHEL/Rocky/Alma Package | Ubuntu/Debian Package | Main Daemon    | Common systemd Service                           |
+| ------------- | ----------------------- | --------------------- | -------------- | ------------------------------------------------ |
+| **SMB/Samba** | `samba`                 | `samba`               | `smbd`, `nmbd` | RHEL: `smb`, `nmb` • Ubuntu: `smbd`, `nmbd`      |
+| **NFS**       | `nfs-utils`             | `nfs-kernel-server`   | `nfsd`         | RHEL: `nfs-server` • Ubuntu: `nfs-kernel-server` |
+| **FTP**       | `vsftpd`                | `vsftpd`              | `vsftpd`       | `vsftpd`                                         |
+| **TFTP**      | `tftp-server`           | `tftpd-hpa`           | `in.tftpd`     | often `tftp`/`tftpd-hpa` or socket-activated     |
+
+### Port Cheat Sheet
+
+| Protocol            | Port(s)           | Transport |
+| ------------------- | ----------------- | --------- |
+| FTP (control)       | 21                | TCP       |
+| FTP (data, active)  | 20                | TCP       |
+| FTP (data, passive) | Dynamic high port | TCP       |
+| SSH/SFTP            | 22                | TCP       |
+| TFTP                | 69                | UDP       |
+| NFS (v3/v4)         | 2049              | TCP/UDP   |
+| SMB                 | 445               | TCP       |
+
+---
+
+# Mail Services — Exam-Ready Notes
+### CDAC DITISS — Networking / Linux OS & Security
+
+---
+
+## 1. What is a Mail Service?
+
+A **mail service** is a system used to **send, receive, store, and manage** email. It works through three layers:
+
+```text
+Mail Client → Mail Server → Mail Protocols
+```
+
+| Category | Examples |
+|---|---|
+| Mail Clients | Thunderbird, Outlook, Apple Mail, `mail` command |
+| Mail Server Software | Postfix, Dovecot, Sendmail, Procmail |
+
+---
+
+## 2. Main Mail Components — Quick Overview
+
+| Component | Purpose |
+|---|---|
+| **SMTP** | Send email |
+| **IMAP** | Read/sync email from server |
+| **POP3** | Download email |
+| **Postfix** | SMTP mail server / MTA |
+| **Dovecot** | IMAP/POP3 server |
+| **Maildir** | Stores emails as files |
+| **Procmail** | Filters/delivers emails |
+| **Sendmail** | Mail transfer server |
+| **Thunderbird/Outlook/Apple Mail** | Mail clients |
+
+**Easy memory:**
+```text
+Postfix  → SEND/TRANSFER
+Dovecot  → READ/ACCESS
+Maildir  → STORE
+SMTP     → SEND
+IMAP     → SYNC/READ
+POP3     → DOWNLOAD
+```
+
+**Overall flow to remember:**
+```text
+Client → SMTP → Postfix → Mailbox/Maildir → Dovecot → IMAP/POP3 → Client
+```
+
+---
+
+## 3. Postfix, Dovecot, Sendmail, Procmail
+
+| Software | Role | Protocol Used |
+|---|---|---|
+| **Postfix** | Mail transfer server — sends/receives mail between servers | SMTP |
+| **Dovecot** | Lets users read/access mail stored on the server | IMAP / POP3 |
+| **Sendmail** | Another mail transfer agent (older, Postfix is a modern alternative) | SMTP |
+| **Procmail** | Mail filtering/delivery — sorts mail into folders based on rules | — |
+
+```text
+Postfix = SMTP mail server (MTA)
+Dovecot = IMAP/POP3 server
+```
+
+**Procmail example flow:**
+```text
+Incoming mail → Procmail → Check rules → Move to correct folder
+  Boss email  → Work folder
+  Newsletter  → Newsletter folder
+  Spam        → Spam folder
+```
+
+---
+
+## 4. Email Protocols — SMTP, IMAP, POP3
+
+### 4.1 SMTP (Simple Mail Transfer Protocol)
+**Job: Sending email.**
+
+```text
+Mail Client → SMTP → Mail Server → SMTP → Other Mail Server
+```
+
+| Port | Purpose |
+|---|---|
+| **25** | Server-to-server SMTP relay |
+| **587** | Mail submission (client → server) |
+| **465** | SMTP over implicit TLS |
+
+> **Easy memory:** SMTP = **S**end **M**ail
+
+### 4.2 IMAP (Internet Message Access Protocol)
+**Job: Read/manage mail while it mainly stays on the server.**
+
+```text
+Mail Server → Laptop, Phone, Tablet (all see same mailbox)
+```
+Reading a message on one device marks it read on all devices — this is **synchronization**.
+
+| Port | Purpose |
+|---|---|
+| **143** | IMAP |
+| **993** | IMAPS (IMAP over implicit TLS) |
+
+### 4.3 POP3 (Post Office Protocol v3)
+**Job: Download email from server to client.**
+
+```text
+Mail Server → Download → Laptop
+```
+Traditionally designed around **one main device** — depending on client settings, mail may be deleted from the server after download.
+
+| Port | Purpose |
+|---|---|
+| **110** | POP3 |
+| **995** | POP3 over TLS (POP3S) |
+
+### IMAP vs POP3
+
+| Feature | IMAP | POP3 |
+|---|---|---|
+| Mail location | Mainly stays on server | Downloaded to client |
+| Multi-device sync | ✅ Yes | ❌ Not designed for it |
+| Best for | Phone + laptop + webmail | One main device |
+| Port | 143 / 993 | 110 / 995 |
+
+### SMTP vs POP3 vs IMAP (Full Comparison)
+
+| Feature | SMTP | POP3 | IMAP |
+|---|---|---|---|
+| Purpose | Send mail | Download mail | Read/sync mail |
+| Direction | Push | Pull | Pull/sync |
+| Server-side role | Transfer/queue | Simple retrieval | Mailbox management |
+| Folders | N/A | Very limited | Multiple folders |
+| Message flags | N/A | Limited | Yes (Seen, Replied, Flagged, Deleted) |
+| Partial fetch | N/A | Limited | Yes |
+| Server-side search | N/A | No/rudimentary | Yes |
+| Multiple devices | N/A | Less suitable | Excellent |
+| Typical secure port | 587/465 | 995 | 993 |
+
+**Easiest possible summary:**
+```text
+SMTP → SEND
+POP3 → DOWNLOAD
+IMAP → SYNC
+```
+
+> **Exam trap:** SMTP does **NOT** define how mail is stored or read. It only handles sending/transferring. Storage (Maildir/mbox) and reading (IMAP/POP3) are entirely separate concerns handled by different software.
+
+---
+
+## 5. Mail Storage — Maildir vs mbox
+
+Mail storage format = **how emails are saved on disk** after the server receives them.
+
+### mbox
+All emails stored in **ONE big file**.
+```text
+/var/mail/bob
+    ↓
+[Mail1][Mail2][Mail3][Mail4]
+```
+Because many emails share one file, **locking** is required when multiple processes access it.
+
+### Maildir
+Every email stored as a **separate file**.
+```text
+/home/bob/Maildir/
+├── new/   → New/unread messages
+├── cur/   → Already processed/seen messages
+└── tmp/   → Temporary files during delivery
+```
+```text
+Maildir/new/
+├── mail001
+├── mail002
+└── mail003
+```
+
+### mbox vs Maildir — Comparison
+
+| Feature | mbox | Maildir |
+|---|---|---|
+| Storage | All emails in one file | One file per email |
+| Locking | Required | Usually not required |
+| NFS usage | Poorer | Better |
+| Backup | Whole mailbox | Individual messages |
+| Delete message | Can require rewriting mailbox | Delete one file |
+| Corruption risk | One damaged file may affect many emails | Usually affects one message |
+| Performance (many messages) | Can become slower | Usually easier to manage |
+
+**Easy memory:**
+```text
+mbox    → ONE mailbox file
+Maildir → ONE file per MAIL
+```
+
+### Maildir Filename Flags
+
+Filename example:
+```text
+1234567890.12345_0.hostname,S=1024,W=2048:2,S
+```
+You don't need to memorize the full format — just the **flags** at the end:
+
+| Flag | Meaning |
+|---|---|
+| `D` | Draft |
+| `F` | Flagged / Starred |
+| `P` | Passed / Forwarded |
+| `R` | Replied |
+| `S` | Seen / Read |
+| `T` | Trashed |
+
+Example: `:2,S` means the email has been **Seen/Read**.
+
+> **Practical flow:** `Postfix receives email → stored in Maildir → Dovecot reads Maildir → Thunderbird displays email.`
+
+---
+
+## 6. Email Message Structure
+
+An email has **three main parts**:
+```text
+Email
+├── Headers / Envelope info
+├── Body
+└── Attachments
+```
+
+### Important Header Fields
+
+| Field | Meaning |
+|---|---|
+| `From` | Who sent the email |
+| `To` | Main recipient |
+| `Cc` | Carbon Copy — visible extra recipients |
+| `Bcc` | Blind Carbon Copy — hidden from other recipients |
+| `Subject` | Short description of email |
+| `Date` | When email was sent |
+| Attachments | Files sent with the email |
+
+### Cc vs Bcc Example
+```text
+To  : Bob
+Cc  : Carol
+Bcc : David
+```
+Bob and Carol can see: `Bob, Carol` (each other). **Neither can see David** — David is hidden.
+
+```text
+Cc  → visible recipients
+Bcc → hidden recipients
+```
+
+### Raw Email Format (RFC 5322)
+```text
+From: Alice <alice@gmail.com>
+To: Bob <bob@company.com>
+Subject: Meeting tomorrow
+Date: Mon, 13 Apr 2026 10:30:00
+
+Hi Bob,
+Let's meet tomorrow.
+```
+```text
+Headers
+   ↓
+Blank line   ← separates headers from body
+   ↓
+Body
+```
+
+---
+
+## 7. Mail System Architecture — MUA, MSA, MTA, MDA
+
+These are the **four core components** of any email system.
+
+| Component | Full Name | Role | Examples |
+|---|---|---|---|
+| **MUA** | Mail User Agent | Application the user interacts with (write/read/reply/forward/attach) | Thunderbird, Outlook, Evolution, Mutt, mail, mailx |
+| **MSA** | Mail Submission Agent | Accepts outgoing mail from the MUA; checks auth, size, spam | Postfix (port 587) |
+| **MTA** | Mail Transfer Agent | Transfers mail **between mail servers** using SMTP | Postfix, Exim, Sendmail |
+| **MDA** | Mail Delivery Agent (a.k.a. LDA — Local Delivery Agent) | Delivers received mail into the **correct local mailbox** | Dovecot, Procmail, Cyrus IMAP, fetchmail, getmail, fdm |
+
+### Easy Memory
+```text
+MUA → User writes/reads mail
+MSA → Accepts mail from user
+MTA → Transfers mail between servers
+MDA → Delivers mail into mailbox
+```
+
+**Simple flow sequence:**
+```text
+MUA → MSA → MTA → MTA → MDA → Mailbox → MUA
+```
+
+**With real software:**
+```text
+Thunderbird → Postfix → Postfix → Dovecot/mailbox → Outlook
+```
+
+---
+
+## 8. Complete Email Flow — Step by Step
+
+Scenario: `alice@gmail.com` sends mail to `bob@company.com`.
+
+| Step | What Happens | Component |
+|---|---|---|
+| 1 | Alice composes email in her client | MUA (Thunderbird/Gmail) |
+| 2 | Client submits mail via SMTP (port 587); checks auth, size, spam | MSA |
+| 3 | MSA hands off to MTA, which adds headers (`Received`, `Message-ID`) | MTA |
+| 4 | MTA looks up `company.com`'s **MX record** via DNS to find the mail server | DNS MX lookup |
+| 5 | Alice's MTA connects to Bob's MTA via SMTP (port 25) and transfers the message | Server-to-server SMTP |
+| 6 | Bob's server checks: does Bob exist? spam/antivirus/filtering? | MDA |
+| 7 | Message is written to disk (mbox or Maildir) | Mailbox storage |
+| 8 | Bob opens his MUA, connects via IMAPS (port 993) through Dovecot, and reads the mail | MUA + Dovecot |
+
+### Full Diagram
+```text
+Alice
+  ↓
+Thunderbird (MUA)
+  ↓ SMTP :587
+Postfix (MSA)
+  ↓
+Postfix (MTA)
+  ↓ DNS MX lookup
+mail.company.com
+  ↓ SMTP :25
+Bob's Postfix (MTA)
+  ↓
+MDA
+  ↓
+Mailbox (mbox / Maildir)
+  ↓
+Dovecot
+  ↓ IMAP :993
+Outlook (MUA)
+  ↓
+Bob
+```
+
+### DNS MX Lookup Detail
+```text
+bob@company.com
+      ↓
+Extract domain: company.com
+      ↓
+Query DNS for MX record
+      ↓
+company.com  MX  10 mail.company.com
+      ↓
+Resolve mail.company.com → IP (A/AAAA record)
+      ↓
+20.5.6.7
+```
+
+> **Exam trap:** MX record points to a *hostname*, not directly an IP — the resolver must then look up that hostname's A/AAAA record separately to get the actual IP.
+
+---
+
+## 9. Special Scenarios
+
+### Scenario A — Both Users on Same Server
+If `alice@company.com` sends to `bob@company.com`, both are on the same domain. The MTA recognizes Bob is a **local user** and skips the external DNS MX lookup and internet SMTP hop entirely — goes straight to MDA → mailbox.
+
+### Scenario B — Recipient is Offline
+Bob's laptop is off when Alice sends the mail. No problem — the server **stores** the email in Bob's mailbox. When Bob comes online, Outlook connects via IMAP and the email appears.
+> **Key point:** The recipient does NOT need to be online at send time.
+
+### Scenario C — Greylisting (Anti-Spam Technique)
+When an unfamiliar sender first tries to deliver, the receiving server may reply:
+```text
+450 Temporary failure — try again later
+```
+Legitimate mail servers retry automatically after some time; many spam systems don't retry correctly, so this filters some spam.
+```text
+First attempt → 450 Try later → Few minutes later → Retry → Accepted
+```
+
+### Scenario D — Bounce Mail (DSN)
+If `bob@company.com` doesn't exist, the server responds:
+```text
+550 No such user
+```
+The sending system generates a **DSN (Delivery Status Notification)**, commonly called a **bounce message**, informing Alice the delivery failed.
+```text
+Alice → Send → bob@company.com ❌ → 550 No such user → Bounce/DSN → Alice
+```
+
+---
+
+## 10. SMTP Commands & Responses
+
+### Example SMTP Conversation
+```text
+Client: EHLO mail.example.com
+Server: 250 OK
+
+Client: MAIL FROM:<alice@example.com>
+Server: 250 OK
+
+Client: RCPT TO:<bob@company.com>
+Server: 250 OK
+
+Client: DATA
+Server: 354 Start mail input
+
+Client: Subject: Hello
+        Hi Bob, How are you?
+        .
+
+Server: 250 Message accepted
+Client: QUIT
+```
+
+### SMTP Commands
+
+| Command | Purpose |
+|---|---|
+| `HELO` | Starts a basic SMTP session |
+| `EHLO` | Extended/modern version of HELO — server tells client what extensions it supports (STARTTLS, AUTH, SIZE) |
+| `MAIL FROM` | Specifies the sender |
+| `RCPT TO` | Specifies recipient (can be repeated for multiple recipients) |
+| `DATA` | Starts the actual message content; ends with a single `.` on its own line |
+| `RSET` | Cancels current transaction without closing connection |
+| `VRFY` | Attempts to verify a user (often disabled for security/privacy) |
+| `EXPN` | Attempts to expand a mailing list (also commonly disabled) |
+| `NOOP` | Does nothing — used to keep/check connection alive |
+| `QUIT` | Ends the SMTP session |
+
+### SMTP Response Codes
+
+| Code Range | Meaning | Example |
+|---|---|---|
+| **2xx** | Success | `250 OK` — command/message accepted |
+| **3xx** | More info required | `354 Start mail input` — occurs after `DATA` |
+| **4xx** | Temporary failure — sender should retry | `450 Mailbox busy` |
+| **5xx** | Permanent failure — retrying won't help | `550 No such user` |
+
+**Easy memory:**
+```text
+2xx → Success
+3xx → Continue / more data
+4xx → Temporary failure (retry)
+5xx → Permanent failure (don't retry)
+```
+
+> **Exam trap:** Don't confuse 4xx and 5xx — 4xx means "try again later" (transient), 5xx means "this will never work, stop retrying" (permanent). Greylisting deliberately uses 450 (4xx) to trigger legitimate retries.
+
+---
+
+## 11. POP3 Commands
+
+### Example POP3 Session
+```text
+Client: USER bob
+Server: +OK
+
+Client: PASS password
+Server: +OK
+
+Client: STAT
+Server: +OK 3 4500
+
+Client: LIST
+Server: message list
+
+Client: RETR 1
+Server: sends message 1
+
+Client: DELE 1
+Server: marks message for deletion
+
+Client: QUIT
+```
+
+### POP3 Commands
+
+| Command | Purpose |
+|---|---|
+| `USER` | Specifies username |
+| `PASS` | Sends password |
+| `STAT` | Shows mailbox summary (message count, total size) |
+| `LIST` | Lists messages and sizes |
+| `RETR` | Retrieves/downloads a specific message |
+| `DELE` | Marks a message for deletion (actual deletion committed on successful `QUIT`) |
+| `RSET` | Undoes deletion marks made during the current session |
+| `UIDL` | Returns unique IDs for messages |
+| `QUIT` | Ends the session |
+
+> **Exam trap:** `DELE` only *marks* a message for deletion — the deletion is only finalized when the session ends successfully with `QUIT`. If the connection drops before `QUIT`, the message is NOT deleted (or `RSET` can undo the mark before quitting).
+
+### POP3 Limitations
+- Mainly works around a single `INBOX` — no rich server-side folder management like IMAP
+- Limited message flags (no Seen/Replied/Flagged model like IMAP)
+- No rich server-side search — it's primarily a download protocol
+
+---
+
+## 12. SMTP Ports — Detailed
+
+| Port | Name | Encryption | Common Use |
+|---|---|---|---|
+| **25** | SMTP | STARTTLS may be used | Mail server → Mail server (relay) |
+| **587** | Submission | STARTTLS commonly used | Mail client → Mail server |
+| **465** | SMTPS | Implicit TLS | Secure mail submission |
+
+**Easy memory:**
+```text
+25  → Server to Server
+587 → Client sends mail
+465 → SMTP with implicit TLS
+```
+
+---
+
+## 13. FOSS SMTP/Mail Implementations
+
+| Protocol | Software Implementations |
+|---|---|
+| SMTP | Postfix, Exim, Sendmail, OpenSMTPD |
+| IMAP/POP3 | Dovecot |
+
+```text
+Protocol → SMTP
+Software:
+├── Postfix
+├── Exim
+├── Sendmail
+└── OpenSMTPD
+```
+
+---
+
+## 14. When to Use What
+
+| Protocol | Best When |
+|---|---|
+| **SMTP** | Sending application notifications, relaying mail between servers, sending user email, building mail transfer infrastructure |
+| **POP3** | Simple mailbox download is enough; mainly one client/device used; server-side management not needed |
+| **IMAP** | Using phone + laptop + webmail together; want server-side folders, flags, read/unread sync, and remote mailbox management |
+
+---
+
+## 15. Modern Common Mail Stack (Full Picture)
+
+```text
+Alice's MUA
+    ↓
+SMTP :587  (Submission)
+    ↓
+Postfix (MSA)
+    ↓
+SMTP :25  (Server-to-server relay, STARTTLS)
+    ↓
+Bob's Postfix (MTA)
+    ↓
+Mailbox (mbox / Maildir)
+    ↓
+Dovecot
+    ↓
+IMAP :993  (IMAPS)
+    ↓
+Bob's MUA
+```
+
+---
+
+# NIS & LDAP — Directory Services — Exam-Ready Notes
+> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
+
+### CDAC DITISS — Networking / Linux OS & Security
+
+---
+
+## PART A — NIS (Network Information Service)
+
+## 1. What is NIS?
+
+**NIS = Network Information Service** — an older **client-server directory service** used mainly in Unix/Linux networks to keep common system information centralized instead of maintaining it separately on every machine.
+
+**Without NIS:**
+```text
+Client1 → own users/groups
+Client2 → own users/groups
+Client3 → own users/groups
+```
+
+**With NIS:**
+```text
+        NIS Server
+        ├── users
+        ├── groups
+        ├── hosts
+        └── services
+            ↑
+      ┌─────┼─────┐
+      ↓     ↓     ↓
+   Client1 Client2 Client3
+```
+
+> **NIS provides centralized user and system information to multiple Unix/Linux clients.**
+
+### What can NIS manage?
+Central distribution of files like:
+```text
+/etc/passwd     → user accounts
+/etc/shadow     → passwords
+/etc/group      → groups
+/etc/hosts      → hostnames
+/etc/services   → network services
+/etc/protocols  → network protocols
+```
+Instead of creating user `john` separately on 20 machines, his info is managed centrally.
+
+---
+
+## 2. Why is NIS also called YP?
+
+NIS was originally called **Yellow Pages (YP)** — that's why many NIS commands/services still start with `yp`:
+```text
+ypbind
+ypserv
+ypcat
+ypmatch
+```
+```text
+NIS ≈ YP (old Unix terminology)
+```
+
+---
+
+## 3. How NIS Works — Step by Step
+
+Scenario: user `john` tries to log in.
+
+| Step | What Happens |
+|---|---|
+| 1 | Client needs info about `john` |
+| 2 | **`ypbind`** (client-side binding service) connects the client to an NIS server |
+| 3 | NIS server receives the query |
+| 4 | Server searches a **NIS map** (e.g. `passwd.byname`) |
+| 5 | Server returns John's info: `john:x:1005:1005:John:/home/john:/bin/bash` |
+
+```text
+Client
+  ↓
+ypbind
+  ↓
+NIS Server
+```
+> **ypbind = NIS client-side binding service**
+
+### Complete NIS Flow
+```text
+User tries: john
+  ↓
+Linux Client
+  ↓
+ypbind
+  ↓
+NIS Server
+  ↓
+Search map: passwd.byname
+  ↓
+Find john
+  ↓
+Return user information
+  ↓
+Client uses it
+```
+
+---
+
+## 4. What is a NIS Map?
+
+A **map** = a NIS database containing a particular type of information (like a table).
+
+| Map | Purpose |
+|---|---|
+| `passwd.byname` | User info searchable by username |
+| `passwd.byuid` | User info searchable by UID |
+| `group.byname` | Group info by name |
+| `hosts.byname` | Host info by name |
+| `hosts.byaddr` | Host info by IP address |
+
+```text
+NIS Map = database/table
+```
+
+---
+
+## 5. Security Limitations of NIS (Important!)
+
+NIS was designed for **trusted internal Unix networks** — this is its biggest weakness.
+
+| Limitation | Detail |
+|---|---|
+| **No encryption** | Data can be sniffed on the network — no built-in encrypted transport |
+| **Weak authentication** | Relies on trusted hosts/network config rather than strong user/server authentication |
+| **Weak password policy support** | No rich complexity/history/expiration policy features |
+| **Vulnerable to spoofing** | Clients can't strongly verify they're talking to the genuine NIS server |
+| **Predictable/discoverable services** | Relies on RPC, making services easy to discover on the local network |
+| **Limited access control** | Designed to broadcast info broadly — fine-grained control is weak |
+
+> **Exam trap:** NIS's core weakness isn't a single flaw — it's a **combination of design-era assumptions** (trusted internal network) that don't hold up in modern, hostile network environments.
+
+---
+
+## 6. NIS vs LDAP (Quick Preview)
+
+| NIS | LDAP |
+|---|---|
+| Older | More modern |
+| Mainly Unix-focused | Platform independent |
+| Weak security | TLS/security integration |
+| Simple data maps (flat) | Hierarchical directory |
+| Limited scalability | Better scalability |
+
+```text
+NIS  → Old centralized directory (flat)
+LDAP → Modern flexible directory protocol (hierarchical)
+```
+
+---
+
+## PART B — LDAP (Lightweight Directory Access Protocol)
+
+## 8. What is LDAP?
+
+**LDAP = Lightweight Directory Access Protocol** — a protocol to **store, search, and manage directory information** over a network.
+
+Think of it as a **central company phonebook/database**:
+```text
+LDAP Server
+   ├── Users
+   ├── Groups
+   ├── Computers
+   ├── Printers
+   └── Departments
+```
+Applications query this central directory instead of maintaining separate user lists.
+
+### Why "Lightweight"?
+LDAP came from the older, complex **X.500 DAP (Directory Access Protocol)**, which depended on the OSI networking stack. LDAP was designed to be simpler and work directly over **TCP/IP**.
+```text
+DAP  → Complex (OSI stack)
+LDAP → Lightweight/simpler (TCP/IP)
+```
+
+### LDAP is a Protocol, Not Software
+```text
+LDAP → Protocol
+OpenLDAP, Active Directory, 389 Directory Server → Software implementing it
+```
+Same relationship as:
+```text
+HTTP → protocol   |   Apache → software
+LDAP → protocol   |   OpenLDAP → software
+```
+
+---
+
+## 9. LDAP Ports
+
+| Port | Purpose |
+|---|---|
+| **389** | LDAP |
+| **636** | LDAPS (LDAP over TLS) |
+| **3268** | Microsoft AD Global Catalog |
+
+**Easy memory:**
+```text
+389 → LDAP
+636 → Secure LDAP
+```
+
+---
+
+## 10. Common LDAP Implementations
+
+| Implementation | Notes |
+|---|---|
+| **OpenLDAP** | Open-source; main daemon = **`slapd`** |
+| **Microsoft Active Directory** | Combines LDAP + Kerberos + DNS; widely used for enterprise identity |
+| **FreeIPA** | Common in Linux/Red Hat environments; integrates LDAP + Kerberos + DNS + Certificate services |
+
+```text
+LDAP protocol → OpenLDAP software → slapd daemon
+```
+
+---
+
+## 11. Main LDAP Use Cases
+
+| Use Case | Example |
+|---|---|
+| **Centralized Authentication** | 100 servers + 500 employees all reference ONE LDAP directory instead of separate local accounts on each server |
+| **Address Book** | Store Name, Email, Phone, Department — searchable by mail clients |
+| **Network Resource Management** | Track printers, servers, computers, network devices |
+| **SSO Infrastructure** | One central account usable across many applications (LDAP is part of, not the whole, SSO stack) |
+
+```text
+Without LDAP:
+Server1 → own users | Server2 → own users | Server3 → own users
+
+With LDAP:
+           LDAP Server (Users + Groups)
+                  ↑
+         ┌────────┼────────┐
+         ↓        ↓        ↓
+      Server1  Server2  Server3
+```
+
+---
+
+## 12. LDAP Structure — Directory Information Tree (DIT)
+
+LDAP stores data in a **tree structure**, not tables (unlike SQL).
+
+```text
+company.com
+│
+├── People
+│   ├── Alice
+│   ├── Bob
+│   └── John
+│
+├── Groups
+│   ├── Developers
+│   ├── Admins
+│   └── HR
+│
+└── Devices
+    ├── Printer1
+    └── Server1
+```
+This tree is called the **DIT (Directory Information Tree)**.
+
+### Naming Components
+
+| Term | Full Name | Example |
+|---|---|---|
+| **DC** | Domain Component | `dc=company,dc=com` (from `company.com`) |
+| **OU** | Organizational Unit | `ou=People`, `ou=Groups`, `ou=IT` |
+| **CN** | Common Name | `cn=John Smith` |
+| **DN** | Distinguished Name | Full unique path to an entry |
+
+**Example Distinguished Name (DN):**
+```text
+cn=John Smith,ou=People,dc=company,dc=com
+```
+```text
+cn=John Smith  → User/object
+ou=People      → Organizational unit
+dc=company,dc=com → Domain
+```
+
+### Full Example Tree
+```text
+dc=company,dc=com
+│
+├── ou=People
+│   ├── cn=Alice
+│   ├── cn=Bob
+│   └── cn=John
+│
+├── ou=Groups
+│   ├── cn=Admins
+│   └── cn=Developers
+│
+└── ou=Devices
+    ├── cn=Printer1
+    └── cn=Server1
+```
+
+> **Exam trap:** DN (Distinguished Name) is the **entire unique path** (e.g. `cn=John Smith,ou=People,dc=company,dc=com`), while CN is just **one component** of that path (`cn=John Smith`). Don't confuse DN with CN.
+
+---
+
+## 13. LDAP is Read-Heavy
+
+LDAP is optimized mainly for **SEARCH / READ / LOOKUP** operations:
+```text
+"Who is john?"
+"What is John's email?"
+"Which groups does John belong to?"
+```
+Writes (create/delete/update) happen far less frequently than reads.
+
+> **LDAP = Read-heavy and search-optimized**
+
+---
+
+## 14. LDAP vs SQL Database
+
+| Feature | LDAP | SQL Database |
+|---|---|---|
+| Structure | Tree | Tables |
+| Main use | Directory/lookups | General application data |
+| Workload | Read-heavy | Read + write |
+| Query | LDAP filters | SQL |
+| Transactions | Limited | Strong ACID transactions |
+| Authentication | Bind supported | Usually application-managed |
+| Typical data | Users/groups/resources | Orders/payments/products |
+
+> **LDAP is NOT meant to replace a normal SQL database** — they serve different purposes (directory lookups vs transactional application data).
+
+---
+
+## 15. Replication & Security
+
+### Replication
+```text
+LDAP Server 1  ──replication──►  LDAP Server 2
+```
+Both maintain copies — benefits: high availability, better performance, backup/redundancy. Clients can use either server.
+
+### Security
+```text
+LDAP  → protocol (unencrypted by default, port 389)
+TLS   → protects communication
+LDAPS → LDAP over encrypted connection (port 636)
+```
+
+---
+
+## 16. LDAP Operations (like CRUD)
+
+| LDAP Operation | Similar To | Meaning |
+|---|---|---|
+| **Bind** | Authentication | Connect and authenticate |
+| **Search** | Read | Find entries |
+| **Add** | Create | Create a new entry |
+| **Modify** | Update | Change an existing entry |
+| **Delete** | Delete | Remove an entry |
+| **Compare** | Check | Check an attribute/value |
+| **Unbind** | Disconnect | Close LDAP connection |
+
+**Memory trick:**
+```text
+Bind   → Login
+Search → Read
+Add    → Create
+Modify → Update
+Delete → Remove
+Unbind → Disconnect
+```
+
+### Bind Example
+```text
+Client → Bind request → LDAP Server → Check credentials → Authenticated
+```
+Example bind identity: `cn=Manager,dc=example,dc=com`
+
+### Search Example
+```bash
+ldapsearch -x -b "dc=example,dc=com" "(uid=john)"
+```
+Possible result:
+```text
+dn: uid=john,ou=People,dc=example,dc=com
+uid: john
+cn: John
+mail: john@example.com
+```
+
+### Add Example
+```bash
+ldapadd -x -D "cn=Manager,dc=example,dc=com" -W -f john.ldif
+```
+
+### Modify Example
+```bash
+ldapmodify -x -D "cn=Manager,dc=example,dc=com" -W -f changes.ldif
+```
+E.g. changing John's department: `IT → Security`
+
+### Delete Example
+```bash
+ldapdelete -x -D "cn=Manager,dc=example,dc=com" -W "uid=john,ou=People,dc=example,dc=com"
+```
+
+---
+
+## 17. LDAP Search Filters
+
+Filters describe what to find.
+
+| Filter | Meaning |
+|---|---|
+| `(uid=john)` | Find entry where UID is `john` |
+| `(cn=John)` | Find common name John |
+| `(mail=john@example.com)` | Find matching email |
+| `(uid=j*)` | Wildcard — UID starts with `j` |
+| `(&(objectClass=person)(uid=john))` | AND condition — both must match |
+
+**AND filter breakdown:**
+```text
+(&(objectClass=person)(uid=john))
+       ↓                  ↓
+objectClass=person   AND   uid=john
+```
+
+---
+
+## 18. LDAP Security — Authentication Methods
+
+### Simple Authentication
+```bash
+ldapsearch -x -D "cn=Manager,dc=example,dc=com" -w password
+```
+`-x` = simple authentication.
+
+> **Important:** Simple authentication should be protected using **TLS**, otherwise credentials aren't safe in transit. **Base64 encoding is NOT encryption** — it's just an encoding scheme, easily reversible.
+
+### SASL (Simple Authentication and Security Layer)
+Provides advanced authentication mechanisms beyond simple bind:
+```text
+GSSAPI    → Kerberos-based
+DIGEST-MD5
+EXTERNAL
+```
+```text
+LDAP Client → SASL/Kerberos → LDAP Server
+```
+
+### TLS / LDAPS
+```text
+Client → Encrypted LDAP → LDAP Server
+```
+| Port | Use |
+|---|---|
+| 389 | LDAP / STARTTLS possible |
+| 636 | LDAPS (implicit TLS) |
+
+> **Exam trap:** Don't confuse Base64 with encryption. LDAP simple bind sends credentials Base64-*encoded* by default — this is trivially decodable, NOT secure, unless wrapped in TLS/LDAPS.
+
+---
+
+## 19. LDAP Password Storage
+
+Common hash formats:
+```text
+{SSHA}
+{SHA}
+{CRYPT}
+{MD5}
+{CLEARTEXT}
+```
+
+Generate a password hash:
+```bash
+slappasswd -s password
+```
+```text
+password → slappasswd → {SSHA}...
+```
+
+> **Key rule:** LDAP should store a **password hash**, never the original plain-text password.
+
+---
+
+## 20. LDAP Client Commands — Quick Reference
+
+| Command | Purpose | Example |
+|---|---|---|
+| `ldapsearch` | Search the directory | `ldapsearch -x -b "dc=example,dc=com" "(uid=john)"` |
+| `ldapadd` | Add a new entry | `ldapadd -x -D "cn=Manager" -W -f entry.ldif` |
+| `ldapmodify` | Change an existing entry | `ldapmodify -x -D "cn=Manager" -W -f changes.ldif` |
+| `ldapdelete` | Delete an entry | `ldapdelete -x -D "cn=Manager" -W "uid=john,ou=People"` |
+| `ldappasswd` | Change LDAP password | `ldappasswd -x -D "uid=john" -W -S` (`-W`=bind password, `-S`=new password) |
+
+---
+
+## 21. SSSD (System Security Services Daemon)
+
+**SSSD** helps a Linux client connect to centralized identity systems like LDAP.
+
+```text
+Linux Client → SSSD → LDAP Server → Users/Groups
+```
+
+Instead of manually creating `john`, `alice`, `bob` in local `/etc/passwd`, the Linux machine looks them up via SSSD → LDAP.
+
+Main config file: `/etc/sssd/sssd.conf`
+
+> **SSSD connects Linux authentication/user lookup to LDAP (or other identity providers).**
+
+**Full stack:**
+```text
+LDAP     → Protocol
+OpenLDAP → Software
+slapd    → Server daemon
+SSSD     → Common Linux client-side identity daemon
+```
+
+```text
+Linux Client → SSSD → Network → slapd → LDAP Database
+```
+
+---
+
+## 22. LDAP Schema
+
+A **schema** defines what type of data is allowed in LDAP — rules for objects and attributes.
+
+Example — a user entry may contain: `cn`, `sn`, `uid`, `mail`, `telephoneNumber`.
+
+Schema defines:
+```text
+Which attributes exist?
+Which are required vs optional?
+What type of value can they contain?
+```
+
+### Common Schema Files
+Location: `/etc/openldap/schema/`
+
+| Schema File | Purpose |
+|---|---|
+| `core.ldif` | Basic LDAP objects |
+| `cosine.ldif` | Common Internet/X.500 attributes |
+| `inetorgperson.ldif` | User/person objects |
+| `nis.ldif` | Unix/NIS attributes |
+| `openldap.ldif` | OpenLDAP-specific definitions |
+
+**Importing a schema:**
+```bash
+sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
+```
+```text
+cosine.ldif → ldapadd → LDAP configuration → Schema becomes available
+```
+
+---
+
+## 23. LDIF (LDAP Data Interchange Format)
+
+**LDIF** is a text format used to create, modify, export, and import LDAP entries.
+
+Example:
+```text
+dn: uid=john,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+uid: john
+cn: John Smith
+sn: Smith
+mail: john@example.com
+```
+
+| Field | Meaning |
+|---|---|
+| `dn` | Unique location of the entry |
+| `objectClass` | What type of object it is |
+| `uid` / `cn` / `sn` / `mail` | Attributes |
+
+**Adding LDIF data:**
+```bash
+ldapadd -x -D "cn=Manager,dc=example,dc=com" -W -f john.ldif
+```
+```text
+john.ldif → ldapadd → LDAP server → John entry created
+```
+
+---
+
+## 24. LDAP Utilities
+
+| Utility | Purpose |
+|---|---|
+| `slapcat` | Exports LDAP database to LDIF (backup/export) |
+| `slapindex` | Rebuilds LDAP database indexes (faster searches) |
+| `slappasswd` | Generates password hashes |
+| `ldapvi` | Edit LDAP entries in a text-editor style interface |
+
+```text
+slapcat: LDAP database → slapcat → LDIF output
+```
+
+### GUI LDAP Tools
+```text
+Apache Directory Studio
+phpLDAPadmin
+LDAP Admin
+LDAP Account Manager
+```
+Provide a graphical browse/manage experience instead of raw CLI commands.
+
+---
+
+## 25. NIS vs LDAP — Full Comparison
+
+| Feature | NIS | LDAP |
+|---|---|---|
+| Architecture | Old directory service | Modern directory protocol |
+| Data model | Flat maps | Hierarchical tree (DIT) |
+| Security | Weak | TLS/SASL supported |
+| Search | Simple key lookup | Advanced filters |
+| Scalability | Limited | High |
+| Schema | Fixed | Extensible |
+| Modern usage | Legacy | Widely used |
+| Typical structure | `passwd.byname` | DIT entries |
+| Authentication | Basic | Bind/SASL etc. |
+
+```text
+NIS:                          LDAP:
+passwd.byname                 dc=example,dc=com
+group.byname                  ├── ou=People
+hosts.byname                  │   ├── John
+(flat maps)                   │   └── Alice
+                               └── ou=Groups
+```
+
+**Easy memory:**
+```text
+NIS  → Older + flat
+LDAP → Modern + hierarchical
+```
+
+---
+
+## 26. Complete LDAP Login Example
+
+```text
+Username: john
+Password: ****
+        ↓
+Linux Login
+        ↓
+SSSD
+        ↓
+LDAP Server (slapd)
+        ↓
+Search: (uid=john)
+        ↓
+John found
+        ↓
+Authentication
+        ↓
+Access granted
+```
+
+Instead of managing `john` separately on Server1, Server2, Server3, one LDAP directory serves all:
+```text
+            LDAP
+           john
+             ↑
+      ┌──────┼──────┐
+      ↓      ↓      ↓
+   Server1 Server2 Server3
+```
+
+---
+
+## 28. Bonus Note — SSH Key Exchange (Correction)
+
+> **Important correction:** SSH does **not** simply encrypt all session data directly using the server's public/private key pair.
+
+Actual simplified flow:
+```text
+Client
+  ↓
+Connects to SSH Server
+  ↓
+Server proves identity using its host key
+  ↓
+Key exchange happens
+  ↓
+Both sides derive shared session keys
+  ↓
+Symmetric encryption protects the session
+```
+```text
+Public/private key → Authentication/identity + key exchange
+Session key         → Actual fast symmetric encryption of SSH traffic
+```
+
+Command:
+```bash
+ssh user@172.16.140.216
+```
+
+> **Exam trap:** Asymmetric (public/private) keys are used for identity verification and key exchange — NOT for encrypting the bulk of the session data. The actual traffic is protected using fast **symmetric** session keys derived during the handshake.
