@@ -20,26 +20,26 @@ syllabus-topic: []
 
 ### 1. Docker
 
-- [ ] Images vs containers - layered filesystem, union FS
-- [ ] Dockerfile - `FROM`, `RUN`, `COPY`, `CMD`, `ENTRYPOINT`, `EXPOSE`, `VOLUME`
-- [ ] Docker networking modes: bridge, host, none, overlay
-- [ ] Volumes vs bind mounts - persistent data
+- [x] Images vs containers - layered filesystem, union FS
+- [x] Dockerfile - `FROM`, `RUN`, `COPY`, `CMD`, `ENTRYPOINT`, `EXPOSE`, `VOLUME`
+- [x] Docker networking modes: bridge, host, none, overlay
+- [x] Volumes vs bind mounts - persistent data
 - [ ] Docker Compose - multi-container orchestration, `docker-compose.yml`
-- [ ] Image tagging and pushing to Docker Hub
-- [ ] `docker exec`
-- [ ] `docker logs`
-- [ ] `docker inspect`
+- [x] Image tagging and pushing to Docker Hub
+- [x] `docker exec`
+- [x] `docker logs`
+- [x] `docker inspect`
 - [ ] `docker cp`
 
 ### 2. Kubernetes / Container Orchestration
 
-- [ ] Why orchestration is needed: self-healing, scaling, rolling updates
-- [ ] Master node components: API Server, etcd, Scheduler, Controller Manager
-- [ ] Worker node components: kubelet, kube-proxy, container runtime
-- [ ] Pods, ReplicaSets, Deployments, Services
-- [ ] Docker Swarm vs Kubernetes - key differences
-- [ ] Replicas, rolling updates, self-healing concepts
-- [ ] Microservices deployment and scaling patterns
+- [x] Why orchestration is needed: self-healing, scaling, rolling updates
+- [x] Master node components: API Server, etcd, Scheduler, Controller Manager
+- [x] Worker node components: kubelet, kube-proxy, container runtime
+- [x] Pods, ReplicaSets, Deployments, Services
+- [x] Docker Swarm vs Kubernetes - key differences
+- [x] Replicas, rolling updates, self-healing concepts
+- [x] Microservices deployment and scaling patterns
 
 ### 3. Git & GitHub
 
@@ -65,30 +65,30 @@ syllabus-topic: []
 
 ### 5. AWS Core Services
 
-- [ ] EC2 - instance types, AMI, key pairs, security groups
+- [x] EC2 - instance types, AMI, key pairs, security groups
 - [ ] S3 - buckets, storage classes, versioning
 - [ ] Lambda - serverless, event-driven functions
-- [ ] VPC - CIDR blocks, public/private subnets, route tables, IGW, NAT Gateway
-- [ ] IAM - users, roles, policies
+- [x] VPC - CIDR blocks, public/private subnets, route tables, IGW, NAT Gateway
+- [x] IAM - users, roles, policies
 
 ### 6. Ansible
 
-- [ ] Agentless architecture - SSH-based, no daemon on managed nodes
-- [ ] Control node vs managed nodes
-- [ ] Inventory file (static/dynamic) - `/etc/ansible/hosts`
-- [ ] Playbooks - YAML syntax, tasks, modules
-- [ ] Ansible Roles - reusable, structured automation (`roles/` directory layout)
-- [ ] `ansible -m ping all` - connectivity test
-- [ ] Idempotency - running a playbook multiple times produces the same end state
+- [x] Agentless architecture - SSH-based, no daemon on managed nodes
+- [x] Control node vs managed nodes
+- [x] Inventory file (static/dynamic) - `/etc/ansible/hosts`
+- [x] Playbooks - YAML syntax, tasks, modules
+- [x] Ansible Roles - reusable, structured automation (`roles/` directory layout)
+- [x] `ansible -m ping all` - connectivity test
+- [x] Idempotency - running a playbook multiple times produces the same end state
 
 ### 7. Terraform (IaC)
 
-- [ ] Infrastructure as Code - declarative vs imperative
-- [ ] Terraform workflow: `init` -> `plan` -> `apply` -> `destroy`
-- [ ] `.tf` files - providers, resources, variables, outputs
-- [ ] Terraform state (`terraform.tfstate`) - why it matters
-- [ ] Remote backend (for example S3) - state locking, team collaboration
-- [ ] Terraform modules - reusable infrastructure blocks
+- [x] Infrastructure as Code - declarative vs imperative
+- [x] Terraform workflow: `init` -> `plan` -> `apply` -> `destroy`
+- [x] `.tf` files - providers, resources, variables, outputs
+- [x] Terraform state (`terraform.tfstate`) - why it matters
+- [x] Remote backend (for example S3) - state locking, team collaboration
+- [x] Terraform modules - reusable infrastructure blocks
 
 ---
 
@@ -96,18 +96,18 @@ syllabus-topic: []
 
 ### 8. Virtualization
 
-- [ ] Type 1 hypervisor (bare-metal: ESXi, Hyper-V) vs Type 2 (hosted: VirtualBox, VMware Workstation)
+- [x] Type 1 hypervisor (bare-metal: ESXi, Hyper-V) vs Type 2 (hosted: VirtualBox, VMware Workstation)
 - [ ] Hardware virtualization vs para-virtualization
-- [ ] Cloning vs snapshot vs template
-- [ ] Why virtualization matters for DevOps/cloud: resource isolation, rapid provisioning
+- [x] Cloning vs snapshot vs template
+- [x] Why virtualization matters for DevOps/cloud: resource isolation, rapid provisioning
 
 ### 9. Cloud Computing
 
-- [ ] Service models: IaaS, PaaS, SaaS (with examples)
-- [ ] Deployment models: Public, Private, Hybrid
-- [ ] Cloud SPI model
-- [ ] SLA (Service Level Agreement) and IAM (Identity Access Management)
-- [ ] Cloud API integration basics
+- [x] Service models: IaaS, PaaS, SaaS (with examples)
+- [x] Deployment models: Public, Private, Hybrid
+- [x] Cloud SPI model
+- [x] SLA (Service Level Agreement) and IAM (Identity Access Management)
+- [x] Cloud API integration basics
 
 ### 10. Prometheus & Monitoring
 
@@ -123,8 +123,8 @@ syllabus-topic: []
 - [ ] Chef architecture: Workstation, Chef Server, Nodes (Chef-client)
 - [ ] Chef terms: Cookbooks, Recipes, Resources
 - [ ] Puppet architecture: Puppet Master, Puppet Agent, Catalog
-- [ ] Declarative configuration - desired state enforcement
-- [ ] Legacy Chef/Puppet vs modern Ansible/Terraform DevOps tooling trends
+- [x] Declarative configuration - desired state enforcement
+- [x] Legacy Chef/Puppet vs modern Ansible/Terraform DevOps tooling trends
 
 ### 12. Storage Area Network (SAN)
 
@@ -139,7 +139,7 @@ syllabus-topic: []
 
 ### 13. Data Center Management
 
-- [ ] Data center architecture - physical space, power, cooling (HVAC), bandwidth
+- [x] Data center architecture - physical space, power, cooling (HVAC), bandwidth
 - [ ] Modular cabling design, Points of Distribution
 - [ ] Network Operations Center (NOC) and monitoring
 - [ ] Physical, logical, and network security in a DC
@@ -155,10 +155,10 @@ syllabus-topic: []
 
 ### 15. Docker Swarm (Orchestration Alternative)
 
-- [ ] Swarm mode - manager and worker nodes
-- [ ] Services, tasks, replicas
-- [ ] `docker service scale` - scaling replicas up/down
-- [ ] Swarm vs Kubernetes - simplicity vs feature-richness
+- [x] Swarm mode - manager and worker nodes
+- [x] Services, tasks, replicas
+- [x] `docker service scale` - scaling replicas up/down
+- [x] Swarm vs Kubernetes - simplicity vs feature-richness
 
 ---
 
@@ -168,27 +168,27 @@ syllabus-topic: []
 
 ### Docker - Key Commands
 
-- [ ] `docker build -t name:tag .` - build image from Dockerfile
-- [ ] `docker run -d -p 8000:80 --name web5 httpd` - run container, detached, port mapping
-- [ ] `docker ps` / `docker ps -a` - list running / all containers
-- [ ] `docker exec -it <container> bash` - interactive shell into container
+- [x] `docker build -t name:tag .` - build image from Dockerfile
+- [x] `docker run -d -p 8000:80 --name web5 httpd` - run container, detached, port mapping
+- [x] `docker ps` / `docker ps -a` - list running / all containers
+- [x] `docker exec -it <container> bash` - interactive shell into container
 - [ ] `docker cp file.html container:/path` - copy file into container
-- [ ] `docker images` - list local images
-- [ ] `docker push user/image:v1` - push image to Docker Hub
-- [ ] `docker save -o img.tar image:v1` - export image to tar file
-- [ ] `docker network ls` - list networks
-- [ ] `docker volume ls` - list volumes
+- [x] `docker images` - list local images
+- [x] `docker push user/image:v1` - push image to Docker Hub
+- [x] `docker save -o img.tar image:v1` - export image to tar file
+- [x] `docker network ls` - list networks
+- [x] `docker volume ls` - list volumes
 - [ ] `docker-compose up -d` - start multi-container app
 
 ### Kubernetes - Key Commands
 
-- [ ] `kubectl get pods` - list pods
-- [ ] `kubectl get nodes` - list cluster nodes
-- [ ] `kubectl apply -f deploy.yaml` - apply a manifest
-- [ ] `kubectl scale deployment app --replicas=10` - scale replicas
-- [ ] `kubectl rollout status deployment app` - check rolling update status
-- [ ] `kubectl describe pod <name>` - debug pod details/events
-- [ ] `kubectl logs <pod>` - view pod logs
+- [x] `kubectl get pods` - list pods
+- [x] `kubectl get nodes` - list cluster nodes
+- [x] `kubectl apply -f deploy.yaml` - apply a manifest
+- [x] `kubectl scale deployment app --replicas=10` - scale replicas
+- [x] `kubectl rollout status deployment app` - check rolling update status
+- [x] `kubectl describe pod <name>` - debug pod details/events
+- [x] `kubectl logs <pod>` - view pod logs
 - [ ] `kubeadm init` - initialize master node
 - [ ] `kubeadm join` - join worker node to cluster
 
@@ -206,21 +206,21 @@ syllabus-topic: []
 
 ### Ansible - Key Commands
 
-- [ ] `ansible -m ping all` - test connectivity to all hosts
-- [ ] `ansible-playbook site.yml` - run a playbook
-- [ ] `ansible-playbook site.yml --check` - dry run
-- [ ] `ansible-inventory --list` - view inventory
-- [ ] `ansible-galaxy init rolename` - scaffold a new role
+- [x] `ansible -m ping all` - test connectivity to all hosts
+- [x] `ansible-playbook site.yml` - run a playbook
+- [x] `ansible-playbook site.yml --check` - dry run
+- [x] `ansible-inventory --list` - view inventory
+- [x] `ansible-galaxy init rolename` - scaffold a new role
 
 ### Terraform - Key Commands
 
-- [ ] `terraform init` - initialize working dir, download providers
-- [ ] `terraform plan` - preview changes
-- [ ] `terraform apply` - apply changes to infra
-- [ ] `terraform destroy` - tear down infra
-- [ ] `terraform validate` - syntax check
-- [ ] `terraform state list` - list resources in state
-- [ ] `terraform fmt` - format `.tf` files
+- [x] `terraform init` - initialize working dir, download providers
+- [x] `terraform plan` - preview changes
+- [x] `terraform apply` - apply changes to infra
+- [x] `terraform destroy` - tear down infra
+- [x] `terraform validate` - syntax check
+- [x] `terraform state list` - list resources in state
+- [x] `terraform fmt` - format `.tf` files
 
 ### Jenkins - Pipeline Flow
 
@@ -238,11 +238,11 @@ syllabus-topic: []
 
 ### AWS - Core Services Quick Reference
 
-- [ ] EC2 - compute, virtual servers
-- [ ] S3 - storage, object storage, static hosting, logs
-- [ ] Lambda - serverless, event-driven functions, no server management
-- [ ] VPC - networking, isolated network, public/private subnets
-- [ ] IAM - security, users, roles, policies, permissions
+- [x] EC2 - compute, virtual servers
+- [x] S3 - storage, object storage, static hosting, logs
+- [x] Lambda - serverless, event-driven functions, no server management
+- [x] VPC - networking, isolated network, public/private subnets
+- [x] IAM - security, users, roles, policies, permissions
 - [ ] Sample VPC lab design
 - [ ] VPC CIDR: `172.20.0.0/16`
 - [ ] Public subnet: `172.20.5.0/24`
@@ -253,38 +253,38 @@ syllabus-topic: []
 
 ### Virtualization - Quick Reference
 
-- [ ] Type 1 hypervisors: VMware ESXi, Hyper-V, KVM
-- [ ] Type 2 hypervisors: VirtualBox, VMware Workstation
-- [ ] Snapshot - point-in-time save of VM state
-- [ ] Clone - full independent copy of a VM
-- [ ] Template - reusable master image for new VM deployment
+- [x] Type 1 hypervisors: VMware ESXi, Hyper-V, KVM
+- [x] Type 2 hypervisors: VirtualBox, VMware Workstation
+- [x] Snapshot - point-in-time save of VM state
+- [x] Clone - full independent copy of a VM
+- [x] Template - reusable master image for new VM deployment
 
 ### Cloud Service Models - Quick Reference
 
-- [ ] IaaS - AWS EC2, Azure VM
-- [ ] PaaS - Heroku, AWS Elastic Beanstalk
-- [ ] SaaS - Gmail, Office 365
-- [ ] Provider manages hardware, virtualization, network for IaaS
-- [ ] User manages OS, runtime, apps, data for IaaS
-- [ ] Provider manages OS and runtime for PaaS
-- [ ] User manages apps and data for PaaS
-- [ ] Provider manages everything for SaaS
-- [ ] User mainly uses the service and handles data usage
+- [x] IaaS - AWS EC2, Azure VM
+- [x] PaaS - Heroku, AWS Elastic Beanstalk
+- [x] SaaS - Gmail, Office 365
+- [x] Provider manages hardware, virtualization, network for IaaS
+- [x] User manages OS, runtime, apps, data for IaaS
+- [x] Provider manages OS and runtime for PaaS
+- [x] User manages apps and data for PaaS
+- [x] Provider manages everything for SaaS
+- [x] User mainly uses the service and handles data usage
 
 ### Chef vs Puppet vs Ansible - Comparison
 
 - [ ] Chef language - Ruby DSL
 - [ ] Puppet language - Puppet DSL
-- [ ] Ansible language - YAML
+- [x] Ansible language - YAML
 - [ ] Chef architecture - agent-based (Chef-client + Server)
-- [ ] Puppet architecture - agent-based (Master-Agent)
-- [ ] Ansible architecture - agentless (SSH)
+- [x] Puppet architecture - agent-based (Master-Agent)
+- [x] Ansible architecture - agentless (SSH)
 - [ ] Chef learning curve - steep
 - [ ] Puppet learning curve - moderate
-- [ ] Ansible learning curve - easy
-- [ ] Chef push/pull - pull
-- [ ] Puppet push/pull - pull
-- [ ] Ansible push/pull - push
+- [x] Ansible learning curve - easy
+- [x] Chef push/pull - pull
+- [x] Puppet push/pull - pull
+- [x] Ansible push/pull - push
 - [ ] Chef config unit - Cookbook/Recipe
 - [ ] Puppet config unit - Manifest
 - [ ] Ansible config unit - Playbook
