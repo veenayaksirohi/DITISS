@@ -1629,8 +1629,6 @@ newgrp developers    # starts a new shell where "developers" is the ACTIVE prima
 
 # Linux Boot Process & Systemd — Study Notes
 
-> Related: [[07 - Disk Management and Filesystem Partition Layout|Disk Management and Filesystem Partition Layout]]
-
 ---
 
 ## 1. Key Abbreviations
@@ -2151,9 +2149,39 @@ FCB (inode) Table              Data Blocks
 | Data blocks                | Data blocks     | Actual file content                                                                              |
 | File Control Block (FCB)   | inode           | Per-file metadata (size, permissions, owner, timestamps, data block pointers) — NOT the filename |
 
-# DNS (Domain Name System) — Exam-Ready Notes
+## 5. Disk and Memory Usage Commands
 
-> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
+### `df` — Filesystem Disk Usage
+
+Shows available and used space on mounted filesystems.
+
+```bash
+df -h          # human-readable filesystem usage
+df -h /home    # usage for the filesystem containing /home
+```
+
+### `du` — Directory and File Usage
+
+Shows how much disk space files and directories use.
+
+```bash
+du -sh /var/log       # total size of /var/log
+du -sh /home/*        # size of each home directory
+du -ah /var/log       # size of all files and directories
+```
+
+> **Difference:** `df` reports free and used space for the filesystem; `du` reports space used by specific files and directories.
+
+### `free` — Memory and Swap Usage
+
+Shows used, available, and free RAM and swap space.
+
+```bash
+free -h        # human-readable memory and swap usage
+free -m        # show values in megabytes
+```
+
+# DNS (Domain Name System) — Exam-Ready Notes
 
 ### CDAC DITISS — Networking / Linux OS & Security
 
@@ -3925,8 +3953,6 @@ Bob's MUA
 ---
 
 # NIS & LDAP — Directory Services — Exam-Ready Notes
-
-> Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
 
 ### CDAC DITISS — Networking / Linux OS & Security
 
