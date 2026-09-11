@@ -1,3 +1,17 @@
+---
+title: 02 - Kubernetes Container Orchestration
+aliases:
+  - Kubernetes — Complete Revision Notes
+  - Kubernetes_Complete_Notes
+tags:
+  - devops
+  - kubernetes
+  - container-orchestration
+  - interview-preparation
+syllabus-topic:
+  - 2
+---
+
 # Kubernetes — Complete Revision Notes
 ### (Cluster Architecture → Namespaces → Pods → Services → ReplicaSets → Deployments)
 
@@ -27,7 +41,7 @@
 
 ---
 
-# PART A — KUBERNETES CLUSTER & CORE COMPONENTS
+## PART A — KUBERNETES CLUSTER & CORE COMPONENTS
 
 ## 1. What is Kubernetes?
 
@@ -777,7 +791,7 @@ kubectl scale deployment nginx-deployment --replicas=5   # scale to 5 Pods
 
 ---
 
-# PART B — NAMESPACES
+## PART B — NAMESPACES
 
 ## 1. Kubernetes Object Hierarchy (Big Picture)
 
@@ -933,7 +947,7 @@ This namespace can request max 4 CPU cores, 8GiB memory, limit up to 8 CPU/16GiB
 
 ---
 
-# PART C — PODS
+## PART C — PODS
 
 ## 1. Pod — Definition
 
@@ -1211,7 +1225,7 @@ kubectl delete pod myapp-pod               # delete Pod
 
 ---
 
-# PART D — SERVICES
+## PART D — SERVICES
 
 ## 1. Service — Definition
 
@@ -1429,7 +1443,7 @@ kubectl port-forward service/my-service 8080:80
 
 ---
 
-# PART E — REPLICASETS & DEPLOYMENTS
+## PART E — REPLICASETS & DEPLOYMENTS
 
 ## 1. ReplicaSet — Definition
 
@@ -1762,7 +1776,7 @@ User → External Load Balancer → Service:80 → Pod1:80 / Pod2:80 / Pod3:80
 
 ---
 
-# PART F — MASTER QUICK-REVISION SUMMARY
+## PART F — MASTER QUICK-REVISION SUMMARY
 
 ## Cluster
 ```
@@ -1880,3 +1894,10 @@ Service
 
 ## One-Line Master Answer (Say this in interviews)
 > "A Kubernetes cluster consists of a control plane and worker nodes. The control plane uses the API Server, etcd, Scheduler, and Controller Manager to manage the cluster, while worker nodes use kubelet, kube-proxy, a CNI plugin, and a container runtime to run and connect application Pods. Namespaces logically divide the cluster, Pods are the smallest deployable unit, Services give Pods a stable network identity, ReplicaSets maintain the desired Pod count, and Deployments manage ReplicaSets to provide rolling updates, scaling, and rollback."
+
+## Obsidian Navigation
+
+- [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
+- [[Index|Vault Index and Reading Order]]
+- Related: [[01 - Docker Containerization and Docker Swarm|Docker and Docker Swarm]]
+- Related: [[07 - Terraform and Infrastructure as Code|Terraform and Infrastructure as Code]]

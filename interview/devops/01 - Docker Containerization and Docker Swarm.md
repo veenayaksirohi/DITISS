@@ -1,3 +1,19 @@
+---
+title: 01 - Docker Containerization and Docker Swarm
+aliases:
+        - Containerization, Docker & Docker Swarm — Complete Revision Notes
+        - Containerization_Docker_Swarm_Notes
+tags:
+        - devops
+        - containerization
+        - docker
+        - docker-swarm
+        - interview-preparation
+syllabus-topic:
+        - 1
+        - 15
+---
+
 # Containerization, Docker & Docker Swarm — Complete Revision Notes
 
 ---
@@ -1581,3 +1597,10 @@ docker service rm web
 ---
 
 *Notes consolidated from: Containerization fundamentals, Docker platform & architecture, Docker Images (creation, layers, Dockerfile instructions, security), and Docker Swarm (orchestration, nodes, services, tasks, networking).*
+
+## Obsidian Navigation
+
+- [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
+- [[Index|Vault Index and Reading Order]]
+- Related: [[02 - Kubernetes Container Orchestration|Kubernetes Container Orchestration]]
+- Related: [[05 - AWS Cloud Computing Virtualization and Data Center|AWS Cloud Computing, Virtualization, and Data Center]]

@@ -1,7 +1,8 @@
 ---
-title: "04 - IT Infrastructure Management and DevOps Syllabus and Interview Checklist"
+title: A1 - IT Infrastructure Management and DevOps Checklist
 aliases:
   - "IT Infrastructure Management & DevOps — CDAC DITISS Syllabus"
+  - "04 - IT Infrastructure Management and DevOps Syllabus and Interview Checklist"
 tags:
   - devops
   - itil
@@ -94,4 +95,5 @@ syllabus-topic: []
 ---
 
 ## Related Notes
-- [[00 - PGCP-ITISS Full Syllabus and Interview Checklist]]
+- [[00 - Syllabus and Interview Checklist|Syllabus and Interview Checklist]]
+- [[Index|Vault Index and Reading Order]]
