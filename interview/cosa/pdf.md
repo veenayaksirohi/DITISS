@@ -2150,6 +2150,7 @@ FCB (inode) Table              Data Blocks
 | Master File Table (MFT)    | inode list      | One FCB/inode per file — metadata + pointers to data                                             |
 | Data blocks                | Data blocks     | Actual file content                                                                              |
 | File Control Block (FCB)   | inode           | Per-file metadata (size, permissions, owner, timestamps, data block pointers) — NOT the filename |
+
 # DNS (Domain Name System) — Exam-Ready Notes
 
 > Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
@@ -2542,6 +2543,7 @@ Client → Resolver → Root → TLD → Authoritative → IP
 ---
 
 # DHCP (Dynamic Host Configuration Protocol) — Exam-Ready Notes
+
 ### CDAC DITISS — Networking / Linux OS & Security
 
 ---
@@ -2551,6 +2553,7 @@ Client → Resolver → Root → TLD → Authoritative → IP
 **DHCP = Dynamic Host Configuration Protocol** — automatically gives network settings to devices, instead of manual configuration.
 
 Manually you'd configure:
+
 ```text
 IP address
 Subnet mask
@@ -2559,6 +2562,7 @@ DNS server
 ```
 
 With DHCP, this happens automatically:
+
 ```text
 DHCP Server (Pool: 192.168.50.100 - 192.168.50.200)
         ↓
@@ -2575,14 +2579,17 @@ DNS     → 8.8.8.8
 ## 2. Why DHCP is Needed
 
 Without DHCP, every device needs manual configuration:
+
 ```text
 Laptop 1 → 192.168.50.10
 Laptop 2 → 192.168.50.11
 Laptop 3 → 192.168.50.12
 ```
+
 For hundreds of devices, this is impractical and error-prone.
 
 With DHCP:
+
 ```text
 Device joins network → DHCP automatically gives configuration
 ```
@@ -2594,12 +2601,13 @@ Device joins network → DHCP automatically gives configuration
 - DHCP is an **Application Layer** protocol.
 - Uses **UDP** — because the client may not even have an IP address yet (UDP doesn't require an established connection like TCP does).
 
-| Device | Port |
-|---|---|
+| Device          | Port       |
+| --------------- | ---------- |
 | **DHCP Server** | UDP **67** |
 | **DHCP Client** | UDP **68** |
 
 **Easy memory:**
+
 ```text
 Server → 67
 Client → 68
@@ -2611,28 +2619,29 @@ Client → 68
 
 ## 4. Benefits of DHCP
 
-| Benefit | Explanation |
-|---|---|
-| **Automation** | New device connects → gets IP automatically, no manual work |
-| **Avoids IP conflicts** | Prevents accidentally assigning the same IP to two devices |
-| **Efficient IP usage** | IPs given as time-limited **leases**; unused addresses get reclaimed and reused |
-| **Mobility** | A laptop moving between Home → Office → College gets correct config automatically at each location |
-| **Centralized management** | Gateway, DNS, domain, IP range, lease time — all configured once on the server |
+| Benefit                    | Explanation                                                                                        |
+| -------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Automation**             | New device connects → gets IP automatically, no manual work                                        |
+| **Avoids IP conflicts**    | Prevents accidentally assigning the same IP to two devices                                         |
+| **Efficient IP usage**     | IPs given as time-limited **leases**; unused addresses get reclaimed and reused                    |
+| **Mobility**               | A laptop moving between Home → Office → College gets correct config automatically at each location |
+| **Centralized management** | Gateway, DNS, domain, IP range, lease time — all configured once on the server                     |
 
 ---
 
 ## 5. Key DHCP Components
 
-| Component | Meaning |
-|---|---|
-| **DHCP Server** | Machine that manages IP addresses (pool, gateway, DNS, lease duration, reservations) |
-| **DHCP Client** | Any device requesting config — laptop, phone, desktop, printer, smart TV |
-| **Scope** | The range of IPs DHCP can hand out, e.g. `192.168.50.100 – 192.168.50.200` |
-| **Lease** | An IP given to a client for a specific time period, e.g. 2 hours |
-| **Reservation** | A specific device (identified by MAC address) always gets the same IP — a.k.a. **MAC-to-IP binding** |
-| **DHCP Options** | Extra config sent along with the IP — gateway, DNS, subnet mask, domain name |
+| Component        | Meaning                                                                                              |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
+| **DHCP Server**  | Machine that manages IP addresses (pool, gateway, DNS, lease duration, reservations)                 |
+| **DHCP Client**  | Any device requesting config — laptop, phone, desktop, printer, smart TV                             |
+| **Scope**        | The range of IPs DHCP can hand out, e.g. `192.168.50.100 – 192.168.50.200`                           |
+| **Lease**        | An IP given to a client for a specific time period, e.g. 2 hours                                     |
+| **Reservation**  | A specific device (identified by MAC address) always gets the same IP — a.k.a. **MAC-to-IP binding** |
+| **DHCP Options** | Extra config sent along with the IP — gateway, DNS, subnet mask, domain name                         |
 
 **Reservation example:**
+
 ```text
 Printer MAC: AA:BB:CC:11:22:33
 Always gets: 192.168.50.50
@@ -2659,34 +2668,46 @@ Client now has IP
 ```
 
 ### Step 1 — DHCPDISCOVER
+
 Client has **no IP** and **no known DHCP server**. It **broadcasts**:
+
 ```text
 Client:68 → broadcast → Server:67
 "Is there any DHCP server available?"
 ```
 
 ### Step 2 — DHCPOFFER
+
 Server replies with an offer:
+
 ```text
 "I can give you 192.168.50.101"
 ```
+
 May include: IP address, subnet mask, gateway, DNS, lease time.
 
 ### Step 3 — DHCPREQUEST
+
 Client accepts the offer:
+
 ```text
 "I want 192.168.50.101"
 ```
+
 This is commonly **broadcast** too, so all DHCP servers on the network know which offer was accepted (and the ones not chosen can withdraw their offers).
 
 ### Step 4 — DHCPACK
+
 Server confirms:
+
 ```text
 "Confirmed. You can use this IP."
 ```
+
 Client now has: IP, Gateway, DNS, Lease time.
 
 **Memory trick:**
+
 ```text
 Discover → Find server
 Offer    → Server offers IP
@@ -2700,12 +2721,12 @@ ACK      → Server confirms IP
 
 ## 7. Other DHCP Messages
 
-| Message | Meaning | Example Scenario |
-|---|---|---|
-| **DHCPNAK** | Negative Acknowledgement — server rejects the request | Client asks for an IP that's invalid, unavailable, or the client moved to a different subnet |
-| **DHCPDECLINE** | Client rejects an offered IP because it's already in use | Client checks via **ARP**, finds the address occupied, sends DHCPDECLINE |
-| **DHCPRELEASE** | Client gives back the IP when done with it | Client shuts down / disconnects → server can reuse the address |
-| **DHCPINFORM** | Client already has a static IP but wants DHCP *options* (DNS, domain name, etc.) without requesting a new IP | Statically configured server that still wants DNS settings from DHCP |
+| Message         | Meaning                                                                                                      | Example Scenario                                                                             |
+| --------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| **DHCPNAK**     | Negative Acknowledgement — server rejects the request                                                        | Client asks for an IP that's invalid, unavailable, or the client moved to a different subnet |
+| **DHCPDECLINE** | Client rejects an offered IP because it's already in use                                                     | Client checks via **ARP**, finds the address occupied, sends DHCPDECLINE                     |
+| **DHCPRELEASE** | Client gives back the IP when done with it                                                                   | Client shuts down / disconnects → server can reuse the address                               |
+| **DHCPINFORM**  | Client already has a static IP but wants DHCP _options_ (DNS, domain name, etc.) without requesting a new IP | Statically configured server that still wants DNS settings from DHCP                         |
 
 ```text
 DHCPDECLINE flow:
@@ -2726,13 +2747,13 @@ Client sends DHCPDECLINE
 
 Suppose lease time = **8 hours**. The client does NOT wait for the full 8 hours to try renewing — it starts early.
 
-| Stage | Timing | What Happens |
-|---|---|---|
-| **1. Initialization** | Boot | Client boots → runs DORA → gets IP (e.g. `192.168.50.110`) |
-| **2. Normal Operation** | — | Client simply uses the assigned IP normally |
-| **3. T1 (Renewal)** | ~**50%** of lease time (e.g. ~4 hrs of 8) | Client sends **unicast** DHCPREQUEST to the **original** DHCP server: "Can I continue using this IP?" |
-| **4. T2 (Rebinding)** | ~**87.5%** of lease time | If original server didn't respond, client **broadcasts** DHCPREQUEST — now willing to accept help from ANY DHCP server |
-| **5. Expiration** | 100% of lease time | If still no response, client **must stop using the IP** and restarts DORA from scratch |
+| Stage                   | Timing                                    | What Happens                                                                                                           |
+| ----------------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| **1. Initialization**   | Boot                                      | Client boots → runs DORA → gets IP (e.g. `192.168.50.110`)                                                             |
+| **2. Normal Operation** | —                                         | Client simply uses the assigned IP normally                                                                            |
+| **3. T1 (Renewal)**     | ~**50%** of lease time (e.g. ~4 hrs of 8) | Client sends **unicast** DHCPREQUEST to the **original** DHCP server: "Can I continue using this IP?"                  |
+| **4. T2 (Rebinding)**   | ~**87.5%** of lease time                  | If original server didn't respond, client **broadcasts** DHCPREQUEST — now willing to accept help from ANY DHCP server |
+| **5. Expiration**       | 100% of lease time                        | If still no response, client **must stop using the IP** and restarts DORA from scratch                                 |
 
 ```text
 DORA → Get IP → Use IP
@@ -2753,7 +2774,9 @@ DORA → Get IP → Use IP
 ## 9. DHCP Server Configuration (RHEL-family)
 
 ### Step 1 — Give the DHCP Server a Static IP
+
 A DHCP server should itself have a stable, unchanging address.
+
 ```bash
 sudo nmcli connection modify "ens160" ipv4.addresses 192.168.50.5/24
 sudo nmcli connection modify "ens160" ipv4.method manual
@@ -2763,12 +2786,14 @@ ip address show
 ```
 
 ### Step 2 — Install DHCP Server
+
 ```bash
 sudo dnf update -y
 sudo dnf install dhcp-server -y
 ```
 
 ### Step 3 — Configure `/etc/dhcp/dhcpd.conf`
+
 ```conf
 default-lease-time 600;
 max-lease-time 7200;
@@ -2785,18 +2810,19 @@ subnet 192.168.50.0 netmask 255.255.255.0 {
 
 ### Configuration Directive Breakdown
 
-| Directive | Meaning |
-|---|---|
-| `default-lease-time 600;` | Default lease = 600 seconds = **10 minutes** |
-| `max-lease-time 7200;` | Maximum lease = 7200 seconds = **2 hours** |
-| `authoritative;` | "I am the authoritative DHCP server for this network" |
-| `subnet 192.168.50.0 netmask 255.255.255.0` | Defines the network `192.168.50.0/24` |
-| `range 192.168.50.100 192.168.50.200;` | The DHCP **pool** — addresses that can be handed out |
-| `option routers 192.168.50.1;` | Tells clients their **default gateway** |
-| `option subnet-mask 255.255.255.0;` | Tells clients their **subnet mask** |
-| `option domain-name-servers 8.8.8.8;` | Tells clients their **DNS server** |
+| Directive                                   | Meaning                                               |
+| ------------------------------------------- | ----------------------------------------------------- |
+| `default-lease-time 600;`                   | Default lease = 600 seconds = **10 minutes**          |
+| `max-lease-time 7200;`                      | Maximum lease = 7200 seconds = **2 hours**            |
+| `authoritative;`                            | "I am the authoritative DHCP server for this network" |
+| `subnet 192.168.50.0 netmask 255.255.255.0` | Defines the network `192.168.50.0/24`                 |
+| `range 192.168.50.100 192.168.50.200;`      | The DHCP **pool** — addresses that can be handed out  |
+| `option routers 192.168.50.1;`              | Tells clients their **default gateway**               |
+| `option subnet-mask 255.255.255.0;`         | Tells clients their **subnet mask**                   |
+| `option domain-name-servers 8.8.8.8;`       | Tells clients their **DNS server**                    |
 
 **Resulting client config:**
+
 ```text
 IP       → 192.168.50.100 - 200 (from pool)
 Mask     → 255.255.255.0
@@ -2806,9 +2832,11 @@ Lease    → per configured settings
 ```
 
 ### Step 4 — Validate Configuration
+
 ```bash
 sudo dhcpd -t
 ```
+
 Checks `/etc/dhcp/dhcpd.conf` for syntax errors **before** restarting the service.
 
 ```text
@@ -2816,20 +2844,26 @@ Edit dhcpd.conf → dhcpd -t → No errors → Restart DHCP
 ```
 
 ### Step 5 — Bind DHCP to an Interface
+
 File: `/etc/sysconfig/dhcpd`
+
 ```text
 DHCPDARGS=ens160
 ```
+
 Meaning: DHCP server should listen on interface `ens160`.
 
 ### Step 6 — Start the DHCP Server
+
 ```bash
 sudo systemctl enable --now dhcpd
 systemctl status dhcpd
 ```
+
 `enable` = start automatically at boot; `--now` = start it immediately too.
 
 ### Step 7 — Firewall
+
 ```bash
 sudo firewall-cmd --add-service=dhcp --permanent
 sudo firewall-cmd --reload
@@ -2854,19 +2888,21 @@ sudo firewall-cmd --reload
          |             |             |
      .100-.200      .100-.200     .100-.200
 ```
+
 Each device gets a unique address from the pool.
 
 ---
 
 ## 11. Best Practices
 
-| Practice | Why |
-|---|---|
-| **DHCP server should have a static IP** | If the DHCP server's own IP changes, clients lose track of where to renew leases |
-| **Don't overlap DHCP pool with statically assigned IPs** | Prevents IP conflicts between manually configured devices and the DHCP pool |
-| **Avoid uncontrolled multiple DHCP servers** | Two independent DHCP servers (e.g. router's built-in DHCP + a Linux DHCP server) both answering DHCPDISCOVER causes unpredictable client configuration |
+| Practice                                                 | Why                                                                                                                                                    |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **DHCP server should have a static IP**                  | If the DHCP server's own IP changes, clients lose track of where to renew leases                                                                       |
+| **Don't overlap DHCP pool with statically assigned IPs** | Prevents IP conflicts between manually configured devices and the DHCP pool                                                                            |
+| **Avoid uncontrolled multiple DHCP servers**             | Two independent DHCP servers (e.g. router's built-in DHCP + a Linux DHCP server) both answering DHCPDISCOVER causes unpredictable client configuration |
 
 **Example of separating static vs. pool addresses:**
+
 ```text
 Static (outside pool):
 192.168.50.1  → Router
@@ -3270,6 +3306,7 @@ TFTP = Tiny/simple file transfer
 ---
 
 # Mail Services — Exam-Ready Notes
+
 ### CDAC DITISS — Networking / Linux OS & Security
 
 ---
@@ -3282,28 +3319,29 @@ A **mail service** is a system used to **send, receive, store, and manage** emai
 Mail Client → Mail Server → Mail Protocols
 ```
 
-| Category | Examples |
-|---|---|
-| Mail Clients | Thunderbird, Outlook, Apple Mail, `mail` command |
-| Mail Server Software | Postfix, Dovecot, Sendmail, Procmail |
+| Category             | Examples                                         |
+| -------------------- | ------------------------------------------------ |
+| Mail Clients         | Thunderbird, Outlook, Apple Mail, `mail` command |
+| Mail Server Software | Postfix, Dovecot, Sendmail, Procmail             |
 
 ---
 
 ## 2. Main Mail Components — Quick Overview
 
-| Component | Purpose |
-|---|---|
-| **SMTP** | Send email |
-| **IMAP** | Read/sync email from server |
-| **POP3** | Download email |
-| **Postfix** | SMTP mail server / MTA |
-| **Dovecot** | IMAP/POP3 server |
-| **Maildir** | Stores emails as files |
-| **Procmail** | Filters/delivers emails |
-| **Sendmail** | Mail transfer server |
-| **Thunderbird/Outlook/Apple Mail** | Mail clients |
+| Component                          | Purpose                     |
+| ---------------------------------- | --------------------------- |
+| **SMTP**                           | Send email                  |
+| **IMAP**                           | Read/sync email from server |
+| **POP3**                           | Download email              |
+| **Postfix**                        | SMTP mail server / MTA      |
+| **Dovecot**                        | IMAP/POP3 server            |
+| **Maildir**                        | Stores emails as files      |
+| **Procmail**                       | Filters/delivers emails     |
+| **Sendmail**                       | Mail transfer server        |
+| **Thunderbird/Outlook/Apple Mail** | Mail clients                |
 
 **Easy memory:**
+
 ```text
 Postfix  → SEND/TRANSFER
 Dovecot  → READ/ACCESS
@@ -3314,6 +3352,7 @@ POP3     → DOWNLOAD
 ```
 
 **Overall flow to remember:**
+
 ```text
 Client → SMTP → Postfix → Mailbox/Maildir → Dovecot → IMAP/POP3 → Client
 ```
@@ -3322,12 +3361,12 @@ Client → SMTP → Postfix → Mailbox/Maildir → Dovecot → IMAP/POP3 → Cl
 
 ## 3. Postfix, Dovecot, Sendmail, Procmail
 
-| Software | Role | Protocol Used |
-|---|---|---|
-| **Postfix** | Mail transfer server — sends/receives mail between servers | SMTP |
-| **Dovecot** | Lets users read/access mail stored on the server | IMAP / POP3 |
-| **Sendmail** | Another mail transfer agent (older, Postfix is a modern alternative) | SMTP |
-| **Procmail** | Mail filtering/delivery — sorts mail into folders based on rules | — |
+| Software     | Role                                                                 | Protocol Used |
+| ------------ | -------------------------------------------------------------------- | ------------- |
+| **Postfix**  | Mail transfer server — sends/receives mail between servers           | SMTP          |
+| **Dovecot**  | Lets users read/access mail stored on the server                     | IMAP / POP3   |
+| **Sendmail** | Another mail transfer agent (older, Postfix is a modern alternative) | SMTP          |
+| **Procmail** | Mail filtering/delivery — sorts mail into folders based on rules     | —             |
 
 ```text
 Postfix = SMTP mail server (MTA)
@@ -3335,6 +3374,7 @@ Dovecot = IMAP/POP3 server
 ```
 
 **Procmail example flow:**
+
 ```text
 Incoming mail → Procmail → Check rules → Move to correct folder
   Boss email  → Work folder
@@ -3347,70 +3387,76 @@ Incoming mail → Procmail → Check rules → Move to correct folder
 ## 4. Email Protocols — SMTP, IMAP, POP3
 
 ### 4.1 SMTP (Simple Mail Transfer Protocol)
+
 **Job: Sending email.**
 
 ```text
 Mail Client → SMTP → Mail Server → SMTP → Other Mail Server
 ```
 
-| Port | Purpose |
-|---|---|
-| **25** | Server-to-server SMTP relay |
+| Port    | Purpose                           |
+| ------- | --------------------------------- |
+| **25**  | Server-to-server SMTP relay       |
 | **587** | Mail submission (client → server) |
-| **465** | SMTP over implicit TLS |
+| **465** | SMTP over implicit TLS            |
 
 > **Easy memory:** SMTP = **S**end **M**ail
 
 ### 4.2 IMAP (Internet Message Access Protocol)
+
 **Job: Read/manage mail while it mainly stays on the server.**
 
 ```text
 Mail Server → Laptop, Phone, Tablet (all see same mailbox)
 ```
+
 Reading a message on one device marks it read on all devices — this is **synchronization**.
 
-| Port | Purpose |
-|---|---|
-| **143** | IMAP |
+| Port    | Purpose                        |
+| ------- | ------------------------------ |
+| **143** | IMAP                           |
 | **993** | IMAPS (IMAP over implicit TLS) |
 
 ### 4.3 POP3 (Post Office Protocol v3)
+
 **Job: Download email from server to client.**
 
 ```text
 Mail Server → Download → Laptop
 ```
+
 Traditionally designed around **one main device** — depending on client settings, mail may be deleted from the server after download.
 
-| Port | Purpose |
-|---|---|
-| **110** | POP3 |
+| Port    | Purpose               |
+| ------- | --------------------- |
+| **110** | POP3                  |
 | **995** | POP3 over TLS (POP3S) |
 
 ### IMAP vs POP3
 
-| Feature | IMAP | POP3 |
-|---|---|---|
-| Mail location | Mainly stays on server | Downloaded to client |
-| Multi-device sync | ✅ Yes | ❌ Not designed for it |
-| Best for | Phone + laptop + webmail | One main device |
-| Port | 143 / 993 | 110 / 995 |
+| Feature           | IMAP                     | POP3                   |
+| ----------------- | ------------------------ | ---------------------- |
+| Mail location     | Mainly stays on server   | Downloaded to client   |
+| Multi-device sync | ✅ Yes                   | ❌ Not designed for it |
+| Best for          | Phone + laptop + webmail | One main device        |
+| Port              | 143 / 993                | 110 / 995              |
 
 ### SMTP vs POP3 vs IMAP (Full Comparison)
 
-| Feature | SMTP | POP3 | IMAP |
-|---|---|---|---|
-| Purpose | Send mail | Download mail | Read/sync mail |
-| Direction | Push | Pull | Pull/sync |
-| Server-side role | Transfer/queue | Simple retrieval | Mailbox management |
-| Folders | N/A | Very limited | Multiple folders |
-| Message flags | N/A | Limited | Yes (Seen, Replied, Flagged, Deleted) |
-| Partial fetch | N/A | Limited | Yes |
-| Server-side search | N/A | No/rudimentary | Yes |
-| Multiple devices | N/A | Less suitable | Excellent |
-| Typical secure port | 587/465 | 995 | 993 |
+| Feature             | SMTP           | POP3             | IMAP                                  |
+| ------------------- | -------------- | ---------------- | ------------------------------------- |
+| Purpose             | Send mail      | Download mail    | Read/sync mail                        |
+| Direction           | Push           | Pull             | Pull/sync                             |
+| Server-side role    | Transfer/queue | Simple retrieval | Mailbox management                    |
+| Folders             | N/A            | Very limited     | Multiple folders                      |
+| Message flags       | N/A            | Limited          | Yes (Seen, Replied, Flagged, Deleted) |
+| Partial fetch       | N/A            | Limited          | Yes                                   |
+| Server-side search  | N/A            | No/rudimentary   | Yes                                   |
+| Multiple devices    | N/A            | Less suitable    | Excellent                             |
+| Typical secure port | 587/465        | 995              | 993                                   |
 
 **Easiest possible summary:**
+
 ```text
 SMTP → SEND
 POP3 → DOWNLOAD
@@ -3426,22 +3472,28 @@ IMAP → SYNC
 Mail storage format = **how emails are saved on disk** after the server receives them.
 
 ### mbox
+
 All emails stored in **ONE big file**.
+
 ```text
 /var/mail/bob
     ↓
 [Mail1][Mail2][Mail3][Mail4]
 ```
+
 Because many emails share one file, **locking** is required when multiple processes access it.
 
 ### Maildir
+
 Every email stored as a **separate file**.
+
 ```text
 /home/bob/Maildir/
 ├── new/   → New/unread messages
 ├── cur/   → Already processed/seen messages
 └── tmp/   → Temporary files during delivery
 ```
+
 ```text
 Maildir/new/
 ├── mail001
@@ -3451,17 +3503,18 @@ Maildir/new/
 
 ### mbox vs Maildir — Comparison
 
-| Feature | mbox | Maildir |
-|---|---|---|
-| Storage | All emails in one file | One file per email |
-| Locking | Required | Usually not required |
-| NFS usage | Poorer | Better |
-| Backup | Whole mailbox | Individual messages |
-| Delete message | Can require rewriting mailbox | Delete one file |
-| Corruption risk | One damaged file may affect many emails | Usually affects one message |
-| Performance (many messages) | Can become slower | Usually easier to manage |
+| Feature                     | mbox                                    | Maildir                     |
+| --------------------------- | --------------------------------------- | --------------------------- |
+| Storage                     | All emails in one file                  | One file per email          |
+| Locking                     | Required                                | Usually not required        |
+| NFS usage                   | Poorer                                  | Better                      |
+| Backup                      | Whole mailbox                           | Individual messages         |
+| Delete message              | Can require rewriting mailbox           | Delete one file             |
+| Corruption risk             | One damaged file may affect many emails | Usually affects one message |
+| Performance (many messages) | Can become slower                       | Usually easier to manage    |
 
 **Easy memory:**
+
 ```text
 mbox    → ONE mailbox file
 Maildir → ONE file per MAIL
@@ -3470,19 +3523,21 @@ Maildir → ONE file per MAIL
 ### Maildir Filename Flags
 
 Filename example:
+
 ```text
 1234567890.12345_0.hostname,S=1024,W=2048:2,S
 ```
+
 You don't need to memorize the full format — just the **flags** at the end:
 
-| Flag | Meaning |
-|---|---|
-| `D` | Draft |
-| `F` | Flagged / Starred |
-| `P` | Passed / Forwarded |
-| `R` | Replied |
-| `S` | Seen / Read |
-| `T` | Trashed |
+| Flag | Meaning            |
+| ---- | ------------------ |
+| `D`  | Draft              |
+| `F`  | Flagged / Starred  |
+| `P`  | Passed / Forwarded |
+| `R`  | Replied            |
+| `S`  | Seen / Read        |
+| `T`  | Trashed            |
 
 Example: `:2,S` means the email has been **Seen/Read**.
 
@@ -3493,6 +3548,7 @@ Example: `:2,S` means the email has been **Seen/Read**.
 ## 6. Email Message Structure
 
 An email has **three main parts**:
+
 ```text
 Email
 ├── Headers / Envelope info
@@ -3502,22 +3558,24 @@ Email
 
 ### Important Header Fields
 
-| Field | Meaning |
-|---|---|
-| `From` | Who sent the email |
-| `To` | Main recipient |
-| `Cc` | Carbon Copy — visible extra recipients |
-| `Bcc` | Blind Carbon Copy — hidden from other recipients |
-| `Subject` | Short description of email |
-| `Date` | When email was sent |
-| Attachments | Files sent with the email |
+| Field       | Meaning                                          |
+| ----------- | ------------------------------------------------ |
+| `From`      | Who sent the email                               |
+| `To`        | Main recipient                                   |
+| `Cc`        | Carbon Copy — visible extra recipients           |
+| `Bcc`       | Blind Carbon Copy — hidden from other recipients |
+| `Subject`   | Short description of email                       |
+| `Date`      | When email was sent                              |
+| Attachments | Files sent with the email                        |
 
 ### Cc vs Bcc Example
+
 ```text
 To  : Bob
 Cc  : Carol
 Bcc : David
 ```
+
 Bob and Carol can see: `Bob, Carol` (each other). **Neither can see David** — David is hidden.
 
 ```text
@@ -3526,6 +3584,7 @@ Bcc → hidden recipients
 ```
 
 ### Raw Email Format (RFC 5322)
+
 ```text
 From: Alice <alice@gmail.com>
 To: Bob <bob@company.com>
@@ -3535,6 +3594,7 @@ Date: Mon, 13 Apr 2026 10:30:00
 Hi Bob,
 Let's meet tomorrow.
 ```
+
 ```text
 Headers
    ↓
@@ -3549,14 +3609,15 @@ Body
 
 These are the **four core components** of any email system.
 
-| Component | Full Name | Role | Examples |
-|---|---|---|---|
-| **MUA** | Mail User Agent | Application the user interacts with (write/read/reply/forward/attach) | Thunderbird, Outlook, Evolution, Mutt, mail, mailx |
-| **MSA** | Mail Submission Agent | Accepts outgoing mail from the MUA; checks auth, size, spam | Postfix (port 587) |
-| **MTA** | Mail Transfer Agent | Transfers mail **between mail servers** using SMTP | Postfix, Exim, Sendmail |
-| **MDA** | Mail Delivery Agent (a.k.a. LDA — Local Delivery Agent) | Delivers received mail into the **correct local mailbox** | Dovecot, Procmail, Cyrus IMAP, fetchmail, getmail, fdm |
+| Component | Full Name                                               | Role                                                                  | Examples                                               |
+| --------- | ------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------ |
+| **MUA**   | Mail User Agent                                         | Application the user interacts with (write/read/reply/forward/attach) | Thunderbird, Outlook, Evolution, Mutt, mail, mailx     |
+| **MSA**   | Mail Submission Agent                                   | Accepts outgoing mail from the MUA; checks auth, size, spam           | Postfix (port 587)                                     |
+| **MTA**   | Mail Transfer Agent                                     | Transfers mail **between mail servers** using SMTP                    | Postfix, Exim, Sendmail                                |
+| **MDA**   | Mail Delivery Agent (a.k.a. LDA — Local Delivery Agent) | Delivers received mail into the **correct local mailbox**             | Dovecot, Procmail, Cyrus IMAP, fetchmail, getmail, fdm |
 
 ### Easy Memory
+
 ```text
 MUA → User writes/reads mail
 MSA → Accepts mail from user
@@ -3565,11 +3626,13 @@ MDA → Delivers mail into mailbox
 ```
 
 **Simple flow sequence:**
+
 ```text
 MUA → MSA → MTA → MTA → MDA → Mailbox → MUA
 ```
 
 **With real software:**
+
 ```text
 Thunderbird → Postfix → Postfix → Dovecot/mailbox → Outlook
 ```
@@ -3580,18 +3643,19 @@ Thunderbird → Postfix → Postfix → Dovecot/mailbox → Outlook
 
 Scenario: `alice@gmail.com` sends mail to `bob@company.com`.
 
-| Step | What Happens | Component |
-|---|---|---|
-| 1 | Alice composes email in her client | MUA (Thunderbird/Gmail) |
-| 2 | Client submits mail via SMTP (port 587); checks auth, size, spam | MSA |
-| 3 | MSA hands off to MTA, which adds headers (`Received`, `Message-ID`) | MTA |
-| 4 | MTA looks up `company.com`'s **MX record** via DNS to find the mail server | DNS MX lookup |
-| 5 | Alice's MTA connects to Bob's MTA via SMTP (port 25) and transfers the message | Server-to-server SMTP |
-| 6 | Bob's server checks: does Bob exist? spam/antivirus/filtering? | MDA |
-| 7 | Message is written to disk (mbox or Maildir) | Mailbox storage |
-| 8 | Bob opens his MUA, connects via IMAPS (port 993) through Dovecot, and reads the mail | MUA + Dovecot |
+| Step | What Happens                                                                         | Component               |
+| ---- | ------------------------------------------------------------------------------------ | ----------------------- |
+| 1    | Alice composes email in her client                                                   | MUA (Thunderbird/Gmail) |
+| 2    | Client submits mail via SMTP (port 587); checks auth, size, spam                     | MSA                     |
+| 3    | MSA hands off to MTA, which adds headers (`Received`, `Message-ID`)                  | MTA                     |
+| 4    | MTA looks up `company.com`'s **MX record** via DNS to find the mail server           | DNS MX lookup           |
+| 5    | Alice's MTA connects to Bob's MTA via SMTP (port 25) and transfers the message       | Server-to-server SMTP   |
+| 6    | Bob's server checks: does Bob exist? spam/antivirus/filtering?                       | MDA                     |
+| 7    | Message is written to disk (mbox or Maildir)                                         | Mailbox storage         |
+| 8    | Bob opens his MUA, connects via IMAPS (port 993) through Dovecot, and reads the mail | MUA + Dovecot           |
 
 ### Full Diagram
+
 ```text
 Alice
   ↓
@@ -3617,6 +3681,7 @@ Bob
 ```
 
 ### DNS MX Lookup Detail
+
 ```text
 bob@company.com
       ↓
@@ -3631,35 +3696,46 @@ Resolve mail.company.com → IP (A/AAAA record)
 20.5.6.7
 ```
 
-> **Exam trap:** MX record points to a *hostname*, not directly an IP — the resolver must then look up that hostname's A/AAAA record separately to get the actual IP.
+> **Exam trap:** MX record points to a _hostname_, not directly an IP — the resolver must then look up that hostname's A/AAAA record separately to get the actual IP.
 
 ---
 
 ## 9. Special Scenarios
 
 ### Scenario A — Both Users on Same Server
+
 If `alice@company.com` sends to `bob@company.com`, both are on the same domain. The MTA recognizes Bob is a **local user** and skips the external DNS MX lookup and internet SMTP hop entirely — goes straight to MDA → mailbox.
 
 ### Scenario B — Recipient is Offline
+
 Bob's laptop is off when Alice sends the mail. No problem — the server **stores** the email in Bob's mailbox. When Bob comes online, Outlook connects via IMAP and the email appears.
+
 > **Key point:** The recipient does NOT need to be online at send time.
 
 ### Scenario C — Greylisting (Anti-Spam Technique)
+
 When an unfamiliar sender first tries to deliver, the receiving server may reply:
+
 ```text
 450 Temporary failure — try again later
 ```
+
 Legitimate mail servers retry automatically after some time; many spam systems don't retry correctly, so this filters some spam.
+
 ```text
 First attempt → 450 Try later → Few minutes later → Retry → Accepted
 ```
 
 ### Scenario D — Bounce Mail (DSN)
+
 If `bob@company.com` doesn't exist, the server responds:
+
 ```text
 550 No such user
 ```
+
 The sending system generates a **DSN (Delivery Status Notification)**, commonly called a **bounce message**, informing Alice the delivery failed.
+
 ```text
 Alice → Send → bob@company.com ❌ → 550 No such user → Bounce/DSN → Alice
 ```
@@ -3669,6 +3745,7 @@ Alice → Send → bob@company.com ❌ → 550 No such user → Bounce/DSN → A
 ## 10. SMTP Commands & Responses
 
 ### Example SMTP Conversation
+
 ```text
 Client: EHLO mail.example.com
 Server: 250 OK
@@ -3692,29 +3769,30 @@ Client: QUIT
 
 ### SMTP Commands
 
-| Command | Purpose |
-|---|---|
-| `HELO` | Starts a basic SMTP session |
-| `EHLO` | Extended/modern version of HELO — server tells client what extensions it supports (STARTTLS, AUTH, SIZE) |
-| `MAIL FROM` | Specifies the sender |
-| `RCPT TO` | Specifies recipient (can be repeated for multiple recipients) |
-| `DATA` | Starts the actual message content; ends with a single `.` on its own line |
-| `RSET` | Cancels current transaction without closing connection |
-| `VRFY` | Attempts to verify a user (often disabled for security/privacy) |
-| `EXPN` | Attempts to expand a mailing list (also commonly disabled) |
-| `NOOP` | Does nothing — used to keep/check connection alive |
-| `QUIT` | Ends the SMTP session |
+| Command     | Purpose                                                                                                  |
+| ----------- | -------------------------------------------------------------------------------------------------------- |
+| `HELO`      | Starts a basic SMTP session                                                                              |
+| `EHLO`      | Extended/modern version of HELO — server tells client what extensions it supports (STARTTLS, AUTH, SIZE) |
+| `MAIL FROM` | Specifies the sender                                                                                     |
+| `RCPT TO`   | Specifies recipient (can be repeated for multiple recipients)                                            |
+| `DATA`      | Starts the actual message content; ends with a single `.` on its own line                                |
+| `RSET`      | Cancels current transaction without closing connection                                                   |
+| `VRFY`      | Attempts to verify a user (often disabled for security/privacy)                                          |
+| `EXPN`      | Attempts to expand a mailing list (also commonly disabled)                                               |
+| `NOOP`      | Does nothing — used to keep/check connection alive                                                       |
+| `QUIT`      | Ends the SMTP session                                                                                    |
 
 ### SMTP Response Codes
 
-| Code Range | Meaning | Example |
-|---|---|---|
-| **2xx** | Success | `250 OK` — command/message accepted |
-| **3xx** | More info required | `354 Start mail input` — occurs after `DATA` |
-| **4xx** | Temporary failure — sender should retry | `450 Mailbox busy` |
-| **5xx** | Permanent failure — retrying won't help | `550 No such user` |
+| Code Range | Meaning                                 | Example                                      |
+| ---------- | --------------------------------------- | -------------------------------------------- |
+| **2xx**    | Success                                 | `250 OK` — command/message accepted          |
+| **3xx**    | More info required                      | `354 Start mail input` — occurs after `DATA` |
+| **4xx**    | Temporary failure — sender should retry | `450 Mailbox busy`                           |
+| **5xx**    | Permanent failure — retrying won't help | `550 No such user`                           |
 
 **Easy memory:**
+
 ```text
 2xx → Success
 3xx → Continue / more data
@@ -3729,6 +3807,7 @@ Client: QUIT
 ## 11. POP3 Commands
 
 ### Example POP3 Session
+
 ```text
 Client: USER bob
 Server: +OK
@@ -3753,21 +3832,22 @@ Client: QUIT
 
 ### POP3 Commands
 
-| Command | Purpose |
-|---|---|
-| `USER` | Specifies username |
-| `PASS` | Sends password |
-| `STAT` | Shows mailbox summary (message count, total size) |
-| `LIST` | Lists messages and sizes |
-| `RETR` | Retrieves/downloads a specific message |
-| `DELE` | Marks a message for deletion (actual deletion committed on successful `QUIT`) |
-| `RSET` | Undoes deletion marks made during the current session |
-| `UIDL` | Returns unique IDs for messages |
-| `QUIT` | Ends the session |
+| Command | Purpose                                                                       |
+| ------- | ----------------------------------------------------------------------------- |
+| `USER`  | Specifies username                                                            |
+| `PASS`  | Sends password                                                                |
+| `STAT`  | Shows mailbox summary (message count, total size)                             |
+| `LIST`  | Lists messages and sizes                                                      |
+| `RETR`  | Retrieves/downloads a specific message                                        |
+| `DELE`  | Marks a message for deletion (actual deletion committed on successful `QUIT`) |
+| `RSET`  | Undoes deletion marks made during the current session                         |
+| `UIDL`  | Returns unique IDs for messages                                               |
+| `QUIT`  | Ends the session                                                              |
 
-> **Exam trap:** `DELE` only *marks* a message for deletion — the deletion is only finalized when the session ends successfully with `QUIT`. If the connection drops before `QUIT`, the message is NOT deleted (or `RSET` can undo the mark before quitting).
+> **Exam trap:** `DELE` only _marks_ a message for deletion — the deletion is only finalized when the session ends successfully with `QUIT`. If the connection drops before `QUIT`, the message is NOT deleted (or `RSET` can undo the mark before quitting).
 
 ### POP3 Limitations
+
 - Mainly works around a single `INBOX` — no rich server-side folder management like IMAP
 - Limited message flags (no Seen/Replied/Flagged model like IMAP)
 - No rich server-side search — it's primarily a download protocol
@@ -3776,13 +3856,14 @@ Client: QUIT
 
 ## 12. SMTP Ports — Detailed
 
-| Port | Name | Encryption | Common Use |
-|---|---|---|---|
-| **25** | SMTP | STARTTLS may be used | Mail server → Mail server (relay) |
-| **587** | Submission | STARTTLS commonly used | Mail client → Mail server |
-| **465** | SMTPS | Implicit TLS | Secure mail submission |
+| Port    | Name       | Encryption             | Common Use                        |
+| ------- | ---------- | ---------------------- | --------------------------------- |
+| **25**  | SMTP       | STARTTLS may be used   | Mail server → Mail server (relay) |
+| **587** | Submission | STARTTLS commonly used | Mail client → Mail server         |
+| **465** | SMTPS      | Implicit TLS           | Secure mail submission            |
 
 **Easy memory:**
+
 ```text
 25  → Server to Server
 587 → Client sends mail
@@ -3793,10 +3874,10 @@ Client: QUIT
 
 ## 13. FOSS SMTP/Mail Implementations
 
-| Protocol | Software Implementations |
-|---|---|
-| SMTP | Postfix, Exim, Sendmail, OpenSMTPD |
-| IMAP/POP3 | Dovecot |
+| Protocol  | Software Implementations           |
+| --------- | ---------------------------------- |
+| SMTP      | Postfix, Exim, Sendmail, OpenSMTPD |
+| IMAP/POP3 | Dovecot                            |
 
 ```text
 Protocol → SMTP
@@ -3811,11 +3892,11 @@ Software:
 
 ## 14. When to Use What
 
-| Protocol | Best When |
-|---|---|
+| Protocol | Best When                                                                                                                   |
+| -------- | --------------------------------------------------------------------------------------------------------------------------- |
 | **SMTP** | Sending application notifications, relaying mail between servers, sending user email, building mail transfer infrastructure |
-| **POP3** | Simple mailbox download is enough; mainly one client/device used; server-side management not needed |
-| **IMAP** | Using phone + laptop + webmail together; want server-side folders, flags, read/unread sync, and remote mailbox management |
+| **POP3** | Simple mailbox download is enough; mainly one client/device used; server-side management not needed                         |
+| **IMAP** | Using phone + laptop + webmail together; want server-side folders, flags, read/unread sync, and remote mailbox management   |
 
 ---
 
@@ -3844,6 +3925,7 @@ Bob's MUA
 ---
 
 # NIS & LDAP — Directory Services — Exam-Ready Notes
+
 > Related: [[15 - Email Services - Postfix and Dovecot|Email Services - Postfix and Dovecot]]
 
 ### CDAC DITISS — Networking / Linux OS & Security
@@ -3857,6 +3939,7 @@ Bob's MUA
 **NIS = Network Information Service** — an older **client-server directory service** used mainly in Unix/Linux networks to keep common system information centralized instead of maintaining it separately on every machine.
 
 **Without NIS:**
+
 ```text
 Client1 → own users/groups
 Client2 → own users/groups
@@ -3864,6 +3947,7 @@ Client3 → own users/groups
 ```
 
 **With NIS:**
+
 ```text
         NIS Server
         ├── users
@@ -3879,7 +3963,9 @@ Client3 → own users/groups
 > **NIS provides centralized user and system information to multiple Unix/Linux clients.**
 
 ### What can NIS manage?
+
 Central distribution of files like:
+
 ```text
 /etc/passwd     → user accounts
 /etc/shadow     → passwords
@@ -3888,6 +3974,7 @@ Central distribution of files like:
 /etc/services   → network services
 /etc/protocols  → network protocols
 ```
+
 Instead of creating user `john` separately on 20 machines, his info is managed centrally.
 
 ---
@@ -3895,12 +3982,14 @@ Instead of creating user `john` separately on 20 machines, his info is managed c
 ## 2. Why is NIS also called YP?
 
 NIS was originally called **Yellow Pages (YP)** — that's why many NIS commands/services still start with `yp`:
+
 ```text
 ypbind
 ypserv
 ypcat
 ypmatch
 ```
+
 ```text
 NIS ≈ YP (old Unix terminology)
 ```
@@ -3911,13 +4000,13 @@ NIS ≈ YP (old Unix terminology)
 
 Scenario: user `john` tries to log in.
 
-| Step | What Happens |
-|---|---|
-| 1 | Client needs info about `john` |
-| 2 | **`ypbind`** (client-side binding service) connects the client to an NIS server |
-| 3 | NIS server receives the query |
-| 4 | Server searches a **NIS map** (e.g. `passwd.byname`) |
-| 5 | Server returns John's info: `john:x:1005:1005:John:/home/john:/bin/bash` |
+| Step | What Happens                                                                    |
+| ---- | ------------------------------------------------------------------------------- |
+| 1    | Client needs info about `john`                                                  |
+| 2    | **`ypbind`** (client-side binding service) connects the client to an NIS server |
+| 3    | NIS server receives the query                                                   |
+| 4    | Server searches a **NIS map** (e.g. `passwd.byname`)                            |
+| 5    | Server returns John's info: `john:x:1005:1005:John:/home/john:/bin/bash`        |
 
 ```text
 Client
@@ -3926,9 +4015,11 @@ ypbind
   ↓
 NIS Server
 ```
+
 > **ypbind = NIS client-side binding service**
 
 ### Complete NIS Flow
+
 ```text
 User tries: john
   ↓
@@ -3953,13 +4044,13 @@ Client uses it
 
 A **map** = a NIS database containing a particular type of information (like a table).
 
-| Map | Purpose |
-|---|---|
+| Map             | Purpose                          |
+| --------------- | -------------------------------- |
 | `passwd.byname` | User info searchable by username |
-| `passwd.byuid` | User info searchable by UID |
-| `group.byname` | Group info by name |
-| `hosts.byname` | Host info by name |
-| `hosts.byaddr` | Host info by IP address |
+| `passwd.byuid`  | User info searchable by UID      |
+| `group.byname`  | Group info by name               |
+| `hosts.byname`  | Host info by name                |
+| `hosts.byaddr`  | Host info by IP address          |
 
 ```text
 NIS Map = database/table
@@ -3971,14 +4062,14 @@ NIS Map = database/table
 
 NIS was designed for **trusted internal Unix networks** — this is its biggest weakness.
 
-| Limitation | Detail |
-|---|---|
-| **No encryption** | Data can be sniffed on the network — no built-in encrypted transport |
-| **Weak authentication** | Relies on trusted hosts/network config rather than strong user/server authentication |
-| **Weak password policy support** | No rich complexity/history/expiration policy features |
-| **Vulnerable to spoofing** | Clients can't strongly verify they're talking to the genuine NIS server |
-| **Predictable/discoverable services** | Relies on RPC, making services easy to discover on the local network |
-| **Limited access control** | Designed to broadcast info broadly — fine-grained control is weak |
+| Limitation                            | Detail                                                                               |
+| ------------------------------------- | ------------------------------------------------------------------------------------ |
+| **No encryption**                     | Data can be sniffed on the network — no built-in encrypted transport                 |
+| **Weak authentication**               | Relies on trusted hosts/network config rather than strong user/server authentication |
+| **Weak password policy support**      | No rich complexity/history/expiration policy features                                |
+| **Vulnerable to spoofing**            | Clients can't strongly verify they're talking to the genuine NIS server              |
+| **Predictable/discoverable services** | Relies on RPC, making services easy to discover on the local network                 |
+| **Limited access control**            | Designed to broadcast info broadly — fine-grained control is weak                    |
 
 > **Exam trap:** NIS's core weakness isn't a single flaw — it's a **combination of design-era assumptions** (trusted internal network) that don't hold up in modern, hostile network environments.
 
@@ -3986,13 +4077,13 @@ NIS was designed for **trusted internal Unix networks** — this is its biggest 
 
 ## 6. NIS vs LDAP (Quick Preview)
 
-| NIS | LDAP |
-|---|---|
-| Older | More modern |
-| Mainly Unix-focused | Platform independent |
-| Weak security | TLS/security integration |
-| Simple data maps (flat) | Hierarchical directory |
-| Limited scalability | Better scalability |
+| NIS                     | LDAP                     |
+| ----------------------- | ------------------------ |
+| Older                   | More modern              |
+| Mainly Unix-focused     | Platform independent     |
+| Weak security           | TLS/security integration |
+| Simple data maps (flat) | Hierarchical directory   |
+| Limited scalability     | Better scalability       |
 
 ```text
 NIS  → Old centralized directory (flat)
@@ -4008,6 +4099,7 @@ LDAP → Modern flexible directory protocol (hierarchical)
 **LDAP = Lightweight Directory Access Protocol** — a protocol to **store, search, and manage directory information** over a network.
 
 Think of it as a **central company phonebook/database**:
+
 ```text
 LDAP Server
    ├── Users
@@ -4016,21 +4108,27 @@ LDAP Server
    ├── Printers
    └── Departments
 ```
+
 Applications query this central directory instead of maintaining separate user lists.
 
 ### Why "Lightweight"?
+
 LDAP came from the older, complex **X.500 DAP (Directory Access Protocol)**, which depended on the OSI networking stack. LDAP was designed to be simpler and work directly over **TCP/IP**.
+
 ```text
 DAP  → Complex (OSI stack)
 LDAP → Lightweight/simpler (TCP/IP)
 ```
 
 ### LDAP is a Protocol, Not Software
+
 ```text
 LDAP → Protocol
 OpenLDAP, Active Directory, 389 Directory Server → Software implementing it
 ```
+
 Same relationship as:
+
 ```text
 HTTP → protocol   |   Apache → software
 LDAP → protocol   |   OpenLDAP → software
@@ -4040,13 +4138,14 @@ LDAP → protocol   |   OpenLDAP → software
 
 ## 9. LDAP Ports
 
-| Port | Purpose |
-|---|---|
-| **389** | LDAP |
-| **636** | LDAPS (LDAP over TLS) |
+| Port     | Purpose                     |
+| -------- | --------------------------- |
+| **389**  | LDAP                        |
+| **636**  | LDAPS (LDAP over TLS)       |
 | **3268** | Microsoft AD Global Catalog |
 
 **Easy memory:**
+
 ```text
 389 → LDAP
 636 → Secure LDAP
@@ -4056,11 +4155,11 @@ LDAP → protocol   |   OpenLDAP → software
 
 ## 10. Common LDAP Implementations
 
-| Implementation | Notes |
-|---|---|
-| **OpenLDAP** | Open-source; main daemon = **`slapd`** |
-| **Microsoft Active Directory** | Combines LDAP + Kerberos + DNS; widely used for enterprise identity |
-| **FreeIPA** | Common in Linux/Red Hat environments; integrates LDAP + Kerberos + DNS + Certificate services |
+| Implementation                 | Notes                                                                                         |
+| ------------------------------ | --------------------------------------------------------------------------------------------- |
+| **OpenLDAP**                   | Open-source; main daemon = **`slapd`**                                                        |
+| **Microsoft Active Directory** | Combines LDAP + Kerberos + DNS; widely used for enterprise identity                           |
+| **FreeIPA**                    | Common in Linux/Red Hat environments; integrates LDAP + Kerberos + DNS + Certificate services |
 
 ```text
 LDAP protocol → OpenLDAP software → slapd daemon
@@ -4070,12 +4169,12 @@ LDAP protocol → OpenLDAP software → slapd daemon
 
 ## 11. Main LDAP Use Cases
 
-| Use Case | Example |
-|---|---|
-| **Centralized Authentication** | 100 servers + 500 employees all reference ONE LDAP directory instead of separate local accounts on each server |
-| **Address Book** | Store Name, Email, Phone, Department — searchable by mail clients |
-| **Network Resource Management** | Track printers, servers, computers, network devices |
-| **SSO Infrastructure** | One central account usable across many applications (LDAP is part of, not the whole, SSO stack) |
+| Use Case                        | Example                                                                                                        |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Centralized Authentication**  | 100 servers + 500 employees all reference ONE LDAP directory instead of separate local accounts on each server |
+| **Address Book**                | Store Name, Email, Phone, Department — searchable by mail clients                                              |
+| **Network Resource Management** | Track printers, servers, computers, network devices                                                            |
+| **SSO Infrastructure**          | One central account usable across many applications (LDAP is part of, not the whole, SSO stack)                |
 
 ```text
 Without LDAP:
@@ -4112,21 +4211,24 @@ company.com
     ├── Printer1
     └── Server1
 ```
+
 This tree is called the **DIT (Directory Information Tree)**.
 
 ### Naming Components
 
-| Term | Full Name | Example |
-|---|---|---|
-| **DC** | Domain Component | `dc=company,dc=com` (from `company.com`) |
-| **OU** | Organizational Unit | `ou=People`, `ou=Groups`, `ou=IT` |
-| **CN** | Common Name | `cn=John Smith` |
-| **DN** | Distinguished Name | Full unique path to an entry |
+| Term   | Full Name           | Example                                  |
+| ------ | ------------------- | ---------------------------------------- |
+| **DC** | Domain Component    | `dc=company,dc=com` (from `company.com`) |
+| **OU** | Organizational Unit | `ou=People`, `ou=Groups`, `ou=IT`        |
+| **CN** | Common Name         | `cn=John Smith`                          |
+| **DN** | Distinguished Name  | Full unique path to an entry             |
 
 **Example Distinguished Name (DN):**
+
 ```text
 cn=John Smith,ou=People,dc=company,dc=com
 ```
+
 ```text
 cn=John Smith  → User/object
 ou=People      → Organizational unit
@@ -4134,6 +4236,7 @@ dc=company,dc=com → Domain
 ```
 
 ### Full Example Tree
+
 ```text
 dc=company,dc=com
 │
@@ -4158,11 +4261,13 @@ dc=company,dc=com
 ## 13. LDAP is Read-Heavy
 
 LDAP is optimized mainly for **SEARCH / READ / LOOKUP** operations:
+
 ```text
 "Who is john?"
 "What is John's email?"
 "Which groups does John belong to?"
 ```
+
 Writes (create/delete/update) happen far less frequently than reads.
 
 > **LDAP = Read-heavy and search-optimized**
@@ -4171,15 +4276,15 @@ Writes (create/delete/update) happen far less frequently than reads.
 
 ## 14. LDAP vs SQL Database
 
-| Feature | LDAP | SQL Database |
-|---|---|---|
-| Structure | Tree | Tables |
-| Main use | Directory/lookups | General application data |
-| Workload | Read-heavy | Read + write |
-| Query | LDAP filters | SQL |
-| Transactions | Limited | Strong ACID transactions |
-| Authentication | Bind supported | Usually application-managed |
-| Typical data | Users/groups/resources | Orders/payments/products |
+| Feature        | LDAP                   | SQL Database                |
+| -------------- | ---------------------- | --------------------------- |
+| Structure      | Tree                   | Tables                      |
+| Main use       | Directory/lookups      | General application data    |
+| Workload       | Read-heavy             | Read + write                |
+| Query          | LDAP filters           | SQL                         |
+| Transactions   | Limited                | Strong ACID transactions    |
+| Authentication | Bind supported         | Usually application-managed |
+| Typical data   | Users/groups/resources | Orders/payments/products    |
 
 > **LDAP is NOT meant to replace a normal SQL database** — they serve different purposes (directory lookups vs transactional application data).
 
@@ -4188,12 +4293,15 @@ Writes (create/delete/update) happen far less frequently than reads.
 ## 15. Replication & Security
 
 ### Replication
+
 ```text
 LDAP Server 1  ──replication──►  LDAP Server 2
 ```
+
 Both maintain copies — benefits: high availability, better performance, backup/redundancy. Clients can use either server.
 
 ### Security
+
 ```text
 LDAP  → protocol (unencrypted by default, port 389)
 TLS   → protects communication
@@ -4204,17 +4312,18 @@ LDAPS → LDAP over encrypted connection (port 636)
 
 ## 16. LDAP Operations (like CRUD)
 
-| LDAP Operation | Similar To | Meaning |
-|---|---|---|
-| **Bind** | Authentication | Connect and authenticate |
-| **Search** | Read | Find entries |
-| **Add** | Create | Create a new entry |
-| **Modify** | Update | Change an existing entry |
-| **Delete** | Delete | Remove an entry |
-| **Compare** | Check | Check an attribute/value |
-| **Unbind** | Disconnect | Close LDAP connection |
+| LDAP Operation | Similar To     | Meaning                  |
+| -------------- | -------------- | ------------------------ |
+| **Bind**       | Authentication | Connect and authenticate |
+| **Search**     | Read           | Find entries             |
+| **Add**        | Create         | Create a new entry       |
+| **Modify**     | Update         | Change an existing entry |
+| **Delete**     | Delete         | Remove an entry          |
+| **Compare**    | Check          | Check an attribute/value |
+| **Unbind**     | Disconnect     | Close LDAP connection    |
 
 **Memory trick:**
+
 ```text
 Bind   → Login
 Search → Read
@@ -4225,16 +4334,21 @@ Unbind → Disconnect
 ```
 
 ### Bind Example
+
 ```text
 Client → Bind request → LDAP Server → Check credentials → Authenticated
 ```
+
 Example bind identity: `cn=Manager,dc=example,dc=com`
 
 ### Search Example
+
 ```bash
 ldapsearch -x -b "dc=example,dc=com" "(uid=john)"
 ```
+
 Possible result:
+
 ```text
 dn: uid=john,ou=People,dc=example,dc=com
 uid: john
@@ -4243,17 +4357,21 @@ mail: john@example.com
 ```
 
 ### Add Example
+
 ```bash
 ldapadd -x -D "cn=Manager,dc=example,dc=com" -W -f john.ldif
 ```
 
 ### Modify Example
+
 ```bash
 ldapmodify -x -D "cn=Manager,dc=example,dc=com" -W -f changes.ldif
 ```
+
 E.g. changing John's department: `IT → Security`
 
 ### Delete Example
+
 ```bash
 ldapdelete -x -D "cn=Manager,dc=example,dc=com" -W "uid=john,ou=People,dc=example,dc=com"
 ```
@@ -4264,15 +4382,16 @@ ldapdelete -x -D "cn=Manager,dc=example,dc=com" -W "uid=john,ou=People,dc=exampl
 
 Filters describe what to find.
 
-| Filter | Meaning |
-|---|---|
-| `(uid=john)` | Find entry where UID is `john` |
-| `(cn=John)` | Find common name John |
-| `(mail=john@example.com)` | Find matching email |
-| `(uid=j*)` | Wildcard — UID starts with `j` |
+| Filter                              | Meaning                         |
+| ----------------------------------- | ------------------------------- |
+| `(uid=john)`                        | Find entry where UID is `john`  |
+| `(cn=John)`                         | Find common name John           |
+| `(mail=john@example.com)`           | Find matching email             |
+| `(uid=j*)`                          | Wildcard — UID starts with `j`  |
 | `(&(objectClass=person)(uid=john))` | AND condition — both must match |
 
 **AND filter breakdown:**
+
 ```text
 (&(objectClass=person)(uid=john))
        ↓                  ↓
@@ -4284,40 +4403,48 @@ objectClass=person   AND   uid=john
 ## 18. LDAP Security — Authentication Methods
 
 ### Simple Authentication
+
 ```bash
 ldapsearch -x -D "cn=Manager,dc=example,dc=com" -w password
 ```
+
 `-x` = simple authentication.
 
 > **Important:** Simple authentication should be protected using **TLS**, otherwise credentials aren't safe in transit. **Base64 encoding is NOT encryption** — it's just an encoding scheme, easily reversible.
 
 ### SASL (Simple Authentication and Security Layer)
+
 Provides advanced authentication mechanisms beyond simple bind:
+
 ```text
 GSSAPI    → Kerberos-based
 DIGEST-MD5
 EXTERNAL
 ```
+
 ```text
 LDAP Client → SASL/Kerberos → LDAP Server
 ```
 
 ### TLS / LDAPS
+
 ```text
 Client → Encrypted LDAP → LDAP Server
 ```
-| Port | Use |
-|---|---|
-| 389 | LDAP / STARTTLS possible |
-| 636 | LDAPS (implicit TLS) |
 
-> **Exam trap:** Don't confuse Base64 with encryption. LDAP simple bind sends credentials Base64-*encoded* by default — this is trivially decodable, NOT secure, unless wrapped in TLS/LDAPS.
+| Port | Use                      |
+| ---- | ------------------------ |
+| 389  | LDAP / STARTTLS possible |
+| 636  | LDAPS (implicit TLS)     |
+
+> **Exam trap:** Don't confuse Base64 with encryption. LDAP simple bind sends credentials Base64-_encoded_ by default — this is trivially decodable, NOT secure, unless wrapped in TLS/LDAPS.
 
 ---
 
 ## 19. LDAP Password Storage
 
 Common hash formats:
+
 ```text
 {SSHA}
 {SHA}
@@ -4327,9 +4454,11 @@ Common hash formats:
 ```
 
 Generate a password hash:
+
 ```bash
 slappasswd -s password
 ```
+
 ```text
 password → slappasswd → {SSHA}...
 ```
@@ -4340,13 +4469,13 @@ password → slappasswd → {SSHA}...
 
 ## 20. LDAP Client Commands — Quick Reference
 
-| Command | Purpose | Example |
-|---|---|---|
-| `ldapsearch` | Search the directory | `ldapsearch -x -b "dc=example,dc=com" "(uid=john)"` |
-| `ldapadd` | Add a new entry | `ldapadd -x -D "cn=Manager" -W -f entry.ldif` |
-| `ldapmodify` | Change an existing entry | `ldapmodify -x -D "cn=Manager" -W -f changes.ldif` |
-| `ldapdelete` | Delete an entry | `ldapdelete -x -D "cn=Manager" -W "uid=john,ou=People"` |
-| `ldappasswd` | Change LDAP password | `ldappasswd -x -D "uid=john" -W -S` (`-W`=bind password, `-S`=new password) |
+| Command      | Purpose                  | Example                                                                     |
+| ------------ | ------------------------ | --------------------------------------------------------------------------- |
+| `ldapsearch` | Search the directory     | `ldapsearch -x -b "dc=example,dc=com" "(uid=john)"`                         |
+| `ldapadd`    | Add a new entry          | `ldapadd -x -D "cn=Manager" -W -f entry.ldif`                               |
+| `ldapmodify` | Change an existing entry | `ldapmodify -x -D "cn=Manager" -W -f changes.ldif`                          |
+| `ldapdelete` | Delete an entry          | `ldapdelete -x -D "cn=Manager" -W "uid=john,ou=People"`                     |
+| `ldappasswd` | Change LDAP password     | `ldappasswd -x -D "uid=john" -W -S` (`-W`=bind password, `-S`=new password) |
 
 ---
 
@@ -4365,6 +4494,7 @@ Main config file: `/etc/sssd/sssd.conf`
 > **SSSD connects Linux authentication/user lookup to LDAP (or other identity providers).**
 
 **Full stack:**
+
 ```text
 LDAP     → Protocol
 OpenLDAP → Software
@@ -4385,6 +4515,7 @@ A **schema** defines what type of data is allowed in LDAP — rules for objects 
 Example — a user entry may contain: `cn`, `sn`, `uid`, `mail`, `telephoneNumber`.
 
 Schema defines:
+
 ```text
 Which attributes exist?
 Which are required vs optional?
@@ -4392,20 +4523,23 @@ What type of value can they contain?
 ```
 
 ### Common Schema Files
+
 Location: `/etc/openldap/schema/`
 
-| Schema File | Purpose |
-|---|---|
-| `core.ldif` | Basic LDAP objects |
-| `cosine.ldif` | Common Internet/X.500 attributes |
-| `inetorgperson.ldif` | User/person objects |
-| `nis.ldif` | Unix/NIS attributes |
-| `openldap.ldif` | OpenLDAP-specific definitions |
+| Schema File          | Purpose                          |
+| -------------------- | -------------------------------- |
+| `core.ldif`          | Basic LDAP objects               |
+| `cosine.ldif`        | Common Internet/X.500 attributes |
+| `inetorgperson.ldif` | User/person objects              |
+| `nis.ldif`           | Unix/NIS attributes              |
+| `openldap.ldif`      | OpenLDAP-specific definitions    |
 
 **Importing a schema:**
+
 ```bash
 sudo ldapadd -Y EXTERNAL -H ldapi:/// -f /etc/openldap/schema/cosine.ldif
 ```
+
 ```text
 cosine.ldif → ldapadd → LDAP configuration → Schema becomes available
 ```
@@ -4417,6 +4551,7 @@ cosine.ldif → ldapadd → LDAP configuration → Schema becomes available
 **LDIF** is a text format used to create, modify, export, and import LDAP entries.
 
 Example:
+
 ```text
 dn: uid=john,ou=People,dc=example,dc=com
 objectClass: inetOrgPerson
@@ -4426,16 +4561,18 @@ sn: Smith
 mail: john@example.com
 ```
 
-| Field | Meaning |
-|---|---|
-| `dn` | Unique location of the entry |
-| `objectClass` | What type of object it is |
-| `uid` / `cn` / `sn` / `mail` | Attributes |
+| Field                        | Meaning                      |
+| ---------------------------- | ---------------------------- |
+| `dn`                         | Unique location of the entry |
+| `objectClass`                | What type of object it is    |
+| `uid` / `cn` / `sn` / `mail` | Attributes                   |
 
 **Adding LDIF data:**
+
 ```bash
 ldapadd -x -D "cn=Manager,dc=example,dc=com" -W -f john.ldif
 ```
+
 ```text
 john.ldif → ldapadd → LDAP server → John entry created
 ```
@@ -4444,41 +4581,43 @@ john.ldif → ldapadd → LDAP server → John entry created
 
 ## 24. LDAP Utilities
 
-| Utility | Purpose |
-|---|---|
-| `slapcat` | Exports LDAP database to LDIF (backup/export) |
-| `slapindex` | Rebuilds LDAP database indexes (faster searches) |
-| `slappasswd` | Generates password hashes |
-| `ldapvi` | Edit LDAP entries in a text-editor style interface |
+| Utility      | Purpose                                            |
+| ------------ | -------------------------------------------------- |
+| `slapcat`    | Exports LDAP database to LDIF (backup/export)      |
+| `slapindex`  | Rebuilds LDAP database indexes (faster searches)   |
+| `slappasswd` | Generates password hashes                          |
+| `ldapvi`     | Edit LDAP entries in a text-editor style interface |
 
 ```text
 slapcat: LDAP database → slapcat → LDIF output
 ```
 
 ### GUI LDAP Tools
+
 ```text
 Apache Directory Studio
 phpLDAPadmin
 LDAP Admin
 LDAP Account Manager
 ```
+
 Provide a graphical browse/manage experience instead of raw CLI commands.
 
 ---
 
 ## 25. NIS vs LDAP — Full Comparison
 
-| Feature | NIS | LDAP |
-|---|---|---|
-| Architecture | Old directory service | Modern directory protocol |
-| Data model | Flat maps | Hierarchical tree (DIT) |
-| Security | Weak | TLS/SASL supported |
-| Search | Simple key lookup | Advanced filters |
-| Scalability | Limited | High |
-| Schema | Fixed | Extensible |
-| Modern usage | Legacy | Widely used |
-| Typical structure | `passwd.byname` | DIT entries |
-| Authentication | Basic | Bind/SASL etc. |
+| Feature           | NIS                   | LDAP                      |
+| ----------------- | --------------------- | ------------------------- |
+| Architecture      | Old directory service | Modern directory protocol |
+| Data model        | Flat maps             | Hierarchical tree (DIT)   |
+| Security          | Weak                  | TLS/SASL supported        |
+| Search            | Simple key lookup     | Advanced filters          |
+| Scalability       | Limited               | High                      |
+| Schema            | Fixed                 | Extensible                |
+| Modern usage      | Legacy                | Widely used               |
+| Typical structure | `passwd.byname`       | DIT entries               |
+| Authentication    | Basic                 | Bind/SASL etc.            |
 
 ```text
 NIS:                          LDAP:
@@ -4490,6 +4629,7 @@ hosts.byname                  │   ├── John
 ```
 
 **Easy memory:**
+
 ```text
 NIS  → Older + flat
 LDAP → Modern + hierarchical
@@ -4519,6 +4659,7 @@ Access granted
 ```
 
 Instead of managing `john` separately on Server1, Server2, Server3, one LDAP directory serves all:
+
 ```text
             LDAP
            john
@@ -4535,6 +4676,7 @@ Instead of managing `john` separately on Server1, Server2, Server3, one LDAP dir
 > **Important correction:** SSH does **not** simply encrypt all session data directly using the server's public/private key pair.
 
 Actual simplified flow:
+
 ```text
 Client
   ↓
@@ -4548,12 +4690,14 @@ Both sides derive shared session keys
   ↓
 Symmetric encryption protects the session
 ```
+
 ```text
 Public/private key → Authentication/identity + key exchange
 Session key         → Actual fast symmetric encryption of SSH traffic
 ```
 
 Command:
+
 ```bash
 ssh user@172.16.140.216
 ```
